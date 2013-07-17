@@ -1,0 +1,239 @@
+<?php //var_dump($this->categories);exit;?>
+
+<?php $base_url = JO_Request::getInstance()->getBaseUrl();?>
+	<script type="text/javascript" src="<?php echo $base_url ?>data/js/search.js"></script>
+	
+	<script>
+		//get the logo url from the php $this obj and set is as js var
+		var logoUrl = <?php echo "'".$this->site_logo."'" ?>;
+                try
+                {
+		//console.log(logoUrl);
+                }
+                catch(e)
+                {}
+                 
+		//then in the file js/animations.js we will set it as a background image of #mobile_logo
+	
+	</script>
+	
+        	<?php 
+        		//check if user is loged and pass a variable 
+        		$this->is_loged == 0 ? JO_Registry::set('is_loged', false) : JO_Registry::set('is_loged', true);
+        		
+        	 ?>
+        
+	
+	 <div id='wrapper'>
+	    <div id='header'>
+           <div class="ir" id="logo_wrapper">
+        		<a href="<?php echo $base_url?>">
+        			<h1 id='mobile_logo'>
+        				
+        			</h1>
+        		</a>
+    		</div>
+    		   <?php if($this->is_loged !== 0): ?>
+                        	
+                        	<div class="pressable wrapper disabled" id="profile_btn" ontouchstart="">
+	            				<img src="<?php echo $this->self_avatar; ?>" alt="Profile">
+	           					<div class="ir" id="profile_arrow">Dropdown</div>
+	            				<div class="overlay" style="opacity: 1;background: transparent"></div>
+        					</div>
+                        	
+                        	
+                        <?php endif; ?>
+            <div id="outer_wrapper">
+                    <div id="search" class="pressable wrapper">
+                        <div class="ir" id="mobile_search">
+                            <div class="overlay"></div>
+                        </div>
+                       
+                    </div>
+            </div>
+       </div>    
+               
+                 <div class="dropdown" id="search_dropdown">
+                            <div class="container">
+                                <ul id="search_explore" class="contents">
+                                    <li class="search">
+                                        <form action="search" method="get">
+                                            <input id="query" name="q" type="text" action='<?php echo $base_url?>search' placeholder="<?php echo $this->translate("Search"); ?>">
+                                        </form>
+                                    </li>
+                                    <?php if($this->is_loged !== 0): ?>
+                                    	<a class="selected" href="">
+                    						<li><?php echo $this->translate('Pinners You Follow') ?></li>
+                						</a>
+                                    <?php endif; ?>
+                                    <li id='touch_arrow'>
+                                    	<a id='touch_arrow_link'>
+											<?php echo $this->translate('Everything') ?>
+                                    	</a>
+                                    	<div class='touch_arrow' id='touch_arrow'></div>
+                                   	</li>
+                                   	 <li>
+                                    	<a href='<?php echo WM_Router::create($base_url."?controller=popular")?>' style="padding-right: 100px">
+											<?php echo $this->translate('Popular') ?>
+                                    	</a>
+                                   	</li>
+                                   	 <li>
+                                    	<a href='<?php echo WM_Router::create($base_url."?controller=gifts")?>' style="padding-right: 100px">
+											<?php echo $this->translate('Gifts') ?>
+                                    	</a>
+                                   	</li>
+                                </ul>
+                                
+                                <!-- start of categories -->
+                                <div id='categories'>
+                                	<ul class='contents'>
+                                		<a href='<?php echo $base_url?>?controller=all'>
+                                			<li>
+												<?php echo $this->translate('All') ?>
+                                			</li>
+                                		</a>
+                                		
+                                			<?php  for($i = 0; $i < count($this->categories); $i++): ?>
+            
+							            	<?php if($this->categories[$i]['active'] == false): ?>                    		
+                              			
+                              		  		<a  href='<?php echo $this->categories[$i]['href']?>' data-id='<?php echo $this->categories[$i]['category_id']?>' class='<?php echo $this->categories[$i]['subcategories'] ? "blue" : ''?>'>
+                                				<li>
+                                					<?php echo $this->translate($this->categories[$i]['title']); ?>
+                                					
+                                				</li>
+                                			</a>
+                                			
+                                			<?php foreach($this->categories[$i]['subcategories'] as $subcat){?>
+		                                					<li class='subcat hidden' data-parentid='<?php echo $this->categories[$i]['category_id']?>' class='hidden'>
+		                                						<a href='<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl()."controller=categories?action=view&category_id=".$subcat['category_id'])?>'><?php echo $subcat['title']?></a>
+		                                					</li>                       					
+		                                	<?php }?>		
+                              
+                                 		
+	                	            		 <?php endif; ?>
+           									 
+           									<?php endfor; ?>
+                                	
+                                	</ul>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        
+                        <?php if($this->is_loged): ?>
+                        	<div class="dropdown" id="user_dropdown">
+    							<ul>
+    							<a href="" class='uploadButtonLink'><li><?php echo  $this->translate('Upload Pin') ?></li></a>
+    							
+        						<a href="<?php echo $this->self_profile; ?>"><li><?php echo  $this->translate('Profile') ?></li></a>
+        
+       							<!--  <a href="?full_version" id="switch_to_full"><li ontouchstart=""><?php// echo  $this->translate('Full Site') ?></li></a>-->
+       							<a href="<?php echo WM_Router::create($base_url."?controller=users&action=logout");?>" id="logout_button"><li ontouchstart=""><?php echo  $this->translate('Log Out') ?></li></a>
+    							</ul>
+</div>
+                       	<?php endif; ?>
+                        
+                     
+                           <?php JO_Registry::get('is_login_form'); ?>
+       <!-- if the user is NOT logged in -->
+    
+      	<?php if($this->is_loged == 0): ?> 
+      	
+      	 	
+       <div class='banner' id='login_banner'>
+       		<h2>
+       			<span>
+       			 <?php echo sprintf($this->translate('%s is an online pinboard.'), $this->site_name);?>
+       			</span>
+       			<strong>
+					<?php echo $this->translate('Organize and share things you love.'); ?>
+       				
+       			</strong>
+       		</h2>
+       		
+       		<div class='buttons'>
+                   
+       			<a class='white mbtn' id='request_invite' href='<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl()."?controller=landing")?>'>
+       				<?php if(JO_Registry::get('enable_free_registration') == '1'): ?>
+                                
+                                <strong><?php echo $this->translate('Sing Up'); ?></strong>
+                                
+                                <?php else: ?>
+                                
+                                 <strong><?php echo $this->translate('Request Invitation'); ?></strong>
+                                
+                                <?php endif; ?>
+       				<span></span>
+       			</a>
+       			
+       			<a class='red mbtn' href='<?php echo WM_Router::create($base_url."?controller=users&action=login")?>'>
+       				<strong><?php echo $this->translate('Login'); ?></strong>
+       				<span></span>
+       			</a>
+       		</div>
+       		
+       		<div class="stitching">
+            <div class="stitch"></div>
+            <div class="stitch white"></div>
+        </div>
+       </div>
+       	
+       <?php endif; ?>
+       <div class='pinboard home'>
+       
+        <div class='sheet upload'>
+			<div class='comment imageUpload'>
+				<div class='browseImages'>
+					<div id='upload' class='uploadButton'>
+					<a class='submit_comment red mbtn big'>
+						<strong><?php echo $this->translate("Browse")?></strong>
+						<span id='uploadBut'></span>
+					</a>
+				</div>
+				<div id='cancelUpload' class='uploadButton'>
+					<a class='submit_comment red mbtn big'>
+						<strong><?php echo $this->translate("Cancel")?></strong>
+						<span id='cancelUpload'></span>
+					</a>
+				</div>
+				</div>
+			</div>
+		</div>
+       	
+       
+       <script type='text/javascript'>
+
+       		$(document).ready(function(){
+				$(".blue").click(function(event){
+					if(!$(this).hasClass('active')){
+						event.preventDefault();
+						$(this).addClass('active');
+						showSubcat($(this).data('id'));
+					}					
+				});
+
+				$(".contents").on('touchmove',function(event){
+						hideSubcat();
+				});
+
+				
+           	});
+
+
+           	function showSubcat($dataId){
+					$(".subcat").each(function(i,e){
+						if($(e).data('parentid') === $dataId){
+								$(e).slideDown(125);
+						}				
+					});
+            }
+
+
+            function hideSubcat(){
+				$('.hidden').hide();
+				$('.active').removeClass('active');
+            }
+
+       </script>
+ 

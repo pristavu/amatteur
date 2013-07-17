@@ -1,0 +1,230 @@
+<?php 
+/* @var $request JO_Request */
+$request = $this->getRequest();
+$og_namespace = trim(JO_Registry::get('og_namespace'));
+$og_recipe = trim(JO_Registry::get('og_recipe'));
+if(!$og_recipe) {
+	$og_namespace = '';
+}
+
+//session_start();
+//$_SESSION['sesionActiva']= NULL;
+$sesionActiva = false;
+if (!isset($_SESSION['sesionActiva'])) {
+  $_SESSION['sesionActiva'] = 1;
+  $sesionActiva = true;
+  //echo("<script>lanzaVentanaBienvenida(); </script>");
+  //echo('<script>alert("hecho");</script>');  
+}
+/*
+echo 'php '.$sesionActiva . ' global '. $_SESSION['sesionActiva']. ' - ';
+if (  $sesionActiva )
+{
+    echo "sesion activa";
+}
+*/
+?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="https://www.facebook.com/2008/fbml" lang="<?php echo JO_Registry::forceGet('config_language');?>" xml:lang="<?php echo JO_Registry::forceGet('config_language');?>">
+	
+	<?php if($og_namespace) { ?>
+	<?php echo '<head prefix="og: http://ogp.me/ns# fb: http://ogp.me/ns/fb# '.$og_namespace.': http://ogp.me/ns/fb/'.$og_namespace.'#">'?>
+	<?php } else { ?>
+	<head>
+	<?php } ?>
+
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=9" />
+		<title><?php echo $this->placeholder('title');?></title>
+		
+		<?php if($this->placeholder('favicon')) { ?>
+		<link rel="icon" href="<?php echo $this->placeholder('favicon');?>" type="image/x-icon" />
+		<?php } ?>
+	
+		<?php if( in_array($request->getController(), array('pin', 'users')) ) { ?>
+		<meta name="description" content="<?php echo $this->placeholder('pin_description')?$this->placeholder('pin_description'):$this->placeholder('description');?>" />
+		<meta name="keywords" content="<?php echo $this->placeholder('keywords');?>" />
+		<?php } ?>
+		
+		<?php /*?>
+		<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+		<?php */ ?>
+		
+		<?php if(JO_Registry::isRegistered('rss_feed')) { 
+			$rss_feed = JO_Registry::get('rss_feed');
+		?>
+		<link rel="alternate" type="application/rss+xml" title="<?php echo $rss_feed['title'];?>" href="<?php echo $rss_feed['href'];?>" />
+		<?php } ?>
+		
+		<base href="<?php echo $request->getBaseUrl();?>" />
+		
+		<!-- <link href="<?php //echo WM_Minify::minifyCSS('data/css/main.css');?>" rel="stylesheet" type="text/css" /> -->
+		<link type='text/css' rel='stylesheet' href='data/css/main.css'></link>
+		<link type='text/css' rel='stylesheet' href='data/css/animate.css'></link>
+		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+
+		<!-- <script type="text/javascript" src="<?php //echo WM_Minify::minifyJs('data/js/js_full.pack.js');?>"></script>  -->
+		
+		<script type='text/javascript' src='data/js/js_full.js'></script>
+                
+	<script type="text/javascript" src="data/js/banner/jquery-ui.js"></script>
+	<script type="text/javascript" src="data/js/banner/banner.js"></script>
+	<link rel="stylesheet" href="data/js/banner/banner.css" type="text/css" />	
+                
+	
+		<?php if($this->placeholder('pin_image')) { ?>
+		<meta name="medium" content="image"/>
+	    <meta http-equiv="imagetoolbar" content="no"/>
+	
+	    <link rel="image_src" href="<?php echo $this->placeholder('pin_image') ? $this->placeholder('pin_image') : $this->placeholder('site_logo');?>"/>
+	    <link rel="canonical" href="<?php echo $this->placeholder('pin_url') ? $this->placeholder('pin_url') : $request->getBaseUrl();?>"/>
+		<?php } ?>
+		
+		<?php if(JO_Registry::get('oauth_fb_key')) { ?>
+		<meta property="fb:app_id" content="<?php echo JO_Registry::get('oauth_fb_key');?>"/>
+	    <meta property="og:site_name" content="<?php echo $this->placeholder('site_name');?>"/>
+	    <meta property="og:url" content="<?php echo $this->placeholder('pin_url') ? $this->placeholder('pin_url') : $request->getBaseUrl();?>"/>
+	    <meta property="og:title" content="<?php echo $this->placeholder('board_title')?$this->placeholder('board_title'):$this->placeholder('title');?>"/>
+	    <meta property="og:description" content="<?php echo $this->placeholder('pin_description') ? ($this->placeholder('pin_description')=='null'?'':$this->placeholder('pin_description')) : $this->placeholder('description');?>"/>
+	    <meta property="og:image" content="<?php echo $this->placeholder('pin_image') ? $this->placeholder('pin_image') : $this->placeholder('site_logo');?>"/>
+	    <?php if($og_namespace) { ?>
+	    <meta property="og:type" content="<?php echo $og_namespace;?>:<?php echo $og_recipe;?>"/>
+	    <?php } else { ?>
+	    <meta property="og:type" content="website"/>
+	    <?php } ?>
+		<?php } ?>
+		
+		<?php echo $this->placeholder('inhead');?>
+		
+		<?php echo $this->placeholder('google_analytics');?>
+		
+	</head>
+	
+	<body<?php echo (!JO_Session::get('user[user_id]')?' id="not-login"':'');?> class="<?php echo $request->getController();?>-body">
+<div id="boxes">
+<div style="top: 199.5px; left: 551.5px; display: none;" id="dialog" class="window">
+<a href="#" class="close">[X] Close it</a><br/>
+    This site uses some unobtrusive cookies to store information on your computer.
+</div>
+<!-- Mask to cover the whole screen -->
+<div style="width: 1478px; height: 900px; display: none; opacity: 0.8;" id="mask"></div>
+</div>
+	
+		<div id="fb-root"></div>
+		<?php if(JO_Registry::get('oauth_fb_key')) { ?>
+		<script type="text/javascript">
+		    window.fbAsyncInit = function() {
+		        FB.init({
+		            appId: '<?php echo JO_Registry::get('oauth_fb_key');?>',
+		            status: true,
+		            cookie: true,
+		            xfbml: true
+		        });
+		    };
+		    (function() {
+		        var e = document.createElement('script'); e.async = true;
+		        e.src = document.location.protocol +
+		        '//connect.facebook.net/en_US/all.js';
+		        document.getElementById('fb-root').appendChild(e);
+		    } ());
+		</script>
+		<?php } ?>
+	
+		<?php echo $this->placeholder('content');?>
+		
+	</body>
+
+<script type="text/javascript">
+$(document).ready(function() 
+{
+	<?php /*if($sesionActiva) { ?>
+                //alert("esta dentro");
+                        
+		var id = '#dialog';
+	
+		//Get the screen height and width
+		var maskHeight = $(document).height();
+		var maskWidth = $(window).width();
+	
+		//Set heigth and width to mask to fill up the whole screen
+		$('#mask').css({'width':maskWidth,'height':maskHeight});
+		
+		//transition effect		
+		$('#mask').fadeIn(1000);	
+		$('#mask').fadeTo("slow",0.8);	
+	
+		//Get the window height and width
+		var winH = $(window).height();
+		var winW = $(window).width();
+              
+		//Set the popup window to center
+		$(id).css('top',  winH/2-$(id).height()/2);
+		$(id).css('left', winW/2-$(id).width()/2);
+	
+		//transition effect
+		$(id).fadeIn(2000); 	
+	
+                //if close button is clicked
+                $('.window .close').click(function (e) {
+                        //Cancel the link behavior
+                        e.preventDefault();
+
+                        $('#mask').hide();
+                        $('.window').hide();
+                });		
+
+                //if mask is clicked
+                $('#mask').click(function () {
+                        $(this).hide();
+                        $('.window').hide();
+                });		
+
+
+<?php } else { ?>
+    //alert("pues no");
+<?php }*/ ?>  
+    
+    });
+
+
+
+
+</script>
+    
+   
+    
+<script src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
+<script src="data/js/banner/cookieControl-5.1.min.js" type="text/javascript"></script>
+<script type="text/javascript">//<![CDATA[
+    	<?php if($sesionActiva) { ?>
+  cookieControl({
+      introText:'This site uses some unobtrusive cookies to store information on your computer.',
+      fullText:'<p>Some cookies on this site are essential, and the site won\'t work as expected without them. These cookies are set when you submit a form, login or interact with the site by doing something that goes beyond clicking on simple links.</p><p>We also use some non-essential cookies to anonymously track visitors or enhance your experience of the site. If you\'re not happy with this, we won\'t set these cookies but some nice features of the site may be unavailable.</p><p>To control third party cookies, you can also adjust your <a href="http://www.civicuk.com/cookie-law/browser-settings" target="_blank">browser settings</a>.</p><p>By using our site you accept the terms of our <a href="http://www.amatteur.com/cookies">Privacy Policy</a>.</p>',
+      position:'left', // left or right
+      shape:'diamond', // triangle or diamond
+      theme:'dark', // light or dark
+      startOpen:true,
+      autoHide:6000,
+      subdomains:true,
+      protectedCookies: [], //list the cookies you do not want deleted ['analytics', 'twitter']
+      consentModel:'information_only',
+      onAccept:function(){ccAddAnalytics()},
+      onReady:function(){},
+      onCookiesAllowed:function(){ccAddAnalytics()},
+      onCookiesNotAllowed:function(){},
+      countries:'' // Or supply a list ['United Kingdom', 'Greece']
+      });
+
+      function ccAddAnalytics() {
+        jQuery.getScript("http://www.google-analytics.com/ga.js", function() {
+          var GATracker = _gat._createTracker('UA-34694933-3');
+          GATracker._trackPageview();
+        });
+      }
+    	<?php } ?>      
+   //]]>
+</script>  
+
+</html>
+
+

@@ -1,0 +1,37 @@
+<?php echo $this->header_part; ?>
+
+	<div id="container">
+		
+		<?php if($this->history) { ?>
+		<div class="feed box">
+			<div class="left-corner">
+				<div class="bottom-corner">
+					<div class="right-corner">
+						<div class="preview">
+							<h2><?php echo $this->translate('Recent Activity');?></h2>
+							
+							<?php foreach($this->history AS $history) { ?>
+							<a href="<?php echo $history['href'];?>" class="story">
+						        <span class="profile">
+						        	<img src="<?php echo $history['user']['avatar'];?>" alt="<?php echo $history['user']['fullname'];?>">
+						        </span>
+								<strong><?php echo $history['user']['fullname'];?></strong> <?php echo $history['text_type'];?>
+								<span class="colorlight" title="<?php echo $history['date_added'];?>">
+									<?php echo sprintf($this->translate('%d %s ago'), $history['date_dif']['value'], $this->translate($history['date_dif']['key']));?>
+								</span>
+							</a>
+							<?php } ?>
+							
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<?php } ?>
+		
+		<?php echo $this->pins;?>
+		
+		<div class="clear"></div>
+	</div>
+
+<?php echo $this->footer_part; ?>

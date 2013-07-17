@@ -1,0 +1,23 @@
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->header_part; 
+}    
+?>
+
+		<div class='banner'>
+			<h2 class='category'><?php $this->translate('Popular'); ?></h2>
+		
+			<div class="stitching">
+             	<div class="stitch"></div>
+                <div class="stitch white"></div>
+           </div>
+		</div>
+		<?php echo $this->pins;?>
+		
+		
+
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->footer_part;
+}    
+?>

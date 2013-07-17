@@ -1,0 +1,213 @@
+<?php echo $this->header_part;?>
+
+<form action="" method="post" id="instagram-media-submit">
+
+	<div id="board" class="hide">
+		<div class="sheet-1">
+			<p class="slogan"><?php echo $this->translate('Select board for pinit selected media.');?></p>
+			<div class="btns">
+				<select name="board_id" id="board_id_media">
+					<?php foreach($this->boards AS $board) { ?>
+					<option value="<?php echo $board['board_id'];?>"><?php echo $board['title'];?></option>
+					<?php } ?>
+				</select>
+			</div>
+			<div class="clear"></div>
+		</div>
+		<div class="sheet-2"></div>
+		<div class="sheet-3"></div>
+	</div>
+
+	<div class="container">
+	
+       <div id="MainContent">
+			
+			<div class="hide" id="selected_categoryes"></div>
+			
+            <div id="ClickPins">
+
+                <h1 style="margin: 0 auto 28px; text-align: center; font-weight: 300;"><?php echo $this->translate('Select media to Pinit.');?></h1>
+					
+				<a class="BigButton BlueButton InstagramMedia">
+					<strong><?php echo $this->translate('Fetch media from Instagram');?></strong>
+					<img src="data/images/instagram.png" alt="<?php echo $this->translate('Instagram Favicon');?>">
+					<span></span>
+				</a>
+					
+				<div id="media-list-check"></div>
+                
+
+                <div class="clear"></div>
+
+				
+                <div style="margin: 30px auto 80px; text-align: center;">
+                	<button id="form-submiter" class="BigButton BlueButton disabled" type="button" disabled="disabled" ><strong><?php echo $this->translate('Pinit');?></strong><span></span></button>
+                </div>
+
+            </div><!-- #ClickPins -->
+
+    	</div><!-- MainContent -->
+
+    </div>
+</form>
+    
+<div id="infscr-loading" class="hide"><img alt="<?php echo $this->translate('Loading...');?>" src="data/images/loading.gif" /><div><em><?php echo $this->translate('Loading media from Instagram...');?></em></div></div>
+    
+<?php if($this->error) { ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	!Pins.error('<?php echo $this->translate('Please select at least one category.');?>');
+});
+</script>
+<?php } ?>
+<script type="text/template" id="template-media">
+<a title="MEDIA_TITLE" class="pin hide" href="javascript:void(0);" id="media_MEDIA_ID">
+	<span class="category">MEDIA_TITLE</span>
+	<span class="square">
+		<span class="check">
+			<img alt="Checkmark" src="data/images/CheckMark.png">
+		</span>
+		<span class="shadow"></span>
+		<span style="background: url(MEDIA_THUMB) 0 0 no-repeat;" class="image"></span>
+	</span>
+</a>
+</script>
+
+<?php $key = str_replace('.','',microtime(true)).'_media';?>
+<script type="text/javascript">
+$(document).ready(function(){
+	var contaner = $('#selected_categoryes').empty();
+	$('#ClickPins .pin').live('click',function(){
+		selected = $('#ClickPins .pin.selected').size();
+		media_id = $(this).attr('id').replace('media_','');
+		if($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			contaner.find('input[value='+media_id+']').remove();
+		} else {
+			$(this).addClass('selected');
+			contaner.append('<input type="hidden" name="media_id[]" value="'+media_id+'" />');
+		}
+		if($('#ClickPins .pin.selected').size() > 0) {
+			$('#ClickPins .BigButton').attr('disabled', false).removeClass('disabled');
+			$('#board').slideDown();
+		} else {
+			$('#ClickPins .BigButton').attr('disabled', true).addClass('disabled');
+			$('#board').slideUp();
+		}
+		return false;
+	});
+
+	$('.instagram-body #ClickPins a.BigButton.BlueButton').click(function(){
+		$.getJSON('<?php echo $this->checkLoginInstagram;?>', function(json){
+			if(json.redirect) {
+				window.location = json.redirect;
+			} else if(json.isUser) {
+				$('#infscr-loading').show();
+				$('.instagram-body #ClickPins a.BigButton.BlueButton').remove();
+				$.ajax({
+				    url: '<?php echo $this->getMediaInstagramFirst;?>',
+				    dataType: 'jsonp',
+				    jsonpCallback: 'addResponseData'
+				});
+			}
+		});
+		return false;
+	});
+
+	$('#board_id_media').selectBox().selectBox('onReady', selectBoxCallback);
+
+	$('#form-submiter').click(function(){
+		$.post('<?php echo $this->add_media_href;?>', $('#instagram-media-submit').serialize(), function(json){
+			if(json.error) {
+				Pins.error(json.error);
+			} else if(json.location) {
+				window.location = json.location;
+			} else {
+				Pins.error(json);
+			}
+		}, 'json');
+		return false;
+	});
+	
+});
+
+
+function selectBoxCallback(){
+
+	if($('#newBoardCreate<?php echo $key;?>').size() > 0) return;
+	
+	newbord = $('<p><input name="newboard" value="<?php echo $this->translate('Create New Board')?>" class="newboardcreator" id="newboardcreator<?php echo $key;?>" /></p>').unbind('keydown').bind('keydown', function(e){
+		if (e.keyCode == 13) { // enter key
+            return false
+        }
+	});
+	button = $('<input type="button" class="newboardcreator2">').attr('id','newboardcreator2<?php echo $key;?>').val('<?php echo $this->translate('Create')?>').unbind('click').bind('click',function(){
+
+		$.post('<?php echo $this->createBoard;?>', $('#newBoardCreate<?php echo $key;?>').serialize(),function(data){
+			if(data.data) {
+				board_id_h = $('#board_id_media');
+				board_id_h.find('option').attr('selected', false);
+				board_id_h.append('<option value="'+data.data.board_id+'" selected="selected">'+data.data.title+'</option>')
+				.selectBox('destroy').selectBox().selectBox('onReady', selectBoxCallback);
+			} else if(data.error) {
+				Pins.error(data.error);
+			} else {
+				Pins.error(data);
+			}			
+
+		}, 'json');
+		return false;
+	});
+	newsubmit = $('<p>').addClass('submit').append(button);
+	bform = $('<form action="" method="post" id="newBoardCreate<?php echo $key;?>">').append(newbord).append(newsubmit);
+	new_board = $('<li>').addClass('createBoard').append(bform).append('<div class="clear"></div>');
+	$('.selectBox-dropdown-menu.selectBox-options').append(new_board);
+	$('#newBoardCreate<?php echo $key;?>').submit(function(){ return false; });
+	$('.newboardcreator').clearOnFocus();
+}
+
+
+var empty_results = 0;
+function addResponseData(media) {
+	rows = 0;
+	for(i in media) {
+		template = $('#template-media').html();
+		template = template.replace(/MEDIA_ID/g,media[i].media_id)
+		.replace(/MEDIA_TITLE/g, media[i].title)
+		.replace(/MEDIA_THUMB/g, media[i].thumb);
+		$('#media-list-check').append(template).find('#media_'+media[i].media_id).fadeIn();
+		empty_results = 0;
+		rows++;
+	}
+	if(!rows) {
+		empty_results++;
+	}
+
+	if(empty_results < 15) {
+		setTimeout(function(){
+			$.ajax({
+			    url: '<?php echo $this->getMediaInstagram;?>',
+			    dataType: 'jsonp',
+			    jsonpCallback: 'addResponseData'
+			});
+		}, 850);
+	} else {
+		$('#infscr-loading').hide();
+	}
+	
+}
+
+function selected_categoryes() {
+	var selected_categoryes = 0;
+	var contaner = $('#selected_categoryes').empty();
+	$('#ClickPins .pin').each(function(i){
+		if($(this).hasClass('selected')) {
+			category_id = $(this).attr('id').replace('category_','');
+			contaner.append('<input type="hidden" name="category_id[]" value="'+category_id+'" />');
+		}
+	});
+	
+}
+</script>
+
+<?php echo $this->footer_part;?>

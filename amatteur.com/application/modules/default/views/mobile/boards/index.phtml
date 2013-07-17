@@ -1,0 +1,45 @@
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->header_part; 
+}    
+?>
+
+<script type="text/javascript" src='../data_mobile/js/infscroll.js'>
+	$(document).ready(function(){
+		lazyLoad();
+		infScroll();
+	})
+</script>
+<div id='board'>
+		<div class='banner'>
+			<table class='pinner'>
+				<tbody>
+					<tr>
+						<td class="pinner_image">
+                             <a href="<?php echo $this->user_info['profile']; ?>" ontouchstart="">
+								<img src="<?php echo $this->user_info['avatar']; ?>" class="profile user_image" alt="Profile picture of Weby Studios">
+                             </a>
+                        </td>
+                        <td>
+                           <a class="name" href="<?php echo $this->user_info['profile']; ?>"><?php echo $this->user_info['fullname']; ?></a><br>
+                           <span class="subtext"><?php echo $this->board['title']; ?></span>
+                        </td>
+					</tr>
+				</tbody>	
+			</table>
+		
+			<div class="stitching">
+             	<div class="stitch"></div>
+                <div class="stitch white"></div>
+           </div>
+		</div>
+</div>
+		<?php echo $this->pins;?>
+		
+		
+	
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->footer_part;
+}    
+?>

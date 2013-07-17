@@ -1,0 +1,55 @@
+<?php echo $this->header_part; ?>
+
+	<div id="category" class="boards-listening top-board-line">
+		<h3 class="fb-like-button-board">
+			<?php echo $this->board['title'];?>
+			
+			<?php if(JO_Registry::get('oauth_fb_key')) { ?>
+			<div class="fb-like likeBoard" data-href="<?php echo $this->board_url;?>" data-send="false" data-layout="button_count" data-width="90" data-show-faces="false"></div>
+			<?php } ?>
+		</h3>
+		
+		<?php if($this->board_users) { ?>
+		<?php if($this->user_info) { ?>
+		<p class="member boxing">
+			<a href="<?php echo $this->user_info['profile'];?>"><img src="<?php echo $this->user_info['avatar'];?>" alt="<?php echo $this->user_info['fullname'];?>" /></a>
+		</p>
+		<?php } ?>
+		<?php foreach($this->board_users AS $m) { ?>
+		<p class="member boxing">
+			<a href="<?php echo $m['profile'];?>"><img src="<?php echo $m['avatar'];?>" alt="<?php echo $m['fullname'];?>" /></a>
+		</p>
+		<?php } ?>
+		<?php } else { ?>
+		<?php if($this->user_info) { ?>
+		<p class="member">
+			<a href="<?php echo $this->user_info['profile'];?>"><img src="<?php echo $this->user_info['avatar'];?>" alt="<?php echo $this->user_info['fullname'];?>" /> <?php echo $this->user_info['fullname'];?></a>
+		</p>
+		<?php } ?>
+		<?php } ?>
+		<p class="followers"><?php echo sprintf($this->translate('%s followers, %s pins'), '<strong>'.$this->board['followers'].'</strong>', '<strong>'.$this->board['pins'].'</strong>');?></p>
+		<?php if($this->is_enable_follow) { ?>
+		<p class="follow">
+			<?php if($this->board['isFollow']) { ?>
+			<a href="<?php echo $this->follow;?>" class="gray"><?php echo $this->translate('Unfollow');?></a>
+			<?php } else { ?>
+			<a href="<?php echo $this->follow;?>"><?php echo $this->translate('Follow');?></a>
+			<?php } ?>
+		</p>
+		<?php } else if($this->board['edit']) { ?>
+		<p class="Edit">
+			<a href="<?php echo $this->board['edit'];?>"><?php echo $this->translate('Edit');?></a>
+		</p>
+		<?php } ?>
+		<div class="clear"></div>
+	</div>
+
+	<div id="container" class="noboardwithcat masonry">
+		
+		<?php echo $this->pins;?>
+		
+		<div class="clear"></div>
+	</div>
+
+	
+<?php echo $this->footer_part; ?>

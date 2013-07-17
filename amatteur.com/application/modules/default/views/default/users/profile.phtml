@@ -1,0 +1,369 @@
+<?php echo $this->header_part; ?>
+
+<?php if(!$this->userdata['description'] && $this->enable_edit) { ?>
+<?php ob_start();?>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+	$('#ProfileHeader .info p.noDescription').click(function(){
+		$(this).replaceWith($('#edit-description').html())
+		.append(function(){
+//en blanco entra
+			$('#ProfileHeader .FixedContainer .content textarea').jqEasyCounter({
+				holder: 'div.CharacterCount',
+				maxChars: 200,
+				maxCharsWarning: 170,
+				template: '{count}'
+			}).bind("keydown keyup keypress focus paste",function() {
+				if($.trim(this.value)) {
+//escribe
+					$('#ProfileHeader .info #editDescription .Button').removeClass('disabled');
+				} else {
+//no escribe
+					$('#ProfileHeader .info #editDescription .Button').addClass('disabled');
+				}
+			});
+
+			$('#ProfileHeader .info #editDescription .Button').click(function(){
+                                        alert ("edit");
+				if(!$(this).hasClass('disabled')) {
+					var val = $('#ProfileHeader .FixedContainer .content textarea').val();
+					$.post('<?php echo $this->edit_description;?>', {description: val}, function(data){
+						if(data.redirect) {
+							window.location = data.redirect;
+						} else if(data.ok) {
+							$('#editDescription').replaceWith('<p class="colorless">'+data.ok+'</p>');
+						}
+					}, 'json');
+				}
+				return false;
+			});
+			
+			return '';
+		});
+	});
+        
+        
+});
+//-->
+</script>
+<script type="text/template" id="edit-description">
+<div id="editDescription" class="Form">
+	<textarea></textarea>
+	<a href="#" class="Button RedButton editDescription disabled">
+		<?php echo $this->translate('Save Description');?>
+	</a>
+	<div class="CharacterCount">200</div>
+</div>
+</script>
+<?php $this->placeholder('inhead', ob_get_clean());?>
+<?php } ?>
+<?php if($this->enable_sort && $this->enable_edit) { ?>
+<?php ob_start();?>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+	$('#RearrangeButton').click(function(){
+		if($(this).hasClass('RedButton')) {
+			
+			$(this).removeClass('RedButton').attr('title', '<?php echo $this->translate('Rearrange Boards');?>').simpletooltip();
+			$('#RearrangeCancel').addClass('hide');
+			$("#sorting-boards").dragsort('remove');
+
+			var data = new Array();
+	        $("#sorting-boards > li").each(function(i, elm) { data[i] = $(elm).attr("id").replace('board_',''); });
+	        $.post("<?php echo $this->order_boards;?>", { "ids[]": data, "page": <?php echo $this->current_page;?> }, function(data){
+				if(data.ok) {
+					Pins.success(data.ok);
+				} else if(data.error) {
+					Pins.error(data.error);
+				}
+				$('#SortableButtons').slideUp();
+				$('#sorting-boards').infinitescroll('resume');
+	        }, 'json');
+	        
+		} else {
+			$('#sorting-boards').infinitescroll('pause');
+			$('#SortableButtons').slideDown();
+			$(this).addClass('RedButton').attr('title', '<?php echo $this->translate('Save Arrangement');?>').simpletooltip();
+			$('#RearrangeCancel').removeClass('hide');
+			$("#sorting-boards").dragsort({ itemSelector: "li.box",dragSelector: "li.box", placeHolderTemplate: "<li class='placeHolder box'></li>" });
+		}
+		return false;
+	});
+});
+//-->
+</script>
+<?php $this->placeholder('inhead', ob_get_clean());?>
+<?php } ?>
+<?php if($this->enable_sort) { ?>
+<?php ob_start();?>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+
+	window.Pins.url = '<?php echo $this->self_profile;?>';
+	window.Pins.currentPage = 1;
+	window.Pins.marker = <?php echo (int)JO_Registry::get('marker');?>;
+
+	var nav = '';
+	for(i=2; i<3; i++) {
+		nav += '<a class="page_'+i+'" href="'+window.Pins.url+'?page='+i+'"></a>';
+	}
+	
+	$('.ptopfix.<?php echo $this->class_contaner;?>').append('<div class="navigation hide">'+nav+'</div>');
+	$('.navigation.hide a.page_2').addClass('next');
+	
+	var $container2 = $('#sorting-boards');
+	if($container2.find('.box').size() > 0) {
+		///// pagination
+		var page = Pins.currentPage;
+		$container2.infinitescroll({
+			itemSelector 	: "li.box",
+			nextSelector	: '<a href="'+window.Pins.url+'?page=2"></a>',
+			navSelector		: 'div.navigation a.next',
+			bufferPx     	: Math.ceil(Math.max($(window).height(),($(document).height()/2))),
+			data			: {marker:window.Pins.marker}
+		},
+		// trigger Masonry as a callback
+		function( newElements ) {
+			page++;
+			Pins.initLazyLoad('.box.new_board_box .apps img');
+			$('.navigation.hide a').removeClass('next').filter('.page_'+page).addClass('next');
+		});
+	}
+});
+//-->
+</script>
+<?php $this->placeholder('inhead', ob_get_clean());?>
+<?php } ?>
+
+<div class="detail-bg">
+<div id="detail">       
+	<div id="view-profile">
+		<div id="ProfileHeader">
+			<div class="FixedContainer row clearfix">
+				<div class="info">
+					<a <?php if($this->userdata['image_href']==$this->userdata['avatar']) { ?>onclick="target='_blank'"<?php } ?> class="ProfileImage" href="<?php echo $this->userdata['image_href'];?>">
+						<img alt="<?php echo sprintf($this->translate('Profile Picture of %s'), $this->userdata['fullname']);?>" src="<?php echo $this->userdata['avatar'];?>">
+					</a>
+					<div class="content">
+                                            <div style='width:100%;clear:none;overflow:auto'>
+
+                                             <div style='clear:both'>
+
+                                              <div style='float:left;width:80%;'>
+
+						<h1><?php echo $this->userdata['fullname'];?></h1>
+                                              </div>
+                                              <div style='float:left;width:20%;'>    
+<!--a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>"><strong><?php echo ($this->userIsLike ? $this->translate('UnLike All') : $this->translate('Like All') );?>
+        <img src="data/images/meGusta.jpeg"></strong>
+</a-->
+                                                <?php if($this->like_user) { ?>      
+                                                      <?php if ($this->userIsLike) { ?>
+                                                <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
+                                                        <img src="data/images/noMeGusta.jpeg">
+                                                </a>
+                                                      <?php } else { ?>      
+                                                <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
+                                                        <img src="data/images/meGusta.jpeg">
+                                                </a>
+
+                                                      <?php }  ?>   
+                                                <?php }  ?>      
+                                               </div>
+                                            </div>
+                                            <div style='clear:both'>
+
+                                              <div style='float:left;width:69%;'>
+    
+                                                
+						<?php if($this->userdata['description'] || !$this->enable_edit) { ?>
+						<p class="colorless">
+							<?php echo $this->userdata['description'];?> &nbsp;
+						</p>
+						<?php } else { ?>
+						<p class="colorless noDescription">
+							<em><?php echo $this->translate('You have no description right now. Write a little bit about yourself!');?></em>
+							<img src="data/images/ProfileEditIcon.png">
+						</p>
+						<?php } ?>
+                                            </div>   
+                                            <div style='float:left;width:31%;'>
+                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpeg"> en mis imagenes </p>
+                                                <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpeg"> en mi perfil </p>
+                                            </div>                                                                        
+                                    </div>
+                            </div>
+
+                        <?php if($this->userdata['website'] || $this->userdata['twitter_username'] || $this->userdata['facebook_id'] || $this->userdata['location']) { ?>
+						<ul class="icons" id="ProfileLinks">
+							<?php if($this->userdata['website']) { ?>
+							<li>
+								<a onclick="target='_blank'" class="icon website" href="<?php echo $this->userdata['website'];?>"></a>
+							</li>
+							<?php } ?>
+							<?php if($this->userdata['twitter_username']) { ?>
+							<li>
+								<a onclick="target='_blank'" class="icon twitter" href="http://twitter.com/<?php echo $this->userdata['twitter_username'];?>"></a>
+							</li>
+							<?php } ?>
+							<?php if($this->userdata['facebook_id']) { ?>
+							<li>
+								<a onclick="target='_blank'" class="icon facebook" href="http://facebook.com/profile.php?id=<?php echo $this->userdata['facebook_id'];?>"></a>
+							</li>
+							<?php } ?>
+							<?php if($this->userdata['location']) { ?>
+							<li id="ProfileLocation">
+								<span class="icon location"></span><?php echo $this->userdata['location'];?>
+							</li>
+							<?php } ?>
+						</ul>
+						<?php } ?>
+					</div>
+				</div>
+
+                <?php if($this->history_data) { ?>
+                <div class="repins">
+                    <h3><?php echo $this->title_right;?></h3>
+                    <ul>
+                    	<?php foreach($this->history_data AS $h) { ?>
+                        <li>
+                            <a href="<?php echo $h['href'];?>">
+                                <img alt="<?php echo sprintf($this->translate('Profile Picture of %s'), $h['title']);?>" src="<?php echo $h['thumb'];?>">
+                                <strong><?php echo $h['title'];?></strong>
+                            </a>
+                        </li>
+                    	<?php } ?>
+                    </ul>
+                </div>
+                <?php } ?>
+                
+            </div>
+        </div>
+    
+    </div>
+    
+    <div class="clear"></div>    
+</div>
+</div>
+
+<div id="ContextBar" class="container sticky">
+	<div class="FixedContainer">
+		<ul class="links">
+			<li>
+				<a href="<?php echo $this->self_profile;?>" <?php echo ($this->active == 'boards' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['boards'];?></strong> <?php echo ($this->userdata['boards'] == 1 ? $this->translate('Board') : $this->translate('Boards'));?>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->user_pins;?>" <?php echo ($this->active == 'pins' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['pins'];?></strong> <?php echo ($this->userdata['pins'] == 1 ? $this->translate('Pin') : $this->translate('Pins'));?>
+				</a>
+			</li>
+			<li>
+				<a href="<?php echo $this->user_pins_likes;?>" <?php echo ($this->active == 'likes' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['likes'];?></strong> <?php echo ($this->userdata['likes'] == 1 ? $this->translate('Like') : $this->translate('Te Gusta'));?>
+				</a>
+			</li>
+			<li>
+			    <a href="<?php echo $this->user_activity;?>" <?php echo ($this->active == 'activity' ? 'class="selected"' : '');?>>
+					<?php echo $this->translate('Activity');?>
+			    </a>
+			</li>
+		</ul>
+
+		<ul class="follow">
+			<li>
+				<a href="<?php echo $this->user_followers;?>" <?php echo ($this->active == 'followers' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['followers'];?></strong> <?php echo $this->translate('Followers');?>
+			    </a>
+			</li>
+			<li>
+			    <a href="<?php echo $this->user_following;?>" <?php echo ($this->active == 'following' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['following'];?></strong> <?php echo $this->translate('Following');?>
+			    </a>
+			</li>
+		</ul>
+
+		<ul class="follow">
+			<li>
+				<a href="<?php echo $this->user_likers;?>" <?php echo ($this->active == 'likers' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['likers'];?></strong> <?php echo $this->translate('Likers');?>
+			    </a>
+			</li>
+			<li>
+			    <a href="<?php echo $this->user_liking;?>" <?php echo ($this->active == 'liking' ? 'class="selected"' : '');?>>
+					<strong><?php echo $this->userdata['liking'];?></strong> <?php echo $this->translate('Liking');?>
+			    </a>
+			</li>
+		</ul>
+            
+		<?php if($this->enable_edit) { ?>
+		<div class="action">
+			<a class="Button13 Button WhiteButton <?php if($this->has_edit_boards) { ?>Left<?php } ?> Tab" href="<?php echo $this->settings;?>"><strong><?php echo $this->translate('Edit Profile');?></strong><span></span></a>
+			<?php if($this->has_edit_boards) { ?>
+			<a id="RearrangeButton" class="Button13 Button WhiteButton Right Tab tooltip" href="#" title="<?php echo $this->translate('Rearrange Boards');?>"><strong></strong><span></span></a>
+			<a id="RearrangeCancel" class="close hide tooltip" title="<?php echo $this->translate('Cancel');?>" href="<?php echo $this->reload_page;?>"><?php echo $this->translate('close');?></a>
+			<?php } ?>
+		</div>
+		<?php } elseif($this->follow_user) { ?>
+		<div class="action">
+			<a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->userIsFollow?' gray':'');?>" href="<?php echo $this->follow_user;?>"><strong><?php echo ($this->userIsFollow ? $this->translate('Unfollow All') : $this->translate('Follow All') );?></strong><span></span></a>
+		<!--/div>
+		<div class="action"-->
+			<!--a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>"><strong><?php echo ($this->userIsLike ? $this->translate('UnLike All') : $this->translate('Like All') );?></strong><span></span></a-->
+		</div>
+		<?php } ?>
+            
+	</div>
+</div>
+
+<?php if($this->boards || $this->iboard) { ?>
+<div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">
+	
+	<?php if(JO_Session::get('user[user_id]') == $this->userdata['user_id'] && isset($this->iboard)) { ?>
+	<div class="clear"></div>
+	<h2 class="inv-title"><?php echo $this->translate('You have new board invitations'); ?></h2>
+	<ul id="inv-boards">
+	<?php echo $this->iboard;?>
+	</ul>
+	<div class="clear"></div>
+	<?php } ?>
+	
+	<div class="clear"></div>
+	
+	<?php if($this->enable_sort) { ?>
+	<div id="SortableButtons" class="hide">
+		<h2 class="colorless"><?php echo $this->translate('Rearrange Boards');?></h2>
+		<h3 class="colorless"><?php echo $this->translate('Drag around your boards to reorder them.');?></h3>
+	</div>
+	<div class="clear"></div>
+	<ul id="sorting-boards">
+	<?php echo $this->boards;?>
+	</ul>
+	<?php } else { ?>
+	<?php echo $this->boards;?>
+	<?php } ?>
+	<div class="clear"></div>
+</div>
+<?php } ?>
+
+<?php if($this->follow_user) { ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	Pins.initFollow('#ContextBar .action .following', function(element){
+		if(!element.hasClass('gray')) {
+			$('.box.new_board_box .follow a').removeClass('gray').html('<?php echo $this->translate('Follow');?>');
+			element.html('<strong><?php echo $this->translate('Follow All');?></strong><span></span>');
+		} else {
+			$('.box.new_board_box .follow a').addClass('gray').html('<?php echo $this->translate('Unfollow');?>');
+			element.html('<strong><?php echo $this->translate('Unfollow All');?></strong><span></span>');
+		}
+	});
+});
+</script>
+<?php } ?>
+
+<?php echo $this->footer_part; ?>

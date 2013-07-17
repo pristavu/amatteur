@@ -1,0 +1,33 @@
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->header_part; 
+}    
+
+$masonry = true;
+?>
+<script type="text/javascript" src='data_mobile/js/infscroll.js'>
+	$(document).ready(function(){
+		lazyLoad();
+		infScroll();
+	});
+</script>
+<!-- here we put the variables for the users pinboards -->
+
+
+
+	<div id="container">
+		
+		
+		
+	
+		<?php echo $this->pins;?>
+		
+		
+		<div class="clear"></div>
+	</div>
+	
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->footer_part;
+}    
+?>

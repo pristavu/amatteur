@@ -1,0 +1,77 @@
+<div class="CreateAccountStep" id="CompleteContainer">
+
+    <div id="header">
+
+        <h1 class="logo">
+			<a href="<?php echo $this->baseUrl;?>">
+				<img src="<?php echo $this->site_logo;?>" alt="<?php echo $this->getLayout()->placeholder('title');?>" />
+			</a>
+		</h1>
+
+    </div><!-- #header -->
+
+	<?php if($this->error) { ?>
+	<div class="error-box">
+		<?php echo $this->error;?>
+	</div>
+	<?php } ?>
+
+    
+    <h1 id="Right"><?php echo sprintf($this->translate('Hello %s! Create an Account'), $this->firstname);?></h1>
+    
+
+    <div id="CompletePhoto">
+    	<img alt="Photo of Account Creator" src="<?php echo $this->profile_picture;?>">
+    </div>
+
+    <form accept-charset="utf-8" method="POST" action="" id="CompleteAccount">
+        <ul class="DynamicButton">
+            <li id="username-li" class="">
+                <input type="text" name="username" id="username" value="<?php echo $this->username;?>" />
+                <label for="username"><?php echo $this->translate('Username');?></label>
+                <span class="fff"></span>
+                <span class="helper red"><?php echo $this->translate('Please use at least 3 characters');?></span>
+            </li>
+            <li id="email-li">
+                <input type="text" name="email" id="email" value="<?php echo $this->email;?>" />
+                <label for="email"><?php echo $this->translate('Email');?></label>
+                <span class="fff"></span>
+                <span class="helper red"></span>
+            </li>
+            <li id="password-li">
+                <input type="password" name="password" id="password" value="<?php echo $this->password;?>" />
+                <label for="password"><?php echo $this->translate('Password');?></label>
+                <span class="fff"></span>
+                <span class="helper"></span>
+            </li>
+        </ul>
+
+
+        <button class="BigButton BlueButton" id="CompleteSignupButton" type="submit">
+        	<strong><?php echo $this->translate('Create Account');?></strong><span></span>
+        </button>
+    </form><!-- #CompleteAccount -->
+
+</div>
+
+
+
+<script type="text/javascript">
+$('#username').checkAvailable({
+	'url' : '<?php echo $this->check_username;?>',
+	'holder': '#username-li .helper.red'
+});
+
+$('#email').checkAvailable({
+	'url' : '<?php echo $this->check_email;?>',
+	'holder': '#email-li .helper.red'
+});
+
+$('#CompleteContainer #CompleteAccount input').bind('keyup', function(){
+	if($.trim(this.value)) {
+		$('#'+this.id+'-li label').fadeOut();
+	} else {
+		$('#'+this.id+'-li label').fadeIn();
+	}
+}).keyup();
+</script>

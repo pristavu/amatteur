@@ -1,0 +1,110 @@
+<?php ob_start();?>
+<script type="text/javascript">
+<!--
+$(document).ready(function(){
+	$('#login-popup .AuthForm .submit a').click(function(){
+		if( $('.password_holder').is(':visible') ) {
+			$('.password_holder').slideUp();
+			$('#resetPassword').hide();
+			$('#backToLogin').show();
+			$('input[name=forgot_password]').val('1');
+			$('.AuthForm .submit input').val('<?php echo $this->translate('Send');?>');
+		} else {
+			$('.password_holder').slideDown();
+			$('#resetPassword').show();
+			$('#backToLogin').hide();
+			$('input[name=forgot_password]').val('0');
+			$('.AuthForm .submit input').val('<?php echo $this->translate('Login');?>');
+		}
+		$('.error-box').slideUp(100, function(){
+			$(this).remove();
+		});
+		return false;
+	});
+});
+//-->
+</script>
+<?php $this->placeholder('inhead', ob_get_clean())?>
+<div id="login-popup" class="login-page">
+
+	<?php if($this->popup) { ?>
+	<h1 class="logo">
+		<a href="<?php echo $this->baseUrl;?>">
+			<img src="<?php echo $this->site_logo;?>" alt="<?php echo $this->getLayout()->placeholder('title');?>" />
+		</a>
+	</h1>
+	<?php } ?>	
+	
+	<div class="social_buttons">
+        <div class="inset">
+            <a class="fb login_button" href="<?php echo $this->login_facebook;?>">
+                <span class="logo_wrapper"><span class="logo"></span></span>
+                <span><?php echo $this->translate('Login with Facebook');?></span>
+            </a>
+        </div>
+        <div class="inset">
+            <a class="tw login_button" href="<?php echo $this->login_twitter;?>">
+                <span class="logo_wrapper"><span class="logo"></span></span>
+                <span><?php echo $this->translate('Login with Twitter');?></span>
+            </a>
+        </div>
+        
+        <div class="clear"></div>
+        <?php /*?>
+        <div class="inset">
+            <a class="is login_button" href="<?php echo $this->login_instagram;?>">
+                <span class="logo_wrapper"><span class="logo"></span></span>
+                <span><?php echo $this->translate('Login with Instagram');?></span>
+            </a>
+        </div>
+        <?php */?>
+        
+        <div class="clear"></div>
+    </div>
+
+    <div class="line"></div>
+
+    <?php if($this->error) { ?>
+    <div class="error-box">
+		<?php echo $this->error;?>
+	</div>
+    <?php } ?>
+
+    <?php if($this->successful) { ?>
+    <div class="information-box">
+		<?php echo $this->successful;?>
+	</div>
+    <?php } ?>
+
+    <form class="AuthForm" action="<?php echo $this->login_login;?>" method="post">
+    	<p class="hide">
+    		<input type="hidden" name="next" value="<?php echo $this->next;?>" />
+    		<input type="hidden" name="forgot_password" value="<?php echo $this->is_forgot_password;?>" />
+    	</p>
+        <ul>
+            <li>
+                <label for="id_email"><?php echo $this->translate('Email Address');?></label>
+                <input id="id_email" name="email" type="text" />
+                <span class="fff"></span>
+
+            </li>
+
+            <li class="password_holder<?php echo ($this->is_forgot_password ? ' hide' : '');?>">
+                <label for="id_password"><?php echo $this->translate('Password');?></label>
+                <input id="id_password" name="password" type="password" />
+                <span class="fff"></span>
+
+            </li>
+
+        </ul>
+
+        <div class="submit">
+            <input type="submit" value="<?php echo $this->translate('Login');?>" name="login">
+            
+            <a id="resetPassword" class="colorless<?php echo ($this->is_forgot_password ? ' hide' : '');?>" href="#"><?php echo $this->translate('Forgot your password?');?></a>
+            <a id="backToLogin" class="colorless<?php echo ($this->is_forgot_password ? '' : ' hide');?>" href="#"><?php echo $this->translate('Back to Login?');?></a>
+        </div>
+
+    </form>
+
+</div>

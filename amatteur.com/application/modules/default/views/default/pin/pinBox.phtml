@@ -1,0 +1,160 @@
+<div class="box<?php echo $this->history_action;?>" id="<?php echo ($this->history_id ? $this->history_id . '_' : '');?><?php echo $this->pin['pin_id'];?>">
+
+		<?php if($this->pin['vip']) { ?>
+		<strong class="vipContainer">
+			<strong class="vip"><?php echo $this->translate('VIP');?></strong>
+		</strong>
+		<?php } ?>
+		<div class="preview">
+			<div class='pinAuthor'>
+					<p class="avatar">
+						<a href="<?php echo $this->author['profile'];?>">
+							<img src="<?php echo $this->author['avatar'];?>?<?php echo $this->image_no_cache;?>" alt="<?php echo $this->author['fullname'];?>" />
+						</a>
+					</p>
+					
+		
+					<p class="message">
+						<a href="<?php echo $this->author['profile'];?>"><?php echo $this->author['fullname'];?></a> 
+						<?php if($this->via) { ?>
+						<?php echo $this->translate('via');?> 
+						<a href="<?php echo $this->via['profile'];?>"><?php echo $this->via['fullname'];?></a> 
+						<?php } ?>
+						<?php echo $this->translate('onto');?> 
+						<a href="<?php echo $this->pin['onto_href'];?>"><?php echo $this->pin['board'];?></a>
+					</p>
+					<div class="clear"></div>
+			</div>
+			<!--  <p class="icons">
+			<a href="<?php echo $this->pin['url_repin'];?>" class="repin<?php echo (!$this->loged ? ' login' : ' silverbox');?>" title="<?php echo $this->translate('Repin');?>"><span><?php echo $this->translate('Repin');?></span></a> 
+			<?php if($this->pin['edit']) { ?>
+			<a href="<?php echo $this->pin['edit'];?>" class="edit login" title="<?php echo $this->translate('Edit');?>"><span><?php echo $this->translate('Edit');?></span></a> 
+			<?php } else { ?>
+			<a href="<?php echo $this->pin['url_like'];?>" class="like<?php echo (!$this->loged ? ' login' : ($this->pin['liked'] ? ' disabled' : '') );?>" title="<?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?>"><span><?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?></span></a> 
+			<?php } ?>
+			<a href="<?php echo $this->pin['url_comment'];?>" class="comment<?php echo (!$this->loged ? ' login' : '');?>" title="<?php echo $this->translate('Comment');?>"><span><?php echo $this->translate('Comment');?></span></a>
+			</p>-->
+			
+			
+				<ul class='c_icons_small'>
+					<li>
+						<a href='<?php echo $this->pin['url_repin'];?>' class='repin <?php echo (!$this->loged ? ' login' : ' silverbox');?>' title="<?php echo $this->translate('Repin');?>">
+							<span  class='anim repinIcon'></span>
+							<span class='text'><?php echo strtoupper($this->translate('Repin'));?></span>
+							<span class='roundedImage'></span>
+						</a>
+					</li>
+					<li>
+						<?php if($this->pin['edit']){?>
+						<a href='<?php echo  $this->pin['edit'];?>' class='edit login <?php echo (!$this->loged ? ' login' : '');?>' title="<?php echo $this->translate('Edit');?>">
+							<span  class='anim editIcon'></span>
+							<span class='text'><?php echo strtoupper($this->translate('Edit'));?></span>
+							<span class='roundedImage'></span>
+						</a>
+						<?php }else{?>
+						<a href='<?php echo  $this->pin['url_like'];?>' class="like<?php echo (!$this->loged ? ' login' : ($this->pin['liked'] ? ' disabled' : '') );?>"  title="<?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?>">
+							<span  class='anim likeIcon'></span>
+							<span class='text'><?php echo strtoupper($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?></span>
+							<span class='roundedImage'></span>
+						</a>
+						<?php }?>
+					</li>
+					<li>
+						<a href='<?php echo  $this->pin['comment'];?>' class="comment<?php echo (!$this->loged ? ' login' : '');?>" title="<?php echo $this->translate('Comment');?>">
+							<span  class='anim commentIcon'></span>
+							<span class='text'><?php echo strtoupper($this->translate('Comment'));?></span>
+							<span class='roundedImage'></span>
+						</a>
+					</li>
+				</ul>
+		
+			<?php if($this->set_activity_title) {?>
+			<h4 class="title">
+				<span class="icon-holder"></span>
+				<?php echo $this->set_activity_title;?>
+				<span><?php echo sprintf($this->translate('%d %s ago'), $this->date_dif['value'], $this->translate($this->date_dif['key']));?></span>
+			</h4>
+			<?php } ?>
+			
+
+                    
+			<p class="thumb">
+				<a href="<?php echo $this->pin['href'];?>">
+					<?php if($this->pin['gift']) { ?>
+					<strong class="PriceContainer">
+						<strong class="price"><?php echo $this->pin['price_formated'];?></strong>
+					</strong>
+					<?php } ?>
+					<?php if($this->pin['is_video']) { ?>
+					<img src="data/images/VideoIndicator.png" alt="Video" class="video" />
+					<?php } ?>
+                                        <?php if($this->pin['is_article']) { ?>
+                                          <img src="data/images/article.png"  class="video"  style="display:block;float:right;" />
+                                        <?php } ?>
+					<img style="margin-left:<?php echo ( (194-$this->pin['thumb_width']) / 2 );?>px;width:<?php echo $this->pin['thumb_width'];?>px;height:<?php echo $this->pin['thumb_height'];?>px;" width="<?php echo $this->pin['thumb_width'];?>" height="<?php echo $this->pin['thumb_height'];?>" data-original="<?php echo $this->pin['thumb'];?>" src="data/images/grey.gif" alt="Image" />
+				</a>
+			</p>
+			<h4><?php   echo Helper_Pin::descriptionFix($this->pin['description']);?></h4>
+			<p class="stats">
+				<span class="likes">
+				<?php if($this->pin['likes']) { ?>
+					<?php echo sprintf( $this->translate('%d like' . ($this->pin['likes'] == 1 ? '' : 's')), $this->pin['likes'] );?> 
+				<?php } ?>
+				</span> &nbsp; 
+				<span class="comments">
+				<?php if($this->pin['comments']) { ?>
+					<?php echo sprintf( $this->translate('%d comment' . ($this->pin['comments'] == 1 ? '' : 's')), $this->pin['comments'] );?>
+				<?php } ?>
+				</span> &nbsp; 
+				<span class="repins">
+				<?php if($this->pin['repins']) { ?>
+					<?php echo sprintf( $this->translate('%d repin' . ($this->pin['repins'] == 1 ? '' : 's')), $this->pin['repins'] );?>
+				<?php } ?>
+				</span>
+			</p>
+		</div>
+		<div class="comments">
+			<ul>
+				<!-- <li class="creator-pin">
+				
+				</li> -->
+				<?php if($this->pin['latest_comments']) { ?>
+				<?php foreach($this->pin['latest_comments'] AS $crow => $comment) { ?>
+				<li<?php echo ($crow == ( count($this->pin['latest_comments']) - 1) ? ' class="last"' : '' );?>>
+					<p class="avatar"><a href="<?php echo $comment['user']['profile'];?>"><img src="<?php echo $comment['user']['avatar'];?>?<?php echo $this->image_no_cache;?>" alt="<?php echo $comment['user']['fullname'];?>" /></a></p>
+					<p class="message"><a href="<?php echo $comment['user']['profile'];?>"><?php echo $comment['user']['fullname'];?></a> <?php echo $comment['comment'];?></p>
+					<div class="clear"></div>
+					<?php if($comment['delete']) { ?>
+					<a href="<?php echo $comment['delete'];?>" class="delete" title="<?php echo $this->translate('Delete Comment');?>">X</a>
+					<?php } ?>
+				</li>
+				<?php } ?>
+				<?php } ?>
+				
+				<?php if($this->profile_self) { ?>
+				<li class="addComment">
+					<p class="avatar">
+						<a href="<?php echo $this->profile_self;?>">
+							<img src="<?php echo $this->author_self;?>?<?php echo $this->image_no_cache;?>" alt="" />
+						</a>
+					</p>
+					<form action="<?php echo $this->pin['url_comment'];?>" method="post" class="comment-form">
+						<textarea name="write_comment"></textarea>
+						<input class="comment-button" type="submit" value="<?php echo $this->translate('comment');?>" />
+						<div class="clear"></div>
+					</form>
+				</li>
+				<?php } ?>
+				
+			</ul>
+			<div class="clear"></div>
+			<?php if($this->pin['comments'] > 5) { ?>
+			<p class="all"><a href="<?php echo $this->pin['href'];?>"><?php echo sprintf($this->translate('All %d comments...'), $this->pin['comments']);?></a></p>	
+			<?php } ?>
+		</div>
+
+</div>
+
+<script type='text/javascript'>
+
+</script>

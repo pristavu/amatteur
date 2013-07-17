@@ -1,0 +1,103 @@
+<div class="container">
+      
+      <div id="header">
+		  <div id="HeaderContents">
+		    <ol id="Indicators">
+		      <li class="indicator first active">
+		        
+		          <span></span><strong><?php echo $this->translate('People');?></strong>
+		        
+		      </li>
+		      <li class="bracket"><img alt="" src="data/images/right_arrow.png"></li>
+		      <li class="indicator second"><span></span>
+		        <strong><?php echo $this->translate('Pinboards')?></strong></li>
+		      <li class="bracket"><img alt="" src="data/images/right_arrow.png"></li>
+		      <li class="indicator third"><span></span>
+		        <strong><?php echo $this->translate('Follow');?></strong></li>
+		    </ol>
+		    <img alt="Amatteur Logo" src="<?php echo $this->site_logo;?>">
+		</div>
+
+	</div><!-- #header -->
+
+	<form action="" method="post">
+       <div id="MainContent">
+			
+			<div class="hide" id="selected_categoryes"></div>
+			
+            <div id="ClickPins">
+
+                <h1 style="margin: 0 auto 28px; text-align: center; font-weight: 300;"><?php echo $this->translate('Click a few things you like so we can suggest people to follow.');?></h1>
+
+                	<?php foreach($this->categories AS $c) { ?>
+                    <a title="<?php echo $c['title'];?>" class="pin" href="javascript:void(0);" id="category_<?php echo $c['category_id'];?>">
+                        <span class="category"><?php echo $c['title'];?></span>
+                        <span class="square">
+                            <span class="check">
+                            	<img alt="Checkmark" src="data/images/CheckMark.png"></span>
+                            <span class="shadow"></span>
+                            <span style="background: url(<?php echo $c['thumb'];?>) 0 -1px repeat;" class="image"></span>
+                        </span>
+                    </a>
+                	<?php } ?>
+                
+                
+
+                <div class="clear"></div>
+
+				
+                <div style="margin: 30px auto 80px; text-align: center;">
+                	<button class="BigButton BlueButton disabled" disabled="disabled" ><strong><?php echo $this->translate('Siguiente »');?></strong><span></span></button>
+                </div>
+
+            </div><!-- #ClickPins -->
+
+    	</div><!-- MainContent -->
+    </form>
+
+    </div>
+    
+<?php if($this->error) { ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	!Pins.error('<?php echo $this->translate('Please select at least one category.');?>');
+});
+</script>
+<?php } ?>
+<script type="text/javascript">
+$(document).ready(function(){
+	var contaner = $('#selected_categoryes').empty();
+	$('#ClickPins .pin').click(function(){
+		selected = $('#ClickPins .pin.selected').size();
+		
+		category_id = $(this).attr('id').replace('category_','');
+		if($(this).hasClass('selected')) {
+			$(this).removeClass('selected');
+			contaner.find('input[value='+category_id+']').remove();
+		} else {
+			if(selected < 5) {
+				$(this).addClass('selected');
+				contaner.append('<input type="hidden" name="category_id[]" value="'+category_id+'" />');
+			}
+		}
+		if($('#ClickPins .pin.selected').size() > 0) {
+			$('#ClickPins .BigButton').attr('disabled', false).removeClass('disabled');
+		} else {
+			$('#ClickPins .BigButton').attr('disabled', true).addClass('disabled');
+		}
+		return false;
+	});
+});
+
+function selected_categoryes() {
+	var selected_categoryes = 0;
+	var contaner = $('#selected_categoryes').empty();
+	$('#ClickPins .pin').each(function(i){
+		if($(this).hasClass('selected')) {
+			category_id = $(this).attr('id').replace('category_','');
+			contaner.append('<input type="hidden" name="category_id[]" value="'+category_id+'" />');
+		}
+	});
+	
+}
+</script>

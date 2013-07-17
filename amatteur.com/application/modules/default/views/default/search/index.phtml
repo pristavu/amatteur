@@ -1,0 +1,37 @@
+<?php echo $this->header_part; ?>
+
+	<div id="container">
+	
+		<div id="ContextBarqSearch" class="box">
+			<div class="box2">
+				<p>
+					<?php foreach($this->menuSearch AS $key => $menu) { ?>
+					<?php echo ($key?' ·':'');?>
+					<?php if($menu['active']) { ?>
+					<span class="selected"><?php echo $menu['title']?></span>
+					<?php } else { ?>
+					<a href="<?php echo $menu['href']?>"><?php echo $menu['title']?></a>
+					<?php } ?>
+					<?php } ?>
+	            	<span class="greyselected"> 
+	            		&mdash; <?php echo $this->translate('search results for');?><span class="hilight"><?php echo $this->query;?></span>
+	            	</span>
+	        	</p>
+        	</div>
+        </div>
+		
+		<?php echo $this->pins;?>
+		
+		<div class="clear"></div>
+	</div>
+	
+	<?php if($this->follow_user) { ?>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		Pins.initFollow('#container .box.user .follow a');
+	});
+	</script>
+	<?php } ?>
+	
+
+<?php echo $this->footer_part; ?>

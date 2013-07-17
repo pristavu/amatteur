@@ -1,0 +1,45 @@
+<div class="container">
+      
+      <div id="header">
+		  <div id="HeaderContents">
+		    <ol id="Indicators">
+		      <li class="indicator first">
+		        
+		          <span></span><strong><?php echo $this->translate('People');?></strong>
+		        
+		      </li>
+		      <li class="bracket"><img alt="" src="data/images/right_arrow.png"></li>
+		      <li class="indicator second active"><span></span>
+		        <strong><?php echo $this->translate('Pinboards')?></strong></li>
+		      <li class="bracket"><img alt="" src="data/images/right_arrow.png"></li>
+		      <li class="indicator third"><span></span>
+		        <strong><?php echo $this->translate('Follow');?></strong></li>
+		    </ol>
+		    <img alt="Amatteur Logo" src="<?php echo $this->site_logo;?>">
+		</div>
+
+	</div><!-- #header -->
+
+       <div id="MainContent">
+			
+			<div class="hide" id="selected_categoryes"></div>
+			
+            <div id="ClickPins">
+
+                <h1 style="margin: 0 auto 28px; text-align: center; font-weight: 300;"><?php echo $this->translate('Follow People');?></h1>
+
+                	<?php echo $this->boards;?>
+
+                <div class="clear"></div>
+
+				
+                <div style="margin: 30px auto 80px; text-align: center;">
+                	<a class="BigButton BlueButton" href="<?php echo $this->direct_path;?>" ><strong><?php echo $this->translate('Finish »');?></strong><span></span></a>
+                </div>
+
+            </div><!-- #ClickPins -->
+
+    	</div><!-- MainContent -->
+
+    </div>
+    

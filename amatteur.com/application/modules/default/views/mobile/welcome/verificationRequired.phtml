@@ -1,0 +1,18 @@
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->header_part; 
+}    
+?>
+
+	<div class='banner wholePage'>
+		<h2><?php echo $this->translate('Please verify your email to finish your registration.')?></h2>
+	</div>
+	
+	
+		
+<script type='text/javascript'>
+	$(document).ready(function(){
+		$('.wholePage').css('height',window.document.height);
+		
+	});
+</script>

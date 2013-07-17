@@ -1,0 +1,276 @@
+<?php 
+	$module = $this->getRequest()->getModule();
+?>
+
+<form name="admin_form" id="admin_form" method="post" action="">
+
+	<div class="info_line top">
+		<h3 class="fleft title">
+			<img alt="" src="cms/<?php echo $module;?>/images/question-type-multiple-correct.png">
+			<?php echo $this->translate('Categories');?>
+		</h3>
+		
+		<span id="fader" class="fleft mleft30" style="display:none;">
+			<span class="msgError"><span><?php echo $this->translate('Error!');?></span><i class="error_text"></i></span>
+		</span>
+		
+		<div class="fright mtop3">
+			<input type="submit" value="<?php echo $this->translate('Save');?>" class="button" name="submit">
+			<a class="button" href="<?php echo $this->cancel_url;?>"><?php echo $this->translate('Cancel');?></a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+	<div class="clear"></div>
+
+	
+	<table cellspacing="0" cellpadding="0" class="formtable">
+		<tbody>
+		
+			<?php if($this->parent_id || $this->is_new){?>
+			
+			<tr>
+				<td>
+					<?php echo $this->translate("Parent Category")?>
+				</td>
+				<td>
+					<select name='parent_id'>
+						<option value='null'><b><?php echo $this->translate('This is Main Category')?></b></option>
+						<?php foreach($this->categories as $c){?>
+							<option <?php echo $this->parent_id == $c['category_id'] ? "selected='selected'" : "";?> value="<?php echo $c['category_id']?>"><?php echo $c['title']?></option>
+						<?php }?>
+					</select>
+				</td>
+			</tr>
+			<?php }?>
+			<tr>
+				<td width="150"><?php echo $this->translate('Title');?>: <img title="<?php echo $this->translate('This field is required');?>" class="tooltip" alt="<?php echo $this->translate('This field is required');?>" src="cms/<?php echo $module;?>/images/required.gif"></td>
+				<td>
+					<input type="text" size="55" title="<?php echo $this->translate('Please enter a title');?>" value="<?php echo $this->title;?>" class="inputbox required" name="title" />
+        			&nbsp;&nbsp; <img title="<?php echo $this->translate('Page Title');?>" class="tooltip" alt="Tip" src="cms/<?php echo $module;?>/images/sinfo.gif">
+        		</td>
+			</tr>
+			<!-- SUBCATEGORY -->
+			<!--  <tr>
+				<td>
+					<?php echo $this->translate("Subcategories")?>
+				</td>
+				<td>
+					<a id='addCategory' href=''><?php echo $this->translate("Add Subcategory")?></a>
+				</td>
+			</tr>-->
+			<tr>
+				<td width="150"><?php echo $this->translate('Status');?>:</td>
+				<td>
+					<select name="status" class="select">
+						<?php if($this->status) { ?>
+						<option selected="selected" value="1"><?php echo $this->translate('Active');?></option>
+						<option value="0"><?php echo $this->translate('Inactive');?></option>
+						<?php } else { ?>
+						<option value="1"><?php echo $this->translate('Active');?></option>
+						<option selected="selected" value="0"><?php echo $this->translate('Inactive');?></option>
+						<?php } ?>
+					</select>
+        		</td>
+			</tr>
+			<tr>
+				<td width="150"><?php echo $this->translate('Meta title');?>:</td>
+				<td>
+					<input type="text" size="55" value="<?php echo $this->meta_title;?>" class="inputbox" name="meta_title" />
+        		</td>
+			</tr>
+			<tr>
+				<td><?php echo $this->translate('Meta description');?>:</td>
+				<td>
+					<textarea rows="4" cols="53" name="meta_description" class="valid"><?php echo $this->meta_description;?></textarea>
+        		</td>
+			</tr>
+			<tr>
+				<td><?php echo $this->translate('Meta keywords');?>:</td>
+				<td>
+					<textarea rows="4" cols="53" name="meta_keywords" class="valid"><?php echo $this->meta_keywords;?></textarea>
+        		</td>
+			</tr>
+			<tr>
+				<td><?php echo $this->translate('SEO query');?>: </td>
+				<td>
+					<input type="text" size="55" value="<?php echo $this->keyword;?>" class="inputbox" name="keyword" />
+	        		&nbsp;&nbsp; <img title="<?php echo $this->translate('Link to be used for navigation');?>" class="tooltip" alt="Tip" src="cms/<?php echo $module;?>/images/sinfo.gif">
+	        	</td>
+			</tr>
+					
+			<tr>
+				<td><?php echo $this->translate('Image');?>:</td>
+				<td>
+					<input type="hidden" name="image" value="<?php echo $this->image; ?>" id="site_favicon" />
+					<img id="preview_favicon" src="<?php echo $this->preview_image;?>" />
+					<br />
+					<a style="cursor: pointer;" onclick="image_upload('site_favicon', 'preview_favicon');"><?php echo $this->translate('Browse Files'); ?></a>
+					&nbsp;&nbsp;|&nbsp;&nbsp;
+					<a style="cursor: pointer;" onclick="$('#preview_favicon').attr('src', '<?php echo $this->preview_image; ?>'); $('#site_favicon').attr('value', '');"><?php echo $this->translate('Clear Image'); ?></a>
+				</td>
+			</tr>
+					
+		</tbody>
+	</table>
+	
+	<?php if($this->subcategories){?>
+		<h3>
+			<?php echo $this->translate("Subcategories")?>
+			<a id='addCategory' href='javascript:void(0);' style="float:right;"><?php echo $this->translate("Add Subcategory")?></a>
+		</h3>
+		
+		<table cellspacing="0" cellpadding="0" class="display dragable_table" id="sort_order">
+			<thead>
+				<tr class="nodrop nodrag">
+					<th width="20">
+						<input type="checkbox" class="check_all_list" />
+					</th>	
+					<th width="20" class="left">#</th>
+					<th class="left"><?php echo $this->translate('Name');?></th>
+					<th width="50"><?php echo $this->translate('Status');?></th>
+					<th width="50"><?php echo $this->translate('Edit');?></th>
+					<th width="50"><?php echo $this->translate('Delete');?></th>
+				</tr>
+			</thead>
+			<tbody>
+				<?php foreach($this->subcategories as $sc){?>
+					<tr id='<?php echo $sc['category_id']?>'>
+						<td>
+						<input type="checkbox" class="check_list" name="action_check[]" value="<?php echo $sc['category_id'];?>" />
+						</td>
+						<td>
+							<?php echo $sc['category_id'];?>
+						</td>
+						<td>
+							<?php echo $sc['title']?>
+						</td>
+						<td align="center">
+						
+				<a href="javascript:void(0);" onclick="changeStatus(<?php echo $sc['category_id'];?>);">
+					<img src="cms/<?php echo $module;?>/images/<?php echo ($sc['status'] ? 'yes.png' : 'no.png');?>" class="tooltip"  alt="" title="<?php echo ($sc['status'] ? $this->translate('Active') : $this->translate('Inactive'));?>" />
+				</a>
+			</td>
+			<td align="center"><a href="<?php echo $module."/categories/edit/?id=".$sc['category_id']?>"><img title="<?php echo $this->translate('Edit');?>" alt="" class="tooltip" src="cms/<?php echo $module;?>/images/edit.png"></a></td>
+			<td align="center">
+				<?php if($sc['boards']) { ?>
+				<a onclick="alert('<?php echo $this->translate('This category has records. Deleting is impossible!');?>');" href="javascript:void(0);"><img title="<?php echo $this->translate('Delete');?>" alt="" class="tooltip" src="cms/<?php echo $module;?>/images/delete.png"></a>
+				<?php } else { ?>
+				<a id="item_<?php echo $sc['category_id'];?>" class="delete" href="javascript:void(0);"><img title="<?php echo $this->translate('Delete');?>" alt="" class="tooltip" src="cms/<?php echo $module;?>/images/delete.png"></a>
+				<?php } ?>
+			</td>
+		
+					</tr>
+				<?php }?>
+			</tbody>
+		</table>
+	<?php }?>
+
+	
+	<div class="info_line bottom">
+		<div class="fright mtop3">
+			<input type="submit" value="<?php echo $this->translate('Save');?>" class="button" name="submit">
+			<a class="button" href="<?php echo $this->cancel_url;?>"><?php echo $this->translate('Cancel');?></a>
+		</div>
+		<div class="clear"></div>
+	</div>
+	
+</form>
+
+	
+	<div style='display:none' title="<?php echo $this->translate("Add New Subcategory")?>" class='addSubCategoryDialog'>
+		<table>
+		<form method='POST' action="<?php echo $module."?controller=categories&action=addSubcategory"?>">
+			<tr>
+				<td>
+					<?php echo $this->translate("Subcategory Name:")?>
+				</td>
+				<td>
+					<input type='text' name='title'>
+					<input type='hidden' name='parent_id' value='<?php echo JO_Request::getInstance()->getRequest('id')?>' />
+				</td>
+				<td>
+					<input type='submit' id='subcategorySubmit' class='button' value="<?php echo $this->translate("Save")?>"> 
+				</td>
+			</tr>
+			</form>
+		</table>
+	</div>
+	
+	<script type='text/javascript'>
+		
+	
+		$(document).ready(function(){
+			$("#addCategory").click(function(event){
+			
+				event.preventDefault();
+				$(".addSubCategoryDialog").dialog();
+			});
+
+			$('a.delete').click(function (e) {
+		        if (confirm(lang.confirm)) {
+		            e.preventDefault();
+		            var parent = $(this).parents('tr');
+		            $.ajax({
+		                type: 'post',
+		                url: "<?php echo $module;?>/categories/delete/",
+		                data: 'id=' + $(this).attr('id').replace('item_', ''),
+		                beforeSend: function () {
+		                    parent.animate({
+		                        'backgroundColor': '#FFBFBF'
+		                    }, 400);
+		                },
+		                success: function () {
+		                    parent.fadeOut(400, function () {
+		                        parent.remove();
+		                    });
+		                }
+		            });
+		        }
+		    });
+			
+		
+
+		changeStatus = function(id) {
+			$.ajax({
+		        type: 'post',
+		        url: "<?php echo $module;?>/categories/changeStatus",
+		        data: 'id=' + id,
+		        beforeSend: function () {
+					$('#'+id).animate({
+		                'backgroundColor': '#FFBFBF'
+		            }, 400);
+		        },
+		        success: function () {
+		        	$.get(window.location.href, function(data){
+		        		$('#'+id).html($(data).find('#'+id).html());
+		        		setTimeout(function(){
+		        			$("#"+id+"").animate({'backgroundColor': 'transparent'}, 400).find('.tooltip').simpletooltip();
+		        		}, 500);
+		        	});
+		        }
+			});
+		};      
+		
+		$('.dragable_table').tableDnD({
+			onDrop: function(table, row) {
+				$.post('<?php echo $module;?>/categories/sort_order/', $.tableDnD.serialize(), function(data){
+					if(data) {
+						if($("#fader").size()) {
+							$("#fader").remove();  
+						}
+						$('.info_line.top .title').after('<div id="fader" class="fleft mleft30"><div class="msgOk"><span><?php echo $this->translate('Successful!');?></span><?php echo $this->translate('Information was successfully changed!');?></div></div>');
+						setTimeout(function() {
+							$("#fader").customFadeOut("slow" ,    
+							function() {       
+								$("#fader").remove();  
+							});
+						},
+						2000);
+					}
+				});
+			}
+		});
+			
+		});
+	</script>

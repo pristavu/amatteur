@@ -1,0 +1,93 @@
+<?php echo $this->header_part; ?>
+
+<div id="panel">
+	<h3 class="maintitle"><?php echo $this->translate('Complete your registration');?></h3>
+	
+	<?php if($this->error) { ?>
+	<div class="error-box">
+		<?php echo $this->error;?>
+	</div>
+	<?php } ?>
+	
+	
+	<form action="" method="post" class="edit">
+	
+		<?php if(JO_Registry::get('enable_free_registration')) { ?>
+		<div class="social_buttons register">
+			<?php if($this->fb_register) { ?>
+	        <div class="inset">
+	            <a class="fb login_button" href="<?php echo $this->fb_register;?>">
+	                <span class="logo_wrapper"><span class="logo"></span></span>
+	                <span><?php echo $this->translate('Register with Facebook');?></span>
+	            </a>
+	        </div>
+	        <?php } ?>
+	        <?php /*if($this->instagram_register) { ?>
+	        <div class="inset">
+	            <a class="is login_button" href="<?php echo $this->instagram_register;?>">
+	                <span class="logo_wrapper"><span class="logo"></span></span>
+	                <span><?php echo $this->translate('Register with Instagram');?></span>
+	            </a>
+	        </div>
+	        <?php }*/ ?>
+	        <div class="clear"></div>
+	    </div>
+		<?php } ?>
+	
+		<p class="input">
+			<label for="email"><?php echo $this->translate('Email');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="email" id="email" value="<?php echo $this->email;?>" /></span>
+			<span class="addtext"><?php echo $this->translate('Not shown publicly');?></span>
+		</p>
+		<p class="input">
+			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname;?>" /></span>
+		</p>
+		<p class="input">
+			<label for="lastname"><?php echo $this->translate('Last name');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="lastname" id="lastname" value="<?php echo $this->lastname;?>" /></span>
+		</p>
+		<p class="input">
+			<label for="username"><?php echo $this->translate('Username');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="username" id="username" value="<?php echo $this->username;?>" /></span>
+			<span class="addtext"><?php echo $this->baseUrl;?>username</span>
+		</p>
+		<div class="hr"></div>
+		<p class="input">
+			<label for="password"><?php echo $this->translate('Password');?> <br class="hide" /></label>
+			<span class="field"><input type="password" name="password" id="password" value="<?php echo $this->password;?>" /></span>
+		</p>
+		<p class="input">
+			<label for="password2"><?php echo $this->translate('Confirm password');?> <br class="hide" /></label>
+			<span class="field"><input type="password" name="password2" id="password2" value="<?php echo $this->password2;?>" /></span>
+		</p>
+		<div class="hr"></div>
+		
+			<label for="tc"><?php echo sprintf($this->translate('I agree with the %s terms and conditions %s'),"<a href='' class='tcLink'>","</a>");?> <br class="hide" /></label>
+			<span class="" style='text-align:left'><input type='checkbox' id='tc'></span>
+		
+		<div class="hr"></div>
+		<p class="submit"><input type="submit" value="<?php echo $this->translate('Save Profile');?>" name="register" /></p>
+	</form>
+</div>
+
+<script type='text/javascript'>
+	$(document).ready(function(){
+		$('form').on('submit',function(event){
+			if(!$('#tc').is(':checked')){
+				event.preventDefault();
+				$("#tc").parent().append("<br/><p class='warn' style='color:red'><?php echo $this->translate('Please agree with terms and conditions')?></p>")
+			}
+		});	
+
+		$("#tc").click(function(){
+			if($(this).is(':checked')){
+				$(".warn").remove();
+			}
+		});
+
+	
+	});
+</script>
+    
+<?php echo $this->footer_part; ?>

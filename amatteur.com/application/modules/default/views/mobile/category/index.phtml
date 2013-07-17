@@ -1,0 +1,30 @@
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->header_part; 
+}    
+?>
+
+<script type="text/javascript" src='../data/js/infscroll.js'>
+	$(document).ready(function(){
+		infScroll();
+	})
+</script>
+		<div class='banner'>
+			<h2 class='category'><?php echo $this->category['title']; ?></h2>
+		
+			<div class="stitching">
+             	<div class="stitch"></div>
+                <div class="stitch white"></div>
+           </div>
+		</div>
+		<div id='container'>
+			<?php echo $this->pins;?>
+		</div>
+		
+		
+	
+<?php if (!isset($_SESSION['token']))
+{
+    echo $this->footer_part;
+}    
+?>
