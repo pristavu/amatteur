@@ -1273,6 +1273,47 @@ class Model_Pins {
 		return $result;
 	}
 	
+        	public static function addCommentAPP($data, $latest_comments, $fields = array('*')) {
+		$db = JO_Db::getDefaultAdapter();
+		$db->insert('pins_comments', array(
+			'pin_id' => (string)$data['pinId'],
+			'user_id' => (string)$data['userId'],
+			'comment' => $data['comment'],
+			'date_added' => new JO_Db_Expr('NOW()')
+		));
+		
+		$com_id = $db->lastInsertId();
+		if(!$com_id) {
+			return false;
+		}
+		
+		$query = $db->select()
+					->from('pins_comments')
+					->where('comment_id = ?', $com_id)
+					->limit('1');
+		$result = $db->fetchRow($query);
+		if(!$result) {
+			return false;
+		}
+
+		
+		$db->update('pins', array(
+			'comments' => new JO_Db_Expr("(SELECT COUNT(comment_id) FROM pins_comments WHERE pin_id = '".(string)$data['pinId']."')"),
+			'latest_comments' => new JO_Db_Expr("(SELECT GROUP_CONCAT(comment_id ORDER BY comment_id ASC) FROM (SELECT comment_id FROM pins_comments WHERE pin_id = '" . (string)$data['pinId'] . "' ORDER BY comment_id ASC LIMIT 4) AS tmp)")
+		), array('pin_id = ?' => (string)$data['pinId']));
+		
+		$userdata = Model_Users::getUser((string)$data['userId'], false, $fields);
+		if(!$userdata) {
+			$userdata = array('fullname' => '', 'avatar' => '');
+		}
+		
+		self::rebuildCache($data['pinId']);
+		
+		$result = $com_id;
+		return $result;
+	}
+
+        
 	public static function updateViewed($pin_id) {
 		$db = JO_Db::getDefaultAdapter();
 		

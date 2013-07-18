@@ -260,22 +260,48 @@ class Model_Boards {
 		return $board_id;
 	}
 	
-	public static function getBoardAPP($board_id, $user_id, $username, $url_base) {
+	public static function getBoardAPP($board_id, $user_id, $username, $url_base, $origen) {
 		$db = JO_Db::getDefaultAdapter();
                 
                 $board = array();       
-//error_log("valor board-". $board_id. "-",0)  ;
-                    //timeline
-                if ($board_id != "")
+
+                    //carpeta
+                if ($origen == "carpeta")
+                {
+//error_log("valor board-". $board_id. "-origen " .$origen,0)  ;                    
+                    $query = $db->select()
+                                            ->from('boards')
+                                            ->where('boards.board_id = ?', (int)$board_id);
+                    $board_id = $db->fetchRow($query);
+
+                    if($board_id) 
+                    {
+                        $elemento = $board_id;
+//error_log("valor board ". $board_id,0)  ;
+                        //foreach($board_id AS $elemento) 
+                        //{
+                            $username = Model_Users::getUsername($elemento["user_id"]);
+//error_log("valor elemento ". $elemento["title"],0)  ;
+				$board['data'][] = array(                            
+                                    "folderName" => $elemento["title"],
+                                    "folderUrl" => $url_base . $username."/".$elemento['title'],
+                                    "folderImage" => $elemento["image"]
+                                );
+                        //}
+                    }
+
+                }
+                    //pindetail                
+                elseif ($origen == "pindetail")
                 {
                     $query = $db->select()
                                             ->from('boards')
                                             ->where('boards.board_id = ?', (int)$board_id)
                                             ->where('boards.user_id = ?', (int)$user_id);
-                    $board_id = $db->fetchRow($query);
-
+                    $board = $db->fetchRow($query);
+//error_log("valor board-". $board_id['title']. "-origen " .$origen,0)  ;
                 }
-                else
+                elseif ($origen == "userinfo")
                     //userinfo
                 {
                     $query = $db->select()
