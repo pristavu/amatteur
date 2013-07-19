@@ -64,7 +64,7 @@ class Model_Boards {
 		
 		$count_followers = $db->select()
 							->from('users_following_user', 'COUNT(ufu_id)')
-							->where('following_id = ?', JO_Session::get('user[user_id]'));
+							->where('following_id = ?', isset($data['user_id'])?(string)$data['user_id']:JO_Session::get('user[user_id]'));
 		
 		$db->insert('boards', array(
 			'user_id' => isset($data['user_id'])?(string)$data['user_id']:JO_Session::get('user[user_id]'),
@@ -118,7 +118,8 @@ class Model_Boards {
 		);
 		
 	}
-	
+
+        
 	public static function editBoard($board_id, $data) {
 		
 		$db = JO_Db::getDefaultAdapter();
@@ -260,6 +261,21 @@ class Model_Boards {
 		return $board_id;
 	}
 	
+        public static function getBoardIdAPP($data) {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('boards', 'board_id')
+					->where('title LIKE ?', $data['title'])
+					->where('user_id = ?', $data['user_id']);
+		$board_id = $db->fetchOne($query);
+		if(!$board_id) {
+			$board_id = self::createBoard($data);
+			$board_id = $board_id['board_id'];
+		}
+		return $board_id;
+	}
+
+        
 	public static function getBoardAPP($board_id, $user_id, $username, $url_base, $origen) {
 		$db = JO_Db::getDefaultAdapter();
                 
@@ -324,6 +340,31 @@ class Model_Boards {
                                 );
                         }
                     }
+                }
+                elseif ($origen == "folders")
+                    //folders
+                {
+                    $query = $db->select()
+                                            ->from('boards')
+                                            ->where('boards.user_id = ?', (int)$user_id);
+                    $board_id = $db->fetchAll($query);
+
+//error_log("valor board ". $board_id,0)  ;
+                    if($board_id) 
+                    {
+//error_log("valor board ". $board_id,0)  ;
+                        foreach($board_id AS $elemento) 
+                        {
+//error_log("valor elemento ". $elemento["title"],0)  ;
+				$board['data'][] = array(      
+                                    "folderid" => $elemento["board_id"],                                    
+                                    "folderName" => $elemento["title"],
+                                    "folderUrl" => $url_base . $username."/".$elemento['title'],
+                                    "folderImage" => $elemento["image"]
+                                );
+                        }
+                    }
+                    
                 }
                 
                 return $board;

@@ -71,6 +71,8 @@ class Apiv1Controller extends JO_Action
 
                 //$token = md5(uniqid(rand(), true));
                 $token = md5($result['user_id']);
+                
+                error_log("token -> " . $token);
                 $_SESSION['token'] = $token;
 
                 $return = array('id' => $result['user_id'],
@@ -683,19 +685,19 @@ class Apiv1Controller extends JO_Action
         $subCategories = "";
         if ($request->getRequest('category_id') != "")
         {
-            $url = WM_Router::create($request->getBaseUrl()) . "/category/";
             $subCategories = Model_Categories::getSubCategoriesAPP($request->getRequest('category_id'));
 
+            error_log("subcats ");
+            
             if ($subCategories)
             {
                 foreach ($subCategories AS $subCategorie)
                 {
-            
                     $return['data'][] = array(
                     'category_id' => $subCategorie['category_id'],
                     'title' => $subCategorie['title'],
                     'sort_order' => $subCategorie['sort_order'],
-                    'link' => $url . $subCategorie['title'],
+                    'link' => WM_Router::create($request->getBaseUrl() . '?controller=category&category_id=' . $subCategorie['category_id'])
                     );
                 }
             }
@@ -1263,8 +1265,8 @@ class Apiv1Controller extends JO_Action
                         'userDesc' => $user['description'],
                         'userLocation' => $user['location'],
                         'avatar' => $user['avatar'],
-                        'follower' => $user['userIsFollow'],
-                        'following' => $user['userIsFollow']
+                        'follower' => $user['followers'],
+                        'following' => $user['following']
                     );
                     
                     
@@ -1437,6 +1439,519 @@ class Apiv1Controller extends JO_Action
         $response->appendBody($return);
     }
 
+        //=========== seguidores y seguidos ==============//
+    public function followersAction()
+    {
+
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+
+        $data = array();
+        $url = "";
+
+        $return = array();
+
+        $followers = $request->getRequest('followers');
+        $userId =  $request->getRequest('userId');
+        
+        if ($followers == 1)
+        {
+            $data = Model_Users::followingUsers($userId);
+        }
+        else if ($followers == 0)
+        {
+            $data = Model_Users::followersUsers($userId);
+        }
+
+
+
+        if ($data)
+        {
+
+            foreach ($data AS $key => $user)
+            {
+                $dota['filter_user_id'] = $user["user_id"];
+                $url .= '&user=' . $user["user_id"];
+
+                $user = Model_Users::getUser($user["user_id"], false, Model_Users::$allowed_fields);
+               
+                if ($user)
+                {
+                
+                $avatar = Helper_Uploadimages::avatar($user, '_B');
+                $user['avatar'] = $avatar['image'];
+
+                $return['data'][] = array(
+                    'userId' => $user['user_id'],
+                    'userName' => $user['username'],
+                    'userDesc' => $user['description'],
+                    'userLocation' => $user['location'],
+                    'avatar' => $user['avatar'],
+                    'follower' => $user['followers'],
+                    'following' => $user['following']
+                );
+                }
+
+            }
+
+        }
+  
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }
+    
+    //=========== seguir y dejar de seguir ==============//
+    public function followAction()
+    {
+
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        $return = array();
+
+        $action = $request->getRequest('accion');
+        $userId =  $request->getRequest('userId');
+        $followerId =  $request->getRequest('followerId');
+        
+        if ($action == 1)
+        {
+            $data = Model_Users::FollowUserAPP($userId, $followerId);
+        }
+        else if ($action == 0)
+        {
+            $data = Model_Users::UnFollowUserAPP($userId, $followerId);
+        }
+
+        if ($data)
+        {
+            $return = $data;
+        }
+        else {
+            $return = "error";
+     
+ }
+        
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }    
+        //====== recuperar folder ====//
+    public function foldersAction()
+    {
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        
+
+        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
+        {
+            $_SESSION['token'] = $_POST['token'];
+      
+        
+//        $token = $request->getRequest('token');
+        $user_id = $request->getRequest('userId');    
+        
+//        $token = $request->getRequest('token');
+//        $user_id = $request->getRequest('userId');        
+//        
+//        
+//        error_log("token " .$token);
+//        error_log("user " . md5($user_id));
+//        error_log("session " . $_SESSION['token']) ;
+//        
+//        if (isset($token) && $token == md5($user_id))
+//        {
+//            $_SESSION['token'] = $token;
+      
+
+
+
+            $return = array();
+       
+        //if($request->isPost()) {
+
+                //$data = $request->getParams();
+                //$write_comment = $request->getPost('comment');
+
+            $boards = Model_Boards::getBoardAPP("", $user_id, "", WM_Router::create($request->getBaseUrl()), "folders");
+
+            $return = $boards;
+
+
+        //}
+                
+        } else
+        {
+//no existe la sesión / no existe el dato recibido por post / el token no es igual.
+            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+        }
+                
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }
+    
+        //====== añadir folder ====//
+    public function newfolderAction()
+    {
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        
+
+        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
+        {
+            $_SESSION['token'] = $_POST['token'];
+      
+        
+    //        $token = $request->getRequest('token');
+//            $user_id = $request->getRequest('userId');    
+//            $folderName = $request->getRequest('folderName');            
+//            $categoryId = $request->getRequest('categoryId');                        
+//
+//            $token = $request->getRequest('token');
+            //$user_id = $request->getRequest('userId');        
+            
+            
+//            error_log("token " .$token);
+//            error_log("user " . md5($user_id));
+//            error_log("session " . $_SESSION['token']) ;
+            
+//            if (isset($token) && $token == md5($user_id))
+//            {
+//                $_SESSION['token'] = $token;
+
+
+
+
+            $return = array();
+       
+        //if($request->isPost()) {
+
+                //$data = $request->getParams();
+                //$write_comment = $request->getPost('comment');
+                $board_id = Model_Boards::getBoardIdAPP(array(
+                        'title' => trim($request->getPost('folderName')),
+                        'category_id' => $request->getPost('categoryId'),
+                        'user_id' => $request->getPost('userId')
+                ));
+        
+                if ($board_id == 0)
+                {
+                   $board_id = array('error' => 2, 'description' => $this->translate('folderName exists with the same name'));
+                }
+                
+                $return = $board_id;
+
+
+        //}
+                
+        } else
+        {
+//no existe la sesión / no existe el dato recibido por post / el token no es igual.
+            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+        }
+                
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }
+        
+        //====== subir fichero ====//
+    public function uploadAction()
+    {
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        
+
+        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
+        {
+            $_SESSION['token'] = $_POST['token'];
+      
+        
+    //        $token = $request->getRequest('token');
+//            $user_id = $request->getRequest('userId');    
+//            $folderName = $request->getRequest('folderName');            
+//            $categoryId = $request->getRequest('categoryId');                        
+//
+//            $token = $request->getRequest('token');
+            //$user_id = $request->getRequest('userId');        
+            
+            
+//            error_log("token " .$token);
+//            error_log("user " . md5($user_id));
+//            error_log("session " . $_SESSION['token']) ;
+            
+//            if (isset($token) && $token == md5($user_id))
+//            {
+//                $_SESSION['token'] = $token;
+
+
+
+
+            $return = array();
+       
+        
+
+        print_r("files " . var_dump($_FILES))   ;
+        print_r("request " .var_dump($_REQUEST));
+        error_log("file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["fileName"]);
+        //$_FILES-> name type tmp_name error size
+        //'image' => BASE_PATH . JO_Session::get('upload_from_file'),
+		if( $request->isPost() ) {
+			
+			$url_m = $request->getPost('media');
+			if(strpos($url_m, '.jpg?')) {
+			$url_m = explode('?', $url_m);
+			$url_m = $url_m[0];
+			}
+			
+			$result = Model_Pins::create(array(
+				'title' => $request->getPost('title'),
+				'from' => $request->getPost('from'),
+				'image' => $url_m,
+				'is_video' => $request->getPost('is_video'),
+				'is_article' => $request->getPost('is_article'),
+				'description' => $request->getPost('message'),
+				'price' => $request->getPost('price'),
+				'board_id' => $request->getPost('board_id')
+			));
+			if($result) {
+				Model_History::addHistory(JO_Session::get('user[user_id]'), Model_History::ADDPIN, $result);
+				
+			
+				$session_user = JO_Session::get('user[user_id]');
+				
+				$group = Model_Boards::isGroupBoard($request->getPost('board_id'));
+				if($group) {
+					$users = explode(',',$group);
+					foreach($users AS $user_id) {
+						if($user_id != $session_user) {
+							$user_data = Model_Users::getUser($user_id);
+
+							if($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email']) {
+								$this->view->user_info = $user_data;
+								$this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+								$this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
+								$this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
+								$board_info = Model_Boards::getBoard($request->getPost('board_id'));
+								if($board_info) {
+									$this->view->board_title = $board_info['title'];
+									$this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
+								}
+								Model_Email::send(
+				    	        	$user_data['email'],
+				    	        	JO_Registry::get('noreply_mail'),
+				    	        	JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'),
+				    	        	$this->view->render('group_board', 'mail')
+				    	        );
+							}
+
+						}
+					}
+				}
+				
+				$this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
+				$this->view->popup_main_box = $this->view->render('success','addpin');
+			}
+			
+		}
+                
+                
+        } else
+        {
+//no existe la sesión / no existe el dato recibido por post / el token no es igual.
+            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+        }
+                
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+                
+    }	
+    
+    //===== logout ======//
+    public function logoutAction() {
+        
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
+        {
+            $_SESSION['token'] = NULL;
+        
+            if ($_POST['userId'] == JO_Session::get('user[user_id]'))
+            {
+                $this->setInvokeArg('noViewRenderer', true);
+                @setcookie('csrftoken_', md5(JO_Session::get('user[user_id]') . $this->getRequest()->getDomain() . JO_Session::get('user[date_added]') ), (time() - 100 ), '/', '.'.$this->getRequest()->getDomain());
+                JO_Session::set(array('user' => false));
+
+                $return = 1;
+            }
+            else
+            {
+                $return = 0;
+            }
+            
+        } else
+        {
+//no existe la sesión / no existe el dato recibido por post / el token no es igual.
+            $return = array('error' => 0, 'description' => $this->translate('wrong token'));
+        }
+                
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    	
+    }
+
+    
 }
 
 ?>

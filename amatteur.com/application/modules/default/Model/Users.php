@@ -527,6 +527,7 @@ class Model_Users extends JO_Model {
 							->from('users', $fields)
 							->where('user_id = ?', (string)$user_id)
 							->limit(1); 
+
 		$result[$user_id . serialize($fields)] = $db->fetchRow($query);
 		return $result[$user_id . serialize($fields)];
 	}
@@ -920,7 +921,23 @@ class Model_Users extends JO_Model {
 		
 		return $db->fetchOne($query);
 	}
-	
+
+        public static function followingUsers($user_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('users_following_user', 'users_following_user.following_id AS user_id')
+					->where('user_id = ?', (string)$user_id);
+		return $db->fetchAll($query);
+	}
+
+        public static function followersUsers($user_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('users_following_user', 'users_following_user.user_id')
+					->where('following_id = ?', (string)$user_id);
+		return $db->fetchAll($query);
+	}
+
         public static function isLikeUser($user_id, $user_id2 = null) {
 		if($user_id2 === null) {
 			if(!(string)JO_Session::get('user[user_id]') || (string)JO_Session::get('user[user_id]') == $user_id) {
@@ -1011,7 +1028,66 @@ class Model_Users extends JO_Model {
 		return $row;
 	}
 
-        	public static function LikeUser($user_id) {
+	public static function FollowUserAPP($user_id, $follower_Id) {
+		if($follower_Id == $user_id) {
+			return false;
+		}
+		$db = JO_Db::getDefaultAdapter();
+		$db->insert('users_following_user', array(
+			'user_id' => $user_id,
+			'following_id' => $follower_Id
+		));
+		
+		$uf_id = $db->lastInsertId();
+		
+		if($uf_id) {
+			$db->update('users', array(
+				'following' => new JO_Db_Expr('(SELECT COUNT(DISTINCT following_id) FROM users_following_user WHERE user_id = users.user_id AND following_id != users.user_id)')
+			), array('user_id = ?' => $follower_Id));
+			$db->update('users', array(
+				'followers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_following_user WHERE following_id = users.user_id AND user_id != users.user_id)')
+			), array('user_id = ?' => $follower_Id));
+			$db->delete('users_following_ignore', array(
+				'user_id = ?' => $user_id,
+				'following_id = ?' => $follower_Id
+			));
+		}
+		
+		return $uf_id;
+	}
+	
+	public static function UnFollowUserAPP($user_id, $follower_Id) {
+		if($follower_Id == $user_id) {
+			return false;
+		}
+		$db = JO_Db::getDefaultAdapter();
+		$row = $db->delete('users_following_user', array(
+			'user_id = ?' => $user_id,
+			'following_id = ?' => $follower_Id
+		));
+		
+		if($row) {
+			$db->delete('users_following_ignore', array(
+				'user_id = ?' => $user_id,
+				'following_id = ?' => $follower_Id
+			));
+			$db->delete('users_following', array(
+				'user_id = ?' => $user_id,
+				'following_id = ?' => $follower_Id
+			));
+			$db->update('users', array(
+					'following' => new JO_Db_Expr('(SELECT COUNT(DISTINCT following_id) FROM users_following_user WHERE user_id = users.user_id AND following_id != users.user_id)')
+			), array('user_id = ?' => $follower_Id));
+			$db->update('users', array(
+					'followers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_following_user WHERE following_id = users.user_id AND user_id != users.user_id)')
+			), array('user_id = ?' => $follower_Id));
+		}
+		
+		return $row;
+	}
+        
+        
+        public static function LikeUser($user_id) {
 		if(!(string)JO_Session::get('user[user_id]') || (string)JO_Session::get('user[user_id]') == $user_id) {
 			return false;
 		}
