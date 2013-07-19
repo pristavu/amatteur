@@ -350,7 +350,7 @@ class JO_View {
         ob_start();
         include $scriptFile;
         $content = ob_get_clean();
-        ob_get_clean();
+        //ob_get_clean();
         
 		return $content;
 	}
