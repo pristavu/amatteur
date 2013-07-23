@@ -124,7 +124,7 @@ class WelcomeController extends JO_Action {
 				$avatar = Helper_Uploadimages::avatar($user, '_B');
 				$user['avatar'] = $avatar['image'];
 		
-				
+				$user['userLikeIgnore'] = true;
 				if(JO_Session::get('user[user_id]') == $user['user_id']) {
 					$user['userIsFollow'] = 1;
 					$user['userFollowIgnore'] = true;

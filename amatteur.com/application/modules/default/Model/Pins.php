@@ -1273,7 +1273,7 @@ class Model_Pins {
 		return $result;
 	}
 	
-        	public static function addCommentAPP($data, $latest_comments, $fields = array('*')) {
+        public static function addCommentAPP($data, $latest_comments, $fields = array('*')) {
 		$db = JO_Db::getDefaultAdapter();
 		$db->insert('pins_comments', array(
 			'pin_id' => (string)$data['pinId'],

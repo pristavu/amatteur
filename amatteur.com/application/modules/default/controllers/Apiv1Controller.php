@@ -1727,8 +1727,8 @@ class Apiv1Controller extends JO_Action
                 {
                    $board_id = array('error' => 2, 'description' => $this->translate('folderName exists with the same name'));
                 }
-                
-                $return = $board_id;
+
+                $return = $return = array('folderId' => $board_id);
 
 
         //}
@@ -1804,10 +1804,12 @@ class Apiv1Controller extends JO_Action
             $return = array();
        
         
-
+/*
         print_r("files " . var_dump($_FILES))   ;
         print_r("request " .var_dump($_REQUEST));
         error_log("file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["fileName"]);
+        error_log("file name " . $_FILES["uploadedfile"]["name"] . " uploads " . $_REQUEST["fileName"]); 
+        */
         //$_FILES-> name type tmp_name error size
         //'image' => BASE_PATH . JO_Session::get('upload_from_file'),
 		if( $request->isPost() ) {
@@ -1819,12 +1821,12 @@ class Apiv1Controller extends JO_Action
 			}
 			
 			$result = Model_Pins::create(array(
-				'title' => $request->getPost('title'),
+				'title' => "titulo", //$request->getPost('title'),
 				'from' => $request->getPost('from'),
 				'image' => $url_m,
-				'is_video' => $request->getPost('is_video'),
-				'is_article' => $request->getPost('is_article'),
-				'description' => $request->getPost('message'),
+				'is_video' => 0, //$request->getPost('is_video'),
+				'is_article' => 0, //$request->getPost('is_article'),
+				'description' => "descripcion", //$request->getPost('message'),
 				'price' => $request->getPost('price'),
 				'board_id' => $request->getPost('board_id')
 			));

@@ -38,6 +38,16 @@ class Model_Users extends JO_Model {
 		), array('user_id = ?' => (string)JO_Session::get('user[user_id]')));
 	}
 	
+	public function editAgenda($agenda) {
+		if(!JO_Session::get('user[user_id]')) {
+			return;
+		}
+		$db = JO_Db::getDefaultAdapter();
+		$db->update('users', array(
+			'agenda' => $agenda
+		), array('user_id = ?' => (string)JO_Session::get('user[user_id]')));
+	}
+        
 	public static function getFacebookFriends() {
 		$db = JO_Db::getDefaultAdapter();
 		
@@ -202,6 +212,11 @@ class Model_Users extends JO_Model {
 			'route' => 'users/profile'
 		));
 		
+                
+                //******************************************************************************************
+                //******************************************************************************************
+                // hay que anular esto y crear una nueva pantalla para elegir la nueva carpeta de inicio
+                // salva
 		$total_boards = 0;
 		if( is_array(JO_Registry::forceGet('default_boards')) ) {
 			foreach(JO_Registry::get('default_boards') AS $def) {
@@ -220,7 +235,9 @@ class Model_Users extends JO_Model {
 			), array('user_id = ?' => (string)$user_id));
 			
 		}
-		
+		//******************************************************************************************
+                //******************************************************************************************
+                
 		if( isset($data['delete_email']) && $data['delete_email'] ) {
 			$db->delete('shared_content', array('email = ?' => $data['delete_email']));
 		}

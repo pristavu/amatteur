@@ -41,7 +41,26 @@ class UsersController extends JO_Action {
 		echo $this->renderScript('json');
 	}
 	
-	private function profileHelp() {
+	public function editAgendaAction(){
+		
+		$request = $this->getRequest();
+		
+		if(!JO_Session::get('user[user_id]')) {
+			if($request->isXmlHttpRequest()) {
+				$this->view->redirect = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login' );
+			} else {
+				$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login' ) );
+			}
+		} else {
+			Model_Users::editAgenda( $request->getPost('agenda') );
+			$this->view->ok = $request->getPost('agenda');
+		}
+
+		echo $this->renderScript('json');
+	}
+
+        
+        private function profileHelp() {
 		$request = $this->getRequest();
 		$user_data = Model_Users::getUser( $request->getRequest('user_id') );
         

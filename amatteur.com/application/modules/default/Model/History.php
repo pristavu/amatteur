@@ -22,6 +22,7 @@ class Model_History extends JO_Model {
 	const LIKEUSER = 11;
 	const UNLIKEUSER = 12;
         
+	const COMMENTUSER = 13;        
 	
 	public static function getType($type) {
 		
@@ -39,8 +40,9 @@ class Model_History extends JO_Model {
 			self::LIKEPIN => self::translate('Like your pin'),
 			self::UNLIKEPIN => self::translate('Unlike your pin'),
 			self::COMMENTPIN => self::translate('Comment your pin'),
-			self::LIKEUSER => self::translate('Like user'),
-			self::UNLIKEUSER => self::translate('Unlike user'),
+			self::LIKEUSER => self::translate('Like your user'),
+			self::UNLIKEUSER => self::translate('Unlike your user'),
+			self::COMMENTUSER => self::translate('Comment his board'),                    
 		);
 		
 		if(isset($array[$type])) {
