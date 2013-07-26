@@ -125,7 +125,7 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
-
+/*
         error_log("token " . $_POST['token']);
         error_log("user " . md5($_POST['user_id']));
 
@@ -144,7 +144,7 @@ class Apiv1Controller extends JO_Action
             }
 
             error_log("desupes estoy logado ");
-
+*/
             $shared_content = Model_Users::checkSharedContent($request->getParam('key'), $request->getParam('user_id'));
 
             if (!JO_Registry::get('enable_free_registration'))
@@ -232,11 +232,11 @@ class Apiv1Controller extends JO_Action
                         $return = array('id' => $result); //['user_id']); 
                     } else
                     {
-                        $return = array('error' => 1, 'description' => $this->translate('There was a problem with the record. Please try again!'));
+                        $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
                     }
                 } else
                 {
-                    $return = array('error' => 1, 'description' => $validate->_get_error_messages());
+                    $return = array('error' => 4, 'description' => $validate->_get_error_messages());
                 }
             }
 
@@ -283,15 +283,16 @@ class Apiv1Controller extends JO_Action
 
             $this->view->password = $request->getRequest('password');
             $this->view->password2 = $request->getRequest('password2');
+/*            
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
 
 
         error_log("callback " . $callback . " response " . $response);
-
+*/
         if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
@@ -364,16 +365,16 @@ class Apiv1Controller extends JO_Action
                     $return = array('id' => $result['user_id']); // $user_data;  
                 } else
                 {
-                    $return = array('error' => 2, 'description' => $this->translate('This profile is not active.'));
+                    $return = array('error' => 5, 'description' => $this->translate('This profile is not active.'));
                 }
             } else
             {
-                $return = array('error' => 1, 'description' => $this->translate('E-mail address and password do not match'));
+                $return = array('error' => 6, 'description' => $this->translate('E-mail address and password do not match'));
             }
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
 
 
@@ -703,7 +704,7 @@ class Apiv1Controller extends JO_Action
             }
         } else
         {
-            $return = array('error' => 1, 'description' => 'Subcategoría vacía');
+            $return = array('error' => 7, 'description' => 'Subcategoría vacía');
         }
 
         /*
@@ -969,7 +970,7 @@ class Apiv1Controller extends JO_Action
         //} else
         //{
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-        //    $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+        //    $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         //}
 
 
@@ -1405,8 +1406,7 @@ class Apiv1Controller extends JO_Action
         
         if(!$pin_info) {
                 $return['data'][] = array(
-                    'error' => "1",
-                    'description' => "no existe pin con ese id"
+                    'error' => 8, 'description' => "no existe pin con ese id"
                     );
 
         }
@@ -1492,19 +1492,18 @@ class Apiv1Controller extends JO_Action
                
                 if ($user)
                 {
-                
-                $avatar = Helper_Uploadimages::avatar($user, '_B');
-                $user['avatar'] = $avatar['image'];
+                    $avatar = Helper_Uploadimages::avatar($user, '_B');
+                    $user['avatar'] = $avatar['image'];
 
-                $return['data'][] = array(
-                    'userId' => $user['user_id'],
-                    'userName' => $user['username'],
-                    'userDesc' => $user['description'],
-                    'userLocation' => $user['location'],
-                    'avatar' => $user['avatar'],
-                    'follower' => $user['followers'],
-                    'following' => $user['following']
-                );
+                    $return['data'][] = array(
+                        'userId' => $user['user_id'],
+                        'userName' => $user['username'],
+                        'userDesc' => $user['description'],
+                        'userLocation' => $user['location'],
+                        'avatar' => $user['avatar'],
+                        'follower' => $user['followers'],
+                        'following' => $user['following']
+                    );
                 }
 
             }
@@ -1646,7 +1645,7 @@ class Apiv1Controller extends JO_Action
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
                 
 
@@ -1725,7 +1724,7 @@ class Apiv1Controller extends JO_Action
         
                 if ($board_id == 0)
                 {
-                   $board_id = array('error' => 2, 'description' => $this->translate('folderName exists with the same name'));
+                   $board_id = array('error' => 9, 'description' => $this->translate('folderName exists with the same name'));
                 }
 
                 $return = $return = array('folderId' => $board_id);
@@ -1736,7 +1735,7 @@ class Apiv1Controller extends JO_Action
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
                 
 
@@ -1804,29 +1803,31 @@ class Apiv1Controller extends JO_Action
             $return = array();
        
         
-/*
-        print_r("files " . var_dump($_FILES))   ;
-        print_r("request " .var_dump($_REQUEST));
-        error_log("file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["fileName"]);
-        error_log("file name " . $_FILES["uploadedfile"]["name"] . " uploads " . $_REQUEST["fileName"]); 
-        */
+
+        //print_r("files " . var_dump($_FILES))   ;
+        //print_r("request " .var_dump($_REQUEST));
+        error_log("1file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["image"]);
+        //error_log("2file name " . $_FILES["uploadedfile"]["name"] . " uploads " . $_REQUEST["image"]); 
+       
         //$_FILES-> name type tmp_name error size
         //'image' => BASE_PATH . JO_Session::get('upload_from_file'),
 		if( $request->isPost() ) {
 			
-			$url_m = $request->getPost('media');
+			$url_m = $request->getPost('image');
 			if(strpos($url_m, '.jpg?')) {
 			$url_m = explode('?', $url_m);
 			$url_m = $url_m[0];
 			}
+                        error_log("3file name " . $_FILES["file"]["tmp_name"] . " url_m " . $url_m);
+                        $url_m = $_FILES;
 			
 			$result = Model_Pins::create(array(
-				'title' => "titulo", //$request->getPost('title'),
+				'title' => $request->getPost('title'),
 				'from' => $request->getPost('from'),
 				'image' => $url_m,
 				'is_video' => 0, //$request->getPost('is_video'),
 				'is_article' => 0, //$request->getPost('is_article'),
-				'description' => "descripcion", //$request->getPost('message'),
+				'description' => $request->getPost('message'),
 				'price' => $request->getPost('price'),
 				'board_id' => $request->getPost('board_id')
 			));
@@ -1875,7 +1876,7 @@ class Apiv1Controller extends JO_Action
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 1, 'description' => $this->translate('wrong token'));
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
                 
 
@@ -1934,7 +1935,7 @@ class Apiv1Controller extends JO_Action
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 0, 'description' => $this->translate('wrong token'));
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
                 
 

@@ -53,7 +53,18 @@ class UsersController extends JO_Action {
 			}
 		} else {
 			Model_Users::editAgenda( $request->getPost('agenda') );
-			$this->view->ok = $request->getPost('agenda');
+                        
+                        $data = Model_Users::followersUsers(JO_Session::get('user[user_id]'));
+                        if ($data)
+                        {
+                            foreach ($data AS $key => $user)
+                            {
+                                        //add history
+                                        Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+                            }
+                        }
+                        
+                        $this->view->ok = $request->getPost('agenda');
 		}
 
 		echo $this->renderScript('json');
@@ -113,6 +124,7 @@ class UsersController extends JO_Action {
 		$this->view->user_likers = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likers&user_id=' . $user_data['user_id']  );
 		$this->view->user_liking = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=liking&user_id=' . $user_data['user_id']  );
                 $this->view->edit_description = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=editDescription');
+                $this->view->edit_agenda = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=editAgenda');                
        
 		$this->view->enable_edit = JO_Session::get('user[user_id]') == $user_data['user_id'];
 		

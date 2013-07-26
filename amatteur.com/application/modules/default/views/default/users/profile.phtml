@@ -3,6 +3,7 @@
 <?php if(!$this->userdata['description'] && $this->enable_edit) { ?>
 <?php ob_start();?>
 <script type="text/javascript">
+<!--
 $(document).ready(function(){
 	$('#ProfileHeader .info p.noDescription').click(function(){
 		$(this).replaceWith($('#edit-description').html())
@@ -22,7 +23,7 @@ $(document).ready(function(){
 					$('#ProfileHeader .info #editDescription .Button').addClass('disabled');
 				}
 			});
-
+                        
 			$('#ProfileHeader .info #editDescription .Button').click(function(){
 				if(!$(this).hasClass('disabled')) {
 					var val = $('#ProfileHeader .FixedContainer .content textarea').val();
@@ -43,6 +44,7 @@ $(document).ready(function(){
         
         
 });
+//-->
 </script>
 <script type="text/template" id="edit-description">
 <div id="editDescription" class="Form">
@@ -56,17 +58,17 @@ $(document).ready(function(){
 <?php $this->placeholder('inhead', ob_get_clean());?>
 <?php }  ?>
 
-<?php if(!$this->userdata['agenda'] && $this->enable_edit) { ?>
+<?php if($this->enable_edit) { ?>
 <?php ob_start();?>
 <script type="text/javascript">
-
+<!--
 $(document).ready(function(){
-	$('#ProfileHeader .info p.noAgenda').click(function(){
-            alert("dento");
+	$('#ProfileHeader .infoBody p.noAgenda').click(function(){
 		$(this).replaceWith($('#edit-agenda').html())
 		.append(function(){
 //en blanco entra
-			$('#ProfileHeader .FixedContainer .content textarea').jqEasyCounter({
+			$('#ProfileHeader .infoBody #editAgenda textarea').jqEasyCounter({
+                            
 				holder: 'div.CharacterCount',
 				maxChars: 1000,
 				maxCharsWarning: 980,
@@ -74,21 +76,41 @@ $(document).ready(function(){
 			}).bind("keydown keyup keypress focus paste",function() {
 				if($.trim(this.value)) {
 //escribe
-					$('#ProfileHeader .info #editAgenda .Button').removeClass('disabled');
+					$('#ProfileHeader .infoBody #editAgenda .Button').removeClass('disabled');
 				} else {
 //no escribe
-					$('#ProfileHeader .info #editAgenda .Button').addClass('disabled');
+					$('#ProfileHeader .infoBody #editAgenda .Button').addClass('disabled');
 				}
 			});
 
-			$('#ProfileHeader .info #editAgenda .Button').click(function(){
+                        $('#ProfileHeader .infoBody #editAgenda textarea').keypress(function(e) {
+//			if(e.keyCode == 13 && !e.shiftKey) {
+                            if(e.keyCode == 13) {
+			    //e.preventDefault();
+				//$('#' + $.chat.settings.divid +'submitbutton').click();
+				  var txtAmtval = $('#ProfileHeader .infoBody #editAgenda textarea').val();
+				  txtAmtval += ".";
+                                  //change txtInterest% value
+                                  $('#ProfileHeader .infoBody #editAgenda textarea').val(txtAmtval);
+				  //$('#'+$.chat.settings.divid + 'textbox').val() = $('#'+$.chat.settings.divid + 'textbox').val() + ".";
+				
+                            }
+                        });
+
+
+			$('#ProfileHeader .infoBody #editAgenda .Button').click(function(){
 				if(!$(this).hasClass('disabled')) {
-					var val = $('#ProfileHeader .FixedContainer .content textarea').val();
+					var val = $('#ProfileHeader .infoBody #editAgenda textarea').val();
+                                        
+                                        //val = val.replace(/\n/g,"<br>");
 					$.post('<?php echo $this->edit_agenda;?>', {agenda: val}, function(data){
 						if(data.redirect) {
 							window.location = data.redirect;
 						} else if(data.ok) {
-							$('#editAgenda').replaceWith('<p class="colorless">'+data.ok+'</p>');
+							//$('#editAgenda').replaceWith('<p class="colorless noAgenda">'+data.ok.replace(/\n/g,"<br>")+' &nbsp;<img src="data/images/ProfileEditIcon.png"></p>');
+							//$('#editAgenda').replaceWith('<p class="colorless noAgenda">'+<?php //echo nl2br($this->userdata['agenda']);?>+'&nbsp;<img src="data/images/ProfileEditIcon.png"></p>');
+                                                        $('#editAgenda').replaceWith('<p class="colorless noAgenda">' + data.ok.replace(/\n/g,"<br>") + '</p>');
+                                                      
 						}
 					}, 'json');
 				}
@@ -101,12 +123,12 @@ $(document).ready(function(){
         
         
 });
-
+//-->
 </script>
 
 <script type="text/template" id="edit-agenda">
 <div id="editAgenda" class="Form">
-	<textarea></textarea>
+	<textarea rows='17' cols='20'><?php echo $this->userdata['agenda'];?></textarea>
 	<a href="#" class="Button RedButton editAgenda disabled">
 		<?php echo $this->translate('Save Calendar');?>
 	</a>
@@ -404,222 +426,39 @@ $(document).ready(function(){
 	<?php } else { ?>
 	<?php echo $this->boards;?>
 	<?php } ?>
-	<ul style="float: right; padding-right: 10px"> 
-            <?php if($this->userdata['agenda'] || !$this->enable_edit) { ?>
-            <p class="colorless">
-                    <?php echo $this->userdata['agenda'];?> &nbsp;
-            </p>
-            <?php } else { ?>
-            <p class="colorless noAgenda">
-                    <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
-                    <img src="data/images/ProfileEditIcon.png">
-            </p>
-            <?php } ?>
-        </ul>
-            
-<!--div id="TextEdit" class="editable">
-    <div id="request" runat="server" contenteditable="true"></div>
-    <div id="requestInner" style="border-left:solid 1px gray; 
-		margin-left:10px; margin-right:10px;" 
-            contenteditable="false" UNSELECTABLE="ON">
-	<b>I am the inner div</b>
-	<br />with multiple lines. You can check me on this.<hr />
-        This is the next line of text in <b>bold</b>, <i>Italic</i> and 
+        <div id="ProfileHeader">
+                <div class="FixedContainer row clearfix">
+                        <div class="infoBody">        
+                            <?php if($this->userdata['agenda'] || !$this->enable_edit) { ?>
+                            <p class="colorless noAgenda">
+                                    <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
+                                    <img src="data/images/ProfileEditIcon.png">
+                            </p>
+                            <?php } else { ?>
+                            <p class="colorless noAgenda">
+                                    <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
+                                    <img src="data/images/ProfileEditIcon.png">
+                            </p>
+                            <?php } ?>
+                        </div>
+                    
+                        <!--div class="infoBody">        
+                            <?php /*if($this->userdata['agenda'] || !$this->enable_edit) { ?>
+                            <p class="colorless noAgenda">
+                                    <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
+                                    <img src="data/images/ProfileEditIcon.png">
+                            </p>
+                            <?php } else { ?>
+                            <p class="colorless noAgenda">
+                                    <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
+                                    <img src="data/images/ProfileEditIcon.png">
+                            </p>
+                            <?php }*/ ?>
+                        </div-->
+                    
+                </div>
 
-        <span style="text-decoration:underline">underlined</span>. 
-        Click here for more details <a target="_blank" 
-	href="http://www.articledean.com">Articledean.com</a></div>
-            <div id="nameContainer">
-                <a href="javascript:void(0);" onClick="convertToInput('nameContainer',this);" >John Smith</a>
-            </div>
-    
-</div>
-			<div id='jQueryChatBox'></div>
-        </ul>
-	<div class="clear"></div>
-        
-</div-->
-
-
-    
-    
-    <!--style type="text/css">
-        
-    .editable {
-        border-top-width : 1px;
-        border-right-width : 1px;
-        border-bottom-width : 1px;
-        border-left-width : 1px;
-        border-style  : dotted;
-        white-space:pre-line;
-        width:200px;
-        height:200px;
-        overflow:scroll;
-        overflow-x:hidden;
-        }
-        
-    </style>
-    <script type="text/javascript">
-        
-    function ReplaceTags(xStr) {
-        var regExp = /<\/?[^>]+>/gi;
-        xStr = xStr.replace(/<\/P>/gi, "\r\n");
-        xStr = xStr.replace(/<BR>/gi, "\r\n");
-        xStr = xStr.replace(/<P>/gi, "");
-        xStr = xStr.replace(regExp, "");
-        return xStr;
-    }
-    function onsaveclicked() {
-        var reqDiv = document.getElementById("<%=request.ClientID %>");
-        var hhrequestBox = document.getElementById("<%=hrequest.ClientID%>");
-        var responseText = ReplaceTags(reqDiv.innerHTML);
-        hhrequestBox.value = responseText;
-            
-        return true;
-    }
-    
-</script> 
-            <!--script type="text/javascript" src="http://code.jquery.com/jquery-latest.pack.js"></script-->
-            <!--script type="text/javascript">
-                
-                function convertToInput(containerId, link) {
-//                    alert(link.text);
-                    $('#' + containerId).html("<textarea id='nameContainerTextbox' name='nameContainerTextbox'  value='" + link.text + "' onBlur='saveNewValue(\"" + containerId + "\", this.value);' />");
-                    //alert($('#' + containerId).html);
-                }
-                
-                function saveNewValue(containerId, val) {
-                    $('#' + containerId).html("<a href='javascript:void(0);' onClick='convertToInput(\"" + containerId + "\", this);' >" + val + "</a>");
-                    $.ajax({
-                        url: "saveTheValue.php",
-                        data: "value=" + val,
-                        type: 'POST',
-                        timeout: 1000,
-                        error: function(){ alert('AJAX call timed out'); }
-                    });
-                }
-              
-            </script>
-            
-            <script type="text/javascript">
-(function($) {         
-
-				$('#nameContainerTextbox').keypress(function(e) {
-    alert("hola");                                    
-//			if(e.keyCode == 13 && !e.shiftKey) {
-			if(e.keyCode == 13) {
-			   //e.preventDefault();
-				//$('#' + $.chat.settings.divid +'submitbutton').click();
-				  var txtAmtval = $('#nameContainerTextbox').val();
-				  txtAmtval += ".";
-  //change txtInterest% value
-  $('#nameContainerTextbox').val(txtAmtval);
-				//$('#'+$.chat.settings.divid + 'textbox').val() = $('#'+$.chat.settings.divid + 'textbox').val() + ".";
-				
-  			}
-  		});
-})(jQuery);		
-				(function($) {
-	$.chat=function(options) {
-		$.chat.settings = $.extend({
-		listguid:'0',
-		divid:'jQueryChatBox',
-		savecaption:'Send',
-		clearcaption:'Clear',
-		messagecolumn:'Message'
-		}, options || {});
-		/*
-		ChatBox="<div style='width:100%;clear:none;overflow:auto'>";
-		ChatBox+="<div style='clear:both'>";
-		ChatBox+="<div style='float:left;width:20%'>";
-		ChatBox+="&nbsp;</div>";	
-		ChatBox+="<div style='float:left'>";	
-//		ChatBox+="<div style='float:left;width:45%'>";									
-		ChatBox+="<textarea style='font-size:10px;font-family:Verdana,Helvetica;border:3px;border-style:solid;border-color:#D8D8D8;' rows='4' cols='35' id='" + $.chat.settings.divid + "textbox' name='" + $.chat.settings.divid + "textbox'/>";
-//		ChatBox+="</div>";		
-//		ChatBox+="</div>";				
-//		ChatBox+="<div style='clear:both'>";	
-//		ChatBox+="<div style='float:left;width:25%'>";
-//		ChatBox+="&nbsp;</div>";					
-//		ChatBox+="<div style='float:left;width:10%'>";	
-		ChatBox+="<input style='font-size:10px;font-family:Verdana,Helvetica;font-weight:bold;color:white;background:#638cb5;border:0px;width:80px;height:19px;' type='submit' id='"+ $.chat.settings.divid +"submitbutton' value='" + $.chat.settings.savecaption + "'/>";
-		ChatBox+="</div>";
-		ChatBox+="</div>";		
-		ChatBox+="<div style='clear:both'>";	
-		ChatBox+="<div style='float:left;width:20%'>";
-		ChatBox+="&nbsp;</div>";	
-		ChatBox+="<div style='float:left;font-size:10px;font-family:Verdana,Helvetica;'>";							
-//		ChatBox+="<div style='float:left;width:45%;font-size:10px;font-family:Verdana,Helvetica;'>";
-*/
-		ChatBox="<div style='width:auto;clear:none;overflow:auto' align='center'>";
-		ChatBox+="<div  align='center'>";
-		ChatBox+="<div >";
-		ChatBox+="&nbsp;</div>";	
-		ChatBox+="<div align='center'>";	
-		ChatBox+="<textarea style='font-size:10px;font-family:Verdana,Helvetica;border:3px;border-style:solid;border-color:#D8D8D8;' rows='30' cols='35' id='" + $.chat.settings.divid + "textbox' name='" + $.chat.settings.divid + "textbox'/>";
-		ChatBox+="<input style='font-size:10px;font-family:Verdana,Helvetica;font-weight:bold;color:white;background:#638cb5;border:0px;width:80px;height:19px;' type='submit' id='"+ $.chat.settings.divid +"submitbutton' value='" + $.chat.settings.savecaption + "'/>";
-		ChatBox+="</div>";
-		ChatBox+="</div>";		
-		ChatBox+="<div  align='center'>";	
-		ChatBox+="<div >";
-		ChatBox+="&nbsp;</div>";	
-		ChatBox+="<div style='font-size:10px;font-family:Verdana,Helvetica;' align='center'>";							
-		ChatBox+="</div>";						
-		ChatBox+="</div>";			
-		ChatBox+="</div>";
-		ChatBox+="<br/><br/>";	
-		$('#' + $.chat.settings.divid).html(ChatBox);
-		$('#' + $.chat.settings.divid + 'textbox').keypress(function(e) {
-//			if(e.keyCode == 13 && !e.shiftKey) {
-			if(e.keyCode == 13) {
-			   //e.preventDefault();
-				//$('#' + $.chat.settings.divid +'submitbutton').click();
-				  var txtAmtval = $('#'+$.chat.settings.divid + 'textbox').val();
-				  txtAmtval += ".";
-  //change txtInterest% value
-  $('#'+$.chat.settings.divid + 'textbox').val(txtAmtval);
-				//$('#'+$.chat.settings.divid + 'textbox').val() = $('#'+$.chat.settings.divid + 'textbox').val() + ".";
-				
-  			}
-  		});
-		$('#' + $.chat.settings.divid + 'textbox').maxlength({  
-					    //events: [], // Array of events to be triggerd   
-					    maxCharacters: 1000, // Characters limit  
-					    //status: true, // True to show status indicator bewlow the element   
-					    //statusClass: "status", // The class on the status div 
-					    statusText: "caracteres restantes", // The status text 
-					    notificationClass: "notification",  // Will be added when maxlength is reached 
-					    showAlert: false, // True to show a regular alert message   
-					    alertText: "You have typed too many characters.", // Text in alert message  
-					    slider: false // True Use counter slider   
-	  	});  	
-	  	//	              <listName>"+$.chat.settings.listguid+"</listName> \	
-		$('#' + $.chat.settings.divid +'submitbutton').click(function() {
-			if ($.trim($('#'+$.chat.settings.divid + 'textbox').val())=="") return false;
-		    $.ajax({
-		        url: L_Menu_BaseUrl + "/_vti_bin/lists.asmx",
-		        beforeSend: function(xhr) {
-		            xhr.setRequestHeader("SOAPAction",
-		            "http://schemas.microsoft.com/sharepoint/soap/UpdateListItems");
-		        },
-		        type: "POST",
-		        dataType: "xml",
-		        data: soapEnv,
-		        contentType: "text/xml; charset=utf-8"
-		    });
-			$('#'+$.chat.settings.divid + 'textbox').val('');		    
-			return false;
-		});
-	}
-})(jQuery);
-
-   $(document).ready(function() {
-      $.chat({
-  savecaption: "Enviar",
- clearcaption: "Clear Text"});
-   });
-</script-->            
-
+        </div>
 <?php } ?>
 
 <?php if($this->follow_user) { ?>

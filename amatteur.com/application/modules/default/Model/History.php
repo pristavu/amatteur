@@ -54,13 +54,15 @@ class Model_History extends JO_Model {
 	}
 	
 	public static function addHistory($to, $type, $pin_id = 0, $board_id = 0, $comment = '') {
-		
+		error_log("1 ");
 		if($to == JO_Session::get('user[user_id]')) {
 			return;
 		} else if(!JO_Session::get('user[user_id]')) {
 			return;
 		}
-		
+		error_log("2 ");
+                
+                
 		$db = JO_Db::getDefaultAdapter();
 		$db->insert('users_history', array(
 			'date_added' => new JO_Db_Expr('NOW()'),
