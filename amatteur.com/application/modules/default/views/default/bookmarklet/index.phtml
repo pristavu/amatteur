@@ -24,9 +24,19 @@ $(document).ready(function(){
 		maxCharsWarning: 470,
 		template: '{count}'
 	}).bind('keyup', function(){
-		if($.trim(this.value)) {
-			$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
-		} else {
+		var comboCarpeta=false;
+		$("#board_id option:selected").each(function(){
+			comboCarpeta=true
+		});
+		if (comboCarpeta)
+		{
+			if($.trim($('#message').val())) {
+				$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+			} else {
+				$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+			}
+		}else
+		{
 			$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
 		}
 	});	
@@ -38,13 +48,24 @@ $(document).ready(function(){
 		$('#emailpin .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
 	});
 
-	if($.trim($('#message').val())) {
-		$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
-	} else {
-		$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
-	}
+	
 
 	$('#board_id').selectBox().selectBox('onReady', selectBoxCallback);
+	var comboCarpeta=false;
+	$("#board_id option:selected").each(function(){
+		comboCarpeta=true
+	});
+	if (comboCarpeta)
+	{
+		if($.trim($('#message').val())) {
+			$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+		} else {
+			$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+		}
+	}else
+	{
+		$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+	}
 
 	function selectBoxCallback(){
 		newbord = $('<p><input name="newboard" value="<?php echo $this->translate('Create New Board')?>" class="newboardcreator" id="newboardcreator" /></p>');
@@ -55,6 +76,12 @@ $(document).ready(function(){
 					board_id_h.find('option').attr('selected', false);
 					board_id_h.append('<option value="'+data.data.board_id+'" selected="selected">'+data.data.title+'</option>')
 					.selectBox('destroy').selectBox().selectBox('onReady', selectBoxCallback);
+					//Si hay texto ya escrito habilitamos el botón de guardar
+					if($.trim($('#message').val())) {
+						$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+					} else {
+						$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+					}
 				} else if(data.error) {
 					alert(data.error);
 				} else {

@@ -908,15 +908,17 @@ class JO_Http
         if($this->status == 0)
         {
             // Oooops !
-            if(!eregi($match = "^http/[0-9]+\\.[0-9]+[ \t]+([0-9]+)[ \t]*(.*)\$", $headers[0], $matches))
-            //if(!preg_match($match = "^http/[0-9]+\\.[0-9]+[ \t]+([0-9]+)[ \t]*(.*)\$^", $headers[0], $matches))
-            {
-                $this->_setError('Unexpected HTTP response status');
-                return FALSE;
-            }
-            
+            //if(!eregi($match = "^http/[0-9]+\\.[0-9]+[ \t]+([0-9]+)[ \t]*(.*)\$", $headers[0], $matches))
+			//$match = '/^(http|https):\/\/[a-z0-9_]+([\-\.]{1}[a-z_0-9]+)*\.[_a-z]{2,5}'.'((:[0-9]{1,5})?\/.*)?$/i';
+            //if(!preg_match($match = '/^(http|https):\/\/[a-z0-9_]+([\-\.]{1}[a-z_0-9]+)*\.[_a-z]{2,5}'.'((:[0-9]{1,5})?\/.*)?$/i', $headers[0], $matches))
+            //{
+                //$this->_setError('Unexpected HTTP response status');
+                //return FALSE;
+            //}
+        
             // Gotcha!
-            $this->status = $matches[1];
+            //$this->status = $matches[1];
+			
             array_shift($headers);
         }
         

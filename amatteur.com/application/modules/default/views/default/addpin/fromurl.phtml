@@ -24,7 +24,6 @@ $(document).ready(function(){
 		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
 		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
 		$.get('<?php echo $this->form_action;?>', $('#emailpin form').serialize(), function(data){
-
 			/*if(data.error) {
 				Pins.error(data.error);
 				$('#loading_button').remove();

@@ -62,9 +62,19 @@ $(document).ready(function(){
 		template: '{count}'
 	}).bind("keydown keyup keypress focus paste",function() {
 		regExPrice.addExpresionLine(this.value);
-		if($.trim(this.value)) {
-			$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
-		} else {
+		var comboCarpeta=false;
+		$("#board_id option:selected").each(function(){
+			comboCarpeta=true
+		});
+		if (comboCarpeta)
+		{
+			if($.trim($('#message').val())) {
+				$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+			} else {
+				$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+			}
+		}else
+		{
 			$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
 		}
 		regExPrice.addExpresionLine(this.value, false);
@@ -81,13 +91,23 @@ $(document).ready(function(){
 		textPrev: '<?php echo $this->translate('← Prev');?>'
 	});
 
-	if($.trim($('#message').val())) {
-		$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
-	} else {
-		$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
-	}
-
 	$('#board_id').selectBox().selectBox('onReady', selectBoxCallback);
+	
+	var comboCarpeta=false;
+		$("#board_id option:selected").each(function(){
+			comboCarpeta=true
+		});
+		if (comboCarpeta)
+		{
+			if($.trim($('#message').val())) {
+				$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+			} else {
+				$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+			}
+		}else
+		{
+			$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+		}
 
 	function selectBoxCallback(){
 
@@ -106,6 +126,12 @@ $(document).ready(function(){
 					board_id_h.find('option').attr('selected', false);
 					board_id_h.append('<option value="'+data.data.board_id+'" selected="selected">'+data.data.title+'</option>')
 					.selectBox('destroy').selectBox().selectBox('onReady', selectBoxCallback);
+					//Si hay texto ya escrito habilitamos el botón de guardar
+					if($.trim($('#message').val())) {
+						$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+					} else {
+						$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+					}
 				} else if(data.error) {
 					Pins.error(data.error);
 				} else {
