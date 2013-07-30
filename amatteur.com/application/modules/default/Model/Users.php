@@ -1362,7 +1362,29 @@ class Model_Users extends JO_Model {
 		return $db->fetchAll($query);
 		
 	}
-	
+
+	public static function getUserMessage($data = array()) {
+		$db = JO_Db::getDefaultAdapter();	
+		$query = $db->select()
+					->from('users_message')
+					->joinLeft('users', 'users_message.from_user_id = users.user_id', 'username, avatar');
+					
+		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
+			$query->where('users_message.from_user_id = ? OR users_message.to_user_id = ?', '' . (string)$data['filter_user_id']. '');
+		}
+		
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		return $db->fetchAll($query);
+		
+	}
+       
+        
 	public static function generatePassword ($length = 8) {
 
 	    // start with a blank password

@@ -205,6 +205,16 @@ class UsersController extends JO_Action {
 		$page = (int)$request->getRequest('page');
 		if($page < 1) { $page = 1; }
 		
+                $message = Model_Users::getUserMessage(array(
+				'start' => 0,
+				'limit' => 100,
+				'filter_user_id' => $user_data['user_id']
+			));
+			
+
+                
+                //$this->view->message = 
+                
 		$boards = Model_Boards::getBoards(array(
 			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
 			'limit' => JO_Registry::get('config_front_limit'),
