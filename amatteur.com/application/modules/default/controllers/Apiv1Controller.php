@@ -1806,12 +1806,136 @@ class Apiv1Controller extends JO_Action
 
         //print_r("files " . var_dump($_FILES))   ;
         //print_r("request " .var_dump($_REQUEST));
-        error_log("1file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["image"]);
+        //error_log("1file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["image"]);
         //error_log("2file name " . $_FILES["uploadedfile"]["name"] . " uploads " . $_REQUEST["image"]); 
        
+        
+		
+		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
+		
+		//$this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
+		
+	
+		
+		//$this->view->popup_main_box = $this->view->render('fromfile','addpin');
+		
+		if(JO_Session::get('upload_from_file')) {
+			@unlink( BASE_PATH . JO_Session::get('upload_from_file') );
+			JO_Session::clear('upload_from_file');
+			JO_Session::clear('upload_from_file_name');
+		}
+		
+		$image = $request->getFile('file');
+		if(!$image) {
+                    $return = array('error' => 10, 'description' => $this->translate('There is no file selected'));
+		} else {
+
+			$temporary = '/cache/review/';
+			$upload_folder = BASE_PATH . $temporary;
+			$upload = new Helper_Upload;
+			
+			$upload->setFile($image)
+				->setExtension(array('.jpg','.jpeg','.png','.gif'))
+				->setUploadDir($upload_folder);
+				$new_name = md5(time() . serialize($image)); 
+				if($upload->upload($new_name)) {
+					$info = $upload->getFileInfo();
+					if($info) {
+						
+						$this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=fromfile' );
+		
+//						$this->view->file = $image['name'];
+//						$this->view->full_path = $temporary . $info['name'];
+						$this->view->success = 1;//$this->view->render('upload_images', 'addpin');
+						JO_Session::set('upload_from_file', $temporary . $info['name']);
+						JO_Session::set('upload_from_file_name', $image['name']);
+						
+					} else {
+						$return = array('error' => 11, 'description' => $this->translate('An unknown error'));
+					}
+				} else {
+					$return = array('error' => 12, 'description' => $upload->getError());
+				}
+		}
+		
+		if( $request->isPost() ) {
+			
+			$result = Model_Pins::create(array(
+				'title' => $request->getPost('title'),
+				'from' => '',
+				'image' => BASE_PATH . JO_Session::get('upload_from_file'),
+				'is_video' => $request->getPost('is_video'),
+                                'is_article' => $request->getPost('is_article'),
+				'description' => $request->getPost('message'),
+				'price' => $request->getPost('price'),
+				'board_id' => $request->getPost('board_id')
+			));
+			if($result) {
+				
+				Model_History::addHistory(0, Model_History::ADDPIN, $result);
+				
+				if(JO_Registry::get('isMobile')){
+					//$this->redirect('/');
+				}
+				
+				$session_user = JO_Session::get('user[user_id]');
+				
+				$group = Model_Boards::isGroupBoard($request->getPost('board_id'));
+				if($group) {
+					$users = explode(',',$group);
+					foreach($users AS $user_id) {
+						if($user_id != $session_user) {
+							$user_data = Model_Users::getUser($user_id);
+
+							if($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email']) {
+								$this->view->user_info = $user_data;
+								$this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+								$this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
+								$this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
+								$board_info = Model_Boards::getBoard($request->getPost('board_id'));
+								if($board_info) {
+									$this->view->board_title = $board_info['title'];
+									$this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
+								}
+								Model_Email::send(
+				    	        	$user_data['email'],
+				    	        	JO_Registry::get('noreply_mail'),
+				    	        	JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'),
+				    	        	$this->view->render('group_board', 'mail')
+				    	        );
+							}
+
+						}
+					}
+				}
+				
+				$this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
+				$this->view->popup_main_box = $this->view->render('success','addpin');
+				if(JO_Session::get('upload_from_file')) {
+					@unlink( BASE_PATH . JO_Session::get('upload_from_file') );
+					JO_Session::clear('upload_from_file');
+					JO_Session::clear('upload_from_file_name');
+				}
+			}
+			
+		}
+		
+		
+        
+        
+        
+        /*
         //$_FILES-> name type tmp_name error size
         //'image' => BASE_PATH . JO_Session::get('upload_from_file'),
 		if( $request->isPost() ) {
+		$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
+		
+		$this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
+		
+	
+		
+		$this->view->popup_main_box = $this->view->render('fromfile','addpin');
+
 			
 			$url_m = $request->getPost('image');
 			if(strpos($url_m, '.jpg?')) {
@@ -1871,9 +1995,10 @@ class Apiv1Controller extends JO_Action
 			}
 			
 		}
+         */       
                 
-                
-        } else
+        } 
+        else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
             $return = array('error' => 401, 'description' => $this->translate('wrong token'));
@@ -1895,6 +2020,130 @@ class Apiv1Controller extends JO_Action
                 
     }	
     
+    public function upload_imagesAction() {
+		
+		$request = $this->getRequest();
+		
+		if(JO_Session::get('upload_from_file')) {
+			@unlink( BASE_PATH . JO_Session::get('upload_from_file') );
+			JO_Session::clear('upload_from_file');
+			JO_Session::clear('upload_from_file_name');
+		}
+		
+		$image = $request->getFile('file');
+		if(!$image) {
+			 $this->view->error = $this->translate('There is no file selected');
+		} else {
+
+			$temporary = '/cache/review/';
+			$upload_folder = BASE_PATH . $temporary;
+			$upload = new Helper_Upload;
+			
+			$upload->setFile($image)
+				->setExtension(array('.jpg','.jpeg','.png','.gif'))
+				->setUploadDir($upload_folder);
+				$new_name = md5(time() . serialize($image)); 
+				if($upload->upload($new_name)) {
+					$info = $upload->getFileInfo();
+					if($info) {
+						
+						$this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=fromfile' );
+		
+//						$this->view->file = $image['name'];
+//						$this->view->full_path = $temporary . $info['name'];
+						$this->view->success = 1;//$this->view->render('upload_images', 'addpin');
+						JO_Session::set('upload_from_file', $temporary . $info['name']);
+						JO_Session::set('upload_from_file_name', $image['name']);
+						
+					} else {
+						$this->view->error = $this->translate('An unknown error');
+					}
+				} else {
+					$this->view->error = $upload->getError();
+				}
+		}
+		
+		$this->noViewRenderer(true);
+		echo $this->renderScript('json');
+	}
+	public function upload_imagesViewAction() {
+		
+		$request = $this->getRequest();
+		if($request->isXmlHttpRequest() && JO_Session::get('upload_from_file') && file_exists(BASE_PATH . JO_Session::get('upload_from_file'))) {
+			
+			$this->view->createBoard = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=create' );
+			
+			$temporary = '/cache/review/';
+			$upload_folder = BASE_PATH . $temporary;
+			
+			$boards = Model_Boards::getBoards(array(
+				'filter_user_id' => JO_Session::get('user[user_id]'),
+				'order' => 'boards.sort_order',
+				'sort' => 'ASC',
+				'friendly' => JO_Session::get('user[user_id]')
+			));
+			
+			$this->view->boards = array();
+			if($boards) {
+				foreach($boards AS $board) {
+					$this->view->boards[] = array(
+						'board_id' => $board['board_id'],
+						'title' => $board['title']
+					);
+				}
+			}
+			
+			
+			$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
+			
+			$this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
+		
+			
+			$this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=fromfile' );
+		
+			$this->view->file = JO_Session::get('upload_from_file_name');
+			$this->view->full_path = JO_Session::get('upload_from_file');
+			$this->view->success = $this->view->render('upload_images', 'addpin');
+			
+		} else {
+			$this->forward('addpin', 'fromfile');
+		}
+		
+		$this->noViewRenderer(true);
+		echo $this->view->success;
+		
+	}
+	
+	public function upload_mobileAction(){
+		$this->noViewRenderer(true);
+	
+		$this->noLayout(true);
+		$request = $this->getRequest();
+		if(JO_Registry::get('isMobile') && JO_Session::get('upload_from_file') && file_exists(BASE_PATH . JO_Session::get('upload_from_file'))){
+			$image =  "<img src='".JO_Session::get('upload_from_file')."'>";
+				
+			$boards = Model_Boards::getBoards(array(
+					'filter_user_id' => JO_Session::get('user[user_id]'),
+					'order' => 'boards.sort_order',
+					'sort' => 'ASC',
+					'friendly' => JO_Session::get('user[user_id]')
+			));
+				
+			$data['boards'] = $boards;
+			$data['image'] = $image;
+			$data['phrases']= array('create_board'=>$this->translate("Create New Board"),
+					'upload_button'=>$this->translate("Upload"),
+					'select_board'=>$this->translate("Select Board"),
+					'textarea_validation'=>$this->translate("Please add a description"),
+					'board_validation'=>$this->translate("Please add a board title"),
+					'notEmptyMsg'=>$this->translate("Please choose board"));
+				
+			echo JO_Json::encode((object)$data);
+				
+		}
+	}
+        
+
     //===== logout ======//
     public function logoutAction() {
         
@@ -1955,6 +2204,230 @@ class Apiv1Controller extends JO_Action
     }
 
     
+    	public function loginFacebookAction() {
+		
+		$request = $this->getRequest();
+		
+//		if( JO_Session::get('user[user_id]') ) {
+//			$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
+//		}
+
+		/*if($request->getQuery('session')) {
+			$session = JO_Json::decode( html_entity_decode($request->getQuery('session')), true );
+			if($session) {
+				$this->facebook->setSession($session);
+				if($request->getQuery('next')) {
+					JO_Session::set('next', $request->getQuery('next'));
+				}
+			}
+		}*/
+		
+		$session = $this->facebook->getUser();
+		
+		$fbData = null;
+		if($session) {
+			$fbData = $this->facebook->api('/me');
+		}
+		
+
+		if($fbData) {
+			if(!isset($fbData['email'])) {
+		    	$fbData['email'] = '';
+		    }
+		    
+			if(!self::loginInit($fbData['id'], $session)) {
+				
+				//if(!self::loginInit($fbData['email'], $session, 'email')) {
+					
+					if(JO_Registry::get('enable_free_registration')) {
+						$this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => array()));
+					}
+					
+					$shared_content = Model_Users::checkInvateFacebookID($fbData['id']);
+					
+					if( $shared_content ) {
+						$this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => $shared_content));
+					} else {
+					
+						$this->setViewChange('no_account');
+						
+						$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+						if($page_login_trouble) {
+							$this->view->page_login_trouble = array(
+								'title' => $page_login_trouble['title'],
+								'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+							);
+						}
+					
+					}
+				//}
+			
+			}
+		    
+		} else {
+			$this->setViewChange('error_login');
+			
+			$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+			if($page_login_trouble) {
+				$this->view->page_login_trouble = array(
+					'title' => $page_login_trouble['title'],
+					'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+				);
+			}
+		}
+		
+
+		$this->view->children = array(
+        	'header_part' 	=> 'layout/header_part',
+        	'footer_part' 	=> 'layout/footer_part'
+        );
+		
+	}
+
+	public function loginTwitterAction() {
+		
+		$request = $this->getRequest();
+		
+		if(JO_Session::get('user[user_id]')) {
+			/* @var $twitteroauth JO_Api_Twitter_OAuth */
+			$twitteroauth = new JO_Api_Twitter_OAuth(JO_Registry::get('oauth_tw_key'), JO_Registry::get('oauth_tw_secret'), JO_Session::get('twitter[oauth_token]'), JO_Session::get('twitter[oauth_token_secret]'));
+			$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
+			$user_info = $twitteroauth->get('account/verify_credentials');
+			if($user_info && $user_info->id) {
+				Model_Users::edit(JO_Session::get('user[user_id]'), array(
+					'twitter_connect' => 1,
+					'twitter_id' => $user_info->id,
+					'twitter_username' => $user_info->screen_name
+				));
+				$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=settings' ) );
+			}
+		}
+		
+		
+		$twitteroauth = new JO_Api_Twitter_OAuth(JO_Registry::get('oauth_tw_key'), JO_Registry::get('oauth_tw_secret'), JO_Session::get('twitter[oauth_token]'), JO_Session::get('twitter[oauth_token_secret]'));
+//		$data = $twitteroauth->getAccessToken( );
+//		echo '<pre>';
+//		var_dump(JO_Session::get('twitter[oauth_token]'), JO_Session::get('twitter[oauth_token_secret]'),$twitteroauth->getAccessToken()); exit;
+		
+		if(!JO_Session::get('user_info_twitteroauth')) {
+			$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
+			$user_info = $twitteroauth->get('account/verify_credentials');
+			JO_Session::set('user_info_twitteroauth', $user_info);
+			JO_Session::set('access_token_twitteroauth', $access_token);
+		} else {
+			$user_info = JO_Session::get('user_info_twitteroauth');
+		}
+
+		if($request->issetQuery('next')) {
+			JO_Session::set('next', html_entity_decode($request->getQuery('next')));
+		}
+		
+//		$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
+//		$user_info = $twitteroauth->get('account/verify_credentials');
+		
+		if(isset($user_info->id) && $user_info->id) {
+			
+			if(!self::loginInit($user_info->id)) {
+				
+				$this->setViewChange('no_account');
+					
+				$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+				if($page_login_trouble) {
+					$this->view->page_login_trouble = array(
+						'title' => $page_login_trouble['title'],
+						'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+					);
+				}
+		
+				$this->view->children = array(
+		        	'header_part' 	=> 'layout/header_part',
+		        	'footer_part' 	=> 'layout/footer_part'
+		        );
+				
+			}
+			
+		} else {
+			$this->setViewChange('error_login');
+			
+			$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+			if($page_login_trouble) {
+				$this->view->page_login_trouble = array(
+					'title' => $page_login_trouble['title'],
+					'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+				);
+			}
+		
+			$this->view->children = array(
+	        	'header_part' 	=> 'layout/header_part',
+	        	'footer_part' 	=> 'layout/footer_part'
+	        );
+		}
+		
+		
+		
+	}
+    
+        
+	public function agendaAction(){
+		
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        error_log("user " . md5($_POST['userId']) ." token ". $_POST['token']);
+        
+        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
+        {
+            $_SESSION['token'] = $_POST['token'];
+            //JO_Session::set('user[user_id]')
+			Model_Users::editAgenda( $request->getPost('agenda') );
+                        
+                        $data = Model_Users::followersUsers($_POST['userId']);
+                        if ($data)
+                        {
+                            foreach ($data AS $key => $user)
+                            {
+                                        //add history
+                                        Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+                            }
+                        }
+                        
+                        $return = array('agenda' => $request->getPost('agenda'));
+                        
+        } else
+        {
+//no existe la sesión / no existe el dato recibido por post / el token no es igual.
+            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
+        }
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+
+	}
+        
 }
 
 ?>

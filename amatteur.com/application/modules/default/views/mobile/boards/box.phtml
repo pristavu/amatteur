@@ -10,12 +10,16 @@
 	
 	<div class='board_images' style='min-height: 30px'>
 		
-			
-			<?php for($i = 0; $i < count($this->board['pins_array']); $i++): ?>
-			    <?php $baseUrl = substr($this->getRequest()->getBaseUrl(),0, -1); //echo $baseUrl; ?>
+            <?php //foreach($this->board['thumbs'] AS $key => $thumb) {  ?>
+            <?php for($i = 0; $i < count($this->board['thumbs']); $i++): ?>            
+
+			<?php //for($i = 0; $i < count($this->board['pins_array']); $i++): ?>
+			    <?php //$baseUrl = substr($this->getRequest()->getBaseUrl(),0, -1); //echo $baseUrl; ?>
 				
 					<?php if($i < 5): ?>
-						<img class='board_image' src='<?php  echo "uploads".$this->board['pins_array'][$i]['image'] ?>' />
+            <?php // echo $this->board['pins_array'][$i]['image'] ?>
+						<!--img class='board_image' src='<?php  //echo "uploads".$this->board['pins_array'][$i]['image'] ?>' /-->
+                                                <img class='board_image' src='<?php  echo ($this->board['thumbs'][$i]?$this->board['thumbs'][$i]:'data/images/grey.gif'); ?>' width="55" height="55" />
 					<?php endif; ?>
 									
 			<?php endfor; ?>

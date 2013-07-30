@@ -22,24 +22,24 @@
 	                	
 	                	<?php if(!$this->enable_edit && $this->loged == 1 ): ?>
 	                		<?php if($this->userFollowIgnore == 0 ): ?>
-                										<?php if($this->userIsFollow== 1): ?>
-                										 <a class="mbtn user red follow" id='follow'  style="float:right;display:none" data-link='<?php echo $this->follow_user ?>'>
-										       			 <strong><?php echo $this->translate('Follow') ?></strong><span></span>
-										   				 </a>
-										   				 
-										   				 <a class="mbtn user unfollow disabled pressed" id='unfollow'  data-link='<?php echo $this->follow_user ; ?>' style="float:right;margin-top:7px;" >
-										       			 <strong><?php echo  $this->translate('Unfollow') ?></strong><span></span>
-										   				 </a>
-										   				  <?php else: ?>
-										   				  <a class="mbtn user red follow" id='follow'  style="float:right;" data-link='<?php echo $this->follow_user ?>'>
-										       			 <strong><?php echo $this->translate('Follow') ?></strong><span></span>
-										   				 </a>
-										   				 
-										   				 <a class="mbtn user unfollow disabled pressed" id='unfollow'  data-link='<?php echo $this->follow_user ; ?>' style="float:right;margin-top:7px;display:none" >
-										       			 <strong><?php echo  $this->translate('Unfollow') ?></strong><span></span>
-										   				 </a>
-										   				 <?php endif; ?>
-										   				 <?php endif; ?>
+                                            <?php if($this->userIsFollow== 1): ?>
+                                             <a class="mbtn user red follow" id='follow'  style="float:right;display:none" data-link='<?php echo $this->follow_user ?>'>
+                                                     <strong><?php echo $this->translate('Follow') ?></strong><span></span>
+                                                             </a>
+
+                                                             <a class="mbtn user unfollow disabled pressed" id='unfollow'  data-link='<?php echo $this->follow_user ; ?>' style="float:right;margin-top:7px;" >
+                                                     <strong><?php echo  $this->translate('Unfollow') ?></strong><span></span>
+                                                             </a>
+                                                              <?php else: ?>
+                                                              <a class="mbtn user red follow" id='follow'  style="float:right;" data-link='<?php echo $this->follow_user ?>'>
+                                                     <strong><?php echo $this->translate('Follow') ?></strong><span></span>
+                                                             </a>
+
+                                                             <a class="mbtn user unfollow disabled pressed" id='unfollow'  data-link='<?php echo $this->follow_user ; ?>' style="float:right;margin-top:7px;display:none" >
+                                                     <strong><?php echo  $this->translate('Unfollow') ?></strong><span></span>
+                                                             </a>
+                                                             <?php endif; ?>
+                                                             <?php endif; ?>
 	                	<?php endif; ?>
 	                </td>
 				</tr>
@@ -113,6 +113,12 @@
                         <?php echo $this->userdata['following']; ?> <?php  echo $this->translate('following'); ?>
                   <div class="touch_arrow"></div>
              </a>
+        </li>
+        <li class="tappable">
+            <a class="tappable_link"  href="<?php echo $this->user_activity;?>" <?php echo ($this->active == 'activity' ? 'class="selected"' : '');?>>
+                        <?php echo $this->translate('Activity');?>
+                <div class="touch_arrow"></div>
+            </a>
         </li>
         
         

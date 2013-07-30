@@ -1339,7 +1339,7 @@ class Model_Pins {
 	public static function likesPins($user_id) {
 		$db = JO_Db::getDefaultAdapter();
 		$query = $db->select()
-					->from('pins', 'SUM(likes)')
+					->from('pins', 'IFNULL(SUM(likes), 0)')
 					->where('user_id = ?', (string)$user_id)
 					->limit(1);
 		

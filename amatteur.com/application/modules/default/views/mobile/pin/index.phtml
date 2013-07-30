@@ -45,7 +45,8 @@
 					<?php } ?>
 
                             <a href='<?php echo $this->pin['from'] ?>' target='_blank' >
-								<img  class='notLoadedImg' alt='' data-src='../data/images/white_dim.png' src='<?php echo 'uploads'.$this->pin['image'];?>' />
+								<!--img  class='notLoadedImg' alt='' data-src='../data/images/white_dim.png' src='<?php //echo 'uploads'.$this->pin['image'];?>' /-->
+                                                                <img  class='notLoadedImg' alt='' data-src='../data/images/white_dim.png' src='<?php echo $this->pin['image'];?>' />
 								
 							</a>
                         </div>
@@ -119,7 +120,8 @@
 									<tr>
 										<td class="closeup_commenter">
 											<a class='link' href='<?php echo $comm['user']['username'] ?>'>
-												<img src='<?php echo 'uploads'.$comm['user']['avatar']?>'/>
+												<!--img src='<?php //echo 'uploads'.$comm['user']['avatar']?>'/-->
+                                                                                                <img src='<?php echo $comm['user']['avatar']?>'/>
 											</a>
 										</td>
 										<td>
