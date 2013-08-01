@@ -88,9 +88,12 @@ class IndexController extends JO_Action {
 				$avatar = Helper_Uploadimages::avatar($data['user'], '_A');
 				$history[$key]['user']['avatar'] = $avatar['image'];
 
-				if($data['history_action'] == Model_History::REPIN) {
+				if($data['history_action'] == Model_History::REPIN) 
+                                {
 					$history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=pin&pin_id=' . $data['pin_id']);
-				} else {
+				} 
+                                else 
+                                {
 					$history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['from_user_id']);
 				}
 			}

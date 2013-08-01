@@ -205,16 +205,7 @@ class UsersController extends JO_Action {
 		$page = (int)$request->getRequest('page');
 		if($page < 1) { $page = 1; }
 		
-                $message = Model_Users::getUserMessage(array(
-				'start' => 0,
-				'limit' => 100,
-				'filter_user_id' => $user_data['user_id']
-			));
-			
 
-                
-                //$this->view->message = 
-                
 		$boards = Model_Boards::getBoards(array(
 			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
 			'limit' => JO_Registry::get('config_front_limit'),
@@ -340,7 +331,30 @@ class UsersController extends JO_Action {
 		    }
 		}
 		}
-			
+		
+                //no mover de esta ubicación
+                
+                $messages = Model_Users::getUserMessages(array(
+				'start' => 0,
+				'limit' => 100,
+				'filter_user_id' => $user_data['user_id']
+			));
+                
+                if ($messages)			
+                {
+                    $this->view->has_messages = true;
+                    foreach($messages AS $message) {
+				$avatar = Helper_Uploadimages::avatar( $message, '_A');
+                                $message['avatar'] = $avatar['image'];
+				
+				$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
+                        
+                                    $this->view->message = $message;
+                                    //$this->view->messages = $message['fullname'] ." ". $message['avatar'] ." ". $message['from_user_id'] . " ".$message['to_user_id'] ." ". $message['text_message'] . " " . $message['date_diff']  ." ". $message['date_message']." ". time()." " . $message['private_message'];
+                                    $this->view->messages_users .= $this->view->render('message', 'users');
+                    }
+                }
+
 		
 		if($request->isXmlHttpRequest()) {
 			echo $this->view->boards;
@@ -517,6 +531,7 @@ class UsersController extends JO_Action {
 	
 	public function followingAction(){
                 $request = $this->getRequest();
+                error_log("request" . var_dump($request));
                 $user_data = $this->profileHelp();
 
                 $this->setViewChange('profile');
@@ -591,6 +606,7 @@ class UsersController extends JO_Action {
 	
        	public function likersAction() {
                 $request = $this->getRequest();
+                error_log("request" . var_dump($request));                
                 $user_data = $this->profileHelp();
 
                 $this->setViewChange('profile');
@@ -666,6 +682,7 @@ class UsersController extends JO_Action {
 	
 	public function likingAction(){
                 $request = $this->getRequest();
+                error_log("request" . var_dump($request));
                 $user_data = $this->profileHelp();
 
                 $this->setViewChange('profile');
@@ -737,10 +754,11 @@ class UsersController extends JO_Action {
 		}
 		
 	}
-
+        
         
 	public function activityAction(){
                 $request = $this->getRequest();
+                error_log("request" . var_dump($request));
                 $user_data = $this->profileHelp();
 
                 $this->setViewChange('profile');
@@ -762,7 +780,6 @@ class UsersController extends JO_Action {
 
 		$history = Model_History::getHistory($data, 'from_user_id', $user_data['user_id']);
 		
-                error_log("movil ". JO_Registry::get('isMobile'));
                 
 		if($history) { 
 			$view = JO_View::getInstance();
@@ -780,7 +797,7 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate('Repinned to %s via %s.'), '<a href="'.$board_href.'">'.$pin_data['board'].'</a>', '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log(Helper_Pin::returnHtml( $pin_data ));
+                                                                                                error_log("repin " .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::ADDPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -791,7 +808,7 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate('Pinned to %s.'), '<a href="'.$board_href.'">'.$pin_data['board'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log(Helper_Pin::returnHtml( $pin_data ));
+                                                                                                error_log("asddpin" .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::LIKEPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -804,7 +821,7 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate("Liked %s's pin on %s."), '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>', '<a href="'.$board_href.'">'.$pin_data['board'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log(Helper_Pin::returnHtml( $pin_data ));
+                                                                                                error_log("lke pin " .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::UNLIKEPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -817,7 +834,7 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate("Unliked %s's pin on %s."), '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>', '<a href="'.$board_href.'">'.$pin_data['board'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log(Helper_Pin::returnHtml( $pin_data ));
+                                                                                                error_log("unlike pin " . Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::COMMENTPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -830,7 +847,7 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate("Commented on %s's pin and said \"%s\"."), '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>', JO_Utf8::splitText($data['comment'], 60, '...'));
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log(Helper_Pin::returnHtml( $pin_data ));
+                                                                                                error_log("comment pin " .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::ADDBOARD) {
 					$board = Model_Boards::getBoard($data['board_id']);

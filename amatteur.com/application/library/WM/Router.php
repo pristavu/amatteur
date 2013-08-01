@@ -150,7 +150,7 @@ class WM_Router {
 			$keyword = self::getAlias(new JO_Db_Expr($db->quote("user_id=" . $data['user_id']) ));
 			
 			switch(true) {
-				case in_array($data['action'], array('pins', 'followers', 'following', 'activity')):
+				case in_array($data['action'], array('pins', 'followers', 'following', 'likers', 'liking',  'activity')):
 					if(trim($keyword['path'])) {
 						$url .= '/' . $keyword['path'];
 					} else {

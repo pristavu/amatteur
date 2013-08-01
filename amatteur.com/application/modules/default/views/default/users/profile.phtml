@@ -60,7 +60,6 @@ $(document).ready(function(){
 
 <?php if($this->enable_edit) { ?>
 <?php ob_start();?>
-<script type="text/javascript" src="data/js/banner/editor.js"></script>
 <script type="text/javascript">
 <!--
 $(document).ready(function(){
@@ -71,8 +70,8 @@ $(document).ready(function(){
 			$('#ProfileHeader .infoBody #editAgenda textarea').jqEasyCounter({
                             
 				holder: 'div.CharacterCount',
-				maxChars: 350,
-				maxCharsWarning: 280,
+				maxChars: 1000,
+				maxCharsWarning: 980,
 				template: '{count}'
 			}).bind("keydown keyup keypress focus paste",function() {
 				if($.trim(this.value)) {
@@ -89,7 +88,7 @@ $(document).ready(function(){
                             if(e.keyCode == 13) {
 			    e.preventDefault();
                             //alert($('#ProfileHeader .infoBody #editAgenda textarea').val());
-                            $('#ProfileHeader .infoBody #editAgenda textarea').insertAtCaret("\n_________________\n");
+                            $('#ProfileHeader .infoBody #editAgenda textarea').insertAtCaret("\n___________________\n");
                                 /*
                                 var posicionCursor = $('#txtAreaAgenda').getCursorPosition();
                                 alert(posicionCursor);
@@ -174,11 +173,11 @@ $(document).ready(function(){
 
 <script type="text/template" id="edit-agenda">
 <div id="editAgenda" class="Form">
-	<textarea id="txtAreaAgenda" name="txtAreaAgenda" rows='20' cols='17' style="overflow: hidden;"><?php echo $this->userdata['agenda'];?></textarea>
+	<textarea id="txtAreaAgenda" name="txtAreaAgenda" rows='20' cols='17'><?php echo $this->userdata['agenda'];?></textarea>
 	<a href="#" class="Button RedButton editAgenda disabled">
 		<?php echo $this->translate('Save Calendar');?>
 	</a>
-	<div class="CharacterCount">350</div>
+	<div class="CharacterCount">1000</div>
 </div>
 </script>
 <?php $this->placeholder('inhead', ob_get_clean());?>
@@ -480,7 +479,7 @@ $(document).ready(function(){
                             <h5>Agenda y Actualidad</h5>
                             <p class="colorless noAgenda">
                                     <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
-                                    <img src="data/images/ProfileEditIcon.png">
+                                    <!--img src="data/images/ProfileEditIcon.png"-->
                             </p>
                             <?php } else { ?>
                             <h5>Agenda y Actualidad</h5>
@@ -491,16 +490,17 @@ $(document).ready(function(){
                             <?php } ?>
                         </div>
                     
-                        <div class="infoMessage">        
-                            <?php if($this->userdata['agenda'] || !$this->enable_edit) { ?>
+                        <div class="infoMessage"> 
+                            <?php if($this->has_messages || !$this->enable_edit) { ?>
                             <h5>Conversación</h5>
                             <p class="colorless noMessage">
-                                    <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
-                                    <img src="data/images/ProfileEditIcon.png">
+                                    <?php echo $this->messages_users ?>&nbsp;
+                                    <!--img src="data/images/ProfileEditIcon.png"-->
                             </p>
                             <?php } else { ?>
+                            <h5>Conversación</h5>
                             <p class="colorless noMessage">
-                                    <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
+                                    <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
                                     <img src="data/images/ProfileEditIcon.png">
                             </p>
                             <?php } ?>

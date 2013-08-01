@@ -567,7 +567,7 @@ class AddpinController extends JO_Action {
 			$this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=fromfile' );
 		
 			$this->view->file = JO_Session::get('upload_from_file_name');
-			$this->view->full_path = JO_Session::get('upload_from_file');
+			$this->view->full_path = WM_Router::create( $request->getBaseUrl().JO_Session::get('upload_from_file'));
 			$this->view->success = $this->view->render('upload_images', 'addpin');
 			
 		} else {

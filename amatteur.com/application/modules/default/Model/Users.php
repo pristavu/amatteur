@@ -1363,16 +1363,18 @@ class Model_Users extends JO_Model {
 		
 	}
 
-	public static function getUserMessage($data = array()) {
+	public static function getUserMessages($data = array()) {
 		$db = JO_Db::getDefaultAdapter();	
+                $db->query("DELETE FROM users_messages WHERE DATEDIFF(curdate(), date_message) > 30 AND (users_messages.from_user_id = ". (string)$data['filter_user_id']." OR users_messages.to_user_id = ". (string)$data['filter_user_id']. ") ");
+
 		$query = $db->select()
-					->from('users_message')
-					->joinLeft('users', 'users_message.from_user_id = users.user_id', 'username, avatar');
+					->from('users_messages')
+					->joinLeft('users', 'users.user_id = users_messages.from_user_id',  array('*', 'fullname' => "CONCAT(firstname,' ',lastname)", 'date_diff' => "DATEDIFF(curdate(), date_message)", 'href' => ""));
 					
 		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
-			$query->where('users_message.from_user_id = ? OR users_message.to_user_id = ?', '' . (string)$data['filter_user_id']. '');
+			$query->where('users_messages.from_user_id = ? OR users_messages.to_user_id = ?', '' . (string)$data['filter_user_id']. '');
 		}
-		
+		error_log("query $query" );
 		if(isset($data['start']) && isset($data['limit'])) {
 			if($data['start'] < 0) {
 				$data['start'] = 0;

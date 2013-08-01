@@ -14,10 +14,12 @@
 					<td class='pinner_image'>
 						<img src='<?php echo $this->userdata['avatar'] ?>'  class="profile user_image" alt="Profile picture of <?php echo $this->userdata['fullname'] ?>"/>
 					</td>
+                                        
 					<td>
-	                     <span class="name" style="font-weight: bold;"><a href= '<?php echo $this->getRequest()->getBaseUrl().$this->userdata['username'];?>'><?php echo $this->userdata['fullname'] ?></a></span><br>
-	                </td>
-	                <td class="right button_wrapper">
+                                            <span class="name" style="font-weight: bold;"><a href= '<?php echo $this->getRequest()->getBaseUrl().$this->userdata['username'];?>'><?php echo $this->userdata['fullname'] ?></a></span><br>
+                                        </td>
+
+                                        <td class="right button_wrapper">
 	                
 	                	
 	                	<?php if(!$this->enable_edit && $this->loged == 1 ): ?>
@@ -53,7 +55,7 @@
 	 <?php if($this->active == 'boards'): ?>
 	 <!-- profile text -->
 	 	<div id="profile_bio"><?php echo $this->userdata['description']; ?></div>
-	 
+                
 	 <ul id='profile_links'>
 	 	
 	 	
@@ -83,7 +85,28 @@
 	 	<?php endif; ?>
 	 </ul>
 
-	<div class="profile_header"></div>
+	<div class="profile_header" style="padding-bottom:46px">
+                                        <div style='float:left;'>
+                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpeg"> en mis imagenes </p>
+                                                <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpeg"> en mi perfil </p>
+                                        </div>
+            <div style='float:right;'>
+                
+                                                <?php if($this->like_user) { ?>      
+                                                      <?php if ($this->userIsLike) { ?>
+                                                <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
+                                                        <img src="data/images/noMeGusta.jpeg">
+                                                </a>
+                                                      <?php } else { ?>      
+                                                <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
+                                                        <img src="data/images/meGusta.jpeg">
+                                                </a>
+
+                                                      <?php }  ?>   
+                                                <?php }  ?>  
+            </div>
+            
+        </div>
 	
 	<ul class='taplist'>
 		<li class="tappable">
@@ -114,12 +137,25 @@
                   <div class="touch_arrow"></div>
              </a>
         </li>
+        <!--li class="tappable">
+            <a class="tappable_link" href="<?php echo $this->user_likers;?>" >
+                        <strong><?php echo $this->userdata['likers'];?></strong> <?php echo $this->translate('Likers');?>
+                        <div class="touch_arrow"></div>
+            </a>
+        </li>
         <li class="tappable">
-            <a class="tappable_link"  href="<?php echo $this->user_activity;?>" <?php echo ($this->active == 'activity' ? 'class="selected"' : '');?>>
+            <a class="tappable_link" href="<?php echo $this->user_liking;?>" >
+                        <strong><?php echo $this->userdata['liking'];?></strong> <?php echo $this->translate('Liking');?>
+                        <div class="touch_arrow"></div>
+            </a>
+        </li>
+        
+        <li class="tappable">
+            <a class="tappable_link"  href="<?php echo $this->user_activity;?>" >
                         <?php echo $this->translate('Activity');?>
                 <div class="touch_arrow"></div>
             </a>
-        </li>
+        </li-->
         
         
 	</ul>
@@ -130,8 +166,49 @@
 	
 	<div class='user_boards'>
 		<ul>
+                    
 			<?php echo $this->boards ?>
+
 		</ul>
+        <?php if ($this->active == 'boards') { ?>
+        <div id="ProfileHeader">
+                <div class="FixedContainer row clearfix">
+                        <div class="infoBody">        
+                            <?php if($this->userdata['agenda'] || !$this->enable_edit) { ?>
+                            <h5>Agenda y Actualidad</h5>
+                            <p class="colorless noAgenda">
+                                    <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
+                                    <!--img src="data/images/ProfileEditIcon.png"-->
+                            </p>
+                            <?php } /*else { ?>
+                            <h5>Agenda y Actualidad</h5>
+                            <p class="colorless noAgenda">
+                                    <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
+                                    <img src="data/images/ProfileEditIcon.png">
+                            </p>
+                            <?php }*/ ?>
+                        </div>
+                    
+                        <div class="infoMessage">        
+                            <?php if($this->has_messages || !$this->enable_edit) { ?>
+                            <h5>Conversación</h5>
+                            <p class="colorless noMessage">
+                                    <?php echo $this->messages ?>&nbsp;
+                                    <!--img src="data/images/ProfileEditIcon.png"-->
+                            </p>
+                            <?php } /*else { ?>
+                            <p class="colorless noMessage">
+                                    <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
+                                    <img src="data/images/ProfileEditIcon.png">
+                            </p>
+                            <?php } */ ?>
+                        </div>
+                    
+                </div>
+
+        </div>
+        <?php } ?>
+            
 	</div>
 	
 </div>
@@ -212,6 +289,7 @@
 						<?php echo $this->boards; ?>
 				
 				</div>
+                            
 			</div>
 	<?php endif; ?>
 

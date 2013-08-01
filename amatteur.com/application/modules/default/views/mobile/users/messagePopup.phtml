@@ -1,0 +1,117 @@
+
+
+<div id="create_new_pin">
+	<div id="content-holder">
+		<div id="emailpin">
+			<form action="<?php echo $this->from_url;?>" method="post">
+				
+				<div class="hide">
+					<input type="hidden" name="title" value="<?php echo $this->title;?>">
+					<input type="hidden" name="price" value="">
+					<input type="hidden" name="media" value="<?php echo $this->images[0]['src'];?>">
+					<input type="hidden" name="is_video" value="<?php echo $this->is_video;?>">
+					<input type="hidden" name="from" value="<?php echo $this->from;?>">
+				</div>
+				
+				<div class="imageholder image-carousel">
+					
+						<ul>
+							<?php foreach($this->images AS $key => $image) { ?>
+							<li class="media_<?php echo $key;?>">
+								<img src="<?php echo $image['src'];?>" alt="" />
+							</li>
+							<?php } ?>
+						</ul>
+						
+					<span class="price"></span>
+				</div>
+				<div class="left w335px">
+					<p>
+						<label for="message" class="hide"><?php echo $this->translate('Message');?>:<br></label>
+						<textarea name="message" id="message" rows="5" cols="30"><?php echo $this->title;?></textarea>
+					</p>
+					<p class="text_counter"></p>
+					<p class="submit"><input type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</form>
+<div id="emailpin" class="addapin">
+	<form action="<?php echo $this->form_action;?>" method="get">
+		<p class="ntp">
+			<label for="url" class="hide"><?php echo $this->translate('URL');?>:<br /></label>
+			<input type="text" name="url" id="url" value="http://" />
+		</p>
+		<p class="submit">
+			<input type="submit" value="<?php echo $this->translate('Find Images');?>" />
+		</p>
+		<div class="clear"></div>
+	</form>
+</div>                    
+		</div>
+	</div>
+</div>
+
+<?php $key = str_replace('.','',microtime(true));?>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	regExPrice.addExpresionLine($('#message').html(), true);
+	
+	$('#message').jqEasyCounter({
+		holder: 'p.text_counter',
+		maxChars: 300,
+		maxCharsWarning: 270,
+		template: '{count}'
+	}).bind("keydown keyup keypress focus paste",function() {
+		regExPrice.addExpresionLine(this.value);
+		var comboCarpeta=false;
+		$("#board_id option:selected").each(function(){
+			comboCarpeta=true
+		});
+		if (comboCarpeta)
+		{
+			if($.trim($('#message').val())) {
+				$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+			} else {
+				$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+			}
+		}else
+		{
+			$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+		}
+		regExPrice.addExpresionLine(this.value, false);
+	});
+
+
+	$('#emailpin form').unbind('submit').submit(function(){
+		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+		$.post('<?php echo $this->from_url;?>', $('#emailpin form').serialize(), function(data){
+			if(data.indexOf('http://') === 0) {
+				window.location = data;
+			} else {
+				$.fancybox(data, {
+					'titleFormat': function(){
+			        	return '<div id="fancybox-title-over"><?php echo $this->translate('Add a Pin');?></div>';
+			        },
+			        titlePosition: 'over'
+				});
+			}
+			$('#loading_button').remove();
+			
+			/*$.fancybox(data, {
+				'titleFormat': function(){
+		        	return '<div id="fancybox-title-over"><?php echo $this->translate('Add a Pin');?></div>';
+		        },
+		        titlePosition: 'over'
+			});*/
+			
+		});
+		return false;
+	});
+		
+});
+
+
+</script>

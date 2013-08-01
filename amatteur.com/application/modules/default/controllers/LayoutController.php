@@ -259,7 +259,7 @@ class LayoutController extends JO_Action {
 				$this->view->full_url_js = WM_Router::create($request->getBaseUrl() . '?controller=gifts' . ($url ? '&action=' . $url : ''));
 			break;
 			case 'users' == $request->getController():
-				if(in_array($request->getAction(), array(/*'index', 'profile', */'pins', 'followers', 'following', 'activity')) && $request->getRequest('user_id')) { 
+				if(in_array($request->getAction(), array(/*'index', 'profile', */'pins', 'followers', 'following', 'likers', 'liking', 'activity')) && $request->getRequest('user_id')) { 
 					$this->view->full_url_js = WM_Router::create($request->getBaseUrl() . '?controller=users&action='.$request->getAction().'&user_id=' . $request->getRequest('user_id') . ($request->getQuery('filter') ? '&filter=' . $request->getQuery('filter') : '') );
 				}
 			break;

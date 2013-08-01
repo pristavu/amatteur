@@ -1,0 +1,10 @@
+<?php if(($this->enable_edit && $this->message['private_message'] == 1) || $this->message['private_message'] == 0) { ?>	
+
+    <a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImage ImgLink" href="<?php echo $this->message['href'];?>">
+    </a> 
+
+<div>
+    <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
+</div>
+
+<?php } ?>	
