@@ -1,0 +1,65 @@
+
+
+<div id="create_new_pin">
+	<div id="content-holder">
+		<div id="emailpin">
+                    
+			<form action="<?php echo $this->messagePopupDelete;?>" method="post">
+				<div class="hide">
+
+					<input type="hidden" name="message_id" id="message_id" value="<?php echo $this->message_id;?>">
+					<!--input type="hidden" name="user_from" id="user_from" value="<?php echo $this->user_from;?>">
+					<input type="hidden" name="board_user" id="board_user" value="<?php echo $this->board_user;?>"-->
+				</div>
+				
+				<div class="left w335px">
+					<p>
+                                            <div id="dialog-confirm" title="<?php echo $this->translate('Delete');?>">
+                                                <p><span class="ui-icon ui-icon-alert" style="float: left; margin: 0 7px 20px 0;"></span><label for="message"><?php echo $this->translate('These items will be permanently deleted and cannot be recovered. Are you sure?');?></label></p>
+                                            </div>
+						<!--label for="message" class="hide"><?php echo $this->translate('Message');?>:<br></label>
+						<textarea name="text_message" id="text_message" rows="5" cols="30"><?php echo $this->title;?></textarea>
+                                                <input type="checkbox" id="private_message" name="private_message" value="true"><?php echo $this->translate('Private message');?></input-->
+					</p>
+					<!--p class="text_counter"></p-->
+					<p class="submit"><input type="submit" value="<?php echo $this->translate('Delete');?>"></p>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
+<link rel="stylesheet" href="http://code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+<?php $key = str_replace('.','',microtime(true));?>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	$('#emailpin form').unbind('submit').submit(function(){
+		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+                var message_id = $('#message_id').val();
+		$.post('<?php echo $this->from_url;?>', {message_id:message_id}, function(data,status){
+			/*if(data.indexOf('http://') === 0) {
+				window.location = data;
+			} else {
+				$.fancybox(data, {
+					'titleFormat': function(){
+			        	return '<div id="fancybox-title-over"><?php echo $this->translate('Add a Pin');?></div>';
+			        },
+			        titlePosition: 'over'
+				});
+			}
+                        */
+			$('#loading_button').remove();
+                        $.fancybox.close();
+			
+			
+                });
+		return false;
+	});
+		
+});
+
+
+</script>

@@ -1,4 +1,4 @@
-<?php if (!isset($_SESSION['token']))
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->header_part; 
 }    
@@ -156,7 +156,19 @@
                 <div class="touch_arrow"></div>
             </a>
         </li-->
-        
+        <li class="tappable">
+                    <a class="tappable_link" href="<?php echo $this->urlagenda?>">
+                         <?php  echo $this->translate('agenda'); ?>
+                  <div class="touch_arrow"></div>
+             </a>
+        </li>
+        <li class="tappable">
+                    <a class="tappable_link" href="<?php echo $this->urlmensajes?>">
+                         <?php  echo $this->translate('mensajes'); ?>
+                  <div class="touch_arrow"></div>
+             </a>
+        </li>
+
         
 	</ul>
 	<div class="profile_header bottom"></div>
@@ -170,7 +182,7 @@
 			<?php echo $this->boards ?>
 
 		</ul>
-        <?php if ($this->active == 'boards') { ?>
+        <?php /*if ($this->active == 'boards') { ?>
         <div id="ProfileHeader">
                 <div class="FixedContainer row clearfix">
                         <div class="infoBody">        
@@ -186,7 +198,7 @@
                                     <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
                                     <img src="data/images/ProfileEditIcon.png">
                             </p>
-                            <?php }*/ ?>
+                            <?php }*//* ?>
                         </div>
                     
                         <div class="infoMessage">        
@@ -201,13 +213,13 @@
                                     <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
                                     <img src="data/images/ProfileEditIcon.png">
                             </p>
-                            <?php } */ ?>
+                            <?php } *//* ?>
                         </div>
                     
                 </div>
 
         </div>
-        <?php } ?>
+        <?php }*/ ?>
             
 	</div>
 	
@@ -293,7 +305,7 @@
 			</div>
 	<?php endif; ?>
 
-<?php if (!isset($_SESSION['token']))
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->footer_part;
 }    

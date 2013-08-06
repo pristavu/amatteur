@@ -799,8 +799,7 @@ a:hover {
 	text-shadow: 0 1px rgba(255,255,255,0.9);
 	border-radius: 4px 4px 4px 4px;
     display: block!important;
-    font-weight: bold!important;
-    height: 22px!important;
+    font-weight: bold!important    height: 22px!important;
     padding-top: 1px!important;
     text-align: center!important;
     text-decoration: none!important;
@@ -1779,7 +1778,7 @@ a:hover {
     top: 1px;
     cursor: pointer;
     opacity: 0;
-    filter: alpha(opacity= 0);
+    filter: alpha(opacity: 0);
     padding: 0px;
     position: absolute;
     line-height: normal !important;

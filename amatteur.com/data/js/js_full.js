@@ -2789,6 +2789,59 @@ function fancyboxSilverOnComplete(selector) {
 	}).contextmenu();
 }
 
+
+
+/* add silverboxMessage */
+$(document).ready(function(){
+	$(".silverboxMessage").fancybox({
+		'overlayOpacity': 0.85,
+		'overlayColor'	: '#fff',
+		'scrolling'		: 'no',
+		'titlePosition' : 'over',
+		'autoDimensions': true,
+		'margin'		: 0,
+		'padding'		: 0,
+		'transitionIn'	: 'none',
+		'transitionOut'	: 'none',
+		'centerOnScroll': true,
+	    'onComplete' : function(){
+	    	fancyboxSilverOnComplete();
+	    	$('#container').infinitescroll('pause');
+	    }, 
+	    'onClosed': function(){
+	    	$('#container').infinitescroll('resume');
+                //$('#ProfileHeader .infoMessage').('reload');
+                window.location.reload();
+	    }
+            
+	}).contextmenu();
+});
+
+function fancyboxSilverMessOnComplete(selector) {
+	selector = selector || "#fancybox-content .silverboxMessage";
+	$(selector).fancybox({
+		'overlayOpacity': 0.85,
+		'overlayColor'	: '#fff',
+		'scrolling'		: 'no',
+		'titlePosition' : 'over',
+		'autoDimensions': true,
+		'margin'		: 0,
+		'padding'		: 0,
+		'transitionIn'	: 'none',
+		'transitionOut'	: 'none',
+		'centerOnScroll': true,
+	    'onComplete' : function(){
+	    	fancyboxSilverOnComplete();
+	    	$('#container').infinitescroll('pause');
+	    }, 
+	    'onClosed': function(){
+	    	$('#container').infinitescroll('resume');
+                window.location.reload();
+	    }
+
+	}).contextmenu();
+}
+
 /* add whitebox */
 function fancybox_wrap_mousewheel() {
 	$("#fancybox-wrap").bind("mousewheel",function(ev, delta) {

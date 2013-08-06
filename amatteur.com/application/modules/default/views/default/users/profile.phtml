@@ -88,7 +88,7 @@ $(document).ready(function(){
                             if(e.keyCode == 13) {
 			    e.preventDefault();
                             //alert($('#ProfileHeader .infoBody #editAgenda textarea').val());
-                            $('#ProfileHeader .infoBody #editAgenda textarea').insertAtCaret("\n___________________\n");
+                            $('#ProfileHeader .infoBody #editAgenda textarea').insertAtCaret("\n_________________________\n");
                                 /*
                                 var posicionCursor = $('#txtAreaAgenda').getCursorPosition();
                                 alert(posicionCursor);
@@ -173,7 +173,7 @@ $(document).ready(function(){
 
 <script type="text/template" id="edit-agenda">
 <div id="editAgenda" class="Form">
-	<textarea id="txtAreaAgenda" name="txtAreaAgenda" rows='20' cols='17'><?php echo $this->userdata['agenda'];?></textarea>
+	<textarea id="txtAreaAgenda" name="txtAreaAgenda" rows='34' cols='27'><?php echo $this->userdata['agenda'];?></textarea>
 	<a href="#" class="Button RedButton editAgenda disabled">
 		<?php echo $this->translate('Save Calendar');?>
 	</a>
@@ -182,6 +182,25 @@ $(document).ready(function(){
 </script>
 <?php $this->placeholder('inhead', ob_get_clean());?>
 <?php } ?>
+
+
+<?php if($this->enable_edit) { ?>
+<script type="text/javascript">
+<!--
+/*
+$(document).ready(function(){
+	$('#ProfileHeader .infoMessage p.noMessage').click(function(){
+           <?php //echo $this->view->popup_messages; ?>
+	});
+});    
+*/
+//-->
+</script>
+
+
+
+<?php } ?>
+
 
 <?php if($this->enable_sort && $this->enable_edit) { ?>
 <?php ob_start();?>
@@ -281,22 +300,22 @@ $(document).ready(function(){
 
 						<h1><?php echo $this->userdata['fullname'];?></h1>
                                               </div>
-                                              <div style='float:left;width:20%;'>    
+                                              <div style='float:left;width:20%;'> 
 <!--a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>"><strong><?php echo ($this->userIsLike ? $this->translate('UnLike All') : $this->translate('Like All') );?>
         <img src="data/images/meGusta.jpeg"></strong>
 </a-->
-                                                <?php if($this->like_user) { ?>      
+                                                <?php if($this->like_user) { ?>  
                                                       <?php if ($this->userIsLike) { ?>
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
                                                         <img src="data/images/noMeGusta.jpeg">
                                                 </a>
-                                                      <?php } else { ?>      
+                                                      <?php } else { ?> 
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
                                                         <img src="data/images/meGusta.jpeg">
                                                 </a>
 
                                                       <?php }  ?>   
-                                                <?php }  ?>      
+                                                <?php }  ?>  
                                                </div>
                                             </div>
                                             <div style='clear:both'>
@@ -494,14 +513,18 @@ $(document).ready(function(){
                             <?php if($this->has_messages || !$this->enable_edit) { ?>
                             <h5>Conversación</h5>
                             <p class="colorless noMessage">
-                                    <?php echo $this->messages_users ?>&nbsp;
-                                    <!--img src="data/images/ProfileEditIcon.png"-->
+                                <?php echo $this->messages_users ?>&nbsp;
+                                <div id="message" class="Form">                                                                    
+                                    <a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                </div>
                             </p>
                             <?php } else { ?>
                             <h5>Conversación</h5>
                             <p class="colorless noMessage">
                                     <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
-                                    <img src="data/images/ProfileEditIcon.png">
+                                    <div id="message" class="Form">                                    
+                                        <a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                    </div>                                    
                             </p>
                             <?php } ?>
                         </div>
@@ -511,7 +534,32 @@ $(document).ready(function(){
         </div>
         <?php } ?>
 <?php } ?>
-
+ 
+<script>
+/*    
+    $(document).ready(function(){
+        
+	$('#ProfileHeader .infoMessage p.noMessage  ').click(function(){
+            $(function() {
+                $( "#dialog-confirm" ).dialog({
+                resizable: false,
+                height:140,
+                modal: true,
+                buttons: {
+                    "Delete all items": function() {
+                        $( this ).dialog( "close" );
+                    },
+                    Cancel: function() {
+                        $( this ).dialog( "close" );
+                    }
+                    }
+            });
+        });            
+    });
+    
+});
+*/
+</script>        
 <?php if($this->follow_user) { ?>
 <script type="text/javascript">
 $(document).ready(function(){

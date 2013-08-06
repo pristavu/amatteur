@@ -1369,23 +1369,69 @@ class Model_Users extends JO_Model {
 
 		$query = $db->select()
 					->from('users_messages')
-					->joinLeft('users', 'users.user_id = users_messages.from_user_id',  array('*', 'fullname' => "CONCAT(firstname,' ',lastname)", 'date_diff' => "DATEDIFF(curdate(), date_message)", 'href' => ""));
+					->joinLeft('users', 'users.user_id = users_messages.from_user_id',  array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)", 'date_diff' => "DATEDIFF(curdate(), date_message)"));
 					
 		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
-			$query->where('users_messages.from_user_id = ? OR users_messages.to_user_id = ?', '' . (string)$data['filter_user_id']. '');
+			$query->where('(users_messages.from_user_id = ? OR users_messages.to_user_id = ?) AND users_messages.board_user_id = ?', '' . (string)$data['filter_user_id']. '');
 		}
-		error_log("query $query" );
 		if(isset($data['start']) && isset($data['limit'])) {
 			if($data['start'] < 0) {
 				$data['start'] = 0;
 			}
 			$query->limit($data['limit'], $data['start']);
 		}
-		
+                
 		return $db->fetchAll($query);
 		
 	}
        
+	public static function createMessage($data) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$rows = self::describeTable('users_messages');
+		
+		$date_added = WM_Date::format(time(), 'yy-mm-dd H:i:s');
+		$data['date_message'] = $date_added;
+		
+		
+		$insert = array();
+		foreach($rows AS $row) {
+			if( array_key_exists($row, $data) ) {
+				$insert[$row] = $data[$row];
+			}
+		}
+		
+		
+		if(!$insert) {
+			return false;
+		}
+		
+		
+		$db->insert('users_messages', $insert);
+		
+		$message_id = $db->lastInsertId();
+                
+
+		if(!$message_id) {
+			return false;
+		}
+		
+		return $message_id;
+	}
+        
+	public static function deleteMessage($data) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$row = $db->query("DELETE FROM users_messages WHERE message_id = ".  $data['message_id'] );
+
+        
+		if(!$row) {
+			return false;
+		}
+		
+		return $row;
+	}
+        
         
 	public static function generatePassword ($length = 8) {
 

@@ -1,4 +1,4 @@
-<?php if (!isset($_SESSION['token']))
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->header_part; 
 }    
@@ -413,7 +413,7 @@ $(document).ready(function(){
 //--></script>
 <?php $this->placeholder('inhead', ob_get_clean());?>
 
-<?php if (!isset($_SESSION['token']))
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->footer_part;
 }    

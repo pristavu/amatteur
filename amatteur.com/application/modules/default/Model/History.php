@@ -22,7 +22,10 @@ class Model_History extends JO_Model {
 	const LIKEUSER = 11;
 	const UNLIKEUSER = 12;
         
-	const COMMENTUSER = 13;        
+	const COMMENTUSER = 13;
+        
+	const MESSAGEUSER = 14;
+	const UNMESSAGEUSER = 15;        
 	
 	public static function getType($type) {
 		
@@ -43,6 +46,8 @@ class Model_History extends JO_Model {
 			self::LIKEUSER => self::translate('Like your user'),
 			self::UNLIKEUSER => self::translate('Unlike your user'),
 			self::COMMENTUSER => self::translate('Comment his board'),                    
+			self::MESSAGEUSER => self::translate('Message in his board'),
+			self::UNMESSAGEUSER => self::translate('Delete message in his board'),                    
 		);
 		
 		if(isset($array[$type])) {
@@ -54,13 +59,11 @@ class Model_History extends JO_Model {
 	}
 	
 	public static function addHistory($to, $type, $pin_id = 0, $board_id = 0, $comment = '') {
-		error_log("1 ");
 		if($to == JO_Session::get('user[user_id]')) {
 			return;
 		} else if(!JO_Session::get('user[user_id]')) {
 			return;
 		}
-		error_log("2 ");
                 
                 
 		$db = JO_Db::getDefaultAdapter();

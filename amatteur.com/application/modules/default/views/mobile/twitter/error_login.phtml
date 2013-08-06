@@ -1,4 +1,9 @@
-<?php echo $this->header_part; ?>
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
+{
+    echo $this->header_part; 
+}    
+?>
+
 
 <div id="detail">
 
@@ -16,7 +21,7 @@
 
 </div>
     
-<?php if (!isset($_SESSION['token']))
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->footer_part;
 }    

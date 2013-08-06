@@ -4,21 +4,21 @@
 	<div id="content-holder">
 		<div id="emailpin">
 			<form action="<?php echo $this->messagePopup;?>" method="post">
-				
 				<div class="hide">
-					<input type="hidden" name="user_to" value="<?php echo $this->user_to;?>">
-					<input type="hidden" name="user_from" value="<?php echo $this->user_from;?>">
-					<input type="hidden" name="from" value="<?php echo $this->from;?>">
+                                        <input type="hidden" name="message_from_id" id="message_from_id" value="<?php echo $this->message_from_id;?>">
+					<input type="hidden" name="user_to" id="user_to" value="<?php echo $this->user_to;?>">
+					<input type="hidden" name="user_from" id="user_from" value="<?php echo $this->user_from;?>">
+					<input type="hidden" name="board_user" id="board_user" value="<?php echo $this->board_user;?>">
 				</div>
 				
 				<div class="left w335px">
 					<p>
 						<label for="message" class="hide"><?php echo $this->translate('Message');?>:<br></label>
-						<textarea name="message" id="message" rows="5" cols="30"><?php echo $this->title;?></textarea>
-                                                <input type="checkbox" id="private" name="private" value="true"><?php echo $this->translate('Private message');?></input>
+						<textarea name="text_message" id="text_message" rows="5" cols="30"><?php echo $this->title;?></textarea>
+                                                <input type="checkbox" id="private_message" name="private_message" value="true"><?php echo $this->translate('Private message');?></input>
 					</p>
 					<p class="text_counter"></p>
-					<p class="submit"><input type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
+					<p class="submit"><input class="disabled" type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
 					<div class="clear"></div>
 				</div>
 				<div class="clear"></div>
@@ -31,9 +31,9 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-	regExPrice.addExpresionLine($('#message').html(), true);
+	regExPrice.addExpresionLine($('#text_message').html(), true);
 	
-	$('#message').jqEasyCounter({
+	$('#text_message').jqEasyCounter({
 		holder: 'p.text_counter',
 		maxChars: 300,
 		maxCharsWarning: 270,
@@ -44,17 +44,13 @@ $(document).ready(function(){
 		$("#board_id option:selected").each(function(){
 			comboCarpeta=true
 		});
-		if (comboCarpeta)
-		{
-			if($.trim($('#message').val())) {
-				$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
-			} else {
-				$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
-			}
-		}else
-		{
-			$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
-		}
+                if($.trim($('#text_message').val())) {
+                        $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+                } 
+                else 
+                {
+                        $('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+                }
 		regExPrice.addExpresionLine(this.value, false);
 	});
 
@@ -62,8 +58,14 @@ $(document).ready(function(){
 	$('#emailpin form').unbind('submit').submit(function(){
 		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
 		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
-		$.post('<?php echo $this->messagePopup;?>', $('#emailpin form').serialize(), function(data){
-			if(data.indexOf('http://') === 0) {
+                var user_to = $('#user_to').val();
+                var user_from = $('#user_from').val();
+                var text_message = $('#text_message').val();
+                var private_message = $('#private_message').val(); 
+                var board_user = $('#board_user').val();
+                var message_from_id = $('#message_from_id').val();                
+		$.post('<?php echo $this->from_url;?>', {user_to:user_to, user_from:user_from, text_message: text_message, private_message:private_message, board_user:board_user, message_from_id:message_from_id}, function(data,status){
+			/*if(data.indexOf('http://') === 0) {
 				window.location = data;
 			} else {
 				$.fancybox(data, {
@@ -73,16 +75,15 @@ $(document).ready(function(){
 			        titlePosition: 'over'
 				});
 			}
+                        */
+                       var kk = '<?php echo $this->from_url;?>';
+                       alert("hola" + kk);
+                       
 			$('#loading_button').remove();
+                        $.fancybox.close();                        
 			
-			/*$.fancybox(data, {
-				'titleFormat': function(){
-		        	return '<div id="fancybox-title-over"><?php echo $this->translate('Add a Pin');?></div>';
-		        },
-		        titlePosition: 'over'
-			});*/
 			
-		});
+                });
 		return false;
 	});
 		

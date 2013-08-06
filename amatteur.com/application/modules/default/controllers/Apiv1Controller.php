@@ -71,9 +71,9 @@ class Apiv1Controller extends JO_Action
 
                 //$token = md5(uniqid(rand(), true));
                 $token = md5($result['user_id']);
-                
-                error_log("token -> " . $token);
-                $_SESSION['tokenApp'] = $token;
+
+                $_SESSION['token'] = $token;
+                JO_Session::set('token', $token);
 
                 $return = array('id' => $result['user_id'],
                     'username' => $result['username'],
@@ -125,174 +125,174 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
-/*
-        error_log("token " . $_POST['token']);
-        error_log("user " . md5($_POST['user_id']));
+        /*
+          error_log("token " . $_POST['token']);
+          error_log("user " . md5($_POST['user_id']));
 
-        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['user_id']))
+          if (isset($_POST['token']) && $_POST['token'] == md5($_POST['user_id']))
+          {
+          $_SESSION['token'] = $_POST['token'];
+
+
+          error_log("antes estoy logado ");
+
+
+          if (JO_Session::get('user[user_id]'))
+          {
+          error_log("estoy logado ");
+          //$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
+          }
+
+          error_log("desupes estoy logado ");
+         */
+        $shared_content = Model_Users::checkSharedContent($request->getParam('key'), $request->getParam('user_id'));
+
+        if (!JO_Registry::get('enable_free_registration'))
         {
-            $_SESSION['tokenApp'] = $_POST['token'];
-
-
-            error_log("antes estoy logado ");
-
-
-            if (JO_Session::get('user[user_id]'))
+            if (!$shared_content)
             {
-                error_log("estoy logado ");
-                //$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
+                //$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=landing' ) );
             }
-
-            error_log("desupes estoy logado ");
-*/
-            $shared_content = Model_Users::checkSharedContent($request->getParam('key'), $request->getParam('user_id'));
-
-            if (!JO_Registry::get('enable_free_registration'))
-            {
-                if (!$shared_content)
-                {
-                    //$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=landing' ) );
-                }
-            } else
-            {
-                /*
-                  $this->view->fb_register = null;
-                  $fb_ses = JO_Registry::get('facebookapi');
-                  $session = $fb_ses->getUser();
-                  if( JO_Registry::get('oauth_fb_key') && JO_Registry::get('oauth_fb_secret') ) {
-                  $this->view->fb_register = $this->facebook->getLoginUrl(array(
-                  'redirect_uri' => WM_Router::create( $request->getBaseUrl() . '?controller=facebook&action=login' ),
-                  'req_perms' => 'email,user_birthday,status_update,user_videos,user_status,user_photos,offline_access,read_friendlists'
-                  ));
-                  }
-                 * 
-                 */
-            }
-
-            if (JO_Registry::get('oauth_in_key'))
-            {
-                $this->view->instagram_register = WM_Router::create($this->getRequest()->getBaseUrl() . '?controller=instagram&action=register&next=' . urlencode(WM_Router::create($request->getBaseUrl() . '?controller=instagram&action=register')));
-            }
-
-            $this->view->error = false;
-            if ($request->isPost())
-            {
-
-                $validate = new Helper_Validate();
-                $validate->_set_rules($request->getRequest('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
-                $validate->_set_rules($request->getRequest('firstname'), $this->translate('First name'), 'not_empty;min_length[3];max_length[100]');
-                $validate->_set_rules($request->getRequest('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
-                $validate->_set_rules($request->getRequest('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
-                $validate->_set_rules($request->getRequest('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
-                $validate->_set_rules($request->getRequest('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
-
-                if ($validate->_valid_form())
-                {
-                    if (md5($request->getRequest('password')) != md5($request->getRequest('password2')))
-                    {
-                        $validate->_set_form_errors($this->translate('Password and Confirm Password should be the same'));
-                        $validate->_set_valid_form(false);
-                    }
-                    if (Model_Users::isExistEmail($request->getRequest('email')))
-                    {
-                        $validate->_set_form_errors($this->translate('This e-mail address is already used'));
-                        $validate->_set_valid_form(false);
-                    }
-                    if (Model_Users::isExistUsername($request->getRequest('username')))
-                    {
-                        $validate->_set_form_errors($this->translate('This username is already used'));
-                        $validate->_set_valid_form(false);
-                    }
-                }
-
-                if ($validate->_valid_form())
-                {
-                    $reg_key = sha1($request->getRequest('email') . $request->getRequest('username'));
-
-                    $result = Model_Users::create(array(
-                                'username' => $request->getRequest('username'),
-                                'firstname' => $request->getRequest('firstname'),
-                                'lastname' => $request->getRequest('lastname'),
-                                'email' => $request->getRequest('email'),
-                                'password' => $request->getRequest('password'),
-                                'delete_email' => isset($shared_content['email']) ? $shared_content['email'] : '',
-                                'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
-                                'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
-                                'facebook_id' => isset($shared_content['facebook_id']) ? $shared_content['facebook_id'] : 0,
-                                'confirmed' => '0',
-                                'regkey' => $reg_key
-                            ));
-
-                    if ($result)
-                    {
-                        if (self::sendMail($result))
-                        {
-                            //self::loginInit($result);
-                        };
-                        $return = array('id' => $result); //['user_id']); 
-                    } else
-                    {
-                        $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
-                    }
-                } else
-                {
-                    $return = array('error' => 4, 'description' => $validate->_get_error_messages());
-                }
-            }
-
-
-            $this->view->baseUrl = $request->getBaseUrl();
-
-            if ($request->issetPost('email'))
-            {
-                $this->view->email = $request->getRequest('email');
-            } else
-            {
-                if (isset($shared_content['email']))
-                {
-                    $this->view->email = $shared_content['email'];
-                } else
-                {
-                    $this->view->email = '';
-                }
-            }
-
-            if ($request->issetPost('firstname'))
-            {
-                $this->view->firstname = $request->getRequest('firstname');
-            } else
-            {
-                $this->view->firstname = '';
-            }
-
-            if ($request->issetPost('lastname'))
-            {
-                $this->view->lastname = $request->getRequest('lastname');
-            } else
-            {
-                $this->view->lastname = '';
-            }
-
-            if ($request->issetPost('username'))
-            {
-                $this->view->username = $request->getRequest('username');
-            } else
-            {
-                $this->view->username = '';
-            }
-
-            $this->view->password = $request->getRequest('password');
-            $this->view->password2 = $request->getRequest('password2');
-/*            
         } else
         {
-//no existe la sesión / no existe el dato recibido por post / el token no es igual.
-            $return = array('error' => 401, 'description' => $this->translate('wrong token'));
+            /*
+              $this->view->fb_register = null;
+              $fb_ses = JO_Registry::get('facebookapi');
+              $session = $fb_ses->getUser();
+              if( JO_Registry::get('oauth_fb_key') && JO_Registry::get('oauth_fb_secret') ) {
+              $this->view->fb_register = $this->facebook->getLoginUrl(array(
+              'redirect_uri' => WM_Router::create( $request->getBaseUrl() . '?controller=facebook&action=login' ),
+              'req_perms' => 'email,user_birthday,status_update,user_videos,user_status,user_photos,offline_access,read_friendlists'
+              ));
+              }
+             * 
+             */
+        }
+
+        if (JO_Registry::get('oauth_in_key'))
+        {
+            $this->view->instagram_register = WM_Router::create($this->getRequest()->getBaseUrl() . '?controller=instagram&action=register&next=' . urlencode(WM_Router::create($request->getBaseUrl() . '?controller=instagram&action=register')));
+        }
+
+        $this->view->error = false;
+        if ($request->isPost())
+        {
+
+            $validate = new Helper_Validate();
+            $validate->_set_rules($request->getRequest('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
+            $validate->_set_rules($request->getRequest('firstname'), $this->translate('First name'), 'not_empty;min_length[3];max_length[100]');
+            $validate->_set_rules($request->getRequest('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
+            $validate->_set_rules($request->getRequest('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
+            $validate->_set_rules($request->getRequest('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
+            $validate->_set_rules($request->getRequest('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
+
+            if ($validate->_valid_form())
+            {
+                if (md5($request->getRequest('password')) != md5($request->getRequest('password2')))
+                {
+                    $validate->_set_form_errors($this->translate('Password and Confirm Password should be the same'));
+                    $validate->_set_valid_form(false);
+                }
+                if (Model_Users::isExistEmail($request->getRequest('email')))
+                {
+                    $validate->_set_form_errors($this->translate('This e-mail address is already used'));
+                    $validate->_set_valid_form(false);
+                }
+                if (Model_Users::isExistUsername($request->getRequest('username')))
+                {
+                    $validate->_set_form_errors($this->translate('This username is already used'));
+                    $validate->_set_valid_form(false);
+                }
+            }
+
+            if ($validate->_valid_form())
+            {
+                $reg_key = sha1($request->getRequest('email') . $request->getRequest('username'));
+
+                $result = Model_Users::create(array(
+                            'username' => $request->getRequest('username'),
+                            'firstname' => $request->getRequest('firstname'),
+                            'lastname' => $request->getRequest('lastname'),
+                            'email' => $request->getRequest('email'),
+                            'password' => $request->getRequest('password'),
+                            'delete_email' => isset($shared_content['email']) ? $shared_content['email'] : '',
+                            'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
+                            'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
+                            'facebook_id' => isset($shared_content['facebook_id']) ? $shared_content['facebook_id'] : 0,
+                            'confirmed' => '0',
+                            'regkey' => $reg_key
+                        ));
+
+                if ($result)
+                {
+                    if (self::sendMail($result))
+                    {
+                        //self::loginInit($result);
+                    };
+                    $return = array('id' => $result); //['user_id']); 
+                } else
+                {
+                    $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
+                }
+            } else
+            {
+                $return = array('error' => 4, 'description' => $validate->_get_error_messages());
+            }
         }
 
 
-        error_log("callback " . $callback . " response " . $response);
-*/
+        $this->view->baseUrl = $request->getBaseUrl();
+
+        if ($request->issetPost('email'))
+        {
+            $this->view->email = $request->getRequest('email');
+        } else
+        {
+            if (isset($shared_content['email']))
+            {
+                $this->view->email = $shared_content['email'];
+            } else
+            {
+                $this->view->email = '';
+            }
+        }
+
+        if ($request->issetPost('firstname'))
+        {
+            $this->view->firstname = $request->getRequest('firstname');
+        } else
+        {
+            $this->view->firstname = '';
+        }
+
+        if ($request->issetPost('lastname'))
+        {
+            $this->view->lastname = $request->getRequest('lastname');
+        } else
+        {
+            $this->view->lastname = '';
+        }
+
+        if ($request->issetPost('username'))
+        {
+            $this->view->username = $request->getRequest('username');
+        } else
+        {
+            $this->view->username = '';
+        }
+
+        $this->view->password = $request->getRequest('password');
+        $this->view->password2 = $request->getRequest('password2');
+        /*
+          } else
+          {
+          //no existe la sesión / no existe el dato recibido por post / el token no es igual.
+          $return = array('error' => 401, 'description' => $this->translate('wrong token'));
+          }
+
+
+          error_log("callback " . $callback . " response " . $response);
+         */
         if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
@@ -351,7 +351,7 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
-        if (isset($_SESSION['tokenApp']) && isset($_POST['token']) && $_POST['token'] == $_SESSION['tokenApp'])
+        if (isset($_SESSION['token']) && isset($_POST['token']) && $_POST['token'] == $_SESSION['token'])
         {
 
 //guardar o manipular datos.
@@ -689,16 +689,16 @@ class Apiv1Controller extends JO_Action
             $subCategories = Model_Categories::getSubCategoriesAPP($request->getRequest('category_id'));
 
             error_log("subcats ");
-            
+
             if ($subCategories)
             {
                 foreach ($subCategories AS $subCategorie)
                 {
                     $return['data'][] = array(
-                    'category_id' => $subCategorie['category_id'],
-                    'title' => $subCategorie['title'],
-                    'sort_order' => $subCategorie['sort_order'],
-                    'link' => WM_Router::create($request->getBaseUrl() . '?controller=category&category_id=' . $subCategorie['category_id'])
+                        'category_id' => $subCategorie['category_id'],
+                        'title' => $subCategorie['title'],
+                        'sort_order' => $subCategorie['sort_order'],
+                        'link' => WM_Router::create($request->getBaseUrl() . '?controller=category&category_id=' . $subCategorie['category_id'])
                     );
                 }
             }
@@ -896,7 +896,7 @@ class Apiv1Controller extends JO_Action
 
         //if (isset($_POST['token']) && $_POST['token'] == md5($_POST['user_id']))
         //{
-        //$_SESSION['tokenApp'] = $_POST['token'];
+        //$_SESSION['token'] = $_POST['token'];
 
         if (!$this->error)
         {
@@ -1062,8 +1062,8 @@ class Apiv1Controller extends JO_Action
         $return = array();
 
         $kind = $request->getRequest('kind');
-        $query  = $request->getRequest('query');
-        $userId =  $request->getRequest('userId');
+        $query = $request->getRequest('query');
+        $userId = $request->getRequest('userId');
         if ($kind == 0)
         {
             // pins
@@ -1139,8 +1139,7 @@ class Apiv1Controller extends JO_Action
                 }
                 $return['next_page'] = WM_Router::create($request->getBaseUrl() . '?controller=apiv1&action=timeline' . $url);
             }
-        } 
-        else if ($kind == 1)
+        } else if ($kind == 1)
         {
 
             //boards
@@ -1206,26 +1205,24 @@ class Apiv1Controller extends JO_Action
                         $board['userFollowIgnore'] = false;
                         $board['edit'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=edit&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
                     }
-                    
+
                     $username = Model_Users::getUsername($board["user_id"]);
-                    
+
                     $url_base = WM_Router::create($request->getBaseUrl());
 
                     $return['data'][] = array(
                         'folderId' => $board['board_id'],
                         'folderName' => $board['title'],
-                        'folderUrl' => $url_base . $username."/".$board['title'],
+                        'folderUrl' => $url_base . $username . "/" . $board['title'],
                         'folderImage' => $board['image'],
                         'folderQty' => $board['pins']
                     );
 
 
                     //$return[] = $board;
-
                 }
             }
-        } 
-        else if ($kind == 2)
+        } else if ($kind == 2)
         {
 
             //people
@@ -1269,12 +1266,10 @@ class Apiv1Controller extends JO_Action
                         'follower' => $user['followers'],
                         'following' => $user['following']
                     );
-                    
-                    
                 }
             }
         }
-  
+
 
 
 
@@ -1293,7 +1288,7 @@ class Apiv1Controller extends JO_Action
         $response->appendBody($return);
     }
 
-        //===== COMMENTS =====//
+    //===== COMMENTS =====//
     public function commentsAction()
     {
 
@@ -1376,8 +1371,8 @@ class Apiv1Controller extends JO_Action
 
         $response->appendBody($return);
     }
-    
-        //====== añadir comment ====//
+
+    //====== añadir comment ====//
     public function commentAction()
     {
         $this->noViewRenderer(true);
@@ -1403,24 +1398,24 @@ class Apiv1Controller extends JO_Action
         $pin_info = Model_Pins::getPin($pin_id);
 
         $return = array();
-        
-        if(!$pin_info) {
-                $return['data'][] = array(
-                    'error' => 8, 'description' => "no existe pin con ese id"
-                    );
 
+        if (!$pin_info)
+        {
+            $return['data'][] = array(
+                'error' => 8, 'description' => "no existe pin con ese id"
+            );
         }
 
         //if($request->isPost()) {
 
-                $data = $request->getParams();
-                //$write_comment = $request->getPost('comment');
+        $data = $request->getParams();
+        //$write_comment = $request->getPost('comment');
 
-                $commentId = Model_Pins::addCommentAPP($data, $pin_info['latest_comments'], Model_Users::$allowed_fields);
-                
-                $return['data'][] = array(
-                    'commentId' => $commentId
-                    );
+        $commentId = Model_Pins::addCommentAPP($data, $pin_info['latest_comments'], Model_Users::$allowed_fields);
+
+        $return['data'][] = array(
+            'commentId' => $commentId
+        );
 
 
         //}
@@ -1439,7 +1434,7 @@ class Apiv1Controller extends JO_Action
         $response->appendBody($return);
     }
 
-        //=========== seguidores y seguidos ==============//
+    //=========== seguidores y seguidos ==============//
     public function followersAction()
     {
 
@@ -1467,13 +1462,12 @@ class Apiv1Controller extends JO_Action
         $return = array();
 
         $followers = $request->getRequest('followers');
-        $userId =  $request->getRequest('userId');
-        
+        $userId = $request->getRequest('userId');
+
         if ($followers == 1)
         {
             $data = Model_Users::followingUsers($userId);
-        }
-        else if ($followers == 0)
+        } else if ($followers == 0)
         {
             $data = Model_Users::followersUsers($userId);
         }
@@ -1489,7 +1483,7 @@ class Apiv1Controller extends JO_Action
                 $url .= '&user=' . $user["user_id"];
 
                 $user = Model_Users::getUser($user["user_id"], false, Model_Users::$allowed_fields);
-               
+
                 if ($user)
                 {
                     $avatar = Helper_Uploadimages::avatar($user, '_B');
@@ -1505,11 +1499,9 @@ class Apiv1Controller extends JO_Action
                         'following' => $user['following']
                     );
                 }
-
             }
-
         }
-  
+
 
         if ($callback)
         {
@@ -1524,7 +1516,7 @@ class Apiv1Controller extends JO_Action
 
         $response->appendBody($return);
     }
-    
+
     //=========== seguir y dejar de seguir ==============//
     public function followAction()
     {
@@ -1549,14 +1541,13 @@ class Apiv1Controller extends JO_Action
         $return = array();
 
         $action = $request->getRequest('accion');
-        $userId =  $request->getRequest('userId');
-        $followerId =  $request->getRequest('followerId');
-        
+        $userId = $request->getRequest('userId');
+        $followerId = $request->getRequest('followerId');
+
         if ($action == 1)
         {
             $data = Model_Users::FollowUserAPP($userId, $followerId);
-        }
-        else if ($action == 0)
+        } else if ($action == 0)
         {
             $data = Model_Users::UnFollowUserAPP($userId, $followerId);
         }
@@ -1564,12 +1555,11 @@ class Apiv1Controller extends JO_Action
         if ($data)
         {
             $return = $data;
-        }
-        else {
+        } else
+        {
             $return = "error";
-     
- }
-        
+        }
+
         if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
@@ -1582,8 +1572,9 @@ class Apiv1Controller extends JO_Action
         }
 
         $response->appendBody($return);
-    }    
-        //====== recuperar folder ====//
+    }
+
+    //====== recuperar folder ====//
     public function foldersAction()
     {
         $this->noViewRenderer(true);
@@ -1603,51 +1594,50 @@ class Apiv1Controller extends JO_Action
             $callback = false;
         }
 
-        
+
 
         if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
         {
-            $_SESSION['tokenApp'] = $_POST['token'];
-      
-        
+            $_SESSION['token'] = $_POST['token'];
+            JO_Session::set('token', $_POST['token']);
+
+
 //        $token = $request->getRequest('token');
-        $user_id = $request->getRequest('userId');    
-        
+            $user_id = $request->getRequest('userId');
+
 //        $token = $request->getRequest('token');
 //        $user_id = $request->getRequest('userId');        
 //        
 //        
 //        error_log("token " .$token);
 //        error_log("user " . md5($user_id));
-//        error_log("session " . $_SESSION['tokenApp']) ;
+//        error_log("session " . $_SESSION['token']) ;
 //        
 //        if (isset($token) && $token == md5($user_id))
 //        {
-//            $_SESSION['tokenApp'] = $token;
-      
+//            $_SESSION['token'] = $token;
+
 
 
 
             $return = array();
-       
-        //if($request->isPost()) {
 
-                //$data = $request->getParams();
-                //$write_comment = $request->getPost('comment');
+            //if($request->isPost()) {
+            //$data = $request->getParams();
+            //$write_comment = $request->getPost('comment');
 
             $boards = Model_Boards::getBoardAPP("", $user_id, "", WM_Router::create($request->getBaseUrl()), "folders");
 
             $return = $boards;
 
 
-        //}
-                
+            //}
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
             $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
-                
+
 
         if ($callback)
         {
@@ -1662,8 +1652,8 @@ class Apiv1Controller extends JO_Action
 
         $response->appendBody($return);
     }
-    
-        //====== añadir folder ====//
+
+    //====== añadir folder ====//
     public function newfolderAction()
     {
         $this->noViewRenderer(true);
@@ -1683,61 +1673,57 @@ class Apiv1Controller extends JO_Action
             $callback = false;
         }
 
-        
+
 
         if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
         {
-            $_SESSION['tokenApp'] = $_POST['token'];
-      
-        
-    //        $token = $request->getRequest('token');
+            $_SESSION['token'] = $_POST['token'];
+            JO_Session::set('token', $_POST['token']);
+
+
+            //        $token = $request->getRequest('token');
 //            $user_id = $request->getRequest('userId');    
 //            $folderName = $request->getRequest('folderName');            
 //            $categoryId = $request->getRequest('categoryId');                        
 //
 //            $token = $request->getRequest('token');
             //$user_id = $request->getRequest('userId');        
-            
-            
 //            error_log("token " .$token);
 //            error_log("user " . md5($user_id));
-//            error_log("session " . $_SESSION['tokenApp']) ;
-            
+//            error_log("session " . $_SESSION['token']) ;
 //            if (isset($token) && $token == md5($user_id))
 //            {
-//                $_SESSION['tokenApp'] = $token;
+//                $_SESSION['token'] = $token;
 
 
 
 
             $return = array();
-       
-        //if($request->isPost()) {
 
-                //$data = $request->getParams();
-                //$write_comment = $request->getPost('comment');
-                $board_id = Model_Boards::getBoardIdAPP(array(
+            //if($request->isPost()) {
+            //$data = $request->getParams();
+            //$write_comment = $request->getPost('comment');
+            $board_id = Model_Boards::getBoardIdAPP(array(
                         'title' => trim($request->getPost('folderName')),
                         'category_id' => $request->getPost('categoryId'),
                         'user_id' => $request->getPost('userId')
-                ));
-        
-                if ($board_id == 0)
-                {
-                   $board_id = array('error' => 9, 'description' => $this->translate('folderName exists with the same name'));
-                }
+                    ));
 
-                $return = $return = array('folderId' => $board_id);
+            if ($board_id == 0)
+            {
+                $board_id = array('error' => 9, 'description' => $this->translate('folderName exists with the same name'));
+            }
+
+            $return = $return = array('folderId' => $board_id);
 
 
-        //}
-                
+            //}
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
             $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
-                
+
 
         if ($callback)
         {
@@ -1752,8 +1738,8 @@ class Apiv1Controller extends JO_Action
 
         $response->appendBody($return);
     }
-        
-        //====== subir fichero ====//
+
+    //====== subir fichero ====//
     public function uploadAction()
     {
         $this->noViewRenderer(true);
@@ -1773,237 +1759,236 @@ class Apiv1Controller extends JO_Action
             $callback = false;
         }
 
-        
+
 
         if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
         {
-            $_SESSION['tokenApp'] = $_POST['token'];
-      
-        
-    //        $token = $request->getRequest('token');
+            $_SESSION['token'] = $_POST['token'];
+            JO_Session::set('token', $_POST['token']);
+
+
+            //        $token = $request->getRequest('token');
 //            $user_id = $request->getRequest('userId');    
 //            $folderName = $request->getRequest('folderName');            
 //            $categoryId = $request->getRequest('categoryId');                        
 //
 //            $token = $request->getRequest('token');
             //$user_id = $request->getRequest('userId');        
-            
-            
 //            error_log("token " .$token);
 //            error_log("user " . md5($user_id));
-//            error_log("session " . $_SESSION['tokenApp']) ;
-            
+//            error_log("session " . $_SESSION['token']) ;
 //            if (isset($token) && $token == md5($user_id))
 //            {
-//                $_SESSION['tokenApp'] = $token;
+//                $_SESSION['token'] = $token;
 
 
 
 
             $return = array();
-       
-        
 
-        //print_r("files " . var_dump($_FILES))   ;
-        //print_r("request " .var_dump($_REQUEST));
-        //error_log("1file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["image"]);
-        //error_log("2file name " . $_FILES["uploadedfile"]["name"] . " uploads " . $_REQUEST["image"]); 
-       
-        
-		
-		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
-		
-		//$this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
-		
-	
-		
-		//$this->view->popup_main_box = $this->view->render('fromfile','addpin');
-		
-		if(JO_Session::get('upload_from_file')) {
-			@unlink( BASE_PATH . JO_Session::get('upload_from_file') );
-			JO_Session::clear('upload_from_file');
-			JO_Session::clear('upload_from_file_name');
-		}
-		
-		$image = $request->getFile('file');
-		if(!$image) {
-                    $return = array('error' => 10, 'description' => $this->translate('There is no file selected'));
-		} else {
 
-			$temporary = '/cache/review/';
-			$upload_folder = BASE_PATH . $temporary;
-			$upload = new Helper_Upload;
-			
-			$upload->setFile($image)
-				->setExtension(array('.jpg','.jpeg','.png','.gif'))
-				->setUploadDir($upload_folder);
-				$new_name = md5(time() . serialize($image)); 
-				if($upload->upload($new_name)) {
-					$info = $upload->getFileInfo();
-					if($info) {
-						
-						$this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=fromfile' );
-		
+
+            //print_r("files " . var_dump($_FILES))   ;
+            //print_r("request " .var_dump($_REQUEST));
+            //error_log("1file name " . $_FILES["file"]["tmp_name"] . " uploads " . $_REQUEST["image"]);
+            //error_log("2file name " . $_FILES["uploadedfile"]["name"] . " uploads " . $_REQUEST["image"]); 
+            //$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
+            //$this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
+            //$this->view->popup_main_box = $this->view->render('fromfile','addpin');
+
+            if (JO_Session::get('upload_from_file'))
+            {
+                @unlink(BASE_PATH . JO_Session::get('upload_from_file'));
+                JO_Session::clear('upload_from_file');
+                JO_Session::clear('upload_from_file_name');
+            }
+
+            $image = $request->getFile('file');
+            if (!$image)
+            {
+                $return = array('error' => 10, 'description' => $this->translate('There is no file selected'));
+            } else
+            {
+
+                $temporary = '/cache/review/';
+                $upload_folder = BASE_PATH . $temporary;
+                $upload = new Helper_Upload;
+
+                $upload->setFile($image)
+                        ->setExtension(array('.jpg', '.jpeg', '.png', '.gif'))
+                        ->setUploadDir($upload_folder);
+                $new_name = md5(time() . serialize($image));
+                if ($upload->upload($new_name))
+                {
+                    $info = $upload->getFileInfo();
+                    if ($info)
+                    {
+
+                        $this->view->from_url = WM_Router::create($request->getBaseUrl() . '?controller=addpin&action=fromfile');
+
 //						$this->view->file = $image['name'];
 //						$this->view->full_path = $temporary . $info['name'];
-						$this->view->success = 1;//$this->view->render('upload_images', 'addpin');
-						JO_Session::set('upload_from_file', $temporary . $info['name']);
-						JO_Session::set('upload_from_file_name', $image['name']);
-						
-					} else {
-						$return = array('error' => 11, 'description' => $this->translate('An unknown error'));
-					}
-				} else {
-					$return = array('error' => 12, 'description' => $upload->getError());
-				}
-		}
-		
-		if( $request->isPost() ) {
-			
-			$result = Model_Pins::create(array(
-				'title' => $request->getPost('title'),
-				'from' => '',
-				'image' => BASE_PATH . JO_Session::get('upload_from_file'),
-				'is_video' => $request->getPost('is_video'),
-                                'is_article' => $request->getPost('is_article'),
-				'description' => $request->getPost('message'),
-				'price' => $request->getPost('price'),
-				'board_id' => $request->getPost('board_id')
-			));
-			if($result) {
-				
-				Model_History::addHistory(0, Model_History::ADDPIN, $result);
-				
-				if(JO_Registry::get('isMobile')){
-					//$this->redirect('/');
-				}
-				
-				$session_user = JO_Session::get('user[user_id]');
-				
-				$group = Model_Boards::isGroupBoard($request->getPost('board_id'));
-				if($group) {
-					$users = explode(',',$group);
-					foreach($users AS $user_id) {
-						if($user_id != $session_user) {
-							$user_data = Model_Users::getUser($user_id);
+                        $this->view->success = 1; //$this->view->render('upload_images', 'addpin');
+                        JO_Session::set('upload_from_file', $temporary . $info['name']);
+                        JO_Session::set('upload_from_file_name', $image['name']);
+                    } else
+                    {
+                        $return = array('error' => 11, 'description' => $this->translate('An unknown error'));
+                    }
+                } else
+                {
+                    $return = array('error' => 12, 'description' => $upload->getError());
+                }
+            }
 
-							if($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email']) {
-								$this->view->user_info = $user_data;
-								$this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
-								$this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
-								$this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
-								$board_info = Model_Boards::getBoard($request->getPost('board_id'));
-								if($board_info) {
-									$this->view->board_title = $board_info['title'];
-									$this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
-								}
-								Model_Email::send(
-				    	        	$user_data['email'],
-				    	        	JO_Registry::get('noreply_mail'),
-				    	        	JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'),
-				    	        	$this->view->render('group_board', 'mail')
-				    	        );
-							}
+            if ($request->isPost())
+            {
 
-						}
-					}
-				}
-				
-				$this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
-				$this->view->popup_main_box = $this->view->render('success','addpin');
-				if(JO_Session::get('upload_from_file')) {
-					@unlink( BASE_PATH . JO_Session::get('upload_from_file') );
-					JO_Session::clear('upload_from_file');
-					JO_Session::clear('upload_from_file_name');
-				}
-			}
-			
-		}
-		
-		
-        
-        
-        
-        /*
-        //$_FILES-> name type tmp_name error size
-        //'image' => BASE_PATH . JO_Session::get('upload_from_file'),
-		if( $request->isPost() ) {
-		$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
-		
-		$this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
-		
-	
-		
-		$this->view->popup_main_box = $this->view->render('fromfile','addpin');
+                $result = Model_Pins::create(array(
+                            'title' => $request->getPost('title'),
+                            'from' => '',
+                            'image' => BASE_PATH . JO_Session::get('upload_from_file'),
+                            'is_video' => $request->getPost('is_video'),
+                            'is_article' => $request->getPost('is_article'),
+                            'description' => $request->getPost('message'),
+                            'price' => $request->getPost('price'),
+                            'board_id' => $request->getPost('board_id')
+                        ));
+                if ($result)
+                {
 
-			
-			$url_m = $request->getPost('image');
-			if(strpos($url_m, '.jpg?')) {
-			$url_m = explode('?', $url_m);
-			$url_m = $url_m[0];
-			}
-                        error_log("3file name " . $_FILES["file"]["tmp_name"] . " url_m " . $url_m);
-                        $url_m = $_FILES;
-			
-			$result = Model_Pins::create(array(
-				'title' => $request->getPost('title'),
-				'from' => $request->getPost('from'),
-				'image' => $url_m,
-				'is_video' => 0, //$request->getPost('is_video'),
-				'is_article' => 0, //$request->getPost('is_article'),
-				'description' => $request->getPost('message'),
-				'price' => $request->getPost('price'),
-				'board_id' => $request->getPost('board_id')
-			));
-			if($result) {
-				Model_History::addHistory(JO_Session::get('user[user_id]'), Model_History::ADDPIN, $result);
-				
-			
-				$session_user = JO_Session::get('user[user_id]');
-				
-				$group = Model_Boards::isGroupBoard($request->getPost('board_id'));
-				if($group) {
-					$users = explode(',',$group);
-					foreach($users AS $user_id) {
-						if($user_id != $session_user) {
-							$user_data = Model_Users::getUser($user_id);
+                    Model_History::addHistory(0, Model_History::ADDPIN, $result);
 
-							if($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email']) {
-								$this->view->user_info = $user_data;
-								$this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
-								$this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
-								$this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
-								$board_info = Model_Boards::getBoard($request->getPost('board_id'));
-								if($board_info) {
-									$this->view->board_title = $board_info['title'];
-									$this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
-								}
-								Model_Email::send(
-				    	        	$user_data['email'],
-				    	        	JO_Registry::get('noreply_mail'),
-				    	        	JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'),
-				    	        	$this->view->render('group_board', 'mail')
-				    	        );
-							}
+                    if (JO_Registry::get('isMobile'))
+                    {
+                        //$this->redirect('/');
+                    }
 
-						}
-					}
-				}
-				
-				$this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
-				$this->view->popup_main_box = $this->view->render('success','addpin');
-			}
-			
-		}
-         */       
-                
-        } 
-        else
+                    $session_user = JO_Session::get('user[user_id]');
+
+                    $group = Model_Boards::isGroupBoard($request->getPost('board_id'));
+                    if ($group)
+                    {
+                        $users = explode(',', $group);
+                        foreach ($users AS $user_id)
+                        {
+                            if ($user_id != $session_user)
+                            {
+                                $user_data = Model_Users::getUser($user_id);
+
+                                if ($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email'])
+                                {
+                                    $this->view->user_info = $user_data;
+                                    $this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+                                    $this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
+                                    $this->view->pin_href = WM_Router::create($request->getBaseUrl() . '?controller=pin&pin_id=' . $result);
+                                    $board_info = Model_Boards::getBoard($request->getPost('board_id'));
+                                    if ($board_info)
+                                    {
+                                        $this->view->board_title = $board_info['title'];
+                                        $this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
+                                    }
+                                    Model_Email::send(
+                                            $user_data['email'], JO_Registry::get('noreply_mail'), JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'), $this->view->render('group_board', 'mail')
+                                    );
+                                }
+                            }
+                        }
+                    }
+
+                    $this->view->pin_url = WM_Router::create($request->getBaseUrl() . '?controller=pin&pin_id=' . $result);
+                    $this->view->popup_main_box = $this->view->render('success', 'addpin');
+                    if (JO_Session::get('upload_from_file'))
+                    {
+                        @unlink(BASE_PATH . JO_Session::get('upload_from_file'));
+                        JO_Session::clear('upload_from_file');
+                        JO_Session::clear('upload_from_file_name');
+                    }
+                }
+            }
+
+
+
+
+
+            /*
+              //$_FILES-> name type tmp_name error size
+              //'image' => BASE_PATH . JO_Session::get('upload_from_file'),
+              if( $request->isPost() ) {
+              $this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
+
+              $this->view->upload_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_imagesView' );
+
+
+
+              $this->view->popup_main_box = $this->view->render('fromfile','addpin');
+
+
+              $url_m = $request->getPost('image');
+              if(strpos($url_m, '.jpg?')) {
+              $url_m = explode('?', $url_m);
+              $url_m = $url_m[0];
+              }
+              error_log("3file name " . $_FILES["file"]["tmp_name"] . " url_m " . $url_m);
+              $url_m = $_FILES;
+
+              $result = Model_Pins::create(array(
+              'title' => $request->getPost('title'),
+              'from' => $request->getPost('from'),
+              'image' => $url_m,
+              'is_video' => 0, //$request->getPost('is_video'),
+              'is_article' => 0, //$request->getPost('is_article'),
+              'description' => $request->getPost('message'),
+              'price' => $request->getPost('price'),
+              'board_id' => $request->getPost('board_id')
+              ));
+              if($result) {
+              Model_History::addHistory(JO_Session::get('user[user_id]'), Model_History::ADDPIN, $result);
+
+
+              $session_user = JO_Session::get('user[user_id]');
+
+              $group = Model_Boards::isGroupBoard($request->getPost('board_id'));
+              if($group) {
+              $users = explode(',',$group);
+              foreach($users AS $user_id) {
+              if($user_id != $session_user) {
+              $user_data = Model_Users::getUser($user_id);
+
+              if($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email']) {
+              $this->view->user_info = $user_data;
+              $this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+              $this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
+              $this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
+              $board_info = Model_Boards::getBoard($request->getPost('board_id'));
+              if($board_info) {
+              $this->view->board_title = $board_info['title'];
+              $this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
+              }
+              Model_Email::send(
+              $user_data['email'],
+              JO_Registry::get('noreply_mail'),
+              JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'),
+              $this->view->render('group_board', 'mail')
+              );
+              }
+
+              }
+              }
+              }
+
+              $this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
+              $this->view->popup_main_box = $this->view->render('success','addpin');
+              }
+
+              }
+             */
+        } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
             $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
-                
+
 
         if ($callback)
         {
@@ -2017,15 +2002,12 @@ class Apiv1Controller extends JO_Action
         }
 
         $response->appendBody($return);
-                
-    }	
-    
-
-        
+    }
 
     //===== logout ======//
-    public function logoutAction() {
-        
+    public function logoutAction()
+    {
+
         $this->noViewRenderer(true);
 
         $request = $this->getRequest();
@@ -2045,27 +2027,26 @@ class Apiv1Controller extends JO_Action
 
         if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
         {
-            $_SESSION['tokenApp'] = NULL;
-        
+            $_SESSION['token'] = NULL;
+            JO_Session::set('token', NULL);
+
             if ($_POST['userId'] == JO_Session::get('user[user_id]'))
             {
                 $this->setInvokeArg('noViewRenderer', true);
-                @setcookie('csrftoken_', md5(JO_Session::get('user[user_id]') . $this->getRequest()->getDomain() . JO_Session::get('user[date_added]') ), (time() - 100 ), '/', '.'.$this->getRequest()->getDomain());
+                @setcookie('csrftoken_', md5(JO_Session::get('user[user_id]') . $this->getRequest()->getDomain() . JO_Session::get('user[date_added]')), (time() - 100), '/', '.' . $this->getRequest()->getDomain());
                 JO_Session::set(array('user' => false));
 
                 $return = 1;
-            }
-            else
+            } else
             {
                 $return = 0;
             }
-            
         } else
         {
 //no existe la sesión / no existe el dato recibido por post / el token no es igual.
             $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
-                
+
 
         if ($callback)
         {
@@ -2079,13 +2060,13 @@ class Apiv1Controller extends JO_Action
         }
 
         $response->appendBody($return);
-    	
     }
 
-    
-    	public function loginFacebookAction() {
-		
-$this->noViewRenderer(true);
+    public function registerFacebookAction($data = null)
+    {
+
+
+        $this->noViewRenderer(true);
 
         $request = $this->getRequest();
         $response = $this->getResponse();
@@ -2104,97 +2085,319 @@ $this->noViewRenderer(true);
 
         $return = array();
 
-		
+        if (JO_Session::get('user[user_id]'))
+        {
+            $this->redirect(WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]')));
+        }
+
+        if (!$data)
+        {
+            $this->redirect(WM_Router::create($this->getRequest()->getBaseUrl() . '?controller=users&action=login'));
+        }
+
+        $fbData = $data['fbData'];
+        $session = $data['session'];
+        $shared_content = isset($data['shared_content']) ? $data['shared_content'] : '';
+
+
+        self::loginInit($fbData['id'], $session);
+
+        $ph = new WM_Facebook_Photo();
+        $image = $ph->getRealUrl('http://graph.facebook.com/' . $fbData['id'] . '/picture?type=large');
+        if (!@getimagesize($image))
+        {
+            $image = '';
+        }
+
+        $this->view->error = false;
+        if ($request->isPost())
+        {
+
+            $validate = new Helper_Validate();
+            $validate->_set_rules($request->getPost('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
+//			$validate->_set_rules($request->getPost('firstname'), $this->translate('First name'), 'not_empty;min_length[3];max_length[100]');
+//			$validate->_set_rules($request->getPost('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
+            $validate->_set_rules($request->getPost('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
+            $validate->_set_rules($request->getPost('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
+//			$validate->_set_rules($request->getPost('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
+
+            if ($validate->_valid_form())
+            {
+//				if( md5($request->getPost('password')) != md5($request->getPost('password2')) ) {
+//					$validate->_set_form_errors( $this->translate('Password and Confirm Password should be the same') );
+//					$validate->_set_valid_form(false);
+//				}
+                if (Model_Users::isExistEmail($request->getPost('email')))
+                {
+                    $validate->_set_form_errors($this->translate('This e-mail address is already used'));
+                    $validate->_set_valid_form(false);
+                }
+                if (Model_Users::isExistUsername($request->getPost('username')))
+                {
+                    $validate->_set_form_errors($this->translate('This username is already used'));
+                    $validate->_set_valid_form(false);
+                }
+            }
+
+            if ($validate->_valid_form())
+            {
+                $reg_key = sha1($request->getPost('email') . $request->getPost('username'));
+
+                $result = Model_Users::create(array(
+                            'facebook_id' => $fbData['id'],
+                            'gender' => (isset($fbData['gender']) ? $fbData['gender'] : ''),
+                            'avatar' => ($image ? $image : ''),
+                            'location' => (isset($fbData['hometown']['name']) ? $fbData['hometown']['name'] : ''),
+                            'website' => (isset($fbData['website']) ? $fbData['website'] : ''),
+                            'username' => $request->getPost('username'),
+                            'firstname' => isset($fbData['first_name']) ? $fbData['first_name'] : '',
+                            'lastname' => isset($fbData['last_name']) ? $fbData['last_name'] : '',
+                            'email' => $request->getPost('email'),
+                            'password' => $request->getPost('password'),
+                            'delete_email' => isset($fbData['email']) ? $fbData['email'] : '',
+                            'facebook_session' => $session,
+                            'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
+                            'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
+                            'facebook_connect' => 1,
+                            'confirmed' => '0',
+                            'regkey' => $reg_key
+                        ));
+
+                if ($result)
+                {
+                    //self::loginInit($fbData['id'], $session);
+
+                    if (self::sendMail($result))
+                    {
+                        self::loginInit($fbData['id']);
+                        $this->redirect(WM_Router::create($this->getRequest()->getBaseUrl()));
+                    };
+                } else
+                {
+                    $this->view->error = $this->translate('There was a problem with the record. Please try again!');
+                }
+            } else
+            {
+                $this->view->error = $validate->_get_error_messages();
+            }
+        }
+
+        $this->view->user_id_fb = $fbData['id'];
+
+
+        $this->view->baseUrl = $request->getBaseUrl();
+
+        if ($request->issetPost('email'))
+        {
+            $this->view->email = $request->getPost('email');
+        } else
+        {
+            if (isset($fbData['email']))
+            {
+                $this->view->email = $fbData['email'];
+            } else
+            {
+                $this->view->email = '';
+            }
+        }
+
+        if ($request->issetPost('firstname'))
+        {
+            $this->view->firstname = $request->getPost('firstname');
+        } else
+        {
+            if (isset($fbData['first_name']))
+            {
+                $this->view->firstname = $fbData['first_name'];
+            } else
+            {
+                $this->view->firstname = '';
+            }
+        }
+//		
+//		if($request->issetPost('lastname')) {
+//			$this->view->lastname = $request->getPost('lastname');
+//		} else {
+//			if(isset($fbData['last_name'])) {
+//				$this->view->lastname = $fbData['last_name'];
+//			} else {
+//				$this->view->lastname = '';
+//			}
+//		}
+
+        if ($request->issetPost('username'))
+        {
+            $this->view->username = $request->getPost('username');
+        } else
+        {
+            if (isset($fbData['username']))
+            {
+                $this->view->username = $fbData['username'];
+            } else
+            {
+                $this->view->username = '';
+            }
+        }
+
+        $this->view->password = $request->getPost('password');
+//		$this->view->password2 = $request->getPost('password2');
+
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json; charset=utf-8');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }
+
+    public function loginfbAction()
+    {
+
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        $return = array();
+
+
 //		if( JO_Session::get('user[user_id]') ) {
 //			$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
 //		}
 
-		/*if($request->getQuery('session')) {
-			$session = JO_Json::decode( html_entity_decode($request->getQuery('session')), true );
-			if($session) {
-				$this->facebook->setSession($session);
-				if($request->getQuery('next')) {
-					JO_Session::set('next', $request->getQuery('next'));
-				}
-			}
-		}*/
-		
-		$session = $this->facebook->getUser();
-		
-		$fbData = null;
-		if($session) {
-			$fbData = $this->facebook->api('/me');
-		}
-		
+        /* if($request->getQuery('session')) {
+          $session = JO_Json::decode( html_entity_decode($request->getQuery('session')), true );
+          if($session) {
+          $this->facebook->setSession($session);
+          if($request->getQuery('next')) {
+          JO_Session::set('next', $request->getQuery('next'));
+          }
+          }
+          } */
+        if (isset($_POST['token']))
+        {
+            $id = $_POST['userId'];
 
-		if($fbData) {
-			if(!isset($fbData['email'])) {
-		    	$fbData['email'] = '';
-		    }
-		    
-			if(!self::loginInit($fbData['id'], $session)) {
-				
-				//if(!self::loginInit($fbData['email'], $session, 'email')) {
-					
-					if(JO_Registry::get('enable_free_registration')) {
-						$this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => array()));
-					}
-					
-					$shared_content = Model_Users::checkInvateFacebookID($fbData['id']);
-					
-					if( $shared_content ) {
-                                            $token = md5($result['user_id']);
-                                            error_log("token -> " . $token);
-                                            $_SESSION['tokenApp'] = $token;
-                //$token = md5(uniqid(rand(), true));
+            $user_data = WM_Users::checkLoginFacebookTwitter($id, 'facebook');
+            if ($user_data)
+            {
+                JO_Session::set(array('user' => $user_data));
+                JO_Session::clear('fb_login');
+
+                $token = md5($user_data['user_id']);
+
+                $_SESSION['token'] = $token;
+                JO_Session::set('token', $token);
+
 
                 $return = array('id' => $result['user_id'],
-                    'username' => $result['username'],
+                    'username' => $user_data['username'],
                     'token' => $token,
-                    'firstname' => $result['firstname'],
-                    'lastname' => $result['lastname'],
-                    'fbData'=>$fbData, 
-                    'session' => $session); 
+                    'firstname' => $user_data['firstname'],
+                    'lastname' => $user_data['lastname']);
+            } 
+            else
+            {
+                $return = array('error' => 13, 'description' => $this->translate("Error en el login de facebook"));
+            }
+        }
 
-//						$this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => $shared_content));
-					} else {
-					
-						$this->setViewChange('no_account');
-						
-						$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-						if($page_login_trouble) {
-                                                       $return = array('error' => 13, 'description' => $this->translate($page_login_trouble['title']));
-                                                       /*
-							$this->view->page_login_trouble = array(
-								'title' => $page_login_trouble['title'],
-								'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-							);
-                                                        * 
-                                                        */
-						}
-					
-					}
-				//}
-			
-			}
-		    
-		} else {
-			$this->setViewChange('error_login');
-			
-			$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-			if($page_login_trouble) {
-                            $return = array('error' => 14, 'description' => $this->translate($page_login_trouble['title']));
-				/*$this->view->page_login_trouble = array(
-					'title' => $page_login_trouble['title'],
-					'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-				);
-                                 * */
-			}
-		}
-		
+        /*
+          $session = $this->facebook->getUser();
+
+          $fbData = null;
+          if($session) {
+          $fbData = $this->facebook->api('/me');
+          }
 
 
-                if ($callback)
+          if($fbData) {
+          if(!isset($fbData['email'])) {
+          $fbData['email'] = '';
+          }
+
+          if(!self::loginInit($fbData['id'], $session)) {
+
+          //if(!self::loginInit($fbData['email'], $session, 'email')) {
+
+          if(JO_Registry::get('enable_free_registration')) {
+          $this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => array()));
+          }
+
+          $shared_content = Model_Users::checkInvateFacebookID($fbData['id']);
+
+          if( $shared_content ) {
+          $token = md5($result['user_id']);
+
+          $_SESSION['token'] = $token;
+          JO_Session::set('token', $token);
+          //$token = md5(uniqid(rand(), true));
+
+          $return = array('id' => $result['user_id'],
+          'username' => $result['username'],
+          'token' => $token,
+          'firstname' => $result['firstname'],
+          'lastname' => $result['lastname'],
+          'fbData'=>$fbData,
+          'session' => $session);
+
+          //						$this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => $shared_content));
+          } else {
+
+          $this->setViewChange('no_account');
+
+          $page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+          if($page_login_trouble) {
+          $return = array('error' => 13, 'description' => $this->translate($page_login_trouble['title']));
+          /*
+          $this->view->page_login_trouble = array(
+          'title' => $page_login_trouble['title'],
+          'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+          );
+         * 
+         *//*
+          }
+
+          }
+          //}
+
+          }
+
+          } else {
+          $this->setViewChange('error_login');
+
+          $page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+          if($page_login_trouble) {
+          $return = array('error' => 14, 'description' => $this->translate($page_login_trouble['title']));
+          /*$this->view->page_login_trouble = array(
+          'title' => $page_login_trouble['title'],
+          'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+          );
+         * *//*
+          }
+          }
+         */
+
+        if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
         } else
@@ -2206,12 +2409,11 @@ $this->noViewRenderer(true);
         }
 
         $response->appendBody($return);
+    }
 
-		
-	}
+    public function logintwAction()
+    {
 
-	public function loginTwitterAction() {
-		
         $this->noViewRenderer(true);
 
         $request = $this->getRequest();
@@ -2231,97 +2433,37 @@ $this->noViewRenderer(true);
 
         $return = array();
 
-		
-		if(JO_Session::get('user[user_id]')) {
-			/* @var $twitteroauth JO_Api_Twitter_OAuth */
-			$twitteroauth = new JO_Api_Twitter_OAuth(JO_Registry::get('oauth_tw_key'), JO_Registry::get('oauth_tw_secret'), JO_Session::get('twitter[oauth_token]'), JO_Session::get('twitter[oauth_token_secret]'));
-			$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
-			$user_info = $twitteroauth->get('account/verify_credentials');
-			if($user_info && $user_info->id) {
-				Model_Users::edit(JO_Session::get('user[user_id]'), array(
-					'twitter_connect' => 1,
-					'twitter_id' => $user_info->id,
-					'twitter_username' => $user_info->screen_name
-				));
-				$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=settings' ) );
-			}
-		}
-		
-		
-		$twitteroauth = new JO_Api_Twitter_OAuth(JO_Registry::get('oauth_tw_key'), JO_Registry::get('oauth_tw_secret'), JO_Session::get('twitter[oauth_token]'), JO_Session::get('twitter[oauth_token_secret]'));
-//		$data = $twitteroauth->getAccessToken( );
-//		echo '<pre>';
-//		var_dump(JO_Session::get('twitter[oauth_token]'), JO_Session::get('twitter[oauth_token_secret]'),$twitteroauth->getAccessToken()); exit;
-		
-		if(!JO_Session::get('user_info_twitteroauth')) {
-			$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
-			$user_info = $twitteroauth->get('account/verify_credentials');
-			JO_Session::set('user_info_twitteroauth', $user_info);
-			JO_Session::set('access_token_twitteroauth', $access_token);
-		} else {
-			$user_info = JO_Session::get('user_info_twitteroauth');
-		}
 
-		if($request->issetQuery('next')) {
-			JO_Session::set('next', html_entity_decode($request->getQuery('next')));
-		}
-		
-//		$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
-//		$user_info = $twitteroauth->get('account/verify_credentials');
-		
-		if(isset($user_info->id) && $user_info->id) {
-			
-			if(!self::loginInit($user_info->id)) {
-				
-				$this->setViewChange('no_account');
-					
-				$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-				if($page_login_trouble) {
-                                        $return = array('error' => 14, 'description' => $this->translate($page_login_trouble['title']));
-                                        /*
-					$this->view->page_login_trouble = array(
-						'title' => $page_login_trouble['title'],
-						'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-					);
-                                         * 
-                                         */
-				}
-		
-				
-			}
-                        else
-                        {
-                $token = md5($result['user_id']);
-                
-                error_log("token -> " . $token);
-                $_SESSION['tokenApp'] = $token;
+        if (isset($_POST['token']))
+        {
+            $id = $_POST['userId'];
+
+            $user_data = WM_Users::checkLoginFacebookTwitter($id, 'twitter');
+            if ($user_data)
+            {
+                JO_Session::set(array('user' => $user_data));
+                JO_Session::clear('user_info_twitteroauth');
+                JO_Session::clear('access_token_twitteroauth');
+
+                $token = md5($user_data['user_id']);
+
+                $_SESSION['token'] = $token;
+                JO_Session::set('token', $token);
+
 
                 $return = array('id' => $result['user_id'],
-                    'username' => $result['username'],
+                    'username' => $user_data['username'],
                     'token' => $token,
-                    'firstname' => $result['firstname'],
-                    'lastname' => $result['lastname']); // $user_data;  
-                            
-                        }
-			
-		} else {
-			$this->setViewChange('error_login');
-			
-			$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-			if($page_login_trouble) {
-                                $return = array('error' => 15, 'description' => $this->translate($page_login_trouble['title']));
-                                /*
-				$this->view->page_login_trouble = array(
-					'title' => $page_login_trouble['title'],
-					'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-				);
-                                 * 
-                                 */
-			}
-		
-		}
-		
-                //$token = md5(uniqid(rand(), true));
+                    'firstname' => $user_data['firstname'],
+                    'lastname' => $user_data['lastname']);
+            } 
+            else
+            {
+                $return = array('error' => 14, 'description' => $this->translate("Error en el login de twitter"));
+            }
+        }
+
+        //$token = md5(uniqid(rand(), true));
         if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
@@ -2334,13 +2476,11 @@ $this->noViewRenderer(true);
         }
 
         $response->appendBody($return);
-		
-		
-	}
-    
-        
-	public function agendaAction(){
-		
+    }
+
+    public function agendaAction()
+    {
+
         $this->noViewRenderer(true);
 
         $request = $this->getRequest();
@@ -2358,29 +2498,26 @@ $this->noViewRenderer(true);
             $callback = false;
         }
 
-        error_log("user " . md5($_POST['userId']) ." token ". $_POST['token']);
-        
         if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
         {
-            $_SESSION['tokenApp'] = $_POST['token'];
-            //JO_Session::set('user[user_id]')
-			Model_Users::editAgenda( $request->getPost('agenda') );
-                        
-                        $data = Model_Users::followersUsers($_POST['userId']);
-                        if ($data)
-                        {
-                            foreach ($data AS $key => $user)
-                            {
-                                        //add history
-                                        Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
-                            }
-                        }
-                        
-                        $return = array('agenda' => $request->getPost('agenda'));
-                        
+            $_SESSION['token'] = $_POST['token'];
+            JO_Session::set('token', $_POST['token']);
+            Model_Users::editAgenda($request->getPost('agenda'));
+
+            $data = Model_Users::followersUsers($_POST['userId']);
+            if ($data)
+            {
+                foreach ($data AS $key => $user)
+                {
+                    //add history
+                    Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+                }
+            }
+
+            $return = array('agenda' => $request->getPost('agenda'));
         } else
         {
-//no existe la sesión / no existe el dato recibido por post / el token no es igual.
+            //no existe la sesión / no existe el dato recibido por post / el token no es igual.
             $return = array('error' => 401, 'description' => $this->translate('wrong token'));
         }
 
@@ -2396,9 +2533,8 @@ $this->noViewRenderer(true);
         }
 
         $response->appendBody($return);
+    }
 
-	}
-        
 }
 
 ?>

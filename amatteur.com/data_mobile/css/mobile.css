@@ -2847,4 +2847,300 @@ input{
 		100% {top: 0px }
 	}
 	
-	
+#ProfileHeader {
+    color: #534F4F;
+    font-size: 13px;
+    overflow: hidden;
+}
+
+
+#ProfileHeader .clearfix:after {
+    clear: both;
+    content: " ";
+    display: block;
+    height: 0;
+    visibility: hidden;
+}
+
+#ProfileHeader  .row {
+    margin: 10px auto;
+}
+
+       
+
+.FixedContainer {
+    margin: 0 auto;
+    width: 852px;
+}
+
+#ProfileHeader .row > div {
+    background: none repeat scroll 0 0 #FFFFFF;
+    box-shadow: 0 1px 3px rgba(34, 25, 25, 0.5);
+    float: left;
+}
+
+
+#ProfileHeader .FixedContainer .content textarea {
+    word-wrap: break-word;
+    padding: 5px;
+    resize: none;
+    /* width: 408px; */
+    width: 95%;
+    font-size: 12px;
+    color: #221919;
+    background: #FFFFFF;
+    border: 1px solid #AD9C9C;
+}
+
+input[type=text]:focus, input[type=password]:focus, textarea:focus {
+	outline: 0 none;
+}
+
+.box .info .view .commentslist ul li .form textarea {
+    float: left;
+    font-family: "helvetica neue",arial,sans-serif;
+    border: 1px solid #e2e2e2;
+    overflow: auto;
+    font-size: 12px;
+    line-height: 15px;
+    color: #999999;
+    resize: none;
+    height: 38px;
+    width: 508px;
+    padding-right: 5px;
+    padding-left: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+#panel .edit .textarea {
+    height: 76px;
+    margin-top: 20px;
+}
+#panel .edit .textarea textarea {
+    font-family: "helvetica neue",arial,sans-serif;
+    font-size: 15px;
+    color: #666;
+    background-color: #FFFFFF;
+    border: 1px solid #e3e3e3;
+    height: 64px;
+    line-height: 20px;
+    resize: none;
+    padding-top: 5px;
+    padding-right: 5px;
+    padding-bottom: 5px;
+    padding-left: 10px;
+    width: 383px;
+    overflow: auto;
+}
+
+.box .info .view .commentslist ul li .form textarea {
+	min-height: 38px;
+}
+
+.StaticForm input[type="text"], .StaticForm input[type="password"], .StaticForm textarea {
+	display: inline-block; 
+	box-sizing: border-box; 
+	-moz-box-sizing: border-box; 
+	-ms-box-sizing: border-box; 
+	-webkit-box-sizing: border-box; 
+	padding: 6px 12px; 
+	font-size: 18px; 
+	font-weight: 300; 
+	line-height: 1.4; 
+	color: #221919; 
+	background: #fff;
+	border: 1px solid #ad9c9c; 
+	border-radius: 6px; 
+	-moz-border-radius: 6px; 
+	-webkit-border-radius: 6px; 
+	box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px #fff; 
+	-moz-box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px #fff; 
+	-webkit-box-shadow: inset 0 1px rgba(34,25,25,0.15), 0 1px #fff; 
+	-moz-transition: all 0.08s ease-in-out; 
+	-webkit-transition: all 0.08s ease-in-out;
+	min-width: 376px;
+}
+
+.box .info .view .commentslist ul li .form textarea {
+    float: left;
+    font-family: "helvetica neue",arial,sans-serif;
+    border: 1px solid #e2e2e2;
+    overflow: auto;
+    font-size: 12px;
+    line-height: 15px;
+    color: #999999;
+    resize: none;
+    height: 38px;
+    width: 508px;
+    padding-right: 5px;
+    padding-left: 8px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.PersonImage {
+    float: left;
+    height: 50px;
+    margin-right: 8px;
+    width: 50px;
+}
+.person .PersonPins .ImgLink {
+    background-color: #E1DFDF;
+    float: left;
+    height: 38px;
+    margin: 0 4px 0 0;
+    width: 38px;
+}
+
+#message .Button {
+	font-size: 11px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	color: #FCF9F9;
+	text-shadow: 0 0px rgba(34, 25, 25, 0.5);
+	font-weight: bold;
+	float: right;
+	border: 1px solid #02416D;
+	margin-top: 5px;
+        padding: 5px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background: -moz-linear-gradient(center top, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background-color: #0070BF !important;
+}
+
+
+#ProfileHeader .infoBody {
+    height: 660px;
+    /*position: relative;*/
+    width: 225px;
+    position: absolute;
+    top: 0px;
+    right: 265px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#ProfileHeader .infoMessage {
+    height: 620px;
+    /*position: relative;*/
+    width: 225px;
+    position: absolute;
+    top: -10px;
+    left: 10px;
+    overflow: auto;
+    overflow-x: hidden;
+}
+
+#ProfileHeader .infoBody p.noAgenda img {
+    margin-left: 8px;
+    margin-top: -4px;
+    vertical-align: middle;
+}
+
+#ProfileHeader .infoBody p.noAgenda:hover {
+    cursor: text;
+    border: 1px solid #c9b5b5;
+    padding: 3px;
+    margin: -4px 0 6px -4px;
+}
+
+#ProfileHeader .infoMessage p.noMessage img {
+    margin-left: 8px;
+    margin-top: -4px;
+    vertical-align: middle;
+}
+
+#ProfileHeader .infoMessage p.noMessage:hover {
+    cursor: text;
+    border: 1px solid #c9b5b5;
+    padding: 3px;
+    margin: -4px 0 6px -4px;
+}
+
+
+#ProfileHeader .infoBody #editAgenda .CharacterCount {
+    float: right;
+    margin-right: 10px;
+    margin-top: 8px;
+}
+
+
+
+#ProfileHeader .infoBody #editAgenda .Button {
+	font-size: 11px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	color: #FCF9F9;
+	text-shadow: 0 0px rgba(34, 25, 25, 0.5);
+	font-weight: bold;
+	float: right;
+	border: 1px solid #02416D;
+	margin-top: 5px;
+        padding: 5px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background: -moz-linear-gradient(center top, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background-color: #0070BF !important;
+}
+
+#ProfileHeader .infoBody #editAgenda .Button:hover {
+	text-decoration: none;
+}
+
+#ProfileHeader .infoBody #editAgenda .Button.disabled {
+    background: none repeat scroll 0 0 #F2F0F0;
+    border-color: #D1CDCD;
+    color: #D1CDCD;
+    cursor: default;
+    text-shadow: 0 -1px rgba(34, 25, 25, 0.01);
+}
+
+#ProfileHeader .infoMessage #editMessage .CharacterCount {
+    float: right;
+    margin-right: 10px;
+    margin-top: 8px;
+}
+
+
+
+#ProfileHeader .infoMessage #editMessage .Button {
+	font-size: 11px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	color: #FCF9F9;
+	text-shadow: 0 0px rgba(34, 25, 25, 0.5);
+	font-weight: bold;
+	float: right;
+	border: 1px solid #02416D;
+	margin-top: 5px;
+        padding: 5px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background: -moz-linear-gradient(center top, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background-color: #0070BF !important;
+}
+
+#ProfileHeader .infoMessage #editMessage .Button:hover {
+	text-decoration: none;
+}
+
+#ProfileHeader .infoMessage #editMessage .Button.disabled {
+    background: none repeat scroll 0 0 #F2F0F0;
+    border-color: #D1CDCD;
+    color: #D1CDCD;
+    cursor: default;
+    text-shadow: 0 -1px rgba(34, 25, 25, 0.01);
+}
+
+
+.colorless, .colorless a {
+    color: #8C7E7E;
+}
+

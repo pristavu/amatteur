@@ -47,6 +47,13 @@ if($routers_files) {
 	}
 }
 
+//para las APP's
+if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
+{
+    $_SESSION['token'] = $_POST['token'];
+    JO_Session::set('token', $_POST['token']);
+}
+
 //dispatch application
 $application->dispatch();
 

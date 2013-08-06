@@ -122,7 +122,7 @@ class AddpinController extends JO_Action {
 		if($request->isGet() && $request->getQuery('url')) {
 			
 			$http = new JO_Http();
-			$http->setUseragent('Pintastic bot v' . JO_Registry::get('system_version'));
+			$http->setUseragent('Amatteur bot v' . JO_Registry::get('system_version'));
 			$http->useCurl(true);
 			$http->execute($request->getQuery('url'), $request->getBaseUrl(), 'GET');
 			
@@ -131,7 +131,7 @@ class AddpinController extends JO_Action {
 			if(isset($http->headers['location']) && $http->headers['location']) {
 				$new_url = $http->headers['location'];
 				$http = new JO_Http();
-				$http->setUseragent('Pintastic bot v' . JO_Registry::get('system_version'));
+				$http->setUseragent('Amatteur bot v' . JO_Registry::get('system_version'));
 				$http->useCurl(true);
 				$http->execute($new_url, $request->getBaseUrl(), 'GET');
 				$video_url = $new_url;
@@ -287,7 +287,7 @@ class AddpinController extends JO_Action {
 							$url = 'http://vimeo.com/api/v2/video/'.$match[1].'.json?callback=';
 							
 							$http = new JO_Http();
-							$http->setUseragent('Pintastic bot v' . JO_Registry::get('system_version'));
+							$http->setUseragent('Amatteur bot v' . JO_Registry::get('system_version'));
 							$http->useCurl(true);
 							$http->execute($url, $request->getBaseUrl(), 'GET');
 							

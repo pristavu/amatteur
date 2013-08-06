@@ -4420,21 +4420,25 @@ input::-moz-focus-inner { border: 0; }
 }
 
 #ProfileHeader .infoBody {
-    height: 380px;
+    height: 620px;
     /*position: relative;*/
-    width: 142px;
+    width: 225px;
     position: absolute;
     top: -10px;
-    right: 160px;
+    right: 265px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 #ProfileHeader .infoMessage {
-    height: 380px;
+    height: 620px;
     /*position: relative;*/
-    width: 140px;
+    width: 225px;
     position: absolute;
     top: -10px;
     right: 10px;
+    overflow: auto;
+    overflow-x: hidden;
 }
 
 
@@ -4608,6 +4612,26 @@ input::-moz-focus-inner { border: 0; }
 
 
 #ProfileHeader .infoBody #editAgenda .Button {
+	font-size: 11px;
+	border-radius: 4px;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+	color: #FCF9F9;
+	text-shadow: 0 0px rgba(34, 25, 25, 0.5);
+	font-weight: bold;
+	float: right;
+	border: 1px solid #02416D;
+	margin-top: 5px;
+        padding: 5px;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background: -moz-linear-gradient(center top, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
+	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	background-color: #0070BF !important;
+}
+
+
+#message .Button {
 	font-size: 11px;
 	border-radius: 4px;
 	-moz-border-radius: 4px;

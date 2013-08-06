@@ -5,7 +5,7 @@
 
 
     
-<?php if (!isset($_SESSION['token']))
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->footer_part;
 }    
