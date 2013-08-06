@@ -2062,7 +2062,7 @@ class Apiv1Controller extends JO_Action
         $response->appendBody($return);
     }
 
-    public function registerFacebookAction($data = null)
+    public function registerfbAction($data = null)
     {
 
 
@@ -2085,6 +2085,7 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
+        /*
         if (JO_Session::get('user[user_id]'))
         {
             $this->redirect(WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]')));
@@ -2094,6 +2095,8 @@ class Apiv1Controller extends JO_Action
         {
             $this->redirect(WM_Router::create($this->getRequest()->getBaseUrl() . '?controller=users&action=login'));
         }
+         * 
+         */
 
         $fbData = $data['fbData'];
         $session = $data['session'];
@@ -2123,10 +2126,10 @@ class Apiv1Controller extends JO_Action
 
             if ($validate->_valid_form())
             {
-//				if( md5($request->getPost('password')) != md5($request->getPost('password2')) ) {
-//					$validate->_set_form_errors( $this->translate('Password and Confirm Password should be the same') );
-//					$validate->_set_valid_form(false);
-//				}
+                if( md5($request->getPost('password')) != md5($request->getPost('password2')) ) {
+                        $validate->_set_form_errors( $this->translate('Password and Confirm Password should be the same') );
+                        $validate->_set_valid_form(false);
+                }
                 if (Model_Users::isExistEmail($request->getPost('email')))
                 {
                     $validate->_set_form_errors($this->translate('This e-mail address is already used'));
@@ -2165,20 +2168,18 @@ class Apiv1Controller extends JO_Action
 
                 if ($result)
                 {
-                    //self::loginInit($fbData['id'], $session);
-
                     if (self::sendMail($result))
                     {
-                        self::loginInit($fbData['id']);
-                        $this->redirect(WM_Router::create($this->getRequest()->getBaseUrl()));
+                        //self::loginInit($result);
                     };
+                    $return = array('id' => $result); //['user_id']); 
                 } else
                 {
-                    $this->view->error = $this->translate('There was a problem with the record. Please try again!');
+                    $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
                 }
             } else
             {
-                $this->view->error = $validate->_get_error_messages();
+                $return = array('error' => 4, 'description' => $validate->_get_error_messages());
             }
         }
 
@@ -2293,9 +2294,9 @@ class Apiv1Controller extends JO_Action
           }
           }
           } */
-        if (isset($_POST['token']))
+        if (isset($_POST['facebook_id']))
         {
-            $id = $_POST['userId'];
+            $id = $_POST['facebook_id'];
 
             $user_data = WM_Users::checkLoginFacebookTwitter($id, 'facebook');
             if ($user_data)
@@ -2309,7 +2310,7 @@ class Apiv1Controller extends JO_Action
                 JO_Session::set('token', $token);
 
 
-                $return = array('id' => $result['user_id'],
+                $return = array('id' => $user_data['user_id'],
                     'username' => $user_data['username'],
                     'token' => $token,
                     'firstname' => $user_data['firstname'],
@@ -2451,7 +2452,7 @@ class Apiv1Controller extends JO_Action
                 JO_Session::set('token', $token);
 
 
-                $return = array('id' => $result['user_id'],
+                $return = array('id' => $user_data['user_id'],
                     'username' => $user_data['username'],
                     'token' => $token,
                     'firstname' => $user_data['firstname'],

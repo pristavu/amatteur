@@ -1,0 +1,31 @@
+<div class="box follow-box follow-board" id="<?php echo $this->history['history_id'];?>">
+	<div class="left-corner">
+		<div class="bottom-corner">
+			<div class="right-corner">
+				
+				<div class="preview">
+
+                                    <span class="icon-holder">
+                                            
+                                    </span>
+                                        <h4 class="title">
+                                            <strong><?php echo $this->history['fullname'];?></strong> <?php echo $this->history['text_type'];?>
+                                            <?php echo $this->history['comment'];?>
+                                            <span class="colorlight" title="<?php echo $this->history['date_added'];?>">
+                                                    <?php echo sprintf($this->translate('%d %s ago'), $this->history['value'], $this->translate($this->history['key']));?>
+                                            </span>
+                                       </h4>
+                                        <p class="thumb">
+                                            <a href="<?php echo $this->history['href'];?>" class="story">
+                                                
+                                                <img style="margin-left:<?php echo ( (194-$this->history['thumb_width']) / 2 );?>px;width:<?php echo $this->history['thumb_width'];?>px;height:<?php echo $this->history['thumb_height'];?>px;" width="<?php echo $this->history['thumb_width'];?>" height="<?php echo $this->history['thumb_height'];?>" data-original="<?php echo $this->history['thumb'];?>" src="data/images/grey.gif" alt="Image" />
+                                            </a>
+                                        </p>
+					
+				</div>
+				
+
+			</div>
+		</div>
+	</div>
+</div>

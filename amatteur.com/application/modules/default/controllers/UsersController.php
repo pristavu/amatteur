@@ -1248,31 +1248,42 @@ class UsersController extends JO_Action {
 						$view->history['like_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
 						$this->view->boards .= $view->render('history/unlike_user', 'users');
 					} elseif($data['history_action'] == Model_History::COMMENTUSER) {
-						//$view->history['commentUser'] = Model_Users::isLikeUser($view->history['to_user_id']);
+						$view->history['href'] = $data['href'];
+                                                $view->history['avatar'] = $data['user']['avatar'];
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['text_type'] = $data['text_type'];
+                                                $view->history['comment'] = $data['comment'];
+                                                $view->history['date_added'] = $data['date_added'];
+                                                $view->history['value'] = $data['date_dif']['value'];
+                                                $view->history['key'] = $data['date_dif']['key'];
+                                                $this->view->boards .= $view->render('history/history', 'users');
 						//$view->history['comment_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
 						//$this->view->boards .= $view->render('history/comment_user', 'users');
 					} elseif($data['history_action'] == Model_History::MESSAGEUSER) {
+						$view->history['href'] = $data['href'];
+                                                $view->history['avatar'] = $data['user']['avatar'];
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['text_type'] = $data['text_type'];
+                                                $view->history['comment'] = $data['comment'];
+                                                $view->history['date_added'] = $data['date_added'];
+                                                $view->history['value'] = $data['date_dif']['value'];
+                                                $view->history['key'] = $data['date_dif']['key'];
+                                                $this->view->boards .= $view->render('history/history', 'users');
 						//$view->history['messageUser'] = Model_Users::isLikeUser($view->history['to_user_id']);
 						//$view->history['message_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
 						//$this->view->boards .= $view->render('history/message_user', 'users');
 					} elseif($data['history_action'] == Model_History::UNMESSAGEUSER) {
-						//$view->history['unmessageUser'] = Model_Users::isLikeUser($view->history['to_user_id']);
+						$view->history['href'] = $data['href'];
+                                                $view->history['avatar'] = $data['user']['avatar'];
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['text_type'] = $data['text_type'];
+                                                $view->history['comment'] = $data['comment'];
+                                                $view->history['date_added'] = $data['date_added'];
+                                                $view->history['value'] = $data['date_dif']['value'];
+                                                $view->history['key'] = $data['date_dif']['key'];
+                                                $this->view->boards .= $view->render('history/history', 'users');
 						//$view->history['unmessage_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
 						//$this->view->boards .= $view->render('history/unmessage_user', 'users');
-                                            /*
-							<?php foreach($this->history AS $history) { ?>
-							<a href="<?php echo $history['href'];?>" class="story">
-						        <span class="profile">
-						        	<img src="<?php echo $history['user']['avatar'];?>" alt="<?php echo $history['user']['fullname'];?>">
-						        </span>
-								<strong><?php echo $history['user']['fullname'];?></strong> <?php echo $history['text_type'];?>
-								<span class="colorlight" title="<?php echo $history['date_added'];?>">
-									<?php echo sprintf($this->translate('%d %s ago'), $history['date_dif']['value'], $this->translate($history['date_dif']['key']));?>
-								</span>
-							</a>
-							<?php } ?>
-
-                                             */
 					}
 				}
 				
