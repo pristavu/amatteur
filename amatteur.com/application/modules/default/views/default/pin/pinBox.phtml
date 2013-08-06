@@ -88,7 +88,7 @@
 					<img src="data/images/VideoIndicator.png" alt="Video" class="video" />
 					<?php } ?>
                                         <?php if($this->pin['is_article']) { ?>
-                                          <img src="data/images/article.png"  class="article" alt="Articulo" style="display:block;float:right;" width="30px" height="30px" />
+                                          <img src="data/images/ico_arti.png"  class="article" alt="Articulo" style="display:block;float:right;" width="20px" height="22px" />
                                         <?php } ?>
 					<img style="margin-left:<?php echo ( (194-$this->pin['thumb_width']) / 2 );?>px;width:<?php echo $this->pin['thumb_width'];?>px;height:<?php echo $this->pin['thumb_height'];?>px;" width="<?php echo $this->pin['thumb_width'];?>" height="<?php echo $this->pin['thumb_height'];?>" data-original="<?php echo $this->pin['thumb'];?>" src="data/images/grey.gif" alt="Image" />
 				</a>
@@ -96,19 +96,31 @@
 			<h4><?php   echo Helper_Pin::descriptionFix($this->pin['description']);?></h4>
 			<p class="stats">
 				<span class="likes">
-				<?php if($this->pin['likes']) { ?>
-					<?php echo sprintf( $this->translate('%d like' . ($this->pin['likes'] == 1 ? '' : 's')), $this->pin['likes'] );?> 
-				<?php } ?>
+				<img width="15px" height="14px" src="data/images/ico_mg.png" alt="Me gusta" />
+				<?php if( $this->pin['likes']>0 )
+					echo ($this->pin['likes']);
+						else {
+		 				   echo "0";
+						}
+				?>
 				</span> &nbsp; 
 				<span class="comments">
-				<?php if($this->pin['comments']) { ?>
-					<?php echo sprintf( $this->translate('%d comment' . ($this->pin['comments'] == 1 ? '' : 's')), $this->pin['comments'] );?>
-				<?php } ?>
+				<img width="15px" height="14px" src="data/images/ico_com.png" alt="Comentarios" />
+				<?php if( $this->pin['comments']>0 )
+					echo ($this->pin['comments']);
+						else {
+		 				   echo "0";
+						}
+				?>
 				</span> &nbsp; 
 				<span class="repins">
-				<?php if($this->pin['repins']) { ?>
-					<?php echo sprintf( $this->translate('%d repin' . ($this->pin['repins'] == 1 ? '' : 's')), $this->pin['repins'] );?>
-				<?php } ?>
+				<img width="15px" height="14px" src="data/images/ico_gua.png" alt="Guardado" />
+				<?php if( $this->pin['repins']>0 )
+					echo ($this->pin['repins']);
+						else {
+		 				   echo "0";
+						}
+				?>
 				</span>
 			</p>
 		</div>
