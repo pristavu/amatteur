@@ -269,9 +269,11 @@ if(!$this->show_header_line && $this->show_header_invate) {
 			<div class="menumenus">
 			<ul class="links">
 				<?php if($this->is_loged) { ?>
-				<li><a href="./"><strong><?php echo $this->translate('Pinners you follow');?></strong></a></li>
+				<li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow');?></a></li>
 				<?php } ?>
-				
+				<?php if($this->is_loged) { ?>
+				<li><a href="<?php echo $this->invites;?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends');?></a></li>	
+				<?php } ?>
 				<li><a href="<?php echo $this->video_url;?>"><img width="20px" height="18px" src="data/images/ico_videos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Videos');?></a></li>
 				<li><a href="<?php echo $this->popular_url;?>"><img width="20px" height="18px" src="data/images/ico_popular.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular');?></a></li>
 				<li>
@@ -321,9 +323,7 @@ if(!$this->show_header_line && $this->show_header_invate) {
 				<?php } ?>
 			</ul>
 			</div>
-			<?php if($this->is_loged) { ?>
-			<p class="invitefriends"><a href="<?php echo $this->invites;?>"><?php echo $this->translate('Invite Friends');?></a></p>	
-			<?php } ?>
+			<!--AQUI IBA INVITAR-->
 		</div>
 	</div>
 	<?php } ?>
