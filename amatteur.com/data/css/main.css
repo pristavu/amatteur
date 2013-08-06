@@ -53,10 +53,11 @@ a:hover {
 	/*border-top: 2px solid #0070BF;*/
     background-color: #FAF7F7;
     width: 100%;
-    position: absolute;
+    position: fixed;
     z-index: 1001;
     left: 0px;
     top: 0px;
+    height:56px;
 }
 #top.fixed {
     position: fixed;
@@ -70,6 +71,7 @@ a:hover {
     margin-right: auto;
     margin-left: auto;
     position: relative;
+    min-width:950px;
 }
 #topwrapper .search {
     height: 28px;
@@ -378,13 +380,14 @@ a:hover {
 }
 #menu.fixed {
     position: fixed !important;
-    top: 0 !important;
+    top: 56px; !important;
 }
 #menuwrapper {
     margin-right: auto;
     margin-left: auto;
     position: relative;
     height: 34px;
+    min-width:950px;
 }
 #menuwrapper .menubienvenido {
 	float:left;
@@ -408,7 +411,7 @@ a:hover {
 #menuwrapper .menumenus {
     padding-top:3px;
 	float:right;
-    width:600px;
+    width:650px;
     float:right;
 }
 #menuwrapper .links {
@@ -418,7 +421,7 @@ a:hover {
     line-height: 15px;
     position: absolute;
     /*left: 50%;*/
-    width:600px;
+    width:650px;
     float:right;
 }
 #menuwrapper .links li {
@@ -6304,6 +6307,7 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
 	padding-right: 27px;
 	padding-top: 7px;
 	text-decoration: none;
+	color:#221919;
 }
 .pages-menu ul li a:hover {
 	background-image: url(../images/AboutNav.png);
@@ -6314,6 +6318,7 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
 	background-image: url(../images/AboutNav.png);
 	background-repeat: no-repeat;
 	background-position: left top;
+	color:#221919;
 }
 .pages-menu ul .active a:hover {
 	background-position: left bottom;
@@ -7954,7 +7959,7 @@ display:none;
 
 .c_icons_small li, .c_icons_small_pb li{
 	
-	margin-top: 5px;
+	margin-top: 1px;
 	height:32px;
 	display:block;
 
@@ -7989,18 +7994,18 @@ behavior: url(PIE.htc);*/
 background: #0070BF;
 color: white;
 font-size: 11px;
-margin-left: 2px;
 padding-left: 45px;
-margin-top: 7px;
+/*margin-top: 7px;
+margin-left: 2px;*/
 line-height: 33px;
 padding-top: 8px;
 padding-bottom: 8px;
 padding-right: 20px;
 z-index: -20;
--webkit-border-radius: 16px;
+/*-webkit-border-radius: 16px;
 -moz-border-radius: 16px;
 border-radius: 16px;
-border: solid 1px #0070C0;
+border: solid 1px #0070C0;*/
 opacity: 0.8;
  filter: alpha(opacity = 80);
 display:none;
