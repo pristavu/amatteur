@@ -1,4 +1,4 @@
-<?php echo $this->header_part; ?>
+﻿<?php echo $this->header_part; ?>
 
 <?php if(!$this->userdata['description'] && $this->enable_edit) { ?>
 <?php ob_start();?>
@@ -307,11 +307,11 @@ $(document).ready(function(){
                                                 <?php if($this->like_user) { ?>  
                                                       <?php if ($this->userIsLike) { ?>
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
-                                                        <img src="data/images/noMeGusta.jpeg">
+                                                        Ya no me gusta este perfil <img src="data/images/noMeGusta.png">
                                                 </a>
                                                       <?php } else { ?> 
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
-                                                        <img src="data/images/meGusta.jpeg">
+                                                       Me gusta este perfil <img src="data/images/meGusta.png">
                                                 </a>
 
                                                       <?php }  ?>   
@@ -335,8 +335,8 @@ $(document).ready(function(){
 						<?php } ?>
                                             </div>   
                                             <div style='float:left;width:31%;'>
-                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpeg"> en mis imagenes </p>
-                                                <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpeg"> en mi perfil </p>
+                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpg"> en mis imagenes </p>
+                                                <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpg"> en mi perfil </p>
                                             </div>                                                                        
                                     </div>
                             </div>
@@ -495,13 +495,13 @@ $(document).ready(function(){
                 <div class="FixedContainer row clearfix">
                         <div class="infoBody">        
                             <?php if($this->userdata['agenda'] || !$this->enable_edit) { ?>
-                            <h5>Agenda y Actualidad</h5>
+                            <h3>Agenda y Actualidad</h3>
                             <p class="colorless noAgenda">
                                     <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
                                     <!--img src="data/images/ProfileEditIcon.png"-->
                             </p>
                             <?php } else { ?>
-                            <h5>Agenda y Actualidad</h5>
+                            <h3>Agenda y Actualidad</h3>
                             <p class="colorless noAgenda">
                                     <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
                                     <img src="data/images/ProfileEditIcon.png">
@@ -511,7 +511,7 @@ $(document).ready(function(){
                     
                         <div class="infoMessage"> 
                             <?php if($this->has_messages || !$this->enable_edit) { ?>
-                            <h5>Conversación</h5>
+                            <h3>Conversación</h3>
                             <p class="colorless noMessage">
                                 <?php echo $this->messages_users ?>&nbsp;
                                 <div id="message" class="Form">                                                                    
@@ -519,7 +519,7 @@ $(document).ready(function(){
                                 </div>
                             </p>
                             <?php } else { ?>
-                            <h5>Conversación</h5>
+                            <h3>Conversación</h3>
                             <p class="colorless noMessage">
                                     <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
                                     <div id="message" class="Form">                                    
@@ -574,6 +574,4 @@ $(document).ready(function(){
 	});
 });
 </script>
-<?php } ?>
-
-<?php echo $this->footer_part; ?>
+<?php } ?><?php echo $this->footer_part; ?>
