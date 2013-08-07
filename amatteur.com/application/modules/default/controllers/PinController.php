@@ -767,6 +767,7 @@ class PinController extends JO_Action {
 		}
 		
 		$this->view->is_video = $pin_info['is_video'] ? 'true' : 'false';
+                $this->view->is_article = $pin_info['is_article'] ? 'true' : 'false';
 		$this->view->from = $pin_info['from'];
 		$this->view->description = $pin_info['description'];
 		

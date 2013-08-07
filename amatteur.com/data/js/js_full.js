@@ -6413,40 +6413,47 @@ var number_id = 1;
 				if( !element.data('switcherSlider.init') ) 
                                 {
 					element.data('switcherSlider',options).data('switcherSlider.init', element_id).hide();
-                                        /*
                                         if ($.browser.msie)
                                         {
                                             if ($.browser.version<=8)
-                                            {                                        
-                                                var stage = $(element).wrap('<span class="stage" id="' + element_id + '">');
+                                            { 
+                                                var stage = $('<span class="stage" id="' + element_id + '"></span>').insertAfter(element);
+                                                if(element.is(':checked')) {
+                                                        var slider_button = stage.append('<span class="slider-button on">' + options.text.on + '</span>');
+                                                } else {
+                                                        var slider_button = stage.append('<span class="slider-button">' + options.text.off + '</span>');
+                                                }
                                             }       
                                             else
                                             {
                                                 var stage = $('<span class="stage" id="' + element_id + '">').insertAfter(element);
+                                                if(element.is(':checked')) {
+                                                        var slider_button = stage.append('<span class="slider-button on">' + options.text.on + '</span>');
+                                                } else {
+                                                        var slider_button = stage.append('<span class="slider-button">' + options.text.off + '</span>');
+                                                }
+
                                             }
                                         }
                                         else
                                         {
                                             var stage = $('<span class="stage" id="' + element_id + '">').insertAfter(element);
+                                            if(element.is(':checked')) {
+                                                    var slider_button = stage.append('<span class="slider-button on">' + options.text.on + '</span>');
+                                            } else {
+                                                    var slider_button = stage.append('<span class="slider-button">' + options.text.off + '</span>');
+                                            }
+
                                         }
-            */
-             if($('<span class="stage" id="' + element_id + '">').length)
-             {
-                                        var stage = $('<span class="stage" id="' + element_id + '">').insertAfter(element);           
-                                }
-					if(element.is(':checked')) {
-						var slider_button = stage.append('<span class="slider-button on">' + options.text.on + '</span>');
-					} else {
-						var slider_button = stage.append('<span class="slider-button">' + options.text.off + '</span>');
-					}
-					
+
 					var disabled = element.is(':disabled');
-					
+
 					if(disabled) {
 						$('.slider-button', slider_button).addClass('disabled');
 					} else {
 						$('.slider-button', slider_button).click(function(){
 							if( $(this).hasClass('on') ) {
+
 								$(this).animate({"left": $(this).width()}, options.animationSpeed, function(){
 									$(this).removeClass('on').html(options.text.off);
 							        element.attr('checked', false);

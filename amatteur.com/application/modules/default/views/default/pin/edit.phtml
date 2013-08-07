@@ -109,9 +109,12 @@ function Modal_show_delete() {
                 <li>
                     <label for="id_link"><?php echo $this->translate('Link');?></label>
                     <div class="Right">
-                        <input type="text" id="id_link" value="<?php echo $this->pin_info['from'];?>" name="from">
-                        
-                    </div>
+                        <input type="text" id="id_link" value="<?php echo $this->pin_info['from'];?>" name="from"><br/>
+                        <?php if ($this->pin_info['is_article']) { ?>
+                            <input type="checkbox" id="is_article" name="is_article" value="true" checked="checked"><?php echo $this->translate('Image vinculate to an article');?></input>
+                        <?php } else {?>
+                            <input type="checkbox" id="is_article" name="is_article" value="true"><?php echo $this->translate('Image vinculate to an article');?></input>
+                        <?php } ?>
                 </li>
                 
             </ul>
