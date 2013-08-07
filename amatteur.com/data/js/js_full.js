@@ -6413,6 +6413,7 @@ var number_id = 1;
 				if( !element.data('switcherSlider.init') ) 
                                 {
 					element.data('switcherSlider',options).data('switcherSlider.init', element_id).hide();
+                                        /*
                                         if ($.browser.msie)
                                         {
                                             if ($.browser.version<=8)
@@ -6444,6 +6445,13 @@ var number_id = 1;
                                                     var slider_button = stage.append('<span class="slider-button">' + options.text.off + '</span>');
                                             }
 
+                                        }
+*/
+                                        var stage = $('<span class="stage" id="' + element_id + '"></span>').insertAfter(element);
+                                        if(element.is(':checked')) {
+                                                var slider_button = stage.append('<span class="slider-button on">' + options.text.on + '</span>');
+                                        } else {
+                                                var slider_button = stage.append('<span class="slider-button">' + options.text.off + '</span>');
                                         }
 
 					var disabled = element.is(':disabled');

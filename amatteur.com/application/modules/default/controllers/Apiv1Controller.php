@@ -2062,7 +2062,7 @@ class Apiv1Controller extends JO_Action
         $response->appendBody($return);
     }
 
-    public function registerfbAction($data = null)
+    public function registerfbAction()
     {
 
 
@@ -2098,12 +2098,13 @@ class Apiv1Controller extends JO_Action
          * 
          */
 
-        $fbData = $data['fbData'];
-        $session = $data['session'];
-        $shared_content = isset($data['shared_content']) ? $data['shared_content'] : '';
+        //$fbData = $data['fbData'];
+        //$session = $data['session'];
+        //$shared_content = isset($data['shared_content']) ? $data['shared_content'] : '';
+        $shared_content = Model_Users::checkSharedContent($request->getParam('key'), $request->getParam('user_id'));
 
 
-        self::loginInit($fbData['id'], $session);
+        //self::loginInit($fbData['id'], $session);
 
         $ph = new WM_Facebook_Photo();
         $image = $ph->getRealUrl('http://graph.facebook.com/' . $fbData['id'] . '/picture?type=large');
@@ -2113,6 +2114,8 @@ class Apiv1Controller extends JO_Action
         }
 
         $this->view->error = false;
+        $session = WM_Facebook::getUser();
+        
         if ($request->isPost())
         {
 
@@ -2147,17 +2150,23 @@ class Apiv1Controller extends JO_Action
                 $reg_key = sha1($request->getPost('email') . $request->getPost('username'));
 
                 $result = Model_Users::create(array(
-                            'facebook_id' => $fbData['id'],
-                            'gender' => (isset($fbData['gender']) ? $fbData['gender'] : ''),
+                            'facebook_id' => $request->getPost('facebook_id'),
+                            //'gender' => (isset($request->getPost('gender')) ? $request->getPost('gender') : ''),
+                            'gender' => $request->getPost('gender'),
                             'avatar' => ($image ? $image : ''),
-                            'location' => (isset($fbData['hometown']['name']) ? $fbData['hometown']['name'] : ''),
-                            'website' => (isset($fbData['website']) ? $fbData['website'] : ''),
+                            //'location' => (isset($request->getPost('location')) ? $request->getPost('location') : ''),
+                            //'website' => (isset($request->getPost('website')) ? $request->getPost('website') : ''),
+                            'location' => $request->getPost('location'),
+                            'website' => $request->getPost('website'),
                             'username' => $request->getPost('username'),
-                            'firstname' => isset($fbData['first_name']) ? $fbData['first_name'] : '',
-                            'lastname' => isset($fbData['last_name']) ? $fbData['last_name'] : '',
+                            //'firstname' => isset($request->getPost('first_name')) ? $request->getPost('first_name') : '',
+                            //'lastname' => isset($request->getPost('last_name')) ? $request->getPost('last_name') : '',
+                            'firstname' => $request->getPost('first_name'),
+                            'lastname' => $request->getPost('last_name') ,
                             'email' => $request->getPost('email'),
                             'password' => $request->getPost('password'),
-                            'delete_email' => isset($fbData['email']) ? $fbData['email'] : '',
+                            //'delete_email' => isset($request->getPost('email')) ? $request->getPost('email') : '',
+                            'delete_email' => $request->getPost('email'),                    
                             'facebook_session' => $session,
                             'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
                             'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
@@ -2183,7 +2192,7 @@ class Apiv1Controller extends JO_Action
             }
         }
 
-        $this->view->user_id_fb = $fbData['id'];
+        $this->view->user_id_fb = $request->getPost('facebook_id');
 
 
         $this->view->baseUrl = $request->getBaseUrl();
@@ -2193,9 +2202,9 @@ class Apiv1Controller extends JO_Action
             $this->view->email = $request->getPost('email');
         } else
         {
-            if (isset($fbData['email']))
+            if (isset($request->getPost('email')))
             {
-                $this->view->email = $fbData['email'];
+                $this->view->email = $request->getPost('email');
             } else
             {
                 $this->view->email = '';
@@ -2207,9 +2216,9 @@ class Apiv1Controller extends JO_Action
             $this->view->firstname = $request->getPost('firstname');
         } else
         {
-            if (isset($fbData['first_name']))
+            if (isset($request->getPost('first_name')))
             {
-                $this->view->firstname = $fbData['first_name'];
+                $this->view->firstname = $request->getPost('first_name');
             } else
             {
                 $this->view->firstname = '';
@@ -2231,9 +2240,9 @@ class Apiv1Controller extends JO_Action
             $this->view->username = $request->getPost('username');
         } else
         {
-            if (isset($fbData['username']))
+            if (isset($request->getPost('username')))
             {
-                $this->view->username = $fbData['username'];
+                $this->view->username = $request->getPost('username');
             } else
             {
                 $this->view->username = '';

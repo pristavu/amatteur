@@ -1,5 +1,5 @@
 <div class="box person <?php echo ($this->key ? 'odd' : '');?>">
-	<a style="background-image: url(<?php echo $this->user['avatar'];?>)" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
+	<a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
         
     <?php if($this->loged && !$this->user['userLikeIgnore']) { ?>
 	<div class="PersonLike">

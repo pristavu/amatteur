@@ -927,7 +927,8 @@ class UsersController extends JO_Action {
 				for( $i = 0; $i < 8; $i ++) {
 					$image = isset( $user['pins_array'][$i] ) ? $user['pins_array'][$i]['image'] : false;
 					if($image) {
-						$data_img = Helper_Uploadimages::pin($user['pins_array'][$i], '_A');
+						//$data_img = Helper_Uploadimages::pin($user['pins_array'][$i], '_A');
+                                                $data_img = call_user_func(array(Helper_Pin::formatUploadModule($user['pins_array'][$i]['store']), 'getPinImage'), $user['pins_array'][$i], '_A');
 						if($data_img) {
 							$user['thumbs'][] = array(
 									'thumb' => $data_img['image'],
@@ -960,7 +961,7 @@ class UsersController extends JO_Action {
 		}
 
 		$this->view->class_contaner = 'persons';
-		
+
 		if($request->isXmlHttpRequest()) {
 			echo $this->view->boards;
 			$this->noViewRenderer(true);
@@ -1073,7 +1074,6 @@ class UsersController extends JO_Action {
 
 		$history = Model_History::getHistory($data, 'from_user_id', $user_data['user_id']);
 		
-                
 		if($history) { 
 			$view = JO_View::getInstance();
 			$view->loged = JO_Session::get('user[user_id]');
@@ -1090,7 +1090,6 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate('Repinned to %s via %s.'), '<a href="'.$board_href.'">'.$pin_data['board'].'</a>', '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log("repin " .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::ADDPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -1101,7 +1100,6 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate('Pinned to %s.'), '<a href="'.$board_href.'">'.$pin_data['board'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log("asddpin" .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::LIKEPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -1114,7 +1112,6 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate("Liked %s's pin on %s."), '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>', '<a href="'.$board_href.'">'.$pin_data['board'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log("lke pin " .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::UNLIKEPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -1127,7 +1124,6 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate("Unliked %s's pin on %s."), '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>', '<a href="'.$board_href.'">'.$pin_data['board'].'</a>');
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log("unlike pin " . Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::COMMENTPIN) {
 					$pin_data = Model_Pins::getPin($data['pin_id']);
@@ -1140,7 +1136,6 @@ class UsersController extends JO_Action {
 						$view->set_activity_title = sprintf($this->translate("Commented on %s's pin and said \"%s\"."), '<a href="'.$via_href.'">'.$userdata['fullname'].'</a>', JO_Utf8::splitText($data['comment'], 60, '...'));
 						$view->date_dif = $data['date_dif'];
 						$this->view->boards .= Helper_Pin::returnHtml( $pin_data );
-                                                                                                error_log("comment pin " .Helper_Pin::returnHtml( $pin_data ));
 					}
 				} elseif($data['history_action'] == Model_History::ADDBOARD) {
 					$board = Model_Boards::getBoard($data['board_id']);
