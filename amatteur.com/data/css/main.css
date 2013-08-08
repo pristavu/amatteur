@@ -38,11 +38,20 @@ input::-moz-focus-inner {
 a {
     text-decoration: none;
 	/*color: #221919;*/
-	color: #FFF;
+	color: #0070bf;
 }
 a:hover {
     text-decoration: none;
 }
+.ados {
+    text-decoration: none;
+	/*color: #221919;*/
+	color: #FFF;
+}
+.ados:hover {
+    text-decoration: none;
+}
+
 #overflow {
     /*height: 100%;*/
     width: 100%;
@@ -4688,12 +4697,16 @@ input::-moz-focus-inner { border: 0; }
 	float:left;
 	/*border: 1px solid #02416D;*/
 	margin-top: 5px;
+	margin-bottom:10px;
     padding: 5px;
 	/*background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
 	background: -moz-linear-gradient(center top, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
 	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;*/
 	background-color: #0070bf !important;
+}
+.Button:hover{
+ background-color:#00538e !important;
 }
 
 #ProfileHeader .infoBody #editAgenda .Button:hover {
