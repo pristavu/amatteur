@@ -2107,14 +2107,14 @@ class Apiv1Controller extends JO_Action
         //self::loginInit($fbData['id'], $session);
 
         $ph = new WM_Facebook_Photo();
-        $image = $ph->getRealUrl('http://graph.facebook.com/' . $fbData['id'] . '/picture?type=large');
+        $image = $ph->getRealUrl('http://graph.facebook.com/' . $request->getPost('facebook_id') . '/picture?type=large');
         if (!@getimagesize($image))
         {
             $image = '';
         }
 
         $this->view->error = false;
-        $session = WM_Facebook::getUser();
+        $session = $request->getPost('facebook_id');
         
         if ($request->isPost())
         {
@@ -2200,30 +2200,21 @@ class Apiv1Controller extends JO_Action
         if ($request->issetPost('email'))
         {
             $this->view->email = $request->getPost('email');
-        } else
+        } 
+        else
         {
-            if (isset($request->getPost('email')))
-            {
-                $this->view->email = $request->getPost('email');
-            } else
-            {
                 $this->view->email = '';
-            }
         }
 
         if ($request->issetPost('firstname'))
         {
             $this->view->firstname = $request->getPost('firstname');
-        } else
+        } 
+        else
         {
-            if (isset($request->getPost('first_name')))
-            {
-                $this->view->firstname = $request->getPost('first_name');
-            } else
-            {
-                $this->view->firstname = '';
-            }
+            $this->view->firstname = '';
         }
+
 //		
 //		if($request->issetPost('lastname')) {
 //			$this->view->lastname = $request->getPost('lastname');
@@ -2240,13 +2231,7 @@ class Apiv1Controller extends JO_Action
             $this->view->username = $request->getPost('username');
         } else
         {
-            if (isset($request->getPost('username')))
-            {
-                $this->view->username = $request->getPost('username');
-            } else
-            {
                 $this->view->username = '';
-            }
         }
 
         $this->view->password = $request->getPost('password');

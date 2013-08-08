@@ -137,7 +137,7 @@
                   <div class="touch_arrow"></div>
              </a>
         </li>
-        <!--li class="tappable">
+        <li class="tappable">
             <a class="tappable_link" href="<?php echo $this->user_likers;?>" >
                         <strong><?php echo $this->userdata['likers'];?></strong> <?php echo $this->translate('Likers');?>
                         <div class="touch_arrow"></div>
@@ -155,7 +155,7 @@
                         <?php echo $this->translate('Activity');?>
                 <div class="touch_arrow"></div>
             </a>
-        </li-->
+        </li>
         <li class="tappable">
                     <a class="tappable_link" href="<?php echo $this->urlagenda?>">
                          <?php  echo $this->translate('agenda'); ?>
@@ -238,7 +238,26 @@
 				<?php echo $this->boards; ?>
 			</ul>
 	<?php endif; ?>
-	
+
+	<?php if($this->active == 'liking'): ?>
+			<ul class='list_view'>
+				<?php echo $this->boards; ?>
+			</ul>
+	<?php endif; ?>
+
+	<?php if($this->active == 'likers'): ?>
+			<ul class='list_view'>
+				<?php echo $this->boards; ?>
+			</ul>
+	<?php endif; ?>
+
+	<?php if($this->active == 'activity'): ?>
+			<ul class='list_view'>
+				<?php echo $this->boards; ?>
+			</ul>
+	<?php endif; ?>
+
+
 	<?php if($this->active == 'pins' || isset($_GET['filter'])): ?>
 		<script type="text/javascript" src='data_mobile/js/jquery.masonry.min.js'></script>
 	
