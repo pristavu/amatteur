@@ -10,11 +10,20 @@
 						<span><?php echo sprintf($this->translate('%d %s ago'), $this->history['date_dif']['value'], $this->translate($this->history['date_dif']['key']));?></span>
 					</h4>
 				
-					<p class="thumb">
+					<!--p class="thumb">
 						<a href="<?php echo $this->history['href'];?>">
 							<img style="margin-left:<?php echo ( (194-$this->history['thumb_width']) / 2 );?>px;width:<?php echo $this->history['thumb_width'];?>px;height:<?php echo $this->history['thumb_height'];?>px;" width="<?php echo $this->history['thumb_width'];?>" height="<?php echo $this->history['thumb_height'];?>" data-original="<?php echo $this->history['thumb'];?>" src="data/images/grey.gif" alt="Image" />
 						</a>
-					</p>
+					</p-->
+                                        		<a class='tappable'>
+			<div class='pinner' style="display: inline-block">
+				<div class='pinner_image' style="float: left">
+					<img src="<?php echo $this->history['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->history['fullname'] ?>">
+					
+				</div>
+                            </div>
+                </a>
+
 					
 				</div>
 

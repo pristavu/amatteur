@@ -688,7 +688,6 @@ class Apiv1Controller extends JO_Action
         {
             $subCategories = Model_Categories::getSubCategoriesAPP($request->getRequest('category_id'));
 
-            error_log("subcats ");
 
             if ($subCategories)
             {
@@ -1760,7 +1759,6 @@ class Apiv1Controller extends JO_Action
         }
 
 
-
         if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userId']))
         {
             $_SESSION['token'] = $_POST['token'];
@@ -1843,7 +1841,7 @@ class Apiv1Controller extends JO_Action
 
             if ($request->isPost())
             {
-
+error_log("antes de entrar ". $request->getPost('userId'));
                 $result = Model_Pins::create(array(
                             'title' => $request->getPost('title'),
                             'from' => '',
@@ -1852,7 +1850,8 @@ class Apiv1Controller extends JO_Action
                             'is_article' => $request->getPost('is_article'),
                             'description' => $request->getPost('message'),
                             'price' => $request->getPost('price'),
-                            'board_id' => $request->getPost('board_id')
+                            'board_id' => $request->getPost('board_id'),
+                            'user_id' => $request->getPost('userId')
                         ));
                 if ($result)
                 {

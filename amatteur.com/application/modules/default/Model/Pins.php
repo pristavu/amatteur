@@ -217,7 +217,7 @@ class Model_Pins {
 		$db->insert('pins', array(
 			'category_id' => (string)$board_info['category_id'],
 			'board_id' => (string)$data['board_id'],
-			'user_id' => (string)JO_Session::get('user[user_id]'),
+			'user_id' => isset($data['user_id']) ? $data['user_id'] :(string)JO_Session::get('user[user_id]'),
 			'date_added' => $date_added,
 			'date_modified' => $date_added,
 			'description' => $data['description'],

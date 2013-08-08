@@ -1207,10 +1207,14 @@ class UsersController extends JO_Action {
 					if($data['history_action'] == Model_History::FOLLOW_USER) {
 						$view->history['userIsFollow'] = Model_Users::isFollowUser($view->history['to_user_id']);
 						$view->history['follow_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $view->history['to_user_id'] );
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['avatar'] = $avatar['image'];
 						$this->view->boards .= $view->render('history/follow_user', 'users');
 					} elseif($data['history_action'] == Model_History::UNFOLLOW_USER) {
 						$view->history['userIsFollow'] = Model_Users::isFollowUser($view->history['to_user_id']);
 						$view->history['follow_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $view->history['to_user_id'] );
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['avatar'] = $avatar['image'];
 						$this->view->boards .= $view->render('history/unfollow_user', 'users');
 					} elseif($data['history_action'] == Model_History::FOLLOW) {
 						$board_info = Model_Boards::getBoard($data['board_id']);
@@ -1220,6 +1224,8 @@ class UsersController extends JO_Action {
 							));
 							$board_info['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=follow&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id'] );
 							$board_info['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id'] );
+                                                        $view->history['fullname'] = $data['user']['fullname'];
+                                                        $view->history['avatar'] = $avatar['image'];
 							$view->history['board'] = $board_info;
 							$this->view->boards .= $view->render('history/follow_board', 'users');
 						}
@@ -1231,20 +1237,26 @@ class UsersController extends JO_Action {
 							));
 							$board_info['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=follow&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id'] );
 							$board_info['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id'] );
+                                                        $view->history['fullname'] = $data['user']['fullname'];
+                                                        $view->history['avatar'] = $avatar['image'];
 							$view->history['board'] = $board_info;
 							$this->view->boards .= $view->render('history/unfollow_board', 'users');
 						}
 					} elseif($data['history_action'] == Model_History::LIKEUSER) {
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['avatar'] = $avatar['image'];
 						$view->history['userIsLike'] = Model_Users::isLikeUser($view->history['to_user_id']);
 						$view->history['like_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
 						$this->view->boards .= $view->render('history/like_user', 'users');
 					} elseif($data['history_action'] == Model_History::UNLIKEUSER) {
+                                                $view->history['fullname'] = $data['user']['fullname'];
+                                                $view->history['avatar'] = $avatar['image'];
 						$view->history['userIsLike'] = Model_Users::isLikeUser($view->history['to_user_id']);
 						$view->history['like_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
 						$this->view->boards .= $view->render('history/unlike_user', 'users');
 					} elseif($data['history_action'] == Model_History::COMMENTUSER) {
 						$view->history['href'] = $data['href'];
-                                                $view->history['avatar'] = $data['user']['avatar'];
+                                                $view->history['avatar'] = $avatar['image'];
                                                 $view->history['fullname'] = $data['user']['fullname'];
                                                 $view->history['text_type'] = $data['text_type'];
                                                 $view->history['comment'] = $data['comment'];
@@ -1256,7 +1268,7 @@ class UsersController extends JO_Action {
 						//$this->view->boards .= $view->render('history/comment_user', 'users');
 					} elseif($data['history_action'] == Model_History::MESSAGEUSER) {
 						$view->history['href'] = $data['href'];
-                                                $view->history['avatar'] = $data['user']['avatar'];
+                                                $view->history['avatar'] = $avatar['image'];
                                                 $view->history['fullname'] = $data['user']['fullname'];
                                                 $view->history['text_type'] = $data['text_type'];
                                                 $view->history['comment'] = $data['comment'];
@@ -1269,7 +1281,7 @@ class UsersController extends JO_Action {
 						//$this->view->boards .= $view->render('history/message_user', 'users');
 					} elseif($data['history_action'] == Model_History::UNMESSAGEUSER) {
 						$view->history['href'] = $data['href'];
-                                                $view->history['avatar'] = $data['user']['avatar'];
+                                                $view->history['avatar'] = $avatar['image'];
                                                 $view->history['fullname'] = $data['user']['fullname'];
                                                 $view->history['text_type'] = $data['text_type'];
                                                 $view->history['comment'] = $data['comment'];
