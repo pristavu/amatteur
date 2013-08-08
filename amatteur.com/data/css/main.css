@@ -4450,7 +4450,7 @@ input::-moz-focus-inner { border: 0; }
 
 .FixedContainer {
     margin: 0 auto;
-    width: 852px;
+    width: 1150px;
 }
 
 #ProfileHeader {
@@ -4461,7 +4461,7 @@ input::-moz-focus-inner { border: 0; }
 #ProfileHeader .info {
     height: 165px;
     position: relative;
-    width: 850px;
+    width: 750px;
 }
 
 #ProfileHeader .infoBody {
@@ -4765,10 +4765,11 @@ input::-moz-focus-inner { border: 0; }
 }
 
 #ProfileHeader .row .repins {
-    float: right;
+    float: left;
     min-height: 165px;
     overflow: hidden;
     width: 224px;
+    margin-left:10px;
 }
 
 #ProfileHeader .row > div h3 {
