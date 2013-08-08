@@ -270,7 +270,7 @@ a:hover {
     color: #524D4D;
     /*font-weight: bold;
     text-shadow: 1px 1px #fff;*/
-    height: 39px;
+    height: 35px;
     padding-top: 21px;
 	padding-left: 14px;
 	padding-right: 14px;
@@ -4619,20 +4619,21 @@ input::-moz-focus-inner { border: 0; }
 
 #ProfileHeader .info #editDescription .Button {
 	font-size: 11px;
-	border-radius: 4px;
+	/*border-radius: 4px;
 	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
+	-webkit-border-radius: 4px;*/
 	color: #FCF9F9;
-	text-shadow: 0 0px rgba(34, 25, 25, 0.5);
+	/*text-shadow: 0 0px rgba(34, 25, 25, 0.5);*/
 	font-weight: bold;
 	float: right;
-	border: 1px solid #02416D;
+	/*border: 1px solid #02416D;*/
 	margin-top: 5px;
     padding: 5px;
-	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	/*background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
 	background: -moz-linear-gradient(center top, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
 	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;
+	*/
 	background-color: #0070BF !important;
 }
 
@@ -4641,11 +4642,11 @@ input::-moz-focus-inner { border: 0; }
 }
 
 #ProfileHeader .info #editDescription .Button.disabled {
-    background: none repeat scroll 0 0 #F2F0F0;
-    border-color: #D1CDCD;
+    /*background: none repeat scroll 0 0 #F2F0F0;*/
+    /*border-color: #D1CDCD;*/
     color: #D1CDCD;
     cursor: default;
-    text-shadow: 0 -1px rgba(34, 25, 25, 0.01);
+    /*text-shadow: 0 -1px rgba(34, 25, 25, 0.01);*/
 }
 
 #ProfileHeader .infoBody #editAgenda .CharacterCount {
