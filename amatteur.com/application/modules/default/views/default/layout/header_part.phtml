@@ -134,7 +134,7 @@ if(!$this->show_header_line && $this->show_header_invate) {
 				<li><a href="/?remove_full_version" title="<?php echo $this->translate('Mobile Site');?>"><?php echo $this->translate('Mobile Site');?></a></li>
 				<?php } ?>
 				<?php if($this->is_loged) { ?>
-				<li><a href="<?php echo $this->addPin;?>" class="silverbox" title="<?php echo $this->translate('Add a Pin');?>"><?php echo $this->translate('Add +');?></a></li>
+				<li><a href="<?php echo $this->addPin;?>" class="silverbox" title="<?php echo $this->translate('Add a Pin');?>"><img width="18px" height="18px" src="data/images/ico_Anadir.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Add +');?></a></li>
 				<?php } ?>
 				<?php if($this->about_menu) { ?>
 				<li>
@@ -267,7 +267,7 @@ if(!$this->show_header_line && $this->show_header_invate) {
 	<?php //var_dump(in_array(JO_Request::getInstance()->getController(),array('settings')) );exit?>
 	<div id="menu" class="<?php echo $this->is_loged ? "loged" : "";?> <?php echo in_array(JO_Request::getInstance()->getController(),array('settings','prefs','password')) ?  "menuNoSlider":"";?>"<?php if(!$enable_slider) { ?> style="top:50px;"<?php } ?>>
 		<div id="menuwrapper">
-			<div class="menubienvenido">Bienvenid@&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='videoTrigger' href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
+			<div class="menubienvenido">Bienvenid@&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
 			<div class="menumenus">
 			<ul class="links">
 				<?php if($this->is_loged) { ?>
