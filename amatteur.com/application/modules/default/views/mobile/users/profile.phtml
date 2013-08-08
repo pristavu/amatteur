@@ -1,4 +1,4 @@
-<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
+﻿<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
 {
     echo $this->header_part; 
 }    
@@ -87,19 +87,19 @@
 
 	<div class="profile_header" style="padding-bottom:46px">
                                         <div style='float:left;'>
-                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpeg"> en mis imagenes </p>
-                                                <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpeg"> en mi perfil </p>
+                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGustaAz.png"> en mis imagenes </p>
+                                                <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGustaAz.png"> en mi perfil </p>
                                         </div>
             <div style='float:right;'>
                 
                                                 <?php if($this->like_user) { ?>      
                                                       <?php if ($this->userIsLike) { ?>
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
-                                                        <img src="data/images/noMeGusta.jpeg">
+                                                        Ya no me gusta <img src="data/images/noMeGustaAz.png">
                                                 </a>
                                                       <?php } else { ?>      
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
-                                                        <img src="data/images/meGusta.jpeg">
+                                                        Me gusta este perfil <img src="data/images/meGustaAz.jpg">
                                                 </a>
 
                                                       <?php }  ?>   
@@ -137,7 +137,7 @@
                   <div class="touch_arrow"></div>
              </a>
         </li>
-        <li class="tappable">
+        <!--li class="tappable">
             <a class="tappable_link" href="<?php echo $this->user_likers;?>" >
                         <strong><?php echo $this->userdata['likers'];?></strong> <?php echo $this->translate('Likers');?>
                         <div class="touch_arrow"></div>
@@ -155,7 +155,7 @@
                         <?php echo $this->translate('Activity');?>
                 <div class="touch_arrow"></div>
             </a>
-        </li>
+        </li-->
         <li class="tappable">
                     <a class="tappable_link" href="<?php echo $this->urlagenda?>">
                          <?php  echo $this->translate('agenda'); ?>
@@ -238,26 +238,7 @@
 				<?php echo $this->boards; ?>
 			</ul>
 	<?php endif; ?>
-
-	<?php if($this->active == 'liking'): ?>
-			<ul class='list_view'>
-				<?php echo $this->boards; ?>
-			</ul>
-	<?php endif; ?>
-
-	<?php if($this->active == 'likers'): ?>
-			<ul class='list_view'>
-				<?php echo $this->boards; ?>
-			</ul>
-	<?php endif; ?>
-
-	<?php if($this->active == 'activity'): ?>
-			<ul class='list_view'>
-				<?php echo $this->boards; ?>
-			</ul>
-	<?php endif; ?>
-
-
+	
 	<?php if($this->active == 'pins' || isset($_GET['filter'])): ?>
 		<script type="text/javascript" src='data_mobile/js/jquery.masonry.min.js'></script>
 	

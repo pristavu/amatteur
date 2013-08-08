@@ -1,4 +1,4 @@
-
+﻿
 <?php if($this->getRequest()->getController() == 'index' && $this->getRequest()->getAction() == 'index') : ?>
 		
 <div class='pin' data-id='<?php echo $this->pin['pin_id'] ?>'>
@@ -88,11 +88,15 @@
 		
 		<div class='pin_likes' style='display: block'>
 			
-			 <div class='likeIcon <?php if($this->pin['likes'] > 0) echo "icon"?>'></div>
+			 <!--<div class='likeIcon <?php if($this->pin['likes'] > 0) echo "icon"?>'></div>-->
 			 <span>
-			 	<?php if($this->pin['likes'] > 0): ?>
-			 	<?php  echo $this->pin['likes']." ".$this->translate('Likes');  ?>
-			 	<?php endif; ?>
+			 <img width="15px" height="14px" src="data/images/ico_mg.png" alt="Me gusta" />
+				<?php if( $this->pin['likes']>0 )
+					echo ($this->pin['likes']);
+						else {
+		 				   echo "0";
+						}
+				?>
 			 </span>
 			
 		</div>
@@ -100,11 +104,13 @@
 		<div class="pin_repins" style="display: block;">
                     <div class="repinIcon <?php if($this->pin['repins'] > 0) echo 'icon'; ?>"></div>
                     <span>
-                        <?php 
-                        if($this->pin['repins'] > 0){
-                       echo $this->pin['repins']." ".$this->translate('Repins'); 
-						}
-                        ?>
+                    <img width="15px" height="14px" src="data/images/ico_gua.png" alt="Guardado" />
+					<?php if( $this->pin['repins']>0 )
+						echo ($this->pin['repins']);
+							else {
+			 				   echo "0";
+							}
+					?>
                     </span>
         </div>
           
@@ -304,4 +310,3 @@
 
 	</div>
 <?php endif; ?>
-

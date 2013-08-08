@@ -159,7 +159,7 @@ font-size: 25px;
       
     a {
         text-decoration: none;
-        color: #221919;
+        color: #0070bf;
         }
         
     /* h2 { line-height: 1.2; } */
@@ -741,9 +741,9 @@ font-size: 25px;
         
     .white:active, 
     .white.pressed {
-        text-shadow: 0 1px rgba(255,255,255,0.8);
+        /*text-shadow: 0 1px rgba(255,255,255,0.8);
         -webkit-tap-highlight-color: transparent;
-        color: #454141;
+        color: #454141;*/
         }
         
     /* Keep in order! */
@@ -757,7 +757,7 @@ font-size: 25px;
         
     .white:active span,
     .white.pressed span {
-        -webkit-box-shadow: inset 0 1px 2px rgba(34,25,25,0.25), 0 0 1px rgba(232,230,230,0.5);
+        /*-webkit-box-shadow: inset 0 1px 2px rgba(34,25,25,0.25), 0 0 1px rgba(232,230,230,0.5);
         -moz-box-shadow: inset 0 1px 2px rgba(34,25,25,0.25), 0 0 1px rgba(232,230,230,0.5);
         -ms-box-shadow: inset 0 1px 2px rgba(34,25,25,0.25), 0 0 1px rgba(232,230,230,0.5);
         box-shadow: inset 0 1px 2px rgba(34,25,25,0.25), 0 0 1px rgba(232,230,230,0.5);
@@ -768,7 +768,7 @@ font-size: 25px;
         background-color: #ebe8e8;
         background: -moz-linear-gradient(center top, #f8f4f5, #f3f0f0 50%, #f1eeef 50%, #ebe8e8);
         background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#f8f4f5), to(#ebe8e8), color-stop(.5,#f3f0f0),color-stop(.5,#f1eeef));
-        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f4f5', endColorstr='#ebe8e8');
+        filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f8f4f5', endColorstr='#ebe8e8');*/
         }
         
     
@@ -823,10 +823,10 @@ font-size: 25px;
         }
         
     .mbtn.disabled span {
-        filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
-        background: transparent;
+        /*filter: progid:DXImageTransform.Microsoft.gradient(enabled = false);
+        background: transparent;*/
         border: none;
-        opacity: 0;
+        /*opacity: 0;*/
         }
     
     .obtn {
@@ -1209,7 +1209,8 @@ font-size: 25px;
         
     /* Comments Icon ----------------------------------------------------------- */
     .pin .pin_comments table tr td.icon {
-        background-image: url('../images/mobile_icons.png');
+        background-image: url('../images/ico_com.png');
+        background-repeat:no-repeat;
         margin: 6px 3px 0 -2px;
         padding-top: 0;
         height: 5px;
@@ -1219,7 +1220,7 @@ font-size: 25px;
     .pin .pin_comments a {
         margin-right: 5px;
         font-weight: bold;
-        color: #221919;
+        color: #0070bf;
         }
         
         
@@ -1251,14 +1252,14 @@ font-size: 25px;
         
     /* Likes Icon -------------------------------------------------------------- */
     .pin_likes .icon {
-        background: url('../images/mobile_icons.png') -18px 0;
+        /*background: url('../images/mobile_icons.png') -18px 0;*/
         height: 17px;
         width: 18px;
         }
         
     /* Repins Icon ------------------------------------------------------------- */
     .pin_repins .icon {
-        background: url('../images/mobile_icons.png') -40px 0;
+        /*background: url('../images/mobile_icons.png') -40px 0;*/
         height: 13px;
         width: 13px;
         }

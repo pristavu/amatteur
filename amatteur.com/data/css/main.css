@@ -5178,20 +5178,6 @@ border-radius: 0 4px 4px 0;
 	background-color: #F0EDED !important;
 	border-color: #d1cdcd !important;	
 }
-.person .PersonLike {
-	float: right;
-	font-weight: bold;
-}
-.person .PersonLike a {
-	-moz-border-radius: 0.3em;
-	-ms-border-radius: 0.3em;
-	-o-border-radius: 0.3em;
-	border-radius: 0.3em; 
-	font-size: 13px !important;
-	background-color: #F0EDED !important;
-	border-color: #d1cdcd !important;	
-}
-
 .person h4 {
     height: 17px;
     overflow: hidden;
@@ -5253,17 +5239,6 @@ border-radius: 0 4px 4px 0;
 
 
 .person .PersonFollow a.WhiteButton {
-    background-color: #F3F3F3;
-    background-repeat: no-repeat;
-    border: 1px solid #C5C5C5;
-    color: #333333;
-    display: inline;
-    float: left;
-    padding: 3px 10px 3px 10px;
-    text-decoration: none;
-    font-size: 12px;
-}
-.person .PersonLike a.WhiteButton {
     background-color: #F3F3F3;
     background-repeat: no-repeat;
     border: 1px solid #C5C5C5;
