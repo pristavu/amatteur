@@ -43,13 +43,15 @@
             <div>
                 <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
             </div>
-        </div>              
+        </div>           
+        <?php if($this->loged) { ?>
         <div style='float:left;width:35%;'>
             <a class="Button RedButton message" href="<?php echo $this->message['hrefResponder'];?>"><?php  echo $this->translate('Responder'); ?></a></p>
         </div> 
         <div style='float:left;width:25%;'>
             <a class="Button RedButton message" href="<?php echo $this->message['hrefDelete'];?>"><?php  echo $this->translate('Borrar'); ?></a>    
         </div>
+        <?php } ?>
 </div>    
     <?php } else { ?>	
     <div style='clear:both'>
@@ -59,9 +61,11 @@
             <div>
                 <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
             </div>
+        <?php if($this->loged) { ?>            
             <div style='float:left;width:35%;'>
                 <a class="Button RedButton message" href="<?php echo $this->message['hrefResponder'];?>"><?php  echo $this->translate('Responder'); ?></a>
             </div>
+        <?php } ?>    
         </div>
     </div>    
 

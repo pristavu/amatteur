@@ -9,13 +9,17 @@
                             <h5>Conversación</h5>
                             <p class="colorless noMessage">
                                 <?php echo $this->messages_users ?>&nbsp;
+                                <?php if($this->loged) { ?> 
                                 <a href="<?php echo $this->popup_messages;?>" class="Button  noMessage  " title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                <?php } ?>
                             </p>
                             <?php } else { ?>
                             <h5>Conversación</h5>
                             <p class="colorless noMessage">
                                     <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
+                                    <?php if($this->loged) { ?> 
                                     <a href="<?php echo $this->popup_messages;?>" class="Button  noMessage  " title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                    <?php } ?>
                             </p>
                             <?php } ?>
                         </div>
