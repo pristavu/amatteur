@@ -4676,6 +4676,9 @@ input::-moz-focus-inner { border: 0; }
 	background-color: #0070BF !important;
 }
 
+.Button:hover{
+	background-color:#00538e !important;
+}
 
 #message .Button {
 	font-size: 11px;
@@ -4694,6 +4697,7 @@ input::-moz-focus-inner { border: 0; }
 	background: -o-linear-gradient(top left, #40b0ff, #28a6ff 50%, #20a3ff 50%, #0b9aff) !important;
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff), color-stop(.5,#28a6ff),color-stop(.5,#20a3ff)) !important;*/
 	background-color: #0070bf !important;
+	margin-bottom:10px;
 }
 
 #ProfileHeader .infoBody #editAgenda .Button:hover {
