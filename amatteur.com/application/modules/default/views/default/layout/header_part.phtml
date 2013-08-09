@@ -232,6 +232,24 @@ if(!$this->show_header_line && $this->show_header_invate) {
 		</div>
 	</div>
 -->	
+	<script src="js/jquery-1.5.1.js"></script>
+	<script>
+		$(document).ready(function() {
+			$("#headerBienve").hide();
+ 
+			$("#muestraBienvenida").mouseover(function(){
+				$("#headerBienve").show();
+			}).mouseout(function(){
+				$("#headerBienve").hide();
+			});
+		});
+	</script>
+	
+		<div id='headerBienve'>
+		<img alt="" src="data/images/bienve.png" width="358px" height="100px">
+		</div>
+
+	
 	<script type='text/javascript'>
 		getVideoImage();
 	</script>
@@ -268,7 +286,10 @@ if(!$this->show_header_line && $this->show_header_invate) {
 	<div id="menu" class="<?php echo $this->is_loged ? "loged" : "";?> <?php echo in_array(JO_Request::getInstance()->getController(),array('settings','prefs','password')) ?  "menuNoSlider":"";?>"<?php if(!$enable_slider) { ?> style="top:50px;"<?php } ?>>
 		<div id="menuwrapper">
 			<?php if(!$this->is_loged) { ?>
-			<div class="menubienvenido">Bienvenid@&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
+			<div class="menubienvenido">
+				<div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
+				<div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
+			</div>
 			<?php } ?>
 			<div class="menumenus">
 			<ul class="links">

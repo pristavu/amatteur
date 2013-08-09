@@ -400,7 +400,7 @@ a:hover {
 }
 #menuwrapper .menubienvenido {
 	float:left;
-    width:260px;
+    width:205px;
     padding-top:10px;
     font-weight:bold;
     color:#FFF;
@@ -4764,6 +4764,14 @@ input::-moz-focus-inner { border: 0; }
     color: #8C7E7E;
 }
 
+#datosLike {
+	float:right;
+	padding:5px;
+	/*border:1px #0070bf solid;*/
+	border:1px #c8c8c8 solid;
+	margin-top:37px;
+}
+
 #ProfileHeader .icons .addIcons.Existing {
     border-left: 1px solid #C9B5B5;
     margin-left: 5px;
@@ -6116,7 +6124,7 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
     position: relative;
     text-align: center;
     background-color:#0070bf;
-    margin-top:5px;
+    margin-top:15px;
 }
 .Button18 {
     font-size: 18px;
@@ -7758,6 +7766,31 @@ width: 15px;
 .slides_controlls ul li a span.activeControll{
 	background-image:url('../images/slide_controll_blue.png');
 }
+
+#headerBienve{
+	position:absolute;
+	width:250px;
+	height:150px;
+	padding:5px;
+	top:188px;
+	left:10%;
+	over-flow:hidden;
+}
+
+#muestraBienvenida{
+	position:relative;
+	width:100px;
+	height:20px;
+	float:left;
+}
+
+#conocenos{
+	position:relative;
+	width:100px;
+	height:20px;
+	float:right;
+}
+
 
 #headerVideo{
 	position:absolute;
