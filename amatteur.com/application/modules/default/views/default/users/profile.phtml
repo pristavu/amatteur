@@ -320,7 +320,9 @@ $(document).ready(function(){
                                             </div>
                                             <div style='clear:both'>
 
-                                              <div style='float:left;width:69%;'>
+                                            
+                                            
+                                            <div style='float:left;width:70%;'>
     
                                                 
 						<?php if($this->userdata['description'] || !$this->enable_edit) { ?>
@@ -334,7 +336,7 @@ $(document).ready(function(){
 						</p>
 						<?php } ?>
                                             </div>   
-                                            <div style='float:left;width:31%;'>
+                                            <div id="datosLike" style='width:25%;'>
                                                 <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpg"> en mis imagenes </p>
                                                 <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpg"> en mi perfil </p>
                                             </div>                                                                        
@@ -514,21 +516,17 @@ $(document).ready(function(){
                             <h3><?php echo $this->translate('Conversation');?></h3>
                             <p class="colorless noMessage">
                                 <?php echo $this->messages_users ?>&nbsp;
-                                <?php if($this->loged) { ?> 
                                 <div id="message" class="Form">                                                                    
                                     <a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
                                 </div>
-                                <?php } ?>
                             </p>
                             <?php } else { ?>
                             <h3><?php echo $this->translate('Conversation');?></h3>
                             <p class="colorless noMessage">
                                     <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
-                                    <?php if($this->loged) { ?> 
                                     <div id="message" class="Form">                                    
                                         <a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
-                                    </div> 
-                                    <?php } ?>
+                                    </div>                                    
                             </p>
                             <?php } ?>
                         </div>
