@@ -636,7 +636,8 @@ class Model_Users extends JO_Model {
 			'users.user_id',
 			'users.username',
 			'users.firstname',
-			'users.status'
+			'users.status',
+                        'users.likers'
 		);
 		if(isset($data['filter_like_pin_id'])) {
 			$allow_sort[] = 'pins_likes.like_id';
@@ -681,6 +682,15 @@ class Model_Users extends JO_Model {
 			->where('users_likes.user_like_id = ?', (string)$data['filter_liking_user_id']);
 		}
                 
+                if(isset($data['filter_profile_top_10']) && !is_null($data['filter_profile_top_10'])) {
+			$query->where('users.likers > 0 ');
+			//$ignore_in = true;
+		}
+
+                if(isset($data['filter_profile_top_10_7']) && !is_null($data['filter_profile_top_10_7'])) {
+			$query->where('users.likers > 0 AND DATEDIFF(curdate(), last_action_datetime) < ? ', (int)$data['filter_profile_top_10_7']);
+			//$ignore_in = true;
+		}
                 
 		if(isset($data['filter_like_pin_id']) && $data['filter_like_pin_id']) {
 			$query->joinLeft('pins_likes', 'users.user_id = pins_likes.user_id')
@@ -694,8 +704,11 @@ class Model_Users extends JO_Model {
 		if(isset($data['filter_username']) && $data['filter_username']) {
 			$query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
 		}
+                
+
 //		echo $query; exit;
 		$results = $db->fetchAll($query);
+
 		$result[$key] = array();
 		if($results) {
 			foreach($results AS $data) {

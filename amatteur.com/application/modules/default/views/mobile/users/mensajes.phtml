@@ -6,7 +6,7 @@
                     
                         <div class="infoMessage"> 
                             <?php if($this->has_messages || !$this->enable_edit) { ?>
-                            <h5>Conversación</h5>
+                            <h5><?php echo $this->translate('Conversation');?></h5>
                             <p class="colorless noMessage">
                                 <?php echo $this->messages_users ?>&nbsp;
                                 <?php if($this->loged) { ?> 
@@ -14,7 +14,7 @@
                                 <?php } ?>
                             </p>
                             <?php } else { ?>
-                            <h5>Conversación</h5>
+                            <h5><?php echo $this->translate('Conversation');?></h5>
                             <p class="colorless noMessage">
                                     <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
                                     <?php if($this->loged) { ?> 

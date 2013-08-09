@@ -1841,7 +1841,6 @@ class Apiv1Controller extends JO_Action
 
             if ($request->isPost())
             {
-error_log("antes de entrar ". $request->getPost('userId'));
                 $result = Model_Pins::create(array(
                             'title' => $request->getPost('title'),
                             'from' => '',
@@ -2405,6 +2404,113 @@ error_log("antes de entrar ". $request->getPost('userId'));
         $response->appendBody($return);
     }
 
+    public function registertwAction()
+    {
+
+
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        $return = array();
+        $userId = $request->getPost('userId');
+    		if($request->getPost('userId')) {
+				Model_Users::edit($userId, array(
+					'twitter_connect' => 1,
+					'twitter_id' => $request->getPost('twitter_id'),
+                                            'twitter_username' => $request->getPost('twitter_username')
+				));
+		}
+		
+		
+		
+//		$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
+//		$user_info = $twitteroauth->get('account/verify_credentials');
+		/*
+		if(isset($user_info->id) && $user_info->id) {
+			
+			if(!self::loginInit($user_info->id)) {
+				
+				$this->setViewChange('no_account');
+					
+				$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+				if($page_login_trouble) {
+					$this->view->page_login_trouble = array(
+						'title' => $page_login_trouble['title'],
+						'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+					);
+				}
+		
+				$this->view->children = array(
+		        	'header_part' 	=> 'layout/header_part',
+		        	'footer_part' 	=> 'layout/footer_part'
+		        );
+				
+			}
+			
+		} else {
+			$this->setViewChange('error_login');
+			
+			$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
+			if($page_login_trouble) {
+				$this->view->page_login_trouble = array(
+					'title' => $page_login_trouble['title'],
+					'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
+				);
+			}
+		
+			$this->view->children = array(
+	        	'header_part' 	=> 'layout/header_part',
+	        	'footer_part' 	=> 'layout/footer_part'
+	        );
+		}
+-sss
+                                if ($result)
+                {
+                    if (self::sendMail($result))
+                    {
+                        //self::loginInit($result);
+                    };
+                    $return = array('id' => $result); //['user_id']); 
+                } else
+                {
+                    $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
+                }
+            } else
+            {
+                $return = array('error' => 4, 'description' => $validate->_get_error_messages());
+            }
+        }
+*/
+        $return = $userId;
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json; charset=utf-8');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }
+    
     public function logintwAction()
     {
 
@@ -2428,9 +2534,9 @@ error_log("antes de entrar ". $request->getPost('userId'));
         $return = array();
 
 
-        if (isset($_POST['token']))
+        if (isset($_POST['twitter_id']))
         {
-            $id = $_POST['userId'];
+            $id = $_POST['twitter_id'];
 
             $user_data = WM_Users::checkLoginFacebookTwitter($id, 'twitter');
             if ($user_data)

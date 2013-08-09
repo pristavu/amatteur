@@ -130,13 +130,13 @@ $(document).ready(function(){
     <div class="FixedContainer row clearfix">
         <div class="infoBody">   
             <?php if($this->userdata['agenda'] || !$this->enable_edit) { ?>
-            <h5>Agenda y Actualidad</h5>
+            <h5><?php echo $this->translate('Diary & News');?></h5>
             <p class="colorless noAgenda">
                     <?php echo nl2br($this->userdata['agenda']);?>&nbsp;
                     <!--img src="data/images/ProfileEditIcon.png"-->
             </p>
             <?php } else { ?>
-            <h5>Agenda y Actualidad</h5>
+            <h5><?php echo $this->translate('Diary & News');?></h5>
             <p class="colorless noAgenda">
                     <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
                     <img src="data/images/ProfileEditIcon.png">

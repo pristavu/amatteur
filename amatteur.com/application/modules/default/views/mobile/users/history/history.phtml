@@ -1,33 +1,38 @@
-<div class="box follow-box follow-board" id="<?php echo $this->history['history_id'];?>">
-	<div class="left-corner">
-		<div class="bottom-corner">
-			<div class="right-corner">
-				
-				<div class="preview">
+<div class="box follow-box follow-board" id="<?php echo $this->history['history_id']; ?>">
+    <div class="left-corner">
+        <div class="bottom-corner">
+            <div class="right-corner">
 
-                                    <span class="icon-holder">
-                                            
-                                    </span>
-                                        <h4 class="title">
-                                            <strong><?php echo $this->history['fullname'];?></strong> <?php echo $this->history['text_type'];?>
-                                            <?php echo $this->history['comment'];?>
-                                            <span class="colorlight" title="<?php echo $this->history['date_added'];?>">
-                                                    <?php echo sprintf($this->translate('%d %s ago'), $this->history['value'], $this->translate($this->history['key']));?>
-                                            </span>
-                                       </h4>
-		<a class='tappable'>
-			<div class='pinner' style="display: inline-block">
-				<div class='pinner_image' style="float: left">
-					<img src="<?php echo $this->history['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->history['fullname'] ?>">
-					
-				</div>
+                <div class="preview">
+
+                    <span class="icon-holder">
+
+                    </span>
+                    <a class='tappable'>
+                        <div class='pinner' style="display: inline-block">
+                            <div class='pinner_image' style="float: left">
+                                <a href="<?php echo $this->history['href']; ?>">
+                                    <img src="<?php echo $this->history['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->history['fullname'] ?>">
+                                </a>
                             </div>
-                </a>
-					
-				</div>
-				
+                        </div>
+                    </a>
+                    
+                    <h4 class="title">
+                        
+                            <span class="icon-holder"></span>
+                            <?php echo sprintf('<a href="' . $this->history['href'] . '">' . $this->history['user']['fullname'] . '</a>') ?>
+                        <?php echo $this->history['text_type']; ?>
+                        <?php echo $this->history['comment']; ?>
+                        <span class="colorlight" title="<?php echo $this->history['date_added']; ?>">
+                            <?php echo sprintf($this->translate('%d %s ago'), $this->history['value'], $this->translate($this->history['key'])); ?>
+                        </span>
+                    </h4>
 
-			</div>
-		</div>
-	</div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
 </div>

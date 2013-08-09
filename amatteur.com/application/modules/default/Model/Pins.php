@@ -454,6 +454,16 @@ class Model_Pins {
 			$ignore_in = true;
 		}
 
+                if(isset($data['filter_pin_top_10']) && !is_null($data['filter_pin_top_10'])) {
+			$query->where('pins.likes > 0 ');
+			$ignore_in = true;
+		}
+
+                if(isset($data['filter_pin_top_10_7']) && !is_null($data['filter_pin_top_10_7'])) {
+			$query->where('pins.likes > 0 AND DATEDIFF(curdate(), date_modified) < ? ', (int)$data['filter_pin_top_10_7']);
+			$ignore_in = true;
+		}
+
 		if(isset($data['filter_board_id']) && !is_null($data['filter_board_id'])) {
 			$query->where('pins.board_id = ?', (string)$data['filter_board_id']);
 			$ignore_in = true;
@@ -773,7 +783,8 @@ class Model_Pins {
 		
 		$allow_sort = array(
 			'pins.pin_id',
-			'pins.views'
+			'pins.views',
+                        'pins.likes'
 		);
 		
 		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
@@ -784,6 +795,7 @@ class Model_Pins {
 			$query->order('pins.pin_id' . $sort);
 		}
 		
+                
 		$start = microtime(true);
 		
 //echo $query.'<hr />';
