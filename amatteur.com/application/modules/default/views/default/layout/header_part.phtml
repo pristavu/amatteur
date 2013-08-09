@@ -267,15 +267,21 @@ if(!$this->show_header_line && $this->show_header_invate) {
 	<?php //var_dump(in_array(JO_Request::getInstance()->getController(),array('settings')) );exit?>
 	<div id="menu" class="<?php echo $this->is_loged ? "loged" : "";?> <?php echo in_array(JO_Request::getInstance()->getController(),array('settings','prefs','password')) ?  "menuNoSlider":"";?>"<?php if(!$enable_slider) { ?> style="top:50px;"<?php } ?>>
 		<div id="menuwrapper">
+			<?php if(!$this->is_loged) { ?>
 			<div class="menubienvenido">Bienvenid@&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
+			<?php } ?>
 			<div class="menumenus">
 			<ul class="links">
+				<!--
 				<?php if($this->is_loged) { ?>
 				<li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow');?></a></li>
 				<?php } ?>
+				-->
 				<?php if($this->is_loged) { ?>
 				<li><a href="<?php echo $this->invites;?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends');?></a></li>	
 				<?php } ?>
+				<li><a href="articles"><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;Ranking</a></li>
+				<li><a href="articles"><img width="20px" height="18px" src="data/images/ico_Articulos.png" alt="" />&nbsp;&nbsp;Artículos</a></li>
 				<li><a href="<?php echo $this->video_url;?>"><img width="20px" height="18px" src="data/images/ico_videos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Videos');?></a></li>
 				<li><a href="<?php echo $this->popular_url;?>"><img width="20px" height="18px" src="data/images/ico_popular.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular');?></a></li>
 				<li>

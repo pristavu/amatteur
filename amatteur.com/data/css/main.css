@@ -80,7 +80,7 @@ a:hover {
     margin-right: auto;
     margin-left: auto;
     position: relative;
-    min-width:950px;
+    min-width:1050px;
 }
 #topwrapper .search {
     height: 28px;
@@ -396,7 +396,7 @@ a:hover {
     margin-left: auto;
     position: relative;
     height: 34px;
-    min-width:950px;
+    min-width:1050px;
 }
 #menuwrapper .menubienvenido {
 	float:left;
@@ -409,7 +409,7 @@ a:hover {
 
 #menuwrapper .menubienvenido .a {
 	float:left;
-    width:260px;
+    width:210px;
     padding-top:10px;
     font-weight:bold;
     color:#FFF;
@@ -420,7 +420,7 @@ a:hover {
 #menuwrapper .menumenus {
     padding-top:3px;
 	float:right;
-    width:650px;
+    width:750px;
     float:right;
 }
 #menuwrapper .links {
@@ -430,7 +430,7 @@ a:hover {
     line-height: 15px;
     position: absolute;
     /*left: 50%;*/
-    width:650px;
+    width:750px;
     float:right;
 }
 #menuwrapper .links li {
@@ -3024,12 +3024,12 @@ color: #524D4D;
 	height: 50px;
 	margin: -25px 0 0 -25px;
 */  
-    height: 22px;
-    left: 185px;
-    margin: 0 0 0 -15px;
+    height: 37px;
+    left: 151px;
+    margin: -9px 0 0 0;
     position: absolute;
     top: 2px;
-    width: 20px;
+    width: 37px;
     z-index: 1;
 
 }
@@ -7697,7 +7697,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff),
 
 #slides{
 overflow:hidden;
-margin-top:35px;
+margin-top:45px;
 height: 250px;
 
 top: 43px;
