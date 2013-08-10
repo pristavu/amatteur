@@ -23,48 +23,24 @@ class Helper_User {
 	
 	
 
-	public static function returnHtml($users, $recache = false) { 
+	public static function returnHtml($user, $recache = false) { 
 	
 		static $view = null, $model_images = null, $request = null;
 		if($view === null) { $view = JO_View::getInstance(); }
 		if($model_images === null) { $model_images = new Helper_Images(); }
 		if($request === null) { $request = JO_Request::getInstance(); }
-		/*
-		$view->image_no_cache = JO_Date::dateToUnix($users['last_action_datetime']);
-		
-		if(!JO_Registry::get('isMobile')) {
-			$cache_file = Model_Pins::generateCachePatch($pin);
-			if($cache_file && file_exists($cache_file)) {
-				if(JO_Date::dateToUnix($users['last_action_datetime']) >= JO_Date::dateToUnix(filemtime($cache_file))) {
-					$recache = true;
-				}
-			} 
-			$content = false;
-                        
-			if(!$recache) {
-			//CACHE OFF
-			if($cache_file && file_exists($cache_file)) {
-				$content = Model_Pins::getCache($cache_file);
-				
-				if($content && $content['html'] && $content['date_added'] > JO_Date::dateToUnix($users['last_action_datetime'])) {
-					return $content['html'];
-				}
-			}
-                         
-			}
-                         
-		}
-                */
-                $response = array();
+
+                /*$response = array();
                 
 		if($users) {
 			$view = JO_View::getInstance();
 			$view->loged = JO_Session::get('user[user_id]');
 			$model_images = new Helper_Images();
 			foreach($users AS $key => $user) {
-				
+			*/	
 				$user['thumbs'] = array();
 				
+                                /*
 				for( $i = 0; $i < 8; $i ++) {
 					$image = isset( $user['pins_array'][$i] ) ? $user['pins_array'][$i]['image'] : false;
 					if($image) {
@@ -78,10 +54,13 @@ class Helper_User {
 						}
 					}
 				}
+                                 * 
+                                 */
 				////
 				$avatar = Helper_Uploadimages::avatar($user, '_B');
 				$user['avatar'] = $avatar['image'];
 				
+                                //$user['Likers'] = true;
                                 $user['userLikeIgnore'] = true;
 				if($view->loged) {
 					$user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
@@ -94,17 +73,10 @@ class Helper_User {
 				$user['pins_href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=pins&user_id=' . $user['user_id']);
 				$user['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id'] );
 				
-				$view->key = $key%2==0;
+				//$view->key = $key%2==0;
 				$view->user = $user;
-				$response .= $view->render('box', 'users');
-			}
-		}
-		
-		//CACHE OFF
-                /*
-		if(!JO_Registry::get('isMobile')) {
-			if($cache_file && file_exists($cache_file)) {
-				Model_Pins::generateCache($cache_file, $response);
+				$response = $view->render('boxTop', 'users');
+                                /*
 			}
 		}
 		*/

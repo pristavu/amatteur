@@ -13,17 +13,7 @@ class ToppinsController extends JO_Action {
 		
                 if ($index_id == 1)
                 {
-                    $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'order' => 'pins.likes',
-                            'sort' => 'DESC',
-                            'limit' => 10,
-    //			'filter_marker' => $request->getRequest('marker'),
-                            'filter_pin_top_10' => true
-                    );
-                }
-                else if ($index_id == 2)
-                {
+                    $this->view->title = 'Top 10 fotos - Últimos 7 días';
                     $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                             'order' => 'pins.likes',
@@ -33,19 +23,21 @@ class ToppinsController extends JO_Action {
                             'filter_pin_top_10_7' => '7'
                     );
                 }
-                else if ($index_id == 3)
+                else if ($index_id == 2)
                 {
+                    $this->view->title = 'Top 10 fotos - Absoluto';
                     $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            //'order' => 'users.likers',
-                            //'sort' => 'DESC',
+                            'order' => 'pins.likes',
+                            'sort' => 'DESC',
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
-                            'filter_profile_top_10' => true
+                            'filter_pin_top_10' => true
                     );
                 }
-                else if ($index_id == 4)
+                else if ($index_id == 3)
                 {
+                    $this->view->title = 'Top 10 perfiles - Últimos 7 días';
                     $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                             'order' => 'users.likers',
@@ -54,7 +46,18 @@ class ToppinsController extends JO_Action {
     //			'filter_marker' => $request->getRequest('marker'),
                             'filter_profile_top_10_7' => '7'
                     );
-                    
+                }
+                else if ($index_id == 4)
+                {
+                    $this->view->title = 'Top 10 perfiles - Absoluto';
+                    $data = array(
+                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                            //'order' => 'users.likers',
+                            //'sort' => 'DESC',
+                            'limit' => 10,
+    //			'filter_marker' => $request->getRequest('marker'),
+                            'filter_profile_top_10' => true
+                    );
                 }
 
                     
@@ -71,6 +74,7 @@ class ToppinsController extends JO_Action {
                 }
                 else if ($index_id == 3 || $index_id == 4)                
                 {
+                    //$pins = Model_Users::getUsers($data);
                     $pins = Model_Users::getUsers($data);
                 }
                     
@@ -80,9 +84,6 @@ class ToppinsController extends JO_Action {
 				new JO_Db_Expr("`controller` = '".$request->getController()."' AND position BETWEEN '".(int)$data['start']."' AND '".(int)$data['limit']."'")
 			);
 			$pp = JO_Registry::get('config_front_limit');
-                                if ($index_id == 1 || $index_id == 2)                
-                                {
-                        
 			foreach($pins AS $row => $pin) {
 				///banners
 				$key = $row + (($pp*$page)-$pp);
@@ -90,18 +91,19 @@ class ToppinsController extends JO_Action {
 					$this->view->pins .= Helper_Banners::returnHtml($banners[$key]);	
 				}
                  
+                                if ($index_id == 1 || $index_id == 2)                
+                                {
         				//pins
-                        		$this->view->pins .= Helper_Pin::returnHtml($pin);
-
-			}
-                                                        }
+                        		$this->view->pins .= Helper_Pin::returnHtmlTop($pin);
+                                }
                                 else  if ($index_id == 3 || $index_id == 4)
                                 {
         				//users
-                        		$this->view->pins .= Helper_User::returnHtml($pins);
-                                    //$this->view->users .= $this->returnHtml($pins);
+                        		$this->view->pins .= Helper_User::returnHtml($pin);
+                                    //$this->view->users .= $this->returnHtml($pin);
                                 }
 
+			}
 			//JO_Registry::set('marker', Model_Pins::getMaxPin($data));
 		}
 		
@@ -125,7 +127,7 @@ class ToppinsController extends JO_Action {
 		$this->forward('toppins', 'index');
 	}
 
-      
+        
         
 }
 

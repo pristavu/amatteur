@@ -185,7 +185,16 @@ class LayoutController extends JO_Action {
 		//////////// ALL PINS ////////////
 		$this->view->all_url = WM_Router::create( $request->getBaseUrl() . '?controller=all' );
 		
-	
+		//////////// Articles ////////////
+		$this->view->article_url = WM_Router::create( $request->getBaseUrl() . '?controller=articles' );
+
+		//////////// Ranking ////////////
+		$this->view->pinTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=1' );
+                $this->view->pinTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=2' );
+                $this->view->profileTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=3' );
+                $this->view->profileTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=4' );
+                
+                
 		////////////////////////////// SEARCH ///////////////////////////
 		
 		//$this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search');

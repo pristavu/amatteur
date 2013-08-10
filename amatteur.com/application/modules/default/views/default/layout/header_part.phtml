@@ -1,379 +1,455 @@
-﻿<?php //var_dump($this->categories);exit;?>
+﻿<?php //var_dump($this->categories);exit; ?>
 <script type="text/javascript" src='data/js/slide.js'></script>
 
 <script type='text/javascript'>
-	$(document).ready(function(){
+    $(document).ready(function(){
 	    
-		$(".dropdown.left").mouseover(function(e){
-			var o = 1;
-			var self = $(this);
-			self.scrollTop();
-                        try
-                        {
-			//console.log(self.height());
-                        }
-                        catch(e)
-                        {}
-			$(document).bind('mousewheel',function(event,delta){
+        $(".dropdown.left").mouseover(function(e){
+            var o = 1;
+            var self = $(this);
+            self.scrollTop();
+            try
+            {
+                //console.log(self.height());
+            }
+            catch(e)
+            {}
+            $(document).bind('mousewheel',function(event,delta){
 					
 					
 					
-						if(delta === 1){
-							self.scrollTo(0);
-						}else{
-							self.scrollTo(self.innerHeight());
-						}
+                if(delta === 1){
+                    self.scrollTo(0);
+                }else{
+                    self.scrollTo(self.innerHeight());
+                }
 						
 					
-					try
-                                        {
-					//console.log(o);
-                                        }
-                                        catch(e)
-                                        {}
+                try
+                {
+                    //console.log(o);
+                }
+                catch(e)
+                {}
 					
-					event.preventDefault();
+                event.preventDefault();
 					
 					
 				
-			});
-		});
+            });
+        });
 
-		$(".dropdown.left").mouseout(function(e){
-			$(document).unbind('mousewheel');
-		});	
-	});
+        $(".dropdown.left").mouseout(function(e){
+            $(document).unbind('mousewheel');
+        });	
+    });
 </script>
 <div class='ol'>
-<div id='iframeHolder'>
-	<a  href='' class='blackCloseIcon'><image src='data/images/black_close_icon.png'/></a>
+    <div id='iframeHolder'>
+        <a  href='' class='blackCloseIcon'><image src='data/images/black_close_icon.png'/></a>
+    </div>
 </div>
-</div>
-<?php ob_start();?>
+<?php ob_start(); ?>
 <script type="text/javascript">
-<?php if($this->full_url_js) { ?>
-window.infiniteFinishedMsg = "<em><?php echo $this->translate('Congratulations, you\'ve reached the end of the internet.');?></em>";
-window.infiniteMsgText = "<em><?php echo $this->translate('Loading the next set of posts...');?></em>";
-window.Pins.url = '<?php echo rtrim($this->full_url_js, '/');?>';
-<?php $page = (int)$this->getRequest()->getRequest('page'); if($page < 1) { $page = 1; } ?>
-window.Pins.currentPage = <?php echo $page;?>;
-<?php } else { ?>
-if($('#container .box').size() > 0) {
-	$('#container').infinitescroll('pause');
-}
+<?php if ($this->full_url_js)
+{ ?>
+        window.infiniteFinishedMsg = "<em><?php echo $this->translate('Congratulations, you\'ve reached the end of the internet.'); ?></em>";
+        window.infiniteMsgText = "<em><?php echo $this->translate('Loading the next set of posts...'); ?></em>";
+        window.Pins.url = '<?php echo rtrim($this->full_url_js, '/'); ?>';
+    <?php $page = (int) $this->getRequest()->getRequest('page');
+    if ($page < 1)
+    {
+        $page = 1;
+    } ?>
+        window.Pins.currentPage = <?php echo $page; ?>;
+<?php } else
+{ ?>
+        if($('#container .box').size() > 0) {
+            $('#container').infinitescroll('pause');
+        }
 <?php } ?>
-<?php if(trim($this->price_left)) { ?>
-regExPrice.expresions.price_left = /(<?php echo $this->price_left;?>)([\s]{0,2})?(?:(?:\d{1,5}(?:\,\d{3})+)|(?:\d+))(?:\.\d{2})?/;
+<?php if (trim($this->price_left))
+{ ?>
+        regExPrice.expresions.price_left = /(<?php echo $this->price_left; ?>)([\s]{0,2})?(?:(?:\d{1,5}(?:\,\d{3})+)|(?:\d+))(?:\.\d{2})?/;
 <?php } ?>
-<?php if(trim($this->price_right)) { ?>
-regExPrice.expresions.price_right = /(?:(?:\d{1,5}(?:\,\d{3})+)|(?:\d+))(?:\.\d{2})?([\s]{0,2})?(<?php echo $this->price_right;?>)/;
+<?php if (trim($this->price_right))
+{ ?>
+        regExPrice.expresions.price_right = /(?:(?:\d{1,5}(?:\,\d{3})+)|(?:\d+))(?:\.\d{2})?([\s]{0,2})?(<?php echo $this->price_right; ?>)/;
 <?php } ?>
 
-window.search_autocomplete = '<?php echo $this->search_autocomplete;?>';
+    window.search_autocomplete = '<?php echo $this->search_autocomplete; ?>';
 
 
 
 </script>
-<?php $this->placeholder('inhead', ob_get_clean());?>
+<?php $this->placeholder('inhead', ob_get_clean()); ?>
 
-<?php 
+<?php
 $class = '';
-if(!$this->show_header_line && $this->show_header_invate) {
-	$class = ' invate_show';
-} elseif($this->show_header_line && $this->show_header_invate) {
-	$class = ' invate_show_with_line';
+if (!$this->show_header_line && $this->show_header_invate)
+{
+    $class = ' invate_show';
+} elseif ($this->show_header_line && $this->show_header_invate)
+{
+    $class = ' invate_show_with_line';
 }
 ?>
 <script>
-	var slidesControllerUrl = "<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl()."?controller=slides"); ?>"
+    var slidesControllerUrl = "<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl() . "?controller=slides"); ?>"
 </script>
-<?php if($this->board_category_change) { ?>
-<div id="TopNagCallout">
-	<div class="LiquidContainer">
-		<p>
-			<?php echo sprintf($this->translate('Please select a category for "%s". You can do it from %s HERE %s!'), $this->board_category_change['title'], '<a href="'.$this->board_category_change['href'].'">', '</a>');?>
-		</p>
-	</div>
-</div>
-<?php } elseif($this->show_new_password) { ?>
-<div id="TopNagCallout">
-	<div class="LiquidContainer">
-		<p>
-			<?php echo sprintf($this->translate('Please verify your email. If you did not receive an email, you can %s change your email address %s or we can %s resend the email %s. (Also check your spam folder!)'), '<a href="'.$this->settings.'">', '</a>', '<a onclick="resend_email_verification();" href="javascript:void(0)">', '</a>');?>
-		</p>
-	</div>
-</div>
-<?php } else {/* ?>
-<div id="TopNagCallout">
-	<div class="LiquidContainer">
-		<p>
-			Amatteur
-		</p>
-	</div>
-</div>
-<?php */} ?>
+<?php if ($this->board_category_change)
+{ ?>
+    <div id="TopNagCallout">
+        <div class="LiquidContainer">
+            <p>
+    <?php echo sprintf($this->translate('Please select a category for "%s". You can do it from %s HERE %s!'), $this->board_category_change['title'], '<a href="' . $this->board_category_change['href'] . '">', '</a>'); ?>
+            </p>
+        </div>
+    </div>
+<?php } elseif ($this->show_new_password)
+{ ?>
+    <div id="TopNagCallout">
+        <div class="LiquidContainer">
+            <p>
+    <?php echo sprintf($this->translate('Please verify your email. If you did not receive an email, you can %s change your email address %s or we can %s resend the email %s. (Also check your spam folder!)'), '<a href="' . $this->settings . '">', '</a>', '<a onclick="resend_email_verification();" href="javascript:void(0)">', '</a>'); ?>
+            </p>
+        </div>
+    </div>
+<?php } else
+{/* ?>
+  <div id="TopNagCallout">
+  <div class="LiquidContainer">
+  <p>
+  Amatteur
+  </p>
+  </div>
+  </div>
+  <?php */
+} ?>
 
 <div id="overflow" class="hide<?php echo $class ?>">
-	<div id="top" <?php if(!$this->show_header_line) { ?>class="inner"<?php } ?>>
-		<div id="topwrapper">
-		
-			<h1 class="logo">
-				<a href="<?php echo $this->baseUrl;?>">
-					<img src="<?php echo $this->site_logo;?>" alt="<?php echo $this->getLayout()->placeholder('title');?>" />
-				</a>
-			</h1>
-		
-		
-			<?php if( $this->show_brand ) { ?>
-			
-			<?php } ?>
-			
-			
-			<ul class="userbar">
-				<?php if(JO_Registry::get('isMobile')) { ?>
-				<li><a href="/?remove_full_version" title="<?php echo $this->translate('Mobile Site');?>"><?php echo $this->translate('Mobile Site');?></a></li>
-				<?php } ?>
-				<?php if($this->is_loged) { ?>
-				<li><a href="<?php echo $this->addPin;?>" class="silverbox" title="<?php echo $this->translate('Add a Pin');?>"><img width="18px" height="18px" src="data/images/ico_Anadir.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Add +');?></a></li>
-				<?php } ?>
-				<?php if($this->about_menu) { ?>
-				<li>
-					<a href="javascript:void(0);" class="arrow"><img width="18px" height="18px" src="data/images/ico_info.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('About');?></a>
-					<div class="dropdown columns-1">
-						<ul>
-							<?php foreach($this->about_menu AS $key => $menu) { ?>
-							<li<?php echo ($menu['class']?' class="'.$menu['class'].'"':'');?>><a href="<?php echo $menu['href'];?>"><?php echo $menu['title'];?></a></li>
-							<?php }?>
-						</ul>
-						<div class="clear"></div>
-					</div>
-				</li>
-				<?php } ?>
-				<?php if(!$this->is_loged) { ?>
-				<li>
-				<a href="<?php echo $this->login;?>"><img width="16px" height="17px" src="data/images/ico_entrar.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Login');?></a></li>
-				<li>
-				<a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;Regístrate</a></li>
-				<?php } ?>
-				<?php if($this->is_loged) { ?>
-				<li class="member">
-					<img class="avatar" src="<?php echo $this->self_avatar;?>" alt="" />
-					<a href="<?php echo $this->self_profile;?>" class="arrow"><?php echo $this->self_firstname;?></a>
-					<div class="dropdown columns-1 usermenu-down">
-						<ul>
-							<li class="first"><a href="<?php echo $this->invites;?>"><?php echo $this->translate('Invite Friends');?></a></li>
-							<li class="beforeGroup"><a href="<?php echo $this->invites_fb;?>"><?php echo $this->translate('Find Friends');?></a></li>
-							<li class="group"><a href="<?php echo $this->self_profile;?>"><?php echo $this->translate('Boards');?></a></li>
-							<li><a href="<?php echo $this->user_pins;?>"><?php echo $this->translate('Pins');?></a></li>
-							<li class="beforeGroup"><a href="<?php echo $this->user_pins_likes;?>"><?php echo $this->translate('Likes');?></a></li>
-							<li class="group"><a href="<?php echo $this->settings;?>"><?php echo $this->translate('Settings');?></a></li>
-							<li class="last"><a href="<?php echo $this->logout;?>"><?php echo $this->translate('Logout');?></a></li>
-						</ul>
-						<div class="clear"></div>
-					</div>
-				</li>
-				<?php } ?>
-			</ul>
-			
-				<form action="<?php echo $this->search_action;?>" method="get" class="search">
-				<?php if($this->show_hidden) { ?>
-				<p class="hide">
-					<input type="hidden" value="search" name="controller" />
-					<?php if($this->with_action) { ?>
-					<input type="hidden" value="<?php echo $this->with_action;?>" name="action" />
-					<?php } ?>
-				</p>
-				<?php } ?>
-				<p class="keyword">
-					<label for="keyword" class="hide"><?php echo $this->translate('Keyword');?>:<br /></label>
-					<input type="text" id="keyword" name="q" value="<?php echo $this->keywords;?>" />
-				</p>
-				<p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" /></p>
-			</form>
+    <div id="top" <?php if (!$this->show_header_line)
+{ ?>class="inner"<?php } ?>>
+        <div id="topwrapper">
 
-		</div>
-	</div>
-	<?php 
-	$enable_slider = true;
-	if(!$this->is_loged){?>
-	
-	<?php 
-		
-		if($this->getRequest()->getController() == 'users' && in_array($this->getRequest()->getAction(),array('login','register'))) {
-			$enable_slider = false;
-		}
-	?>
-		<?php if($enable_slider) { ?>
-	<div id='slides' data-int='5'>
-		<div class='slides_container'>
-			
-		</div>
-		
-	</div>
-	<!--
-	<div class='slides_controlls'>
-			<ul>
-				<li>
-				</li>
-			</ul>
-		</div>
-	-->	
-<!-- Video
-	<div id='headerVideo'>
-		<div id='slogan'>
-			<p class="slogan"><?php echo sprintf($this->translate('%s is an online pinboard.'), $this->site_name);?><br /> <?php echo $this->translate('Organize and share things you love.');?></p>
-		</div>
-		<div class='headerVideoImage'>
-		</div>
-		<div class='playIconHolder'>
-			<a class='playIcon' id='videoTrigger' href=''>
-			
-			</a>
-		</div>
-	</div>
--->	
-	<script src="js/jquery-1.5.1.js"></script>
-	<script>
-		$(document).ready(function() {
-			$("#headerBienve").hide();
- 
-			$("#muestraBienvenida").mouseover(function(){
-				$("#headerBienve").show();
-			}).mouseout(function(){
-				$("#headerBienve").hide();
-			});
-		});
-	</script>
-	
-		<div id='headerBienve'>
-		<img alt="" src="data/images/bienve.png" width="358px" height="100px">
-		</div>
+            <h1 class="logo">
+                <a href="<?php echo $this->baseUrl; ?>">
+                    <img src="<?php echo $this->site_logo; ?>" alt="<?php echo $this->getLayout()->placeholder('title'); ?>" />
+                </a>
+            </h1>
 
-	
-	<script type='text/javascript'>
-		getVideoImage();
-	</script>
-		<?php } ?>
-	
-	
-		<?php if(!$this->is_loged){?>
-			<?php if($enable_slider) { ?>
-			<div class='headerValores'>
-				<img alt="" src="data/images/barra_valores.png" width="1315" height="14">
-			</div>
-			<div class='headerClaim'>
-			<!--
-				<div class='buttonHolder'>
-					<span>
-					<?php if($this->show_landing) { ?>
-						<a href='<?php echo $this->landing;?>'><?php echo $this->translate('Request Invitation')?>  &gt&gt</a>
-					<?php } else {?>
-						<a href='<?php echo $this->registration;?>'><?php echo $this->translate("Register")?>  &gt&gt</a>
-					<?php }?>
-						<a href="<?php echo $this->login?>"><?php echo $this->translate("Log In")?></a>
-					</span>
-				</div>
-			-->	
-			</div>
-			<?php } ?>
-		<?php }?>
-	<?php }?>
-	
-	
-	
-	<?php if($this->show_header_line || $this->show_header_invate) { ?>
-	<?php //var_dump(in_array(JO_Request::getInstance()->getController(),array('settings')) );exit?>
-	<div id="menu" class="<?php echo $this->is_loged ? "loged" : "";?> <?php echo in_array(JO_Request::getInstance()->getController(),array('settings','prefs','password')) ?  "menuNoSlider":"";?>"<?php if(!$enable_slider) { ?> style="top:50px;"<?php } ?>>
-		<div id="menuwrapper">
-			<?php if(!$this->is_loged) { ?>
-			<div class="menubienvenido">
-				<div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
-				<div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
-			</div>
-			<?php } ?>
-			<div class="menumenus">
-			<ul class="links">
-				<!--
-				<?php if($this->is_loged) { ?>
-				<li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow');?></a></li>
-				<?php } ?>
-				-->
-				<?php if($this->is_loged) { ?>
-				<li><a href="<?php echo $this->invites;?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends');?></a></li>	
-				<?php } ?>
-				<li><a href="articles"><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;Ranking</a></li>
-				<li><a href="articles"><img width="20px" height="18px" src="data/images/ico_Articulos.png" alt="" />&nbsp;&nbsp;Artículos</a></li>
-				<li><a href="<?php echo $this->video_url;?>"><img width="20px" height="18px" src="data/images/ico_videos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Videos');?></a></li>
-				<li><a href="<?php echo $this->popular_url;?>"><img width="20px" height="18px" src="data/images/ico_popular.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular');?></a></li>
-				<li>
-					<a href="<?php echo $this->gifts;?>" class="arrow"><img width="20px" height="18px" src="data/images/ico_enventa.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Gifts');?></a>
-					<div class="dropdown columns-1">
-						<ul>
-							<li><a href="<?php echo $this->gifts1;?>"><?php echo $this->translate('$1-20');?></a></li>
-							<li><a href="<?php echo $this->gifts2;?>"><?php echo $this->translate('$20-50');?></a></li>
-							<li><a href="<?php echo $this->gifts3;?>"><?php echo $this->translate('$50-100');?></a></li>
-							<li><a href="<?php echo $this->gifts4;?>"><?php echo $this->translate('$100-200');?></a></li>
-							<li><a href="<?php echo $this->gifts5;?>"><?php echo $this->translate('$200-500');?></a></li>
-							<li><a href="<?php echo $this->gifts6;?>"><?php echo $this->translate('$500+');?></a></li>
-						</ul>
-						<div class="clear"></div>
-					</div>
-				</li>
-				<?php if($this->categories) { ?>
-				<li class="last">
-					<a class="arrow" href="<?php echo $this->all_url;?>"><img width="20px" height="18px" src="data/images/ico_todo.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Everything');?><?php if($this->category_active) { ?>: <?php echo $this->category_active;?><?php } ?></a>
-					<div class="dropdown columns-2 categoriesMenu">
-						<?php $total = count($this->categories); ?>
-						<?php for($r=$i=0; $i<2; $i++) { ?>
-						<ul>
-							<?php for($j=0; $j<ceil( $total/2 ); $j++, $r++) { ?>
-							<?php if(isset($this->categories[$r])) { ?>
-							<?php 
-								$class = $this->categories[$r]['active'] ? 'active' : '';
-								if($r==0 || ceil( $total/2 ) == $r) { $class .= ' first'; }
-								if($r==($total-1) || (ceil( $total/2 )-1) == $r) { $class .= ' last'; }
-								$class = trim($class);
-							?>
-							<li<?php if($class) {?> class="<?php echo $class;?>"<?php } ?>><a href="<?php echo $this->categories[$r]['href'];?>"><?php echo $this->categories[$r]['title'];?></a>
-								<?php //var_dump($this->categories[$r]['subcategories'])?>
-								<ul class='dropdown columns-1 <?php echo $i == 0 ? "left": "right";?>' style='max-height:500px;overflow:hidden'>
-									<?php foreach($this->categories[$r]['subcategories'] as $subcat){?>
-										<li><a href='<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl()."?controller=category&category_id=".$subcat['category_id'])?>'><?php echo $subcat['title']?></a></li>	
-									<?php }?>
-								</ul>
-							</li>
-							<?php } ?>
-							<?php } ?>
-						</ul>
-						<?php } ?>
-						<div class="clear"></div>
-					</div>
-				</li>
-				<?php } ?>
-			</ul>
-			</div>
-			<!--AQUI IBA INVITAR-->
-		</div>
-	</div>
-	<?php } ?>
-	
-	<?php if($this->controller_open != "pages") { ?>
-	<?php if($this->show_header_invate) { ?>
-	<!-- <div id="<?php echo ($this->controller_open=='users'?'board2':'board');?>">
-		<div class="sheet-1">
-			<p class="slogan"><?php echo sprintf($this->translate('%s is an online pinboard.'), $this->site_name);?><br /> <?php echo $this->translate('Organize and share things you love.');?></p>
-			<div class="btns">
-				<?php if($this->show_landing) { ?>
-				<p class="requestinvite"><a href="<?php echo $this->landing;?>"><?php echo $this->translate('Request an Invite &raquo;');?></a></p>
-				<?php } else { ?>
-				<p class="requestinvite"><a href="<?php echo $this->registration;?>"><?php echo $this->translate('Registration &raquo;');?></a></p>
-				<?php } ?>
-				<p class="login"><a href="<?php echo $this->login;?>"><?php echo $this->translate('Login');?></a></p>
-			</div>
-			<div class="clear"></div>
-		</div> -->
-		<div class="sheet-2"></div>
-		<div class="sheet-3"></div>
-	</div>
-	<?php } ?>
-	<?php } ?>
+
+<?php if ($this->show_brand)
+{ ?>
+
+                            <?php } ?>
+
+
+            <ul class="userbar">
+<?php if (JO_Registry::get('isMobile'))
+{ ?>
+                    <li><a href="/?remove_full_version" title="<?php echo $this->translate('Mobile Site'); ?>"><?php echo $this->translate('Mobile Site'); ?></a></li>
+                <?php } ?>
+<?php if ($this->is_loged)
+{ ?>
+                    <li><a href="<?php echo $this->addPin; ?>" class="silverbox" title="<?php echo $this->translate('Add a Pin'); ?>"><img width="18px" height="18px" src="data/images/ico_Anadir.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Add +'); ?></a></li>
+                <?php } ?>
+                <?php if ($this->about_menu)
+                { ?>
+                    <li>
+                        <a href="javascript:void(0);" class="arrow"><img width="18px" height="18px" src="data/images/ico_info.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('About'); ?></a>
+                        <div class="dropdown columns-1">
+                            <ul>
+    <?php foreach ($this->about_menu AS $key => $menu)
+    { ?>
+                                    <li<?php echo ($menu['class'] ? ' class="' . $menu['class'] . '"' : ''); ?>><a href="<?php echo $menu['href']; ?>"><?php echo $menu['title']; ?></a></li>
+    <?php } ?>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+<?php } ?>
+<?php if (!$this->is_loged)
+{ ?>
+                    <li>
+                        <a href="<?php echo $this->login; ?>"><img width="16px" height="17px" src="data/images/ico_entrar.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Login'); ?></a></li>
+                    <li>
+                        <a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;Regístrate</a></li>
+                <?php } ?>
+                <?php if ($this->is_loged)
+                { ?>
+                    <li class="member">
+                        <img class="avatar" src="<?php echo $this->self_avatar; ?>" alt="" />
+                        <a href="<?php echo $this->self_profile; ?>" class="arrow"><?php echo $this->self_firstname; ?></a>
+                        <div class="dropdown columns-1 usermenu-down">
+                            <ul>
+                                <li class="first"><a href="<?php echo $this->invites; ?>"><?php echo $this->translate('Invite Friends'); ?></a></li>
+                                <li class="beforeGroup"><a href="<?php echo $this->invites_fb; ?>"><?php echo $this->translate('Find Friends'); ?></a></li>
+                                <li class="group"><a href="<?php echo $this->self_profile; ?>"><?php echo $this->translate('Boards'); ?></a></li>
+                                <li><a href="<?php echo $this->user_pins; ?>"><?php echo $this->translate('Pins'); ?></a></li>
+                                <li class="beforeGroup"><a href="<?php echo $this->user_pins_likes; ?>"><?php echo $this->translate('Likes'); ?></a></li>
+                                <li class="group"><a href="<?php echo $this->settings; ?>"><?php echo $this->translate('Settings'); ?></a></li>
+                                <li class="last"><a href="<?php echo $this->logout; ?>"><?php echo $this->translate('Logout'); ?></a></li>
+                            </ul>
+                            <div class="clear"></div>
+                        </div>
+                    </li>
+    <?php } ?>
+            </ul>
+
+            <form action="<?php echo $this->search_action; ?>" method="get" class="search">
+    <?php if ($this->show_hidden)
+    { ?>
+                    <p class="hide">
+                        <input type="hidden" value="search" name="controller" />
+        <?php if ($this->with_action)
+        { ?>
+                            <input type="hidden" value="<?php echo $this->with_action; ?>" name="action" />
+    <?php } ?>
+                    </p>
+<?php } ?>
+                <p class="keyword">
+                    <label for="keyword" class="hide"><?php echo $this->translate('Keyword'); ?>:<br /></label>
+                    <input type="text" id="keyword" name="q" value="<?php echo $this->keywords; ?>" />
+                </p>
+                <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" /></p>
+            </form>
+
+        </div>
+    </div>
+<?php
+$enable_slider = true;
+if (!$this->is_loged)
+{
+    ?>
+
+    <?php
+    if ($this->getRequest()->getController() == 'users' && in_array($this->getRequest()->getAction(), array('login', 'register')))
+    {
+        $enable_slider = false;
+    }
+    ?>
+    <?php if ($enable_slider)
+    { ?>
+            <div id='slides' data-int='5'>
+                <div class='slides_container'>
+
+                </div>
+
+            </div>
+            <!--
+            <div class='slides_controlls'>
+                            <ul>
+                                    <li>
+                                    </li>
+                            </ul>
+                    </div>
+            -->	
+            <!-- Video
+                    <div id='headerVideo'>
+                            <div id='slogan'>
+                                    <p class="slogan"><?php echo sprintf($this->translate('%s is an online pinboard.'), $this->site_name); ?><br /> <?php echo $this->translate('Organize and share things you love.'); ?></p>
+                            </div>
+                            <div class='headerVideoImage'>
+                            </div>
+                            <div class='playIconHolder'>
+                                    <a class='playIcon' id='videoTrigger' href=''>
+                                    
+                                    </a>
+                            </div>
+                    </div>
+            -->	
+            <script src="js/jquery-1.5.1.js"></script>
+            <script>
+                $(document).ready(function() {
+                    $("#headerBienve").hide();
+         
+                    $("#muestraBienvenida").mouseover(function(){
+                        $("#headerBienve").show();
+                    }).mouseout(function(){
+                        $("#headerBienve").hide();
+                    });
+                });
+            </script>
+
+            <div id='headerBienve'>
+                <img alt="" src="data/images/bienve.png" width="358px" height="100px">
+            </div>
+
+
+            <script type='text/javascript'>
+                getVideoImage();
+            </script>
+        <?php } ?>
+
+
+    <?php if (!$this->is_loged)
+    { ?>
+                    <?php if ($enable_slider)
+                    { ?>
+                <div class='headerValores'>
+                    <img alt="" src="data/images/barra_valores.png" width="1315" height="14">
+                </div>
+                <div class='headerClaim'>
+                    <!--
+                            <div class='buttonHolder'>
+                                    <span>
+                                <?php if ($this->show_landing)
+                                { ?>
+                                                <a href='<?php echo $this->landing; ?>'><?php echo $this->translate('Request Invitation') ?>  &gt&gt</a>
+                                <?php } else
+                                { ?>
+                                                <a href='<?php echo $this->registration; ?>'><?php echo $this->translate("Register") ?>  &gt&gt</a>
+                                <?php } ?>
+                                            <a href="<?php echo $this->login ?>"><?php echo $this->translate("Log In") ?></a>
+                                    </span>
+                            </div>
+                    -->	
+                </div>
+        <?php } ?>
+    <?php } ?>
+<?php } ?>
+
+
+
+<?php if ($this->show_header_line || $this->show_header_invate)
+{ ?>
+    <?php //var_dump(in_array(JO_Request::getInstance()->getController(),array('settings')) );exit ?>
+        <div id="menu" class="<?php echo $this->is_loged ? "loged" : ""; ?> <?php echo in_array(JO_Request::getInstance()->getController(), array('settings', 'prefs', 'password')) ? "menuNoSlider" : ""; ?>"<?php if (!$enable_slider)
+    { ?> style="top:50px;"<?php } ?>>
+            <div id="menuwrapper">
+    <?php if (!$this->is_loged)
+    { ?>
+                    <div class="menubienvenido">
+                        <div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
+                        <div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
+                    </div>
+    <?php } ?>
+                <div class="menumenus">
+                    <ul class="links">
+                        <!--
+    <?php if ($this->is_loged)
+    { ?>
+                            <li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow'); ?></a></li>
+    <?php } ?>
+                        -->
+    <?php if ($this->is_loged)
+    { ?>
+                            <li><a href="<?php echo $this->invites; ?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends'); ?></a></li>	
+    <?php } ?>
+                        <!--li><a href="articles"><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;Ranking</a></li-->
+                        <li><a href="<?php echo $this->article_url; ?>"><img width="20px" height="18px" src="data/images/ico_Articulos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Articles'); ?></a></li>
+                        <li>
+                            <a href="#" class="arrow"><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Ranking'); ?></a>
+                            <div class="dropdown columns-1 categoriesMenu">
+                                <ul>
+                                    <li class="first"><a href="#"><?php echo $this->translate('Fotos con más MeGusta'); ?></a>
+                                        <ul class="dropdown columns-1 left" style='max-height:500px;overflow:hidden'>
+                                            <li><a href="<?php echo $this->pinTop7_url; ?>"><?php echo $this->translate('Top 10 de los últimos 7 días'); ?></a></li>
+                                            <li><a href="<?php echo $this->pinTop_url; ?>"><?php echo $this->translate('Top 10 absoluto'); ?></a></li>
+                                        </ul>
+                                    </li>
+
+                                    <li class="last"><a href="#"><?php echo $this->translate('Perfiles con más MeGusta'); ?></a>
+                                        <ul class="dropdown columns-1 left" style='max-height:500px;overflow:hidden'>
+                                            <li><a href="<?php echo $this->profileTop7_url; ?>"><?php echo $this->translate('Top 10 de los últimos 7 días'); ?></a></li>
+                                            <li><a href="<?php echo $this->profileTop_url; ?>"><?php echo $this->translate('Top 10 absoluto'); ?></a></li>
+                                        </ul>
+
+                                    </li>
+                                </ul>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+
+                        <li><a href="<?php echo $this->video_url; ?>"><img width="20px" height="18px" src="data/images/ico_videos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Videos'); ?></a></li>
+                        <li><a href="<?php echo $this->popular_url; ?>"><img width="20px" height="18px" src="data/images/ico_popular.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular'); ?></a></li>
+                        <li>
+                            <a href="<?php echo $this->gifts; ?>" class="arrow"><img width="20px" height="18px" src="data/images/ico_enventa.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Gifts'); ?></a>
+                            <div class="dropdown columns-1">
+                                <ul>
+                                    <li><a href="<?php echo $this->gifts1; ?>"><?php echo $this->translate('$1-20'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts2; ?>"><?php echo $this->translate('$20-50'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts3; ?>"><?php echo $this->translate('$50-100'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts4; ?>"><?php echo $this->translate('$100-200'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts5; ?>"><?php echo $this->translate('$200-500'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts6; ?>"><?php echo $this->translate('$500+'); ?></a></li>
+                                </ul>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+        <?php if ($this->categories)
+        { ?>
+                            <li class="last">
+                                <a class="arrow" href="<?php echo $this->all_url; ?>"><img width="20px" height="18px" src="data/images/ico_todo.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Everything'); ?><?php if ($this->category_active)
+        { ?>: <?php echo $this->category_active; ?><?php } ?></a>
+                                <div class="dropdown columns-2 categoriesMenu">
+        <?php $total = count($this->categories); ?>
+            <?php for ($r = $i = 0; $i < 2; $i++)
+            { ?>
+                                        <ul>
+                <?php for ($j = 0; $j < ceil($total / 2); $j++, $r++)
+                { ?>
+                    <?php if (isset($this->categories[$r]))
+                    { ?>
+                    <?php
+                    $class = $this->categories[$r]['active'] ? 'active' : '';
+                    if ($r == 0 || ceil($total / 2) == $r)
+                    {
+                        $class .= ' first';
+                    }
+                    if ($r == ($total - 1) || (ceil($total / 2) - 1) == $r)
+                    {
+                        $class .= ' last';
+                    }
+                    $class = trim($class);
+                    ?>
+                                                    <li<?php if ($class)
+                    { ?> class="<?php echo $class; ?>"<?php } ?>><a href="<?php echo $this->categories[$r]['href']; ?>"><?php echo $this->categories[$r]['title']; ?></a>
+                    <?php //var_dump($this->categories[$r]['subcategories']) ?>
+                                                        <ul class='dropdown columns-1 <?php echo $i == 0 ? "left" : "right"; ?>' style='max-height:500px;overflow:hidden'>
+                    <?php foreach ($this->categories[$r]['subcategories'] as $subcat)
+                    { ?>
+                                                                <li><a href='<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl() . "?controller=category&category_id=" . $subcat['category_id']) ?>'><?php echo $subcat['title'] ?></a></li>	
+                    <?php } ?>
+                                                        </ul>
+                                                    </li>
+                <?php } ?>
+            <?php } ?>
+                                        </ul>
+        <?php } ?>
+                                    <div class="clear"></div>
+                                </div>
+                            </li>
+    <?php } ?>
+                    </ul>
+                </div>
+                <!--AQUI IBA INVITAR-->
+            </div>
+        </div>
+<?php } ?>
+
+<?php if ($this->controller_open != "pages")
+{ ?>
+    <?php if ($this->show_header_invate)
+    { ?>
+        <!-- <div id="<?php echo ($this->controller_open == 'users' ? 'board2' : 'board'); ?>">
+                <div class="sheet-1">
+                        <p class="slogan"><?php echo sprintf($this->translate('%s is an online pinboard.'), $this->site_name); ?><br /> <?php echo $this->translate('Organize and share things you love.'); ?></p>
+                        <div class="btns">
+        <?php if ($this->show_landing)
+        { ?>
+                                    <p class="requestinvite"><a href="<?php echo $this->landing; ?>"><?php echo $this->translate('Request an Invite &raquo;'); ?></a></p>
+        <?php } else
+        { ?>
+                                    <p class="requestinvite"><a href="<?php echo $this->registration; ?>"><?php echo $this->translate('Registration &raquo;'); ?></a></p>
+        <?php } ?>
+                                <p class="login"><a href="<?php echo $this->login; ?>"><?php echo $this->translate('Login'); ?></a></p>
+                        </div>
+                        <div class="clear"></div>
+                </div> -->
+            <div class="sheet-2"></div>
+            <div class="sheet-3"></div>
+        </div>
+    <?php } ?>
+<?php } ?>

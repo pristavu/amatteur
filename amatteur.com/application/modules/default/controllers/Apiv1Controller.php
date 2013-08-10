@@ -2083,22 +2083,6 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
-        /*
-        if (JO_Session::get('user[user_id]'))
-        {
-            $this->redirect(WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]')));
-        }
-
-        if (!$data)
-        {
-            $this->redirect(WM_Router::create($this->getRequest()->getBaseUrl() . '?controller=users&action=login'));
-        }
-         * 
-         */
-
-        //$fbData = $data['fbData'];
-        //$session = $data['session'];
-        //$shared_content = isset($data['shared_content']) ? $data['shared_content'] : '';
         $shared_content = Model_Users::checkSharedContent($request->getParam('key'), $request->getParam('user_id'));
 
 
@@ -2180,7 +2164,8 @@ class Apiv1Controller extends JO_Action
                         //self::loginInit($result);
                     };
                     $return = array('id' => $result); //['user_id']); 
-                } else
+                } 
+                else
                 {
                     $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
                 }
@@ -2272,20 +2257,6 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
-
-//		if( JO_Session::get('user[user_id]') ) {
-//			$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
-//		}
-
-        /* if($request->getQuery('session')) {
-          $session = JO_Json::decode( html_entity_decode($request->getQuery('session')), true );
-          if($session) {
-          $this->facebook->setSession($session);
-          if($request->getQuery('next')) {
-          JO_Session::set('next', $request->getQuery('next'));
-          }
-          }
-          } */
         if (isset($_POST['facebook_id']))
         {
             $id = $_POST['facebook_id'];
@@ -2313,82 +2284,6 @@ class Apiv1Controller extends JO_Action
                 $return = array('error' => 13, 'description' => $this->translate("Error en el login de facebook"));
             }
         }
-
-        /*
-          $session = $this->facebook->getUser();
-
-          $fbData = null;
-          if($session) {
-          $fbData = $this->facebook->api('/me');
-          }
-
-
-          if($fbData) {
-          if(!isset($fbData['email'])) {
-          $fbData['email'] = '';
-          }
-
-          if(!self::loginInit($fbData['id'], $session)) {
-
-          //if(!self::loginInit($fbData['email'], $session, 'email')) {
-
-          if(JO_Registry::get('enable_free_registration')) {
-          $this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => array()));
-          }
-
-          $shared_content = Model_Users::checkInvateFacebookID($fbData['id']);
-
-          if( $shared_content ) {
-          $token = md5($result['user_id']);
-
-          $_SESSION['token'] = $token;
-          JO_Session::set('token', $token);
-          //$token = md5(uniqid(rand(), true));
-
-          $return = array('id' => $result['user_id'],
-          'username' => $result['username'],
-          'token' => $token,
-          'firstname' => $result['firstname'],
-          'lastname' => $result['lastname'],
-          'fbData'=>$fbData,
-          'session' => $session);
-
-          //						$this->forward('facebook', 'register', array('fbData'=>$fbData, 'session' => $session, 'shared_content' => $shared_content));
-          } else {
-
-          $this->setViewChange('no_account');
-
-          $page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-          if($page_login_trouble) {
-          $return = array('error' => 13, 'description' => $this->translate($page_login_trouble['title']));
-          /*
-          $this->view->page_login_trouble = array(
-          'title' => $page_login_trouble['title'],
-          'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-          );
-         * 
-         *//*
-          }
-
-          }
-          //}
-
-          }
-
-          } else {
-          $this->setViewChange('error_login');
-
-          $page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-          if($page_login_trouble) {
-          $return = array('error' => 14, 'description' => $this->translate($page_login_trouble['title']));
-          /*$this->view->page_login_trouble = array(
-          'title' => $page_login_trouble['title'],
-          'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-          );
-         * *//*
-          }
-          }
-         */
 
         if ($callback)
         {
@@ -2427,75 +2322,25 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
         $userId = $request->getPost('userId');
-    		if($request->getPost('userId')) {
-				Model_Users::edit($userId, array(
-					'twitter_connect' => 1,
-					'twitter_id' => $request->getPost('twitter_id'),
-                                            'twitter_username' => $request->getPost('twitter_username')
-				));
-		}
-		
-		
-		
-//		$access_token = $twitteroauth->getAccessToken($request->getQuery('oauth_verifier'));
-//		$user_info = $twitteroauth->get('account/verify_credentials');
-		/*
-		if(isset($user_info->id) && $user_info->id) {
-			
-			if(!self::loginInit($user_info->id)) {
-				
-				$this->setViewChange('no_account');
-					
-				$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-				if($page_login_trouble) {
-					$this->view->page_login_trouble = array(
-						'title' => $page_login_trouble['title'],
-						'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-					);
-				}
-		
-				$this->view->children = array(
-		        	'header_part' 	=> 'layout/header_part',
-		        	'footer_part' 	=> 'layout/footer_part'
-		        );
-				
-			}
-			
-		} else {
-			$this->setViewChange('error_login');
-			
-			$page_login_trouble = Model_Pages::getPage( JO_Registry::get('page_login_trouble') );
-			if($page_login_trouble) {
-				$this->view->page_login_trouble = array(
-					'title' => $page_login_trouble['title'],
-					'href' => WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . $page_login_trouble['page_id'] )
-				);
-			}
-		
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
-		}
--sss
-                                if ($result)
-                {
-                    if (self::sendMail($result))
-                    {
-                        //self::loginInit($result);
-                    };
-                    $return = array('id' => $result); //['user_id']); 
-                } else
-                {
-                    $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
-                }
-            } else
-            {
-                $return = array('error' => 4, 'description' => $validate->_get_error_messages());
-            }
+        if($request->getPost('userId')) {
+                     $result = Model_Users::edit($userId, array(
+                                'twitter_connect' => 1,
+                                'twitter_id' => $request->getPost('twitter_id'),
+                                    'twitter_username' => $request->getPost('twitter_username')
+                        ));
+                     if ($result)
+                     {
+                         $return = $return = array('id' => $userId);
+                     }
+                     else
+                     {
+                         $return = array('error' => 15, 'description' => $this->translate("Error en el registro de twitter"));
+                     }
         }
-*/
-        $return = $userId;
+		
+	
+
+        
 
         if ($callback)
         {

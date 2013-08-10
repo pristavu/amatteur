@@ -336,6 +336,116 @@ class Helper_Pin {
 		return $response;
 	}
 	
+	public static function returnHtmlTop($pin, $recache = false) { 
+	
+		static $view = null, $model_images = null, $request = null;
+		if($view === null) { $view = JO_View::getInstance(); }
+		if($model_images === null) { $model_images = new Helper_Images(); }
+		if($request === null) { $request = JO_Request::getInstance(); }
+		
+                
+		$image = Helper_Uploadimages::pin($pin, '_B');
+		if($image) {
+			$pin['thumb'] = $image['image'];
+			$pin['thumb_width'] = $image['width'];
+			$pin['thumb_height'] = $image['height'];
+			$pin['original_image'] = $image['original'];
+		} else {
+			return '';
+		}
+		
+		$image = Helper_Uploadimages::pin($pin, '_D');
+		if($image) {
+			$pin['popup'] = $image['image'];
+			$pin['popup_width'] = $image['width'];
+			$pin['popup_height'] = $image['height'];
+			$pin['original_image'] = $image['original'];
+		} else {
+			return '';
+		}
+		
+		$date_dif = array_shift( WM_Date::dateDiff($pin['date_added'], time()) );
+		$pin['date_dif'] = $date_dif;
+		
+		
+		$pin['description'] = self::descriptionFix($pin['description']);
+                
+		$pin['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );
+		
+		if(JO_Session::get('user[user_id]')) {
+			$pin['url_like'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=like&pin_id=' . $pin['pin_id'] );
+			$pin['url_repin'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=repin&pin_id=' . $pin['pin_id'] );
+			$pin['url_comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );
+                        $pin['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );                        
+			$pin['edit'] = JO_Session::get('user[user_id]') == $pin['user_id'] ? WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=edit&pin_id=' . $pin['pin_id'] ) : false;
+		} else {
+			$pin['url_like'] = $pin['url_repin'] = $pin['url_comment'] = $pin['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=landing' );
+			$pin['edit'] = false;
+		}
+		
+		$pin['onto_href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $pin['user_id'] . '&board_id=' . $pin['board_id'] );
+		$pin['price_formated'] = WM_Currency::format($pin['price']);
+		
+		$view->author = $pin['user'];
+		
+		
+		$avatar = Helper_Uploadimages::avatar($pin['user'], '_A');
+		$view->author['avatar'] = $avatar['image'];
+		
+		$view->author['profile'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $pin['user_id'] );
+		
+		if(JO_Session::get('user[user_id]')) {
+			
+			$avatar = Helper_Uploadimages::avatar(JO_Session::get('user'), '_A');
+			$view->author_self = $avatar['image'];
+
+			$view->profile_self = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') );
+		}
+		
+		if($pin['latest_comments']) {
+			foreach($pin['latest_comments'] AS $key => $comment) {
+
+				if(!isset($pin['latest_comments'][$key]['user']['store'])) {
+					unset($pin['latest_comments'][$key]);
+					continue;
+				}
+				
+				$avatar = Helper_Uploadimages::avatar($pin['latest_comments'][$key]['user'], '_A');
+				$pin['latest_comments'][$key]['user']['avatar'] = $avatar['image'];
+				
+				
+				$pin['latest_comments'][$key]['user']['profile'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $comment['user_id'] );
+                                $pin['latest_comments'][$key]['delete'] = '';
+				if( JO_Session::get('user[user_id]') ) {
+					if( JO_Session::get('user[is_admin]') || JO_Session::get('user[user_id]') == $comment['user_id'] ) {
+						$pin['latest_comments'][$key]['delete'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=deleteComment&comment_id=' . $comment['comment_id'] );
+					}
+				}
+				
+			}
+		}
+		
+		$view->via = array();
+		if($pin['via']) {
+			$view->via = array(
+				'profile' => WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $pin['via'] ),
+				'fullname' => $pin['user_via']['fullname']
+			);
+		}
+		
+		$view->loged = (int)JO_Session::get('user[user_id]');
+		$view->site_name = JO_Registry::get('site_name');
+		
+		$view->history_id = isset($pin['history_id']) ? $pin['history_id'] : '';
+		$view->history_action = isset($pin['history_action']) ? ' '.$pin['history_action'] : '';
+		
+		$view->pin = $pin;
+		
+		$response = $view->render('pinBoxTop', 'pin');
+		
+		return $response;
+	}
+        
 	public static function formatUploadModule($store) {
 		static $front = null, $request = null, $upload_store = array();
 		if($request === null) { $request = JO_Request::getInstance(); }

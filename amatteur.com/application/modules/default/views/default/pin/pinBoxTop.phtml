@@ -1,0 +1,45 @@
+<div class="box<?php echo $this->history_action;?>" id="<?php echo ($this->history_id ? $this->history_id . '_' : '');?><?php echo $this->pin['pin_id'];?>">
+    <div > <!--class="preview"-->
+			<p class="thumb">
+				<a href="<?php echo $this->pin['href'];?>">
+					<?php if($this->pin['gift']) { ?>
+					<strong class="PriceContainer">
+						<strong class="price"><?php echo $this->pin['price_formated'];?></strong>
+					</strong>
+					<?php } ?>
+					<?php if($this->pin['is_video']) { ?>
+					<img src="data/images/VideoIndicator.png" alt="Video" class="video" />
+					<?php } ?>
+                                        <?php if($this->pin['is_article']) { ?>
+                                          <img src="data/images/ico_arti.png"  class="article" alt="Articulo" style="display:block;float:right;" width="20px" height="22px" />
+                                        <?php } ?>
+					<img style="margin-left:<?php echo ( (194-$this->pin['thumb_width']) / 2 );?>px;width:<?php echo $this->pin['thumb_width'];?>px;height:<?php echo $this->pin['thumb_height'];?>px;" width="<?php echo $this->pin['thumb_width'];?>" height="<?php echo $this->pin['thumb_height'];?>" data-original="<?php echo $this->pin['thumb'];?>" src="data/images/grey.gif" alt="Image" />
+				</a>
+			</p>
+			<h4><?php   echo Helper_Pin::descriptionFix($this->pin['description']);?></h4> por 
+                        					<p class="message">
+						<a href="<?php echo $this->author['profile'];?>"><?php echo $this->author['fullname'];?></a> 
+						<?php if($this->via) { ?>
+						<?php echo $this->translate('via');?> 
+						<a href="<?php echo $this->via['profile'];?>"><?php echo $this->via['fullname'];?></a> 
+						<?php } ?>
+						<?php echo $this->translate('onto');?> 
+						<a href="<?php echo $this->pin['onto_href'];?>"><?php echo $this->pin['board'];?></a>
+					</p>
+
+				<span class="likes">
+				<?php if( $this->pin['likes']>0 )
+					echo ($this->pin['likes']);
+						else {
+		 				   echo "0";
+						}
+				?>
+                                 MeGusta
+				</span> &nbsp; 
+		</div>
+
+</div>
+
+<script type='text/javascript'>
+
+</script>
