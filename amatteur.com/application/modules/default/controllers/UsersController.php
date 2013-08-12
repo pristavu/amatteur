@@ -351,20 +351,24 @@ class UsersController extends JO_Action {
 				{
 					$this->view->has_agendas = true;
 					foreach($agendas AS $agenda) {
+						$agenda['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] );
                     	$this->view->agenda = $agenda;
                         $this->view->agendas_users .= $this->view->render('agenda', 'users');
                     }
 				}
+				$session_user = JO_Session::get('user[user_id]');
+				$this->view->popup_agenda = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopup&user_id=' . $user_data['user_id']  );
 				
                 //no mover de esta ubicación
                 
                 $messages = Model_Users::getUserMessages(array(
 					'start' => 0,
 					'limit' => 100,
-					'filter_user_id' => $user_data['user_id']
+					'filter_user_id' => $user_data['user_id'],
+					'idPadre' => 0
 				));
                 
-                $session_user = JO_Session::get('user[user_id]');
+                
                 $this->view->has_messages = false;
 				$this->view->messages_users="";
                 if ($messages)			
@@ -377,14 +381,30 @@ class UsersController extends JO_Action {
                         $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] );
                         $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
                         $this->view->message = $message;
-                                    //$this->view->messages = $message['fullname'] ." ". $message['avatar'] ." ". $message['from_user_id'] . " ".$message['to_user_id'] ." ". $message['text_message'] . " " . $message['date_diff']  ." ". $message['date_message']." ". time()." " . $message['private_message'];
-                                    $this->view->messages_users .= $this->view->render('message', 'users');
+                        $this->view->messages_users .= $this->view->render('message', 'users');
+						//ahora vamos a consultar las respuestas a este:
+						$messagesHijos = Model_Users::getUserMessages(array(
+							'start' => 0,
+							'limit' => 100,
+							'filter_user_id' => $user_data['user_id'],
+							'idPadre' => $message['message_id']
+						));
+						if ($messagesHijos)			
+                		{	
+							foreach($messagesHijos AS $messageHijo) {
+								$avatar = Helper_Uploadimages::avatar( $messageHijo, '_A');
+								$messageHijo['avatar'] = $avatar['image'];
+								$messageHijo['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $messageHijo['user_id']);
+								$messageHijo['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] );
+								$messageHijo['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $messageHijo['message_id'] );
+								$this->view->message = $messageHijo;
+								$this->view->messages_users .= $this->view->render('message', 'users');
+							}
+						}
                     }
                 }
 
                 $this->view->popup_messages = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
-                //$this->view->popup_messages = $this->view->render('messagePopup', 'users');
-                //error_log(" error  ". WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id']  ) . " error");
                 
                 if(JO_Registry::get('isMobile'))
                 {
@@ -403,61 +423,74 @@ class UsersController extends JO_Action {
 		}
 
 	}
-        
-	public function agendaAction() {
-            
-                $request = $this->getRequest();
-
-        
-		$user_data = $this->profileHelp();
-        
-        
-		$page = (int)$request->getRequest('page');
-		if($page < 1) { $page = 1; }
+	
+	public function agendaPopupAction() {
 		
-
+		$request = $this->getRequest();
                 
-                $messages = Model_Users::getUserMessages(array(
-				'start' => 0,
-				'limit' => 100,
-				'filter_user_id' => $user_data['user_id']
+                $this->view->user_id = $request->getRequest('user_id');
+	
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopup' );
+		
+		$this->view->popup_main_box = $this->view->render('agendaPopup','users');
+		
+		if( $request->isPost() ) {
+
+                    $result = Model_Users::createAgenda(array(
+				'user_id' => $request->getPost('user_id'),
+				'texto' => $request->getPost('texto'),
 			));
-                
-                
-                if ($messages)			
-                {
-                    $session_user = JO_Session::get('user[user_id]');
-                    
-                    $this->view->has_messages = true;
-                    foreach($messages AS $message) {
-				$avatar = Helper_Uploadimages::avatar( $message, '_A');
-                                $message['avatar'] = $avatar['image'];
-				
-				$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
-                                $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] );
-                                $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
-                        
-                                    $this->view->message = $message;
-                                    //$this->view->messages = $message['fullname'] ." ". $message['avatar'] ." ". $message['from_user_id'] . " ".$message['to_user_id'] ." ". $message['text_message'] . " " . $message['date_diff']  ." ". $message['date_message']." ". time()." " . $message['private_message'];
-                                    $this->view->messages_users .= $this->view->render('message', 'users');
-                    }
-                }
-                $session_user = JO_Session::get('user[user_id]');
-                $this->view->popup_messages = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id']  );
-                //$this->view->popup_messages = $this->view->render('messagePopup', 'users');
-                //error_log(" error  ". WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id']  ) . " error");
-
-		
+			if($result) {
+     
+				//Model_History::addHistory($request->getPost('user_id'), Model_History::MESSAGEUSER, $result, $request->getPost('board_user'), $request->getPost('text_message'));
+			}
+		}
 		if($request->isXmlHttpRequest()) {
-			echo $this->view->boards;
 			$this->noViewRenderer(true);
+			echo $this->view->popup_main_box;
+			$this->view->is_popup = true;
 		} else {
+			$this->view->is_popup = false;
 			$this->view->children = array(
 	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
+	        	'footer_part' 	=> 'layout/footer_part',
+	        	'left_part' 	=> 'layout/left_part'
+                        );
 		}
+	}
+	
+	public function agendaPopupDeleteAction() {
+		
+		$request = $this->getRequest();
+                
+                $this->view->agenda_id = $request->getRequest('agenda_id');
 
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete' );
+		
+		$this->view->popup_main_box = $this->view->render('agendaPopupDelete','users');
+		
+		if( $request->isPost() ) {
+
+                        $result = Model_Users::deleteAgenda(array(
+				'agenda_id' => $request->getPost('agenda_id')
+			));
+			if($result) {
+		
+			}
+			
+		}
+		if($request->isXmlHttpRequest()) {
+			$this->noViewRenderer(true);
+			echo $this->view->popup_main_box;
+			$this->view->is_popup = true;
+		} else {
+			$this->view->is_popup = false;
+			$this->view->children = array(
+	        	'header_part' 	=> 'layout/header_part',
+	        	'footer_part' 	=> 'layout/footer_part',
+	        	'left_part' 	=> 'layout/left_part'
+                        );
+		}
 	}
         
 	public function mensajesAction() {
@@ -543,47 +576,8 @@ class UsersController extends JO_Action {
 			if($result) {
                             //Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
 				Model_History::addHistory($request->getPost('user_to'), Model_History::MESSAGEUSER, $result, $request->getPost('board_user'), $request->getPost('text_message'));
-				
-/*			
-				$session_user = JO_Session::get('user[user_id]');
-				
-				$group = Model_Boards::isGroupBoard($request->getPost('board_id'));
-				if($group) {
-					$users = explode(',',$group);
-					foreach($users AS $user_id) {
-						if($user_id != $session_user) {
-							$user_data = Model_Users::getUser($user_id);
-
-							if($user_data && $user_data['email_interval'] == 1 && $user_data['groups_pin_email']) {
-								$this->view->user_info = $user_data;
-								$this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
-								$this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
-								$this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
-								$board_info = Model_Boards::getBoard($request->getPost('board_id'));
-								if($board_info) {
-									$this->view->board_title = $board_info['title'];
-									$this->view->board_href = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board_info['user_id'] . '&board_id=' . $board_info['board_id']);
-								}
-								Model_Email::send(
-				    	        	$user_data['email'],
-				    	        	JO_Registry::get('noreply_mail'),
-				    	        	JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('added new pin to a group board'),
-				    	        	$this->view->render('group_board', 'mail')
-				    	        );
-							}
-
-						}
-					}
-				}
-  */
-				//$this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
-				//$this->view->popup_main_box = $this->view->render('success','addpin');
 			}
-			
 		}
-		
-		
-		//$this->setViewChange('profile');
 		if($request->isXmlHttpRequest()) {
 			$this->noViewRenderer(true);
 			echo $this->view->popup_main_box;

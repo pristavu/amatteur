@@ -1422,6 +1422,19 @@ class Model_Users extends JO_Model {
 		return $message_id;
 	}
 	
+	public static function deleteAgenda($data) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$row = $db->query("DELETE FROM users_agenda WHERE agenda_id = ".  $data['agenda_id'] );
+
+        
+		if(!$row) {
+			return false;
+		}
+		
+		return $row;
+	}
+	
 	public static function getUserMessages($data = array()) {
 		$db = JO_Db::getDefaultAdapter();	
                 $db->query("DELETE FROM users_messages WHERE DATEDIFF(curdate(), date_message) > 30 AND (users_messages.from_user_id = ". (string)$data['filter_user_id']." OR users_messages.to_user_id = ". (string)$data['filter_user_id']. ") ");
@@ -1432,7 +1445,7 @@ class Model_Users extends JO_Model {
 					->order('date_message' , "DESC");
 					
 		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
-			$query->where('(users_messages.from_user_id = ? OR users_messages.to_user_id = ?) AND users_messages.board_user_id = ?', '' . (string)$data['filter_user_id']. '');
+			$query->where('(users_messages.from_user_id = ? OR users_messages.to_user_id = ?) AND users_messages.board_user_id = ? AND message_from_id='.$data['idPadre'], '' . (string)$data['filter_user_id']. '');
 		}
 		if(isset($data['start']) && isset($data['limit'])) {
 			if($data['start'] < 0) {
@@ -1492,7 +1505,7 @@ class Model_Users extends JO_Model {
 		return $row;
 	}
         
-        
+    
 	public static function generatePassword ($length = 8) {
 
 	    // start with a blank password

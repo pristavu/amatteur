@@ -1,11 +1,9 @@
-
-
 <div id="create_new_pin">
 	<div id="content-holder">
 		<div id="emailpin">
 			<form action="<?php echo $this->messagePopup;?>" method="post">
 				<div class="hide">
-                                        <input type="hidden" name="message_from_id" id="message_from_id" value="<?php echo $this->message_from_id;?>">
+                	<input type="hidden" name="message_from_id" id="message_from_id" value="<?php echo $this->message_from_id;?>">
 					<input type="hidden" name="user_to" id="user_to" value="<?php echo $this->user_to;?>">
 					<input type="hidden" name="user_from" id="user_from" value="<?php echo $this->user_from;?>">
 					<input type="hidden" name="board_user" id="board_user" value="<?php echo $this->board_user;?>">
@@ -13,12 +11,13 @@
 				
 				<div class="left w335px">
 					<p>
-						<label for="message" class="hide"><?php echo $this->translate('Message');?>:<br></label>
+						<label for="message"><?php echo $this->translate('Message');?>:<br></label>
 						<textarea name="text_message" id="text_message" rows="5" cols="30"><?php echo $this->title;?></textarea>
-                                                <input type="checkbox" id="private_message" name="private_message" value="true"><?php echo $this->translate('Private message');?></input>
+                        <input type="checkbox" id="private_message" name="private_message" value="true"><?php echo $this->translate('Private message');?></input>
 					</p>
 					<p class="text_counter"></p>
-					<p class="submit"><input class="disabled" type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
+					<p class="submit">
+                    	<input class="disabled" type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
 					<div class="clear"></div>
 				</div>
 				<div class="clear"></div>
