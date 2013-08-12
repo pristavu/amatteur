@@ -1,25 +1,22 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>">
-	<a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
-        
+<div class="ranking">
 
-	<div class="PersonInfo">
+    <div class='rankingPosition'>
+        <h3><span><?php echo $this->position; ?>º Puesto</span></h3>
+    </div>
+    <div class='rankingImageText'>        
+        <div class='rankingImageUser'>                
+            <!--a style="background-image: url(<?php echo $this->user['avatar']; ?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar']; ?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar']; ?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href']; ?>"></a-->
+            <a href="<?php echo $this->user['href']; ?>"><image src="<?php echo $this->user['avatar']; ?>" /></a>
+        </div>
 
-		<h4><a href="<?php echo $this->user['href'];?>"><?php echo $this->user['fullname'];?></a></h4>
-		<div class="stats">
-                    <h4><?php echo $this->user['likers'];?> MeGusta</h4>
-			<!--a href="<?php echo $this->user['href'];?>">
-				<?php echo $this->user['boards'];?> <?php echo ($this->user['boards']==1?$this->translate('Board'):$this->translate('Boards'));?>
-			</a--> 
-			<!--a href="<?php echo $this->user['pins_href'];?>">
-				<?php echo $this->user['pins'];?> <?php echo ($this->user['pins']==1?$this->translate('Pin'):$this->translate('Pins'));?>
-			</a-->
-		</div>
+        <div class="rankingInfoUser">
 
-		<?php if($this->user['location']) { ?>
-		<div class="icons2">
-			<span class="icon location"></span> <?php echo $this->user['location'];?>
-		</div>
-		<?php } ?>
-	</div>
-        
+            <h4><a href="<?php echo $this->user['href']; ?>"><?php echo $this->user['fullname']; ?></a></h4>
+            <br/>
+            <div class="stats">
+                <h1><?php echo $this->user['likers']; ?> MeGusta</h1>
+            </div>
+
+        </div>
+    </div>        
 </div>

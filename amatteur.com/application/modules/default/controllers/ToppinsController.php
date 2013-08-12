@@ -8,9 +8,11 @@ class ToppinsController extends JO_Action {
 		
 		$page = (int)$request->getRequest('page');
 		if($page < 1) { $page = 1; }
+                if($page > 1) { exit; }
                 
                 $index_id = $request->getRequest('index_id');
 		
+               
                 if ($index_id == 1)
                 {
                     $this->view->title = 'Top 10 fotos - Últimos 7 días';
@@ -52,8 +54,8 @@ class ToppinsController extends JO_Action {
                     $this->view->title = 'Top 10 perfiles - Absoluto';
                     $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            //'order' => 'users.likers',
-                            //'sort' => 'DESC',
+                            'order' => 'users.likers',
+                            'sort' => 'DESC',
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
                             'filter_profile_top_10' => true
@@ -80,17 +82,23 @@ class ToppinsController extends JO_Action {
                     
 		
 		if($pins) {
-			$banners = Model_Banners::getBanners(
+			/*$banners = Model_Banners::getBanners(
 				new JO_Db_Expr("`controller` = '".$request->getController()."' AND position BETWEEN '".(int)$data['start']."' AND '".(int)$data['limit']."'")
 			);
 			$pp = JO_Registry::get('config_front_limit');
+                         * 
+                         */
+                        $total = 0;
 			foreach($pins AS $row => $pin) {
+                            $total++;
+                            $this->view->position = $total;
 				///banners
+                            /*
 				$key = $row + (($pp*$page)-$pp);
 				if(isset($banners[$key])) {
 					$this->view->pins .= Helper_Banners::returnHtml($banners[$key]);	
 				}
-                 
+                 */
                                 if ($index_id == 1 || $index_id == 2)                
                                 {
         				//pins
@@ -99,10 +107,13 @@ class ToppinsController extends JO_Action {
                                 else  if ($index_id == 3 || $index_id == 4)
                                 {
         				//users
-                        		$this->view->pins .= Helper_User::returnHtml($pin);
+                        		$this->view->pins .= Helper_User::returnHtmlTop($pin);
                                     //$this->view->users .= $this->returnHtml($pin);
                                 }
-
+                                if ($total == 10)
+                                {
+                                    break;
+                                }
 			}
 			//JO_Registry::set('marker', Model_Pins::getMaxPin($data));
 		}

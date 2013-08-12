@@ -31,6 +31,7 @@ class JO_Mobile_Detect
     // List of mobile devices (phones)
     protected $phoneDevices = array(     
             'iPhone'        => '(iPhone.*Mobile|iPod|iTunes)',
+            'iPad'          => 'iPad|iPad.*Mobile', // @todo: check for mobile friendly emails topic.        
             'BlackBerry'    => 'BlackBerry|rim[0-9]+',
             'HTC'           => 'HTC|HTC.*(6800|8100|8900|A7272|S510e|C110e|Legend|Desire|T8282)|APX515CKT|Qtek9090|APA9292KT',
             'Nexus'         => 'Nexus One|Nexus S|Galaxy.*Nexus|Android.*Nexus',
@@ -46,7 +47,7 @@ class JO_Mobile_Detect
     // List of tablet devices.
     protected $tabletDevices = array(
         'BlackBerryTablet'  => 'PlayBook|RIM Tablet',
-        'iPad'              => 'iPad|iPad.*Mobile', // @todo: check for mobile friendly emails topic.
+        //'iPad'              => 'iPad|iPad.*Mobile', // @todo: check for mobile friendly emails topic.
         'Kindle'            => 'Kindle|Silk.*Accelerated',
         'SamsungTablet'     => 'SAMSUNG.*Tablet|Galaxy.*Tab|GT-P1000|GT-P1010|GT-P6210|GT-P6800|GT-P6810|GT-P7100|GT-P7300|GT-P7310|GT-P7500|GT-P7510|SCH-I800|SCH-I815|SCH-I905|SGH-I957|SGH-I987|SGH-T849|SGH-T859|SGH-T869|SPH-P100|GT-P1000|GT-P3100|GT-P3110|GT-P5100|GT-P5110|GT-P6200|GT-P7300|GT-P7320|GT-P7500|GT-P7510|GT-P7511',
         'HTCtablet'         => 'HTC Flyer|HTC Jetstream|HTC-P715a|HTC EVO View 4G|PG41200',

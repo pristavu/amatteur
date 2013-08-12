@@ -23,7 +23,7 @@ class Helper_User {
 	
 	
 
-	public static function returnHtml($user, $recache = false) { 
+	public static function returnHtmlTop($user, $recache = false) { 
 	
 		static $view = null, $model_images = null, $request = null;
 		if($view === null) { $view = JO_View::getInstance(); }

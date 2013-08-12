@@ -344,7 +344,7 @@ class Helper_Pin {
 		if($request === null) { $request = JO_Request::getInstance(); }
 		
                 
-		$image = Helper_Uploadimages::pin($pin, '_B');
+		$image = Helper_Uploadimages::pin($pin, '_D');
 		if($image) {
 			$pin['thumb'] = $image['image'];
 			$pin['thumb_width'] = $image['width'];
@@ -353,16 +353,7 @@ class Helper_Pin {
 		} else {
 			return '';
 		}
-		
-		$image = Helper_Uploadimages::pin($pin, '_D');
-		if($image) {
-			$pin['popup'] = $image['image'];
-			$pin['popup_width'] = $image['width'];
-			$pin['popup_height'] = $image['height'];
-			$pin['original_image'] = $image['original'];
-		} else {
-			return '';
-		}
+	
 		
 		$date_dif = array_shift( WM_Date::dateDiff($pin['date_added'], time()) );
 		$pin['date_dif'] = $date_dif;
