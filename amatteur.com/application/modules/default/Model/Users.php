@@ -1375,14 +1375,61 @@ class Model_Users extends JO_Model {
 		return $db->fetchAll($query);
 		
 	}
+	
+	public static function getUserAgenda($data = array()) {
+		$db = JO_Db::getDefaultAdapter();	
 
+		$query = $db->select()
+					->from('users_agenda', 'users_agenda.*');
+					
+		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
+			$query->where('user_id = ? ', '' . (string)$data['filter_user_id']. '');
+		}
+           
+		return $db->fetchAll($query);	
+	}
+	public static function createAgenda($data) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$rows = self::describeTable('users_agenda');
+		
+		$date_added = WM_Date::format(time(), 'yy-mm-dd H:i:s');
+		$data['created'] = $date_added;
+		
+		
+		$insert = array();
+		foreach($rows AS $row) {
+			if( array_key_exists($row, $data) ) {
+				$insert[$row] = $data[$row];
+			}
+		}
+		
+		
+		if(!$insert) {
+			return false;
+		}
+		
+		
+		$db->insert('users_agenda', $insert);
+		
+		$message_id = $db->lastInsertId();
+                
+
+		if(!$message_id) {
+			return false;
+		}
+		
+		return $message_id;
+	}
+	
 	public static function getUserMessages($data = array()) {
 		$db = JO_Db::getDefaultAdapter();	
                 $db->query("DELETE FROM users_messages WHERE DATEDIFF(curdate(), date_message) > 30 AND (users_messages.from_user_id = ". (string)$data['filter_user_id']." OR users_messages.to_user_id = ". (string)$data['filter_user_id']. ") ");
 
 		$query = $db->select()
 					->from('users_messages')
-					->joinLeft('users', 'users.user_id = users_messages.from_user_id',  array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)", 'date_diff' => "DATEDIFF(curdate(), date_message)"));
+					->joinLeft('users', 'users.user_id = users_messages.from_user_id',  array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)", 'date_diff' => "DATEDIFF(curdate(), date_message)"))
+					->order('date_message' , "DESC");
 					
 		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
 			$query->where('(users_messages.from_user_id = ? OR users_messages.to_user_id = ?) AND users_messages.board_user_id = ?', '' . (string)$data['filter_user_id']. '');

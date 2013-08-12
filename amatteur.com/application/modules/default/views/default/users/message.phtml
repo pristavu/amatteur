@@ -1,100 +1,41 @@
 <?php if(($this->enable_edit && $this->message['private_message'] == 1) || $this->message['private_message'] == 0) { ?>	
-<!--div style="display:table" id="message" class="Form">
-    
     <?php if($this->enable_edit) { ?>
-    <div style="display:table-row">
-        <a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImage ImgLink" href="<?php echo $this->message['href'];?>">
-        </a> 
-        <div>
-            <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
-        </div>
-        <div style="display:table-row">
-            <a class="silverboxMessage Button RedButton message" href="<?php echo $this->message['hrefResponder'];?>"><?php  echo $this->translate('Responder'); ?></a>
-            <a class="silverboxMessage Button RedButton message" href="<?php echo $this->message['hrefDelete'];?>"><?php  echo $this->translate('Borrar'); ?></a>    
-        </div>
-    </div>        
+        <div class="mensaje">
+        	<div class="cabeceraMensaje">
+            	<div class="imagen">
+            		<a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImageLittle ImgLink" href="<?php echo $this->message['href'];?>" title="Ver perfil"></a> 
+                </div>
+                <div class="nombreUsu">
+                	<?php echo $this->message['fullname'];?>:
+                </div>
+            </div>
+            <div class="cuerpoMensaje">
+                <?php echo $this->message['text_message'];?>
+            </div>
+                  
+        <?php if($this->loged) { ?>     
+        	<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
+            <a class="btnReply silverboxMessage" href="<?php echo $this->message['hrefResponder'];?>" title="<?php  echo $this->translate('Responder'); ?>"></a> 
+    	<?php } ?>   
+        </div>          
     <?php } else { ?>	
-    <div style="display:table-row">
-        <a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImage ImgLink" href="<?php echo $this->message['href'];?>">
-        </a> 
-        <div>
-            <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
-        </div>
-        <div style="display:table-row">
-            <a class="silverboxMessage Button RedButton message" href="<?php echo $this->message['hrefResponder'];?>"><?php  echo $this->translate('Responder'); ?></a>
-        </div>
-    </div>    
-
-    <?php } ?>
-</div-->
-
-<div id="message" class="Form">
-    
-    <?php if($this->enable_edit) { ?>
-
-    <div style='clear:both'>
-        <div style='float:left;width:100%;'>
-            <a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImage ImgLink" href="<?php echo $this->message['href'];?>">
-            </a> 
-        
-            <div>
-                <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
+        <div class="mensaje">
+        	<div class="cabeceraMensaje">
+            	<div class="imagen">
+            		<a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImageLittle ImgLink" href="<?php echo $this->message['href'];?>" title="Ver perfil"></a> 
+                </div>
+                <div class="nombreUsu">
+                	<?php echo $this->message['fullname'];?>:
+                </div>
             </div>
-        </div>           
-        <?php if($this->loged) { ?>        
-        <div style='float:left;width:35%;'>
-            <a class="silverboxMessage Button RedButton message" href="<?php echo $this->message['hrefResponder'];?>"><?php  echo $this->translate('Responder'); ?></a>
-        </div> 
-        <div style='float:left;width:25%;'>
-            <a class="silverboxMessage Button RedButton message" href="<?php echo $this->message['hrefDelete'];?>"><?php  echo $this->translate('Borrar'); ?></a>    
-        </div>
-        <?php } ?>        
-    </div>        
-    <?php } else { ?>	
-    <div style='clear:both'>
-        <div style='float:left;width:100%;'>
-            <a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImage ImgLink" href="<?php echo $this->message['href'];?>">
-            </a> 
-            <div>
-                <p><strong><?php echo $this->message['fullname'];?></strong> <?php echo $this->message['text_message'];?> </p>
+            <div class="cuerpoMensaje">
+                <?php echo $this->message['text_message'];?>
             </div>
-        <?php if($this->loged) { ?>            
-            <div style='float:left;width:35%;'>
-                <a class="silverboxMessage Button RedButton message" href="<?php echo $this->message['hrefResponder'];?>"><?php  echo $this->translate('Responder'); ?></a>
-            </div>
-        <?php } ?>            
+                  
+        <?php if($this->loged) { ?>     
+        	<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
+            <a class="btnReply silverboxMessage" href="<?php echo $this->message['hrefResponder'];?>" title="<?php  echo $this->translate('Responder'); ?>"></a> 
+        <?php } ?>   
         </div>
-    </div>    
-
-    <?php } ?>
-</div>
-
-
-<script type="text/javascript">
-$(document).ready(function(){    
-	$('#borrar').click(function(){    
-                    $('<div></div>').appendTo('body')
-                    .html('<div><h6>Are you sure?</h6></div>')
-                    .dialog({
-                        modal: true, title: 'Delete message', zIndex: 10000, autoOpen: true,
-                        width: 'auto', resizable: false,
-                        buttons: {
-                            Yes: function () {
-                                // $(obj).removeAttr('onclick');                                
-                                // $(obj).parents('.Parent').remove();
-
-                                $(this).dialog("close");
-                            },
-                            No: function () {
-                                $(this).dialog("close");
-                            }
-                        },
-                        close: function (event, ui) {
-                            $(this).remove();
-                        }
-                    }); 
-        }); 
-});
-</script>        
-
+    <?php } ?>    
 <?php } ?>

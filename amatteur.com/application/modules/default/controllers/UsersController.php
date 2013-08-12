@@ -342,29 +342,41 @@ class UsersController extends JO_Action {
 		    }
 		}
 		}
-		
+				
+				$agendas = Model_Users::getUserAgenda(array(
+					'filter_user_id' => $user_data['user_id']
+				));
+				$this->view->has_agendas = false;
+				if ($agendas)
+				{
+					$this->view->has_agendas = true;
+					foreach($agendas AS $agenda) {
+                    	$this->view->agenda = $agenda;
+                        $this->view->agendas_users .= $this->view->render('agenda', 'users');
+                    }
+				}
+				
                 //no mover de esta ubicación
                 
                 $messages = Model_Users::getUserMessages(array(
-				'start' => 0,
-				'limit' => 100,
-				'filter_user_id' => $user_data['user_id']
-			));
+					'start' => 0,
+					'limit' => 100,
+					'filter_user_id' => $user_data['user_id']
+				));
                 
                 $session_user = JO_Session::get('user[user_id]');
-                
+                $this->view->has_messages = false;
+				$this->view->messages_users="";
                 if ($messages)			
                 {
                     $this->view->has_messages = true;
                     foreach($messages AS $message) {
-				$avatar = Helper_Uploadimages::avatar( $message, '_A');
-                                $message['avatar'] = $avatar['image'];
-				
-				$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
-                                $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] );
-                                $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
-                        
-                                    $this->view->message = $message;
+						$avatar = Helper_Uploadimages::avatar( $message, '_A');
+                        $message['avatar'] = $avatar['image'];
+						$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
+                        $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] );
+                        $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
+                        $this->view->message = $message;
                                     //$this->view->messages = $message['fullname'] ." ". $message['avatar'] ." ". $message['from_user_id'] . " ".$message['to_user_id'] ." ". $message['text_message'] . " " . $message['date_diff']  ." ". $message['date_message']." ". time()." " . $message['private_message'];
                                     $this->view->messages_users .= $this->view->render('message', 'users');
                     }
