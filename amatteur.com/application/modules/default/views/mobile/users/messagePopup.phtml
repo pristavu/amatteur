@@ -63,7 +63,13 @@ $(document).ready(function(){
                 var user_to = $('#user_to').val();
                 var user_from = $('#user_from').val();
                 var text_message = $('#text_message').val();
-                var private_message = $('#private_message').val(); 
+                if($('#private_message').is(':checked'))
+				{
+					var private_message = 1; 
+				}else
+				{
+					var private_message = 0; 
+				}
                 var board_user = $('#board_user').val();
                 var message_from_id = $('#message_from_id').val();
 		$.post('<?php echo $this->from_url;?>', {user_to:user_to, user_from:user_from, text_message: text_message, private_message:private_message, board_user:board_user, message_from_id:message_from_id}, function(data,status){

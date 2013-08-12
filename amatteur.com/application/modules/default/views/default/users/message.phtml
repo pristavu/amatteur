@@ -1,4 +1,3 @@
-<?php if(($this->enable_edit && $this->message['private_message'] == 1) || $this->message['private_message'] == 0) { ?>	
     <?php if($this->enable_edit) { ?>
         <div class="mensaje <?php if ($this->message['message_from_id']>0){echo "hijo";} ?>">
         	<div class="cabeceraMensaje">
@@ -13,8 +12,9 @@
                 <?php echo $this->message['text_message'];?>
             </div>
                   
-        <?php if($this->loged) { ?>     
-        	<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
+        <?php if($this->loged) { ?> 
+        	 
+        		<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
             <?php if($this->message['message_from_id']==0)
 				//Sólo pintamos el reply si es un mensaje principal
 			{ ?>
@@ -23,27 +23,30 @@
     	<?php } ?>   
         </div>          
     <?php } else { ?>	
-        <div class="mensaje <?php if ($this->message['message_from_id']>0){echo "hijo";} ?>">
-        	<div class="cabeceraMensaje">
-            	<div class="imagen">
-            		<a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImageLittle ImgLink" href="<?php echo $this->message['href'];?>" title="Ver perfil"></a> 
+    	 <?php if(($this->message['private_message'] == 0) || ($this->message['from_user_id']==JO_Session::get('user[user_id]'))) { ?>  
+            <div class="mensaje <?php if ($this->message['message_from_id']>0){echo "hijo";} ?>">
+                <div class="cabeceraMensaje">
+                    <div class="imagen">
+                        <a style="background-image: url(<?php echo $this->message['avatar'];?>)" class="PersonImageLittle ImgLink" href="<?php echo $this->message['href'];?>" title="Ver perfil"></a> 
+                    </div>
+                    <div class="nombreUsu">
+                        <?php echo $this->message['fullname'];?>:
+                    </div>
                 </div>
-                <div class="nombreUsu">
-                	<?php echo $this->message['fullname'];?>:
+                <div class="cuerpoMensaje">
+                    <?php echo $this->message['text_message'];?>
                 </div>
+                      
+            <?php if($this->loged) { ?>  
+                 <?php if ($this->message['from_user_id']==JO_Session::get('user[user_id]')) { ?>
+                <a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
+                <?php } ?>
+                <?php if($this->message['message_from_id']==0)
+                    //Sólo pintamos el reply si es un mensaje principal
+                { ?>
+                    <a class="btnReply silverboxMessage" href="<?php echo $this->message['hrefResponder'];?>" title="<?php  echo $this->translate('Responder'); ?>"></a>
+                <?php } ?>
+            <?php } ?>   
             </div>
-            <div class="cuerpoMensaje">
-                <?php echo $this->message['text_message'];?>
-            </div>
-                  
-        <?php if($this->loged) { ?>     
-        	<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
-            <?php if($this->message['message_from_id']==0)
-				//Sólo pintamos el reply si es un mensaje principal
-			{ ?>
-            	<a class="btnReply silverboxMessage" href="<?php echo $this->message['hrefResponder'];?>" title="<?php  echo $this->translate('Responder'); ?>"></a>
-            <?php } ?>
-        <?php } ?>   
-        </div>
+         <?php } ?> 
     <?php } ?>    
-<?php } ?>

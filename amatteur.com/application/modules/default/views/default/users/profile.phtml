@@ -2,9 +2,6 @@
 
 <?php if(!$this->userdata['description'] && $this->enable_edit) { ?>
 <?php ob_start();?>
-<link rel="stylesheet" type="text/css" href="data/css/bootstrap.min.css"/>
-<link rel="stylesheet" type="text/css" href="data/css/jquery-ui.css"/>
-<script src="data/js/bootstrap.min.js" type="text/javascript"></script>
 
 <script type="text/template" id="edit-description">
 <div id="editDescription" class="Form">
@@ -247,8 +244,10 @@
                         <div class="infoBody">    
                         	<div class="tituloCaja">
                             	<h3><?php echo $this->translate('Diary & News');?></h3>
-                                <div id="btnCreaMensaje">                           
+                                <div id="btnCreaMensaje">    
+                                	<?php if($this->enable_edit) { ?>                       
                                 	<a id="crearAgenda" href="<?php echo $this->popup_agenda;?>" class="Button RedButton message silverboxMessage" ><?php echo $this->translate('Create an Event');?></a>
+                                    <?php } ?>
                                 </div> 
                             </div>    
                             <div class="noAgenda">
@@ -263,8 +262,10 @@
                         <div class="infoMessage"> 
                         	<div class="tituloCaja">
                             	<h3><?php echo $this->translate('Conversation');?></h3>
-                                <div id="btnCreaMensaje">                           
+                                <div id="btnCreaMensaje">   
+                                	<?php if($this->loged) { ?>                         
                                 	<a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" ><?php echo $this->translate('Create a Message');?></a>
+                                    <?php } ?>
                                 </div> 
                             </div>
                             <?php if($this->has_messages || !$this->enable_edit) { ?>

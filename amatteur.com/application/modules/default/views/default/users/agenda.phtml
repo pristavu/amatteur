@@ -1,5 +1,7 @@
 <div class="agenda">
-	<a class="btnBorrar silverboxMessage" href="<?php echo $this->agenda['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>
+	<?php if($this->enable_edit) { ?>
+		<a class="btnBorrar silverboxMessage" href="<?php echo $this->agenda['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>
+    <?php } ?>
 	<div class="cuerpoMensaje">   
     	<?php echo $this->agenda['texto'];?>
 	</div>
