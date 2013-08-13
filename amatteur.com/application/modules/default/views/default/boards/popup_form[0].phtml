@@ -119,11 +119,11 @@
 <?php if($this->is_edit) { ?>
 <?php if(!$this->shared) { ?>
 <div class="hide" id="Modal_show_delete">
-	<div id="modal-delete-board-confirm">
+	<div id="modal-delete-Modal_show_delete-confirm">
 		<p><?php echo $this->translate('Are you sure you want to permanently delete this board?')?></p>
 		<div class="buttons">
-            <a onclick="$.fancybox.close(); return false" class="Button WhiteButton Button18" href="#"><strong><?php echo $this->translate('Cancel');?></strong><span></span></a>&nbsp;&nbsp;&nbsp;
-            <a class="SubmitButton Button RedButton Button18" href="<?php echo $this->board_delete;?>"><strong><?php echo $this->translate('Delete Board')?></strong><span></span></a>
+                    <a onclick="$.fancybox.close(); return false" class="Button WhiteButton Button18" href="#"><strong><?php echo $this->translate('Cancel');?></strong><span></span></a>&nbsp;&nbsp;&nbsp;
+                    <a onclick="return false" class="SubmitButton Button RedButton Button18" href="<?php echo $this->board_delete;?>"><strong><?php echo $this->translate('Delete Board')?></strong><span></span></a>
         </div>
         <div class="clear"></div>
 	</div>
@@ -145,6 +145,14 @@ function Modal_show_delete() {
 		'transitionOut'	: 'none',
 		'centerOnScroll': true
 	});
+        
+        $('.buttons .SubmitButton').click(function(e){
+        	$('.buttons .SubmitButton').bind('click', false);
+                $('.buttons .SubmitButton').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+		$('.buttons .SubmitButton').attr('disabled', true).addClass('disabled');
+        });
+        
+
 }
 
 </script>
@@ -155,7 +163,6 @@ function Modal_show_delete() {
 $(document).ready(function(){
 	$('#category_id-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox();
 	$('input.collaborator_name').clearOnFocus();
-
 	var cache = {};
 	$('.collaborator_name.ui-autocomplete-input').live('keyup', function(){
 		var val = this.value;

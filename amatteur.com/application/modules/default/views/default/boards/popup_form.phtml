@@ -195,6 +195,13 @@ function Modal_show_delete() {
 		'transitionOut'	: 'none',
 		'centerOnScroll': true
 	});
+        
+        $('.buttons .SubmitButton').click(function(e){
+        	$('.buttons .SubmitButton').bind('click', false);
+                $('.buttons .SubmitButton').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+		$('.buttons .SubmitButton').attr('disabled', true).addClass('disabled');
+        });
+        
 }
 
 </script>
