@@ -22,7 +22,7 @@
 <div id="pin" class="popuppin">
 	<div class="box boxlarge">
                                 <div class="right" style="float: right;padding-left: 8px;">
-                                     <a class="close">[X] <?php echo $this->translate('Close');?></a><br/>
+                                     <a class="close"><!--img src="data/images/cerrar.png" height="32px" width="32px" /--></a><br/>
                                 </div>
             
 		<?php } ?>
@@ -71,10 +71,10 @@
 				<?php if($this->prev_navigation_pin || $this->next_navigation_pin) { ?>
 				<div class="prev_next">
 					<?php if($this->next_navigation_pin) { ?>
-					<a href="<?php echo $this->next_navigation_pin;?>" class="next_navigation_pin"><?php echo $this->translate('Next');?></a>
+					<a href="<?php echo $this->next_navigation_pin;?>" class="next_navigation_pin"><!--img src="data/images/bt_atras.png" height="32px" width="32px" /--></a>
 					<?php } ?>
 					<?php if($this->prev_navigation_pin) { ?>
-					<a href="<?php echo $this->prev_navigation_pin;?>" class="prev_navigation_pin"><?php echo $this->translate('Previous');?></a>
+					<a href="<?php echo $this->prev_navigation_pin;?>" class="prev_navigation_pin"><!--img src="data/images/bt_siguiente.png" height="32px" width="32px" /--></a>
 					<?php } ?>
 					<div class="clear"></div>
 				</div>
@@ -171,7 +171,7 @@
 						<?php if($this->pin['from']) { ?>
                    					<?php if($this->pin['is_article']) { ?>
                                                             <span class="span-video" style="display:block;float:right; ">
-								<img src="data/images/article.png"/>
+								<img src="data/images/ico_arti.png"/>
                                                             </span>
                                                         <?php } ?>
 							<a onclick="target='_blank'" href="<?php echo $this->pin['from'];?>">

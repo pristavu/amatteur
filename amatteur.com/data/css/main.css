@@ -4647,10 +4647,10 @@ input::-moz-focus-inner { border: 0; }
 
 #ProfileHeader .infoMessage {
     max-height: 620px;
-    width: 215px;
+    width: 230px;
     position: absolute;
     top: -10px;
-    right: 10px;
+    right: 0px;
     overflow: auto;
     overflow-x: hidden;
 	padding:5px;
@@ -7972,9 +7972,25 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff),
 
 /* 1.06 */
 .prev_next { margin-bottom: 5px; }
-.prev_next .next_navigation_pin { float: left; }
-.prev_next .prev_navigation_pin { float: right; }
+.prev_next .next_navigation_pin {
+    height: 32px;
+    width: 32px;
+    background-image: url('../images/bt_siguiente.png');
+    float: left;
+}
+.prev_next .prev_navigation_pin {
+    height: 32px;
+    width: 32px;
+    background-image: url('../images/bt_atras.png');
+    float: right;
+}
 
+.right .close {
+    height: 32px;
+    width: 32px;
+    background-image: url('../images/cerrar.png');
+    float: right;
+}
 .fb-like.likeBoard { position: relative; top: -9px; }
 
 
