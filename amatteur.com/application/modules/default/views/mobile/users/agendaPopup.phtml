@@ -1,0 +1,69 @@
+<div id="create_new_pin">
+	<div id="content-holder">
+		<div id="emailpin">
+			<form action="<?php echo $this->agendaPopup;?>" method="post">
+				<div class="hide">
+                	<input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id;?>">
+				</div>
+				
+				<div class="left w335px">
+					<p>
+						<label for="message"><?php echo $this->translate('New Agenda');?>:<br></label>
+						<textarea name="texto" id="texto" rows="5" cols="30"><?php echo $this->title;?></textarea>
+					</p>
+					<p class="text_counter"></p>
+					<p class="submit">
+                    	<input class="disabled" type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<?php $key = str_replace('.','',microtime(true));?>
+<script type="text/javascript">
+$(document).ready(function(){
+
+	regExPrice.addExpresionLine($('#texto').html(), true);
+	
+	$('#texto').jqEasyCounter({
+		holder: 'p.text_counter',
+		maxChars: 255,
+		maxCharsWarning: 225,
+		template: '{count}'
+	}).bind("keydown keyup keypress focus paste",function() {
+		regExPrice.addExpresionLine(this.value);
+                if($.trim($('#texto').val())) {
+                        $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+                } 
+                else 
+                {
+                        $('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+                }
+		regExPrice.addExpresionLine(this.value, false);
+	});
+
+
+	$('#emailpin form').unbind('submit').submit(function(){
+		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+                var user_id = $('#user_id').val();
+                var texto = $('#texto').val();
+                  
+		$.post('<?php echo $this->from_url;?>', {user_id:user_id, texto:texto}, function(data,status){
+			
+			$('#loading_button').remove();
+					window.location.href = document.referrer;
+                        $.fancybox.close();                        
+			
+			
+                });
+		return false;
+	});
+		
+});
+
+
+</script>

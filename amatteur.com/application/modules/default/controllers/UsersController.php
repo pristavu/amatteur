@@ -424,6 +424,45 @@ class UsersController extends JO_Action {
 
 	}
 	
+	public function agendaAction() {
+            
+                $request = $this->getRequest();
+
+        
+		$user_data = $this->profileHelp();
+        
+        
+		$page = (int)$request->getRequest('page');
+		if($page < 1) { $page = 1; }
+			$agendas = Model_Users::getUserAgenda(array(
+					'filter_user_id' => $user_data['user_id']
+				));
+                
+                
+                if ($agendas)
+				{
+					$this->view->has_agendas = true;
+					foreach($agendas AS $agenda) {
+						$agenda['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] );
+                    	$this->view->agenda = $agenda;
+                        $this->view->agendas_users .= $this->view->render('agendasRender', 'users');
+                    }
+				}
+                $session_user = JO_Session::get('user[user_id]');
+                $this->view->popup_agenda = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopup&user_id=' . $user_data['user_id']  );
+		
+		if($request->isXmlHttpRequest()) {
+			echo $this->view->boards;
+			$this->noViewRenderer(true);
+		} else {
+			$this->view->children = array(
+	        	'header_part' 	=> 'layout/header_part',
+	        	'footer_part' 	=> 'layout/footer_part'
+	        );
+		}
+
+	}
+	
 	public function agendaPopupAction() {
 		
 		$request = $this->getRequest();
