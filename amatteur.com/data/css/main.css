@@ -7984,12 +7984,13 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff),
     background-image: url('../images/bt_atras.png');
     float: right;
 }
-
-.right .close {
-    height: 32px;
+.closePop{
+	background-image: url('../images/cerrar.png');
+	height: 32px;
     width: 32px;
-    background-image: url('../images/cerrar.png');
-    float: right;
+	float: right;
+	cursor:pointer;
+	background-size:32px 32px;
 }
 .fb-like.likeBoard { position: relative; top: -9px; }
 
