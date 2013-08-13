@@ -3124,6 +3124,12 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 .agenda .cuerpoMensaje{
 	width:180px;
+	text-overflow:ellipsis;
+	overflow:hidden;
+}
+.agenda .cuerpoMensaje:hover{
+	text-overflow:inherit;
+	overflow:visible;
 }
 .btnReply{
 	background-image:url(../images/reply.png);
