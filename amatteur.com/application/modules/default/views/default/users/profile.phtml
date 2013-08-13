@@ -234,12 +234,12 @@
 	<div class="clear"></div>
 	<ul id="sorting-boards">
   
-            <ul id="sorting-boards-min6">
+            <div class="pines" id="sorting-boards-min6">
                 <?php echo $this->boards;?>
-            </ul>
-            <ul id="sorting-boards-max6">
+            </div>
+            <div class="pines" id="sorting-boards-max6">
                 <?php echo $this->boards6;?>
-            </ul>
+            </div>
 
 	<?php //echo $this->boards;?>
 
@@ -311,10 +311,10 @@ $(document).ready(function(){
 			
 			$(this).removeClass('RedButton').attr('title', '<?php echo $this->translate('Rearrange Boards');?>').simpletooltip();
 			$('#RearrangeCancel').addClass('hide');
-			$("#sorting-boards").dragsort('remove');
+			$(".pines").dragsort('remove');
 
 			var data = new Array();
-	        $("#sorting-boards > li").each(function(i, elm) { data[i] = $(elm).attr("id").replace('board_',''); });
+	        $(".pines > li").each(function(i, elm) { data[i] = $(elm).attr("id").replace('board_',''); });
 	        $.post("<?php echo $this->order_boards;?>", { "ids[]": data, "page": <?php echo $this->current_page;?> }, function(data){
 				if(data.ok) {
 					Pins.success(data.ok);
@@ -330,7 +330,7 @@ $(document).ready(function(){
 			$('#SortableButtons').slideDown();
 			$(this).addClass('RedButton').attr('title', '<?php echo $this->translate('Save Arrangement');?>').simpletooltip();
 			$('#RearrangeCancel').removeClass('hide');
-			$("#sorting-boards").dragsort({ dragSelector: "li.box", placeHolderTemplate: "<li class='placeHolder box'></li>" });
+			$(".pines").dragsort({ dragSelector: "li.box", placeHolderTemplate: "<li class='placeHolder box'></li>" });
 		}
 		return false;
 	});

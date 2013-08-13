@@ -396,7 +396,7 @@ a:hover {
     margin-left: auto;
     position: relative;
     height: 34px;
-    min-width:1250px;
+    min-width:1050px;
 }
 #menuwrapper .menubienvenido {
 	float:left;
@@ -6473,14 +6473,6 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
 	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#eb5367', endColorstr='#d43638');
 	text-decoration: none;
 }
-#modal-delete-board-confirm .buttons .SubmitButton.disabled {
-    background: none repeat scroll 0 0 #F2F0F0!important;
-    border-color: #D1CDCD!important;
-    color: #D1CDCD!important;
-    cursor: default;
-    text-shadow: 0 -1px rgba(34, 25, 25, 0.01)!important;
-}
-
 #container_sort, #container.pins, #container-persons, #container.activity {
 	margin-top: 90px;
 }
