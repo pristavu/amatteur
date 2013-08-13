@@ -346,16 +346,14 @@ if (!$this->is_loged)
                             <div class="dropdown columns-1 categoriesMenu">
                                 <ul>
                                     <li class="first"><a href="#"><?php echo $this->translate('Fotos con más MeGusta'); ?></a>
-                                        <ul class="dropdown columns-1 right" style='max-height:100px;overflow:hidden'>
-                                            <li><a href="#"></a></li>
+                                        <ul class="dropdown columns-1 categoriesMenu verticalright" style='max-height:100px;overflow:hidden'>
                                             <li><a href="<?php echo $this->pinTop7_url; ?>"><?php echo $this->translate('Top 10 de los últimos 7 días'); ?></a></li>
                                             <li><a href="<?php echo $this->pinTop_url; ?>"><?php echo $this->translate('Top 10 absoluto'); ?></a></li>
                                         </ul>
                                     </li>
 
                                     <li><a href="#"><?php echo $this->translate('Perfiles con más MeGusta'); ?></a>
-                                        <ul class="dropdown columns-1 right" style='max-height:100px;overflow:hidden'>
-                                            <li><a href="#"></a></li>
+                                        <ul class="dropdown columns-1 categoriesMenu verticalright" style='max-height:100px;overflow:hidden'>
                                             <li><a href="<?php echo $this->profileTop7_url; ?>"><?php echo $this->translate('Top 10 de los últimos 7 días'); ?></a></li>
                                             <li><a href="<?php echo $this->profileTop_url; ?>"><?php echo $this->translate('Top 10 absoluto'); ?></a></li>
                                         </ul>
