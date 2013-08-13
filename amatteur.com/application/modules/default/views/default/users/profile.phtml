@@ -196,7 +196,7 @@
 		<div class="action">
 			<a class="Button13 Button WhiteButton <?php if($this->has_edit_boards) { ?>Left<?php } ?> Tab" href="<?php echo $this->settings;?>"><strong><?php echo $this->translate('Edit Profile');?></strong><span></span></a>
 			<?php if($this->has_edit_boards) { ?>
-			<a id="RearrangeButton" class="Button13 Button WhiteButton Right Tab tooltip" href="#" title="<?php echo $this->translate('Rearrange Boards');?>"><strong></strong><span></span></a>
+			<a id="RearrangeButton" class="Button13 Button WhiteButton Right Tab" href="#" title="<?php echo $this->translate('Rearrange Boards');?>"><strong></strong><span></span></a>
 			<a id="RearrangeCancel" class="close hide tooltip" title="<?php echo $this->translate('Cancel');?>" href="<?php echo $this->reload_page;?>"><?php echo $this->translate('close');?></a>
 			<?php } ?>
 		</div>
@@ -330,7 +330,7 @@ $(document).ready(function(){
 			$('#SortableButtons').slideDown();
 			$(this).addClass('RedButton').attr('title', '<?php echo $this->translate('Save Arrangement');?>').simpletooltip();
 			$('#RearrangeCancel').removeClass('hide');
-			$("#sorting-boards").dragsort({ itemSelector: "li.box",dragSelector: "li.box", placeHolderTemplate: "<li class='placeHolder box'></li>" });
+			$("#sorting-boards").dragsort({ dragSelector: "li.box", placeHolderTemplate: "<li class='placeHolder box'></li>" });
 		}
 		return false;
 	});
@@ -462,6 +462,14 @@ $(document).ready(function(){
 			$('.navigation.hide a').removeClass('next').filter('.page_'+page).addClass('next');
 		});
 	}
-        
+	$(".cuerpoMensaje").each(function(){
+		var text = $(this).html();
+    	$(this).html(replaceURLWithHTMLLinks(text));
+	});
+	
+	function replaceURLWithHTMLLinks(text) {
+		var exp = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig;
+		return text.replace(exp,"<a class='linkHover' target='_blank' href='$1' title='Seguir vínculo'>$1</a>"); 
+	  }
 });
 </script>

@@ -1384,6 +1384,7 @@ class Model_Users extends JO_Model {
 					
 		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
 			$query->where('user_id = ? ', '' . (string)$data['filter_user_id']. '');
+			$query->order('created' . ' DESC');
 		}
            
 		return $db->fetchAll($query);	
@@ -1442,7 +1443,7 @@ class Model_Users extends JO_Model {
 		$query = $db->select()
 					->from('users_messages')
 					->joinLeft('users', 'users.user_id = users_messages.from_user_id',  array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)", 'date_diff' => "DATEDIFF(curdate(), date_message)"))
-					->order('date_message' , "DESC");
+					->order('date_message' . " DESC");
 					
 		if(isset($data['filter_user_id']) && !is_null($data['filter_user_id'])) {
 			$query->where('(users_messages.from_user_id = ? OR users_messages.to_user_id = ?) AND users_messages.board_user_id = ? AND message_from_id='.$data['idPadre'], '' . (string)$data['filter_user_id']. '');
@@ -1496,7 +1497,8 @@ class Model_Users extends JO_Model {
 		$db = JO_Db::getDefaultAdapter();
 		
 		$row = $db->query("DELETE FROM users_messages WHERE message_id = ".  $data['message_id'] );
-
+		
+		$row2 = $db->query("DELETE FROM users_messages WHERE message_from_id = ".  $data['message_id'] );
         
 		if(!$row) {
 			return false;

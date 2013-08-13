@@ -41,7 +41,7 @@ a {
 	color: #0070bf;
 }
 a:hover {
-    text-decoration: none;
+    text-decoration: underline;
 }
 .ados {
     text-decoration: none;
@@ -1807,7 +1807,7 @@ color: #524D4D;
 	padding-top: 7px;
 }
 #panel .left .socbtns li a:hover {
-    text-decoration: none;
+   /* text-decoration: none;*/
 }
 #panel .left .socbtns li .active {
     color: #3a3a3a;
@@ -2712,7 +2712,7 @@ color: #524D4D;
 	background-size:60px 60px;
 }
 .scrolltotop a:hover {
-	text-decoration: none;
+	/*text-decoration: none;*/
 }
 .fixed {
     position: fixed;
@@ -3193,7 +3193,7 @@ overflow: hidden;
 }
 
 .box .thumb a:hover {
-	text-decoration: none;
+	/*text-decoration: none;*/
 }
 
 /*#container .box {
@@ -4611,10 +4611,10 @@ input::-moz-focus-inner { border: 0; }
 
 #ProfileHeader .infoBody {
 	max-height: 620px;
-    width: 215px;
+    width: 225px;
     position: absolute;
     top: -10px;
-    right: 250px;
+    right: 245px;
     overflow: auto;
     overflow-x: hidden;
 	padding:5px;
@@ -4688,17 +4688,23 @@ input::-moz-focus-inner { border: 0; }
 }
 .agenda{
 	float:left;
-	width:195px;
+	width:210px;
 	background-color:#FDEC7C;
 	border-radius:5px;-webkit-border-radius: 5px; 
 	-moz-border-radius: 5px;
 	font-size:11px;
-	margin-bottom:10px;
-	padding:10px 0px 10px 20px;
-	background-image:url(../images/chinchetaRoja.png);
+	margin-bottom:15px;
+	padding:10px 0 10px 0;
+}
+.agenda .chinchetaAzul{
+	width:20px;
+	height:24px;
+	position:relative;
+	top:-22px;
+	left:4px;
+	background-image:url(../images/chinchetaAzul.png);
 	background-repeat:no-repeat;
-	background-size:20px 20px;
-	background-position-x:2px;
+	float:left;
 }
 .agenda .btnBorrar{
 	position:relative;
@@ -4706,6 +4712,7 @@ input::-moz-focus-inner { border: 0; }
 }
 .agenda .cuerpoMensaje{
 	width:180px;
+	margin-left:20px;
 }
 .btnReply{
 	background-image:url(../images/reply.png);
@@ -4941,6 +4948,7 @@ input::-moz-focus-inner { border: 0; }
 }
 .Button:hover{
  background-color:#00538e !important;
+ text-decoration:none !important;
 }
 
 #ProfileHeader .infoBody #editAgenda .Button:hover {
@@ -5108,7 +5116,7 @@ input::-moz-focus-inner { border: 0; }
 }
 #ContextBar ul li a:hover {
 	background-color: #e1dfdf;
-	text-decoration: none;
+	/*text-decoration: none;*/
 }
 #ContextBar ul li a.selected {
 	position: relative;
@@ -5148,7 +5156,7 @@ input::-moz-focus-inner { border: 0; }
 }
 
 #ContextBar .action .Tab {
-	margin-right: -1px;
+	margin-right: 5px;
 	padding: 0 8px;
 }
 
@@ -5193,8 +5201,8 @@ input::-moz-focus-inner { border: 0; }
 	bottom: -1px;
 	left: -1px;
 	display: block;
-	/*border: 1px solid;
-	opacity: 1;
+	border: 1px solid;
+	/*opacity: 1;
 	border-radius: .3em;
 	-moz-border-radius: .3em;
 	-webkit-border-radius: .3em;
@@ -6358,6 +6366,8 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
     border: 1px solid transparent;
     border-radius: 0.3em 0.3em 0.3em 0.3em;
     box-shadow: 0 1px rgba(255, 255, 255, 0.8), 0 1px rgba(255, 255, 255, 0.35) inset;*/
+	border-radius:5px;-webkit-border-radius: 5px; 
+	-moz-border-radius: 5px;
     cursor: pointer;
     display: inline-block;
     line-height: 1em;
@@ -6863,7 +6873,7 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
 	float:left;
 	width:100%;
 	padding-bottom:10px;
-	margin-bottom:10px;
+	margin-bottom:15px;
 }
 .infoMessage .tituloCaja{
 	border-bottom:none;
@@ -7169,7 +7179,7 @@ div#overflow div#detail div.boxeswrapper div#boxes.boxes-absolute div.box div.le
 	cursor: move;
 }
 #container_sort li.box.drag-enabled a:hover {
-	text-decoration: none;
+	/*text-decoration: none;*/
 }
 
 #TopNagCallout {
@@ -7907,6 +7917,9 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff),
 	width: 310px;
 }
 
+.linkHover:hover{
+	text-decoration:underline;
+}
 #instagram-media-submit .selectBox.selectBox-dropdown {
 	
 	background-color: white;
@@ -7990,7 +8003,7 @@ background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#40b0ff), to(#0b9aff),
 .closePop{
 	background-image: url('../images/cerrar.png');
 	height: 32px;
-        width: 32px;
+    width: 32px;
 	float: right;
 	cursor:pointer;
 	background-size:32px 32px;
