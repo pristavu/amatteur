@@ -31,6 +31,7 @@ $(document).ready(function(){
                 var agenda_id = $('#agenda_id').val();
 		$.post('<?php echo $this->from_url;?>', {agenda_id:agenda_id}, function(data,status){
 			$('#loading_button').remove();
+					window.location.href = document.referrer;
                         $.fancybox.close();
 			
 			

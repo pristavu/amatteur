@@ -4220,7 +4220,71 @@ input::-moz-focus-inner { border: 0; }
     float: left;
     margin-right: 3px;
 }
-
+#ProfileHeader .infoMessage {
+    max-height: 620px;
+    width: 215px;
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    overflow: auto;
+    overflow-x: hidden;
+	padding:5px;
+	margin-bottom:30px;
+}
+#ProfileHeader .infoMessage .mensaje{
+	float:left;
+	width:215px;
+	border-top:solid 1px #BBB;
+	margin-bottom:5px;
+	padding-top:10px;
+	margin-top:5px;
+}
+#ProfileHeader .infoMessage .mensaje.hijo{
+	margin-left:25px;
+	width:190px;
+	background-color:#DDD;
+	border-bottom:solid 1px #BBB;
+	border-top:none;
+	margin-bottom:0;
+	margin-top:0;
+}
+#ProfileHeader .infoMessage .cabeceraMensaje{
+	float:left;
+	width:100%;
+	margin-bottom:5px;
+}
+#ProfileHeader .infoMessage .mensaje.hijo .cabeceraMensaje{
+	margin-left:5px;
+	margin-bottom:0;
+	width:185px;
+}
+#ProfileHeader .infoMessage .cabeceraMensaje .imagen{
+	float:left;
+	width:20px;
+	margin-right:5px;
+}
+#ProfileHeader .infoMessage .cabeceraMensaje .nombreUsu{
+	float:left;
+	line-height:20px;
+	font-weight:bold;
+	font-size:11px;
+}
+#ProfileHeader .infoMessage .cuerpoMensaje{
+	padding:5px;
+	float:left;
+	width:205px;
+	text-align:justify;
+	font-size:12px;
+}
+#ProfileHeader .infoMessage .mensaje.hijo .cuerpoMensaje{
+	width:180px;
+}
+.btnReply,.btnBorrar{
+	float:right;
+	background-repeat:no-repeat;
+	width:16px;
+	height:16px;
+}
 #ProfileHeader .icons .icon.facebook {
     background-position: -15px 0;
 }

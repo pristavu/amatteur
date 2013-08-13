@@ -1,25 +1,27 @@
-
 <script type='text/javascript' src='data/js/js_full.js'></script>
 <div id="ProfileHeader">
                 <div class="FixedContainer row clearfix">
-
-                    
                         <div class="infoMessage"> 
                             <?php if($this->has_messages || !$this->enable_edit) { ?>
                             <h5><?php echo $this->translate('Conversation');?></h5>
+                            <?php if($this->loged) { ?> 
+                            	 <div id="btnCreaMensaje"> 
+                                    <a href="<?php echo $this->popup_messages;?>" class="Button  noMessage  " title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                 </div>
+                                    <?php } ?>
                             <p class="colorless noMessage">
                                 <?php echo $this->messages_users ?>&nbsp;
-                                <?php if($this->loged) { ?> 
-                                <a href="<?php echo $this->popup_messages;?>" class="Button  noMessage  " title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
-                                <?php } ?>
                             </p>
                             <?php } else { ?>
                             <h5><?php echo $this->translate('Conversation');?></h5>
+                            <?php if($this->loged) { ?> 
+                            	 <div id="btnCreaMensaje"> 
+                                    <a href="<?php echo $this->popup_messages;?>" class="Button  noMessage  " title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                 </div>
+                                    <?php } ?>
                             <p class="colorless noMessage">
                                     <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
-                                    <?php if($this->loged) { ?> 
-                                    <a href="<?php echo $this->popup_messages;?>" class="Button  noMessage  " title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
-                                    <?php } ?>
+                                    
                             </p>
                             <?php } ?>
                         </div>

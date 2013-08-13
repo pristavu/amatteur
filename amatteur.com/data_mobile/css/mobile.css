@@ -2987,6 +2987,14 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     margin-right: 8px;
     width: 50px;
 }
+.PersonImageLittle {
+    float: left;
+    height: 20px;
+    margin-right: 8px;
+    width: 20px;
+	background-size:20px 20px;
+	background-repeat:no-repeat;
+}
 .person .PersonPins .ImgLink {
     background-color: #E1DFDF;
     float: left;
@@ -3018,26 +3026,127 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 
 
 #ProfileHeader .infoBody {
-    height: 660px;
-    /*position: relative;*/
-    width: 225px;
-    position: absolute;
-    top: 0px;
-    left:5px;
-    right: 265px;
+	max-height: 620px;
+    width: 100%;
     overflow: auto;
-    overflow-x: hidden;
+	padding:5px;
 }
 
 #ProfileHeader .infoMessage {
-    height: 620px;
-    /*position: relative;*/
-    width: 225px;
-    position: absolute;
-    top: -10px;
-    left: 10px;
+    max-height: 620px;
+	width:100%;
     overflow: auto;
-    overflow-x: hidden;
+	padding:5px;
+}
+#ProfileHeader .infoMessage .mensaje{
+	float:left;
+	border-top:solid 1px #BBB;
+	margin-bottom:5px;
+	padding-top:10px;
+	margin-top:5px;
+	margin-top:10px;
+	width:100%;
+}
+#ProfileHeader .infoMessage .mensaje.hijo{
+	margin-left:25px;
+	background-color:#DDD;
+	border-bottom:solid 1px #BBB;
+	border-top:none;
+	margin-bottom:0;
+	margin-top:0;
+	width:100%;
+}
+#ProfileHeader .infoMessage .cabeceraMensaje{
+	float:left;
+	width:100%;
+	margin-bottom:5px;
+}
+#ProfileHeader .infoMessage .mensaje.hijo .cabeceraMensaje{
+	margin-left:5px;
+	margin-bottom:0;
+	width:100%;
+}
+#ProfileHeader .infoMessage .cabeceraMensaje .imagen{
+	float:left;
+	width:20px;
+	margin-right:5px;
+}
+#ProfileHeader .infoMessage .cabeceraMensaje .nombreUsu{
+	float:left;
+	line-height:20px;
+	font-weight:bold;
+	font-size:11px;
+}
+#ProfileHeader .infoMessage .cuerpoMensaje{
+	padding:5px;
+	float:left;
+	text-align:justify;
+	font-size:12px;
+	width:100%;
+}
+.btnReply,.btnBorrar{
+	float:left;
+	background-repeat:no-repeat;
+	width:16px;
+	height:16px;
+}
+.tituloCaja{
+	border-bottom:solid 1px #BBB;
+	float:left;
+	width:100%;
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+.agenda{
+	float:left;
+	width:250px;
+	background-color:#FDEC7C;
+	border-radius:5px;-webkit-border-radius: 5px; 
+	-moz-border-radius: 5px;
+	font-size:11px;
+	margin-bottom:10px;
+	padding:10px 0px 10px 20px;
+	background-image:url(../images/chinchetaRoja.png);
+	background-repeat:no-repeat;
+	background-size:20px 20px;
+	background-position-x:2px;
+}
+.agenda .btnBorrar{
+	position:relative;
+	top:-10px;
+	float:right;
+}
+.agenda .cuerpoMensaje{
+	width:180px;
+}
+.btnReply{
+	background-image:url(../images/reply.png);
+}
+.btnBorrar{
+	background-image:url(../images/delete.png);
+}
+#txtAreaAgenda{
+	height:100px;
+	width:214px;
+}
+#btnCreaMensaje{
+	float:left;
+	width:100%;
+}
+#btnCreaMensaje a{
+	float:none !important;
+	border-radius:5px;-webkit-border-radius: 5px; 
+	-moz-border-radius: 5px;
+	margin-top:0 !important;
+	font-size:12px;
+	font-weight:bold;
+	font-size: 11px;
+	color: #FCF9F9;
+	font-weight: bold;
+	float: right;
+	margin-top: 5px;
+    padding: 5px;
+	background-color: #0070BF !important;
 }
 
 #ProfileHeader .infoBody p.noAgenda img {
