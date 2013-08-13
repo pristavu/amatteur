@@ -4754,7 +4754,7 @@ input::-moz-focus-inner { border: 0; }
 }
 #ProfileHeader .info .content {
     margin-left: 180px;
-    padding-right: 15px;
+    padding-right: 5px;
 }
 #ProfileHeader .info h1 {
     color: #534F4F;
@@ -5009,8 +5009,6 @@ input::-moz-focus-inner { border: 0; }
 #datosLike {
 	float:right;
 	padding:5px;
-	/*border:1px #0070bf solid;*/
-	border:1px #c8c8c8 solid;
 	margin-top:37px;
 }
 
