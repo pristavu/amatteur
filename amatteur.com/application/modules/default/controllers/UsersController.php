@@ -232,12 +232,16 @@ class UsersController extends JO_Action {
 		$this->view->current_page = $page;
 		
 		$this->view->boards = '';
+                $this->view->boards6 = '';
+                $board_counter = 0;
 		if($boards) {
 			$view = JO_View::getInstance();
 			$view->loged = JO_Session::get('user[user_id]');
 			$view->enable_sort = true;
 			$model_images = new Helper_Images();
 			foreach($boards AS $board) {
+                                $board_counter++;
+                                $view->board_counter =$board_counter;
 				$board['href'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $user_data['user_id'] . '&board_id=' . $board['board_id']);
 				$board['thumbs'] = array();
 				$get_big = false;
@@ -277,7 +281,14 @@ class UsersController extends JO_Action {
 				
 				
 				$view->board = $board;
-				$this->view->boards .= $view->render('box', 'boards');
+                                if ($board_counter > 6)
+                                {
+                                    $this->view->boards6 .= $view->render('box', 'boards');
+                                }
+                                else
+                                {
+                                    $this->view->boards .= $view->render('box', 'boards');
+                                }
 			}
 		}
 		

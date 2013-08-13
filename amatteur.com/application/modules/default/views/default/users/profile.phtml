@@ -233,7 +233,25 @@
 	</div>
 	<div class="clear"></div>
 	<ul id="sorting-boards">
-	<?php echo $this->boards;?>
+<?php /*if ($this->board_counter > 6) { ?>
+<ul id="sorting-boards-max6">
+    <?php echo $this->boards6;?>
+</ul>
+<?php  //} else { ?> 
+<ul id="sorting-boards-min6">
+    <?php echo $this->boards;?>
+</ul>
+<?php  }  */ ?>   
+<ul id="sorting-boards-min6">
+    <?php echo $this->boards;?>
+</ul>
+<ul id="sorting-boards-max6">
+    <?php echo $this->boards6;?>
+</ul>
+
+	<?php //echo $this->boards;?>
+
+    
 	</ul>
 	<?php } else { ?>
 	<?php echo $this->boards;?>

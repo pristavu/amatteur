@@ -318,13 +318,15 @@ if (!$this->is_loged)
         <div id="menu" class="<?php echo $this->is_loged ? "loged" : ""; ?> <?php echo in_array(JO_Request::getInstance()->getController(), array('settings', 'prefs', 'password')) ? "menuNoSlider" : ""; ?>"<?php if (!$enable_slider)
     { ?> style="top:50px;"<?php } ?>>
             <div id="menuwrapper">
+                    <div class="menubienvenido">                
     <?php if (!$this->is_loged)
     { ?>
-                    <div class="menubienvenido">
                         <div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
                         <div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
-                    </div>
     <?php } ?>
+                        <div id="muestraBlog"><a href="/blog.amatteur.com" class="ados">Blog</a></div>
+                    </div>
+                        
                 <div class="menumenus">
                     <ul class="links">
                         <!--
