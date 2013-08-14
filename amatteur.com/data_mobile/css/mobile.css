@@ -3037,13 +3037,12 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	padding:5px;
 }
 
-#ProfileHeader .infoMessage {
-    max-height: 620px;
+.infoMessage {
 	width:100%;
     overflow: auto;
 	padding:5px;
 }
-#ProfileHeader .infoMessage .mensaje{
+.infoMessage .mensaje{
 	float:left;
 	border-top:solid 1px #BBB;
 	margin-bottom:5px;
@@ -3052,45 +3051,45 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	margin-top:10px;
 	width:100%;
 }
-#ProfileHeader .infoMessage .mensaje.hijo{
+.infoMessage .mensaje.hijo{
 	margin-left:25px;
 	background-color:#DDD;
 	border-bottom:solid 1px #BBB;
 	border-top:none;
 	margin-bottom:0;
 	margin-top:0;
-	width:100%;
+	width:90%;
 }
-#ProfileHeader .infoMessage .cabeceraMensaje{
+.infoMessage .cabeceraMensaje{
 	float:left;
 	width:100%;
 	margin-bottom:5px;
 }
-#ProfileHeader .infoMessage .mensaje.hijo .cabeceraMensaje{
+.infoMessage .mensaje.hijo .cabeceraMensaje{
 	margin-left:5px;
 	margin-bottom:0;
 	width:100%;
 }
-#ProfileHeader .infoMessage .cabeceraMensaje .imagen{
+.infoMessage .cabeceraMensaje .imagen{
 	float:left;
 	width:20px;
 	margin-right:5px;
 }
-#ProfileHeader .infoMessage .cabeceraMensaje .nombreUsu{
+.infoMessage .cabeceraMensaje .nombreUsu{
 	float:left;
 	line-height:20px;
 	font-weight:bold;
 	font-size:11px;
 }
-#ProfileHeader .infoMessage .cuerpoMensaje{
+.infoMessage .cuerpoMensaje{
 	padding:5px;
 	float:left;
 	text-align:justify;
 	font-size:12px;
-	width:100%;
+	width:95%;
 }
 .btnReply,.btnBorrar{
-	float:left;
+	float:right;
 	background-repeat:no-repeat;
 	width:16px;
 	height:16px;
@@ -3104,7 +3103,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 }
 .agenda{
 	float:left;
-	width:300px;
+	width:100%;
 	background-color:#FDEC7C;
 	border-radius:5px;-webkit-border-radius: 5px; 
 	-moz-border-radius: 5px;
@@ -3128,7 +3127,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	float:right;
 }
 .agenda .cuerpoMensaje{
-	width:180px;
+	width:85%;
 	text-overflow:ellipsis;
 	overflow:hidden;
 }
@@ -3149,6 +3148,8 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 #btnCreaMensaje{
 	float:left;
 	width:100%;
+	text-align:center;
+	margin-top:15px;
 }
 #btnCreaMensaje a{
 	float:none !important;

@@ -1,6 +1,11 @@
+<?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
+{
+    echo $this->header_part; 
+}    
+?>
 <script type='text/javascript' src='data/js/js_full.js'></script>
-<div id="ProfileHeader">
-    <div class="FixedContainer row clearfix">
+<div id='profile'>
+	<div class='banner'>
         <div class="infoBody">    
                         	<div class="tituloCaja">
                             	<h3><?php echo $this->translate('Diary & News');?></h3>
@@ -12,19 +17,32 @@
                             </div>    
                             <div class="noAgenda">
                             	<?php if($this->has_agendas) { ?>
-									<?php echo $this->agendas_users ?>                                     
+									<?php echo $this->agendas_users ?>
                                 <?php } else { ?>
                                     <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
                                 <?php } ?>
                             </div>
                         </div>
-    </div>
-
-       
-</div>
+</div></div>
 <script type="text/javascript">
 $(document).ready(function(){
-	$(".cuerpoMensaje").each(function(){
+	<?php if($this->enable_edit) { ?>
+		var controlSpan="";
+		$(".agenda .cuerpoMensaje").click(function(){
+			controlSpan=$(this).find(".textoOriginal");
+			controlSpan.hide();
+			$(this).find(".editaAgenda").show();
+			$(this).find(".editaAgenda").focus();
+		});
+		$(".agenda .cuerpoMensaje .editaAgenda").live('focusout',function() {
+			$.post('<?php echo $this->edit_agenda;?>', {texto: $(this).val(),agenda_id:$(this).attr("id")}, function(data){
+			}, 'json');
+			controlSpan.html(replaceURLWithHTMLLinks($(this).val()));
+			$(this).hide();
+			controlSpan.show();
+		});
+	<?php } ?>
+	$(".cuerpoMensaje .textoOriginal").each(function(){
 		var text = $(this).html();
     	$(this).html(replaceURLWithHTMLLinks(text));
 	});

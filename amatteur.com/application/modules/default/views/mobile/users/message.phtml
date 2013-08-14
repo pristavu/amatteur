@@ -14,13 +14,13 @@
                   
         <?php if($this->loged) { ?> 
         	 
-        		   
+        	<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a> 
             <?php if($this->message['message_from_id']==0)
 				//Sólo pintamos el reply si es un mensaje principal
 			{ ?>
             	<a class="btnReply silverboxMessage" href="<?php echo $this->message['hrefResponder'];?>" title="<?php  echo $this->translate('Responder'); ?>"></a>
             <?php } ?> 
-            <a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>
+            
     	<?php } ?>   
         </div>          
     <?php } else { ?>	
@@ -39,15 +39,15 @@
                 </div>
                       
             <?php if($this->loged) { ?>  
-                 
+                 <?php if ($this->message['from_user_id']==JO_Session::get('user[user_id]')) { ?>
+                <a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
+                <?php } ?>
                 <?php if($this->message['message_from_id']==0)
                     //Sólo pintamos el reply si es un mensaje principal
                 { ?>
                     <a class="btnReply silverboxMessage" href="<?php echo $this->message['hrefResponder'];?>" title="<?php  echo $this->translate('Responder'); ?>"></a>
                 <?php } ?>
-                <?php if ($this->message['from_user_id']==JO_Session::get('user[user_id]')) { ?>
-                <a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
-                <?php } ?>
+                
             <?php } ?>   
             </div>
          <?php } ?> 
