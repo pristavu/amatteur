@@ -38,15 +38,7 @@ class Model_Users extends JO_Model {
 		), array('user_id = ?' => (string)JO_Session::get('user[user_id]')));
 	}
 	
-	public function editAgenda($agenda) {
-		if(!JO_Session::get('user[user_id]')) {
-			return;
-		}
-		$db = JO_Db::getDefaultAdapter();
-		$db->update('users', array(
-			'agenda' => $agenda
-		), array('user_id = ?' => (string)JO_Session::get('user[user_id]')));
-	}
+	
         
 	public static function getFacebookFriends() {
 		$db = JO_Db::getDefaultAdapter();
@@ -1421,6 +1413,14 @@ class Model_Users extends JO_Model {
 		}
 		
 		return $message_id;
+	}
+	
+	
+	public static function editAgenda($data,$agenda_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$db->update('users_agenda', array(
+			'texto' => $data
+		), array('agenda_id = ?' => $agenda_id));
 	}
 	
 	public static function deleteAgenda($data) {

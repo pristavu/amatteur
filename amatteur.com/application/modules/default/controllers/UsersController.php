@@ -52,7 +52,7 @@ class UsersController extends JO_Action {
 				$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login' ) );
 			}
 		} else {
-			Model_Users::editAgenda( $request->getPost('agenda') );
+			Model_Users::editAgenda( $request->getPost('texto'),$request->getPost('agenda_id') );
                         
                         $data = Model_Users::followersUsers(JO_Session::get('user[user_id]'));
                         if ($data)
@@ -60,11 +60,11 @@ class UsersController extends JO_Action {
                             foreach ($data AS $key => $user)
                             {
                                         //add history
-                                        Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+                                        Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('texto'));
                             }
                         }
                         
-                        $this->view->ok = $request->getPost('agenda');
+                        $this->view->ok = $request->getPost('texto');
 		}
 
 		echo $this->renderScript('json');

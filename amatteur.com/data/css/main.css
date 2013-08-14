@@ -4718,7 +4718,13 @@ input::-moz-focus-inner { border: 0; }
 }
 .agenda .cuerpoMensaje:hover{
 	text-overflow:inherit;
-	overflow:visible;
+	overflow-x:visible;
+}
+.agenda .cuerpoMensaje .editaAgenda{
+	font-size:11px;	
+	height:75px;
+	width:175px;
+	resize:none;
 }
 .btnReply{
 	background-image:url(../images/reply.png);

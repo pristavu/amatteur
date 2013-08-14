@@ -1,9 +1,13 @@
 <div class="agenda">
 	<div class="chinchetaAzul"></div>
-    <?php if($this->enable_edit) { ?>
+    <?php $titulo="";
+	if($this->enable_edit) {
+		$titulo=$this->translate('Click to edit');
+	?>
 		<a class="btnBorrar silverboxMessage" href="<?php echo $this->agenda['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>
     <?php } ?>
-	<div class="cuerpoMensaje">   
-    	<?php echo $this->agenda['texto'];?>
+	<div class="cuerpoMensaje" title="<?php echo $titulo; ?>">   
+    	<textarea id="<?php echo $this->agenda['agenda_id'];?>" class="editaAgenda" style="display:none"><?php echo strip_tags($this->agenda['texto']);?></textarea>
+    	<span class="textoOriginal"><?php echo $this->agenda['texto'];?></span>
 	</div>
 </div>            

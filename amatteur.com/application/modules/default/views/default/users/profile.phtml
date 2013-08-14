@@ -341,6 +341,26 @@ $(document).ready(function(){
 		  effect: "fade",
 		  opacity: 0.7
      	 });
+	$(".agenda .cuerpoMensaje").tooltip({
+		  position: "center right",
+		  offset: [-2, 10],
+		  effect: "fade",
+		  opacity: 0.7
+     	 });
+	var controlSpan="";
+	$(".agenda .cuerpoMensaje").click(function(){
+		controlSpan=$(this).find(".textoOriginal");
+		controlSpan.hide();
+		$(this).find(".editaAgenda").show();
+		$(this).find(".editaAgenda").focus();
+	});
+	$(".agenda .cuerpoMensaje .editaAgenda").live('focusout',function() {
+		$.post('<?php echo $this->edit_agenda;?>', {texto: $(this).val(),agenda_id:$(this).attr("id")}, function(data){
+		}, 'json');
+		controlSpan.html(replaceURLWithHTMLLinks($(this).val()));
+		$(this).hide();
+		controlSpan.show();
+	});
 		//Click de mensajes
 	$('#borrar').click(function(){    
                     $('<div></div>').appendTo('body')
@@ -462,7 +482,7 @@ $(document).ready(function(){
 			$('.navigation.hide a').removeClass('next').filter('.page_'+page).addClass('next');
 		});
 	}
-	$(".cuerpoMensaje").each(function(){
+	$(".cuerpoMensaje .textoOriginal").each(function(){
 		var text = $(this).html();
     	$(this).html(replaceURLWithHTMLLinks(text));
 	});
