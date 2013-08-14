@@ -29,16 +29,25 @@
 			</tbody>
 	</table>
 	<div class='image' style='background:#D9D9D9 !important'>
+            <p class="videoindicator">
 					<?php if($this->pin['is_video']): ?>
-                                            <img src="data/images/VideoIndicator.png" alt="Video" class="video" />
+                                            <a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg'>
+                                                <img  class='notLoadedImg'  alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                                <img src="data/images/VideoIndicator.png" alt="Video" class="video" />                                                
+                                            </a>
 					<?php elseif($this->pin['is_article']): ?>
-                                            <img src="data/images/ico_arti.png"  class="article" alt="Articulo" style="display:block;float:right;"  />
+                                            <a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
+                                                <img src="data/images/ico_arti.png"  class="article" alt="Articulo" style="display:block;float:right;"  />
+                                                <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                            </a>
+					<?php else: ?>
+                                            <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
                                         <?php endif; ?>
 
-		
-		<a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
+	</p>	
+		<!--a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
 				<img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
-		</a>
+		</a-->
 	</div>
 	<p class='pin_description'>
 		<?php echo Helper_Pin::descriptionFix($this->pin['description']); ?>

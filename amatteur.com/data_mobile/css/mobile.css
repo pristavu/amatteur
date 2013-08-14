@@ -40,7 +40,7 @@ height: 34px;
 opacity: 0;
 	
 	
-	filter: progid:DXImageTransform.M
+	/*filter: progid:DXImageTransform.M*/
 }
 	
 	.mbtn.big{
@@ -1059,8 +1059,8 @@ font-size: 25px;
         
     .pin div.image img.video {
         position: absolute;
-        margin-left: -25px;
-        margin-top: -25px;
+        margin-left: 125px;
+        margin-top: -135px;
         left: 50%;
         top: 50%;
         }
@@ -1327,6 +1327,9 @@ font-size: 25px;
         clear: both;
         }
     
+    #profile .profile_header.likes {
+        padding-bottom:60px
+    }        
     #profile .profile_header.bottom {
         margin: 0 -10px 0;
         border-top: 0;
@@ -2712,6 +2715,8 @@ input{
 	}
 
 	.thumb{ display: inline-block; margin-bottom: 5px; width: 113px; float:left; padding:5px;}
+        
+        .videoindicator{ position:relative;}
 
 	#head p{
 		left:-5px;
