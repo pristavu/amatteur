@@ -3271,3 +3271,29 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     color: #8C7E7E;
 }
 
+.person .PersonFollow a.WhiteButton {
+    background-color: #F3F3F3;
+    background-repeat: no-repeat;
+    border: 1px solid #C5C5C5;
+    color: #333333;
+    display: inline;
+    float: left;
+    padding: 3px 10px 3px 10px;
+    text-decoration: none;
+    font-size: 12px;
+}
+.box.follow-box a.WhiteButton {
+    background-color: #F3F3F3;
+    background-repeat: no-repeat;
+    border: 1px solid #C5C5C5;
+    color: #333333;
+    display: inline;
+    margin: 0 auto;
+    padding: 3px 10px 3px 10px;
+    text-decoration: none;
+    font-size: 12px;
+}
+.box a.WhiteButton.disabled,
+.box a.WhiteButton.gray {
+	color: #D1CDCD;
+}
