@@ -1346,7 +1346,43 @@ class Model_Users extends JO_Model {
     	
 		return $user_data;
 	}
-	
+
+        	public static function checkLoginAPP($user_id) {
+		$db = JO_Db::getDefaultAdapter();	
+		$query = $db
+							->select()
+							->from('users')
+							->where('user_id = ?', (string)$user_id)
+							->limit(1);
+		$user_data = $db->fetchRow($query);
+		
+		if($user_data) {
+			$groups = unserialize($user_data['groups']);
+	    	if(is_array($groups) && count($groups) > 0) {
+//	    		unset($user_data['groups']);
+	    		$query_group = $db->select()
+	    							->from('user_groups')
+	    							->where("ug_id IN (?)", new JO_Db_Expr(implode(',', array_keys($groups))));
+	    		$fetch_all = $db->fetchAll($query_group);
+	    		$user_data['access'] = array();
+	    		if($fetch_all) {
+	    			foreach($fetch_all AS $row) {
+	    				$modules = unserialize($row['rights']);
+	    				if(is_array($modules)) {
+	    				    foreach($modules AS $module => $ison) {
+	    					    foreach($ison AS $m => $on) {
+	    						    $user_data['access'][$module][$m] = $m;
+	    					    }
+	    					}
+	    				}
+	    			}
+	    		}
+	    	}
+		}
+    	
+		return $user_data;
+	}
+
 	public static function getUserBoards($data = array()) {
 		$db = JO_Db::getDefaultAdapter();	
 		$query = $db->select()

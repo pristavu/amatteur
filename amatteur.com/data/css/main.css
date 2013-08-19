@@ -1540,7 +1540,15 @@ color: #524D4D;
 .box .info .view .photo .span-video {
     margin-left: auto;
 	margin-right: auto;
+   width: 100%; 
+    height: 100%; 
+    overflow: hidden;        
 }
+.box .info .view .photo .span-video .full-frame{
+    width: 100%; 
+    height: 100%; 
+    overflow: hidden;
+	 }
 .box .info .view .desc {
     font-size: 13px;
     line-height: 1.35em;

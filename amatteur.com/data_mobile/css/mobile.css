@@ -3035,6 +3035,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     width: 100%;
     overflow: auto;
 	padding:5px;
+	padding-top:15px;        
 }
 
 .infoMessage {
@@ -3150,7 +3151,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	width:100%;
 	text-align:center;
 	margin-top:15px;
-}
+} 
 #btnCreaMensaje a{
 	float:none !important;
 	border-radius:5px;-webkit-border-radius: 5px; 
@@ -3303,3 +3304,23 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 .box a.WhiteButton.gray {
 	color: #D1CDCD;
 }
+
+.pin div.image img.article {
+    /*
+	position: absolute;
+	z-index: 1;
+	top: 50%;
+	left: 50%;
+	width: 50px;
+	height: 50px;
+	margin: -25px 0 0 -25px;
+*/  
+    height: 57px;
+    left: 0px;
+    margin: -9px 0 0 0;
+    position: absolute;
+    top: 2px;
+    width: 68px;
+    z-index: 1;
+
+} 

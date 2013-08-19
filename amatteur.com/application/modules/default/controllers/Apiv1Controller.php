@@ -75,11 +75,14 @@ class Apiv1Controller extends JO_Action
                 $_SESSION['token'] = $token;
                 JO_Session::set('token', $token);
 
+                $avatar = Helper_Uploadimages::avatar($result, '_A');
+                
                 $return = array('id' => $result['user_id'],
                     'username' => $result['username'],
                     'token' => $token,
                     'firstname' => $result['firstname'],
-                    'lastname' => $result['lastname']); // $user_data;  
+                    'lastname' => $result['lastname'],
+                    'avatar' => $avatar['image']); // $user_data;  
             } else
             {
                 $return = array('error' => 2, 'description' => $this->translate('This profile is not active.'));
