@@ -2296,3 +2296,15 @@ $.mobile.transitionFallbacks = {};
 $.mobile.getMaxScrollForTransition = $.mobile.getMaxScrollForTransition || defaultGetMaxScrollForTransition;
 })( jQuery, this );
 }));
+
+// you can set this fix in DOM ready or jQM's mobileinit
+ 
+// DOM ready
+$(function(){
+    $.event.special.swipe.scrollSupressionThreshold = 100;
+});
+ 
+// jQM defaults
+$(document).bind("mobileinit", function(){
+    $.event.special.swipe.scrollSupressionThreshold = 100;
+});

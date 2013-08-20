@@ -2275,12 +2275,14 @@ class Apiv1Controller extends JO_Action
                 $_SESSION['token'] = $token;
                 JO_Session::set('token', $token);
 
+                $avatar = Helper_Uploadimages::avatar($result, '_A');
 
                 $return = array('id' => $user_data['user_id'],
                     'username' => $user_data['username'],
                     'token' => $token,
                     'firstname' => $user_data['firstname'],
-                    'lastname' => $user_data['lastname']);
+                    'lastname' => $user_data['lastname'],
+                    'avatar' => $avatar['image']);
             } 
             else
             {
@@ -2398,12 +2400,14 @@ class Apiv1Controller extends JO_Action
                 $_SESSION['token'] = $token;
                 JO_Session::set('token', $token);
 
+                $avatar = Helper_Uploadimages::avatar($result, '_A');
 
                 $return = array('id' => $user_data['user_id'],
                     'username' => $user_data['username'],
                     'token' => $token,
                     'firstname' => $user_data['firstname'],
-                    'lastname' => $user_data['lastname']);
+                    'lastname' => $user_data['lastname'],
+                    'avatar' => $avatar['image']);
             } 
             else
             {

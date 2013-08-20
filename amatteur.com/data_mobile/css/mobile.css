@@ -3317,7 +3317,7 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 */  
     height: 57px;
     left: 0px;
-    margin: -9px 0 0 0;
+    margin: -9px 0 0 250px;
     position: absolute;
     top: 2px;
     width: 68px;
