@@ -32,6 +32,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+$('html, body').animate({ scrollTop: $('#create_new_pin').offset().top }, 'slow');
+
 	regExPrice.addExpresionLine($('#text_message').html(), true);
 	
         
@@ -85,7 +87,8 @@ $(document).ready(function(){
 			}
                         */
 			$('#loading_button').remove();
-                        window.location.href = document.referrer;
+                        var urlmensajes = '<?php echo $this->urlmensajes ;?>';
+			window.location.href = urlmensajes;//document.referrer;
                         $.fancybox.close();
 			
 			

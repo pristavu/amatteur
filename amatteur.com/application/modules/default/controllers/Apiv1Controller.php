@@ -2275,7 +2275,7 @@ class Apiv1Controller extends JO_Action
                 $_SESSION['token'] = $token;
                 JO_Session::set('token', $token);
 
-                $avatar = Helper_Uploadimages::avatar($result, '_A');
+                $avatar = Helper_Uploadimages::avatar($user_data, '_A');
 
                 $return = array('id' => $user_data['user_id'],
                     'username' => $user_data['username'],
@@ -2400,7 +2400,7 @@ class Apiv1Controller extends JO_Action
                 $_SESSION['token'] = $token;
                 JO_Session::set('token', $token);
 
-                $avatar = Helper_Uploadimages::avatar($result, '_A');
+                $avatar = Helper_Uploadimages::avatar($user_data, '_A');
 
                 $return = array('id' => $user_data['user_id'],
                     'username' => $user_data['username'],

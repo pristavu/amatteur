@@ -365,7 +365,7 @@ class UsersController extends JO_Action {
 				{
 					$this->view->has_agendas = true;
 					foreach($agendas AS $agenda) {
-						$agenda['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] );
+						$agenda['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] . '&user_id=' . $user_data['user_id'] );
                     	$this->view->agenda = $agenda;
                         $this->view->agendas_users .= $this->view->render('agenda', 'users');
                     }
@@ -392,7 +392,7 @@ class UsersController extends JO_Action {
 						$avatar = Helper_Uploadimages::avatar( $message, '_A');
                         $message['avatar'] = $avatar['image'];
 						$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
-                        $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] );
+                        $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] .'&user_id=' . $user_data['user_id'] );
                         $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
                         $this->view->message = $message;
                         $this->view->messages_users .= $this->view->render('message', 'users');
@@ -409,7 +409,7 @@ class UsersController extends JO_Action {
 								$avatar = Helper_Uploadimages::avatar( $messageHijo, '_A');
 								$messageHijo['avatar'] = $avatar['image'];
 								$messageHijo['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $messageHijo['user_id']);
-								$messageHijo['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] );
+								$messageHijo['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] .'&user_id=' . $user_data['user_id'] );
 								$messageHijo['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $messageHijo['message_id'] );
 								$this->view->message = $messageHijo;
 								$this->view->messages_users .= $this->view->render('message', 'users');
@@ -474,7 +474,7 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 				{
 					$this->view->has_agendas = true;
 					foreach($agendas AS $agenda) {
-						$agenda['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] );
+						$agenda['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] . '&user_id=' . $user_data['user_id'] );
                     	$this->view->agenda = $agenda;
                         $this->view->agendas_users .= $this->view->render('agendasRender', 'users');
                     }
@@ -501,6 +501,12 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
                 $this->view->user_id = $request->getRequest('user_id');
 	
                 $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopup' );
+                
+                if(JO_Registry::get('isMobile'))
+                {
+                    $this->view->urlagenda = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agenda&user_id=' . $request->getRequest('user_id')   );
+                }
+                
 		
 		$this->view->popup_main_box = $this->view->render('agendaPopup','users');
 		
@@ -534,6 +540,12 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 		$request = $this->getRequest();
                 
                 $this->view->agenda_id = $request->getRequest('agenda_id');
+                
+                if(JO_Registry::get('isMobile'))
+                {
+                    $this->view->urlagenda = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agenda&user_id=' . $request->getRequest('user_id')  );
+                }
+
 
                 $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=agendaPopupDelete' );
 		
@@ -591,7 +603,7 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
                                 $message['avatar'] = $avatar['image'];
 				
 				$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
-                                $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] );
+                                $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] .'&user_id=' . $user_data['user_id'] );
                                 $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
                         
                                     $this->view->message = $message;
@@ -610,7 +622,7 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 								$avatar = Helper_Uploadimages::avatar( $messageHijo, '_A');
 								$messageHijo['avatar'] = $avatar['image'];
 								$messageHijo['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $messageHijo['user_id']);
-								$messageHijo['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] );
+								$messageHijo['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] .'&user_id=' . $user_data['user_id'] );
 								$messageHijo['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $messageHijo['message_id'] );
 								$this->view->message = $messageHijo;
 								$this->view->messages_users .= $this->view->render('message', 'users');
@@ -640,6 +652,12 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 		
 		$request = $this->getRequest();
                 
+                
+                if(JO_Registry::get('isMobile'))
+                {
+                    $this->view->urlmensajes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('board_user')   );
+                }
+
                 $this->view->message_from_id = $request->getRequest('message_from_id');
                 $this->view->user_from = $request->getRequest('user_from');
                 $this->view->user_to = $request->getRequest('user_to');
@@ -685,6 +703,11 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
                 
                 $this->view->message_id = $request->getRequest('message_id');
 	
+                if(JO_Registry::get('isMobile'))
+                {
+                    $this->view->urlmensajes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('user_id')   );
+                }
+
 		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=get_images' );
                 $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete' );
 		

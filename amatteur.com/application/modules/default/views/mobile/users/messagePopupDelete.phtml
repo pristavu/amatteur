@@ -35,6 +35,8 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+$('html, body').animate({ scrollTop: $('#create_new_pin').offset().top }, 'slow');
+
 	$('#emailpin form').unbind('submit').submit(function(){
 		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
 		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
@@ -52,7 +54,8 @@ $(document).ready(function(){
 			}
                         */
 			$('#loading_button').remove();
-                        window.location.href = document.referrer;
+                        var urlmensajes = '<?php echo $this->urlmensajes ;?>';
+			window.location.href = urlmensajes;//document.referrer;
                         $.fancybox.close();
 			
 			

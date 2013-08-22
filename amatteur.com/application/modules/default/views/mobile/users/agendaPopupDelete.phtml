@@ -25,13 +25,16 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
+$('html, body').animate({ scrollTop: $('#create_new_pin').offset().top }, 'slow');
+
 	$('#emailpin form').unbind('submit').submit(function(){
 		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
 		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
                 var agenda_id = $('#agenda_id').val();
 		$.post('<?php echo $this->from_url;?>', {agenda_id:agenda_id}, function(data,status){
 			$('#loading_button').remove();
-					window.location.href = document.referrer;
+                        var urlagenda = '<?php echo $this->urlagenda ;?>';
+			window.location.href = urlagenda;//document.referrer;
                         $.fancybox.close();
 			
 			

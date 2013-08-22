@@ -41,7 +41,13 @@
                                                 <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
                                             </a>
 					<?php else: ?>
-                                            <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                            <?php if ($this->pin['from'] != "") { ?>
+                                                <a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
+                                                    <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                                </a>
+                                            <?php } else { ?>
+                                                <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                            <?php }  ?>
                                         <?php endif; ?>
 
 	</p>	

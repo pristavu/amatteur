@@ -444,7 +444,7 @@ a:hover {
 }
 #menuwrapper .links .last {
     background-image: none;
-    padding-right: 12px;
+    /*padding-right: 12px;*/
     /*width:100px;*/
 }
 #menuwrapper .links li a {
