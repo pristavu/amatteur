@@ -174,7 +174,7 @@ if (!$this->show_header_line && $this->show_header_invate)
                     <li>
                         <a href="<?php echo $this->login; ?>"><img width="16px" height="17px" src="data/images/ico_entrar.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Login'); ?></a></li>
                     <li>
-                        <a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;Regístrate</a></li>
+                        <a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Register'); ?></a></li>
                 <?php } ?>
                 <?php if ($this->is_loged)
                 { ?>
@@ -259,7 +259,8 @@ if (!$this->is_loged)
                             </div>
                     </div>
             -->	
-            <script src="js/jquery-1.5.1.js"></script>
+            <!--script src="js/jquery-1.5.1.js"></script-->
+            <!--script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script-->
             <script>
                 $(document).ready(function() {
                     $("#headerBienve").hide();
@@ -322,7 +323,7 @@ if (!$this->is_loged)
     <?php if (!$this->is_loged)
     { ?>
                         <div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
-                        <div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;Conócenos</a></div>
+                        <div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Know us'); ?></a></div>
     <?php } ?>
                         <div id="muestraBlog"><a href="http://blog.amatteur.com" class="ados" target="_blank">Blog</a></div>
                     </div>

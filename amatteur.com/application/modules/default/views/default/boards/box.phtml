@@ -52,6 +52,10 @@
 			<p class="buttonHolder">
 				<a href="<?php echo $this->board['edit'];?>"><?php echo $this->translate('Edit');?></a>
 			</p>
+                        <?php } else { ?>
+                            <p class="follow">
+                                <a href="<?php echo $this->board['follow'];?>"><?php echo $this->translate('Follow');?></a>
+                            </p>
 			<?php } ?>
 		</div>
 	</div>

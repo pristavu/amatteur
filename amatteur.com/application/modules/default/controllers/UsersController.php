@@ -579,7 +579,27 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
             
                 $request = $this->getRequest();
 
-        
+error_log("antes de APP");
+//para las APP's
+if (isset($_SESSION['token']))
+{
+    error_log("dentro de app");
+    
+        $result = Model_Users::checkLoginAPP($_SESSION['userid']);
+        if ($result)
+        {
+            if ($result['status'])
+            {
+                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                JO_Session::set(array('user' => $result));
+                
+                error_log("fin de app");
+            }  
+        }
+     
+}
+$view->loged = JO_Session::get('user[user_id]');
+
 		$user_data = $this->profileHelp();
         
         
