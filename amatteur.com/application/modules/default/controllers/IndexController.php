@@ -70,28 +70,31 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 		
 		$this->view->pins = '';
 		
-	
+		//error_log("INICIO PINS: ".date("Y-m-d H:i:s"));
 		$pins = Model_Pins::getPins($data);
+		
 		
 		if($pins) {
 			$banners = Model_Banners::getBanners(
 				new JO_Db_Expr("`controller` = '".$request->getController()."' AND position BETWEEN '".(int)$data['start']."' AND '".(int)$data['limit']."'")
 			);
 			$pp = JO_Registry::get('config_front_limit');
+			$cuentaPins=0;
 			foreach($pins AS $row => $pin) {
+				$cuentaPins=$cuentaPins+1;
 				///banners
 				$key = $row + (($pp*$page)-$pp);
 				if(isset($banners[$key])) {
-					$this->view->pins .= Helper_Banners::returnHtml($banners[$key]);	
+					$this->view->pins .= Helper_Banners::returnHtml($banners[$key]);
 				}
 				//pins
 				$this->view->pins .= Helper_Pin::returnHtml($pin);
 			}
+			//error_log("FIN BUCLE (".$cuentaPins." PINS): ".date("Y-m-d H:i:s"));
 			if(JO_Session::get('user[user_id]')) {
 // 				JO_Registry::set('marker', Model_Pins::getMaxPin($data));
 			}
 		}
-		
 		if(!$request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
 			$history = Model_History::getHistory(array(
 				'start' => 0,

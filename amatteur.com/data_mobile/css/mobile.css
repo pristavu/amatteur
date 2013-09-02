@@ -479,9 +479,9 @@ font-size: 25px;
 /* Footer Styles
 -------------------------------------------------------------------------------- */
     #footer {
-        border-top: 1px solid #e0e0e0;
+        /*border-top: 1px solid #e0e0e0;
+		background: #e5e1e1;*/
         margin: 20px -10px 0;
-        background: #e5e1e1;
         position: relative;
         height: 70px;
         clear: both;
@@ -658,11 +658,6 @@ font-size: 25px;
         transition-property: color, box-shadow, text-shadow;
         transition-timing-function: ease-in-out;
         transition-duration: .05s;
-        
-        -webkit-border-radius: 8px;
-        -moz-border-radius: 8px;
-        -ms-border-radius: 8px;
-        border-radius: 8px;
 
         -webkit-tap-highlight-color: transparent;
         border: 1px solid transparent;
@@ -673,8 +668,18 @@ font-size: 25px;
         position: relative;
         padding: 8px 12px;
         line-height: 1em;
+		-webkit-border-radius: 8px;
+        -moz-border-radius: 8px;
+        -ms-border-radius: 8px;
+        border-radius: 8px;
+		margin-top:10px;
         }
-        
+    .mbtn:hover{
+		cursor:pointer;
+	}
+	.mbtn.disabled:hover{
+		cursor:default;
+	}
     .mbtn span {
        /* -webkit-box-shadow: inset 0 1px rgba(255,255,255,0.35);
         -moz-box-shadow: inset 0 1px rgba(255,255,255,0.35);
@@ -727,10 +732,6 @@ font-size: 25px;
         border: 1px solid #d9d9d9;
         }
         
-    .comment_btn {
-        /*margin-right: 10px;*/
-        font-size:12px;
-        }
         
     /* White Button ------------------------------------------------------------------------ */
     .white {
@@ -1150,21 +1151,11 @@ font-size: 25px;
     .pin .pin_actions .comment_btn,
     .pin .pin_actions .like_btn,
     .pin .pin_actions .unlike_btn,
-    .pin .pin_actions .repin_btn {
+    .pin .pin_actions .repin_btn,.pin .pin_actions .edit_btn {
         clear: both;
         float: left;
         margin: 0 0 5px 0;
      }
-
-    .repin_btn{
-    	/*margin-left:12%;*/
-		font-size:12px;
-    
-	}
-	
-	.like_btn{
-		font-size:12px;
-	}
 	
     
     .en .pin .pin_actions .comment_btn,
@@ -1736,7 +1727,7 @@ font-size: 25px;
         }
 
     .repin .social {
-        margin-top: 8px 0 0;
+        margin-top: 8px;
         }
 
     .repin .half {
@@ -2875,10 +2866,44 @@ input{
 }
 
        
+/* #### Mobile Phones Portrait #### */
+@media screen and (max-device-width: 480px) and (orientation: portrait){
+  /* some CSS here */
+  .FixedContainer {width: 479px;}
+}
 
+/* #### Mobile Phones Landscape #### */
+@media screen and (max-device-width: 640px) and (orientation: landscape){
+  /* some CSS here */
+  .FixedContainer {width: 639px;}
+}
+
+/* #### Mobile Phones Portrait or Landscape #### */
+@media screen and (max-device-width: 640px){
+  /* some CSS here */
+  .FixedContainer {width: 639px;}
+}
+
+/* #### iPhone 4+ Portrait or Landscape #### */
+@media screen and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2){
+  /* some CSS here */
+  .FixedContainer {width: 479px;}
+}
+
+/* #### Tablets Portrait or Landscape #### */
+@media screen and (min-device-width: 768px) and (max-device-width: 1024px){
+  /* some CSS here */
+  .FixedContainer {width: 767px;}
+}
+
+/* #### Desktops #### */
+@media screen and (min-width: 1024px){
+  /* some CSS here */
+  .FixedContainer {width: 1023px;}
+}
 .FixedContainer {
     margin: 0 auto;
-    width: 852px;
+	float:left;
 }
 
 #ProfileHeader .row > div {
@@ -3152,21 +3177,6 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	text-align:center;
 	margin-top:15px;
 } 
-#btnCreaMensaje a{
-	float:none !important;
-	border-radius:5px;-webkit-border-radius: 5px; 
-	-moz-border-radius: 5px;
-	margin-top:0 !important;
-	font-size:12px;
-	font-weight:bold;
-	font-size: 11px;
-	color: #FCF9F9;
-	font-weight: bold;
-	float: right;
-	margin-top: 5px;
-    padding: 5px;
-	background-color: #0070BF !important;
-}
 
 #ProfileHeader .infoBody p.noAgenda img {
     margin-left: 8px;
@@ -3324,3 +3334,9 @@ input[type=text]:focus, input[type=password]:focus, textarea:focus {
     z-index: 1;
 
 } 
+
+.pull-right{float:right;}
+.pull-left{float:left;}
+.hide{display:none;}
+.show{display:block;}
+.invisible{visibility:hidden;}

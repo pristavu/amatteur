@@ -15,11 +15,13 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 			$img = $pin['image'];
 		}
 		
-		$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
+		//$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
+		$img = 'http://images.amatteur.com/' . $img;
 		if( ( $img_size = @getimagesize($img) ) !== false ) {
 			return array(
 				'image' => $img,
-				'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $pin['image'],
+				//'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $pin['image'],
+				'original' => 'http://images.amatteur.com/' . $pin['image'],
 				'width' => $img_size[0],
 				'height' => $img_size[1],
 				'mime' => $img_size['mime']
@@ -113,7 +115,7 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 					ini_set('user_agent', $user_agent);
 						
 					//if ( self::uploatToServer(BASE_PATH . '/uploads/cache_pins/' . $image_path . $name, $image_path . $name) ) {
-                                        if ( self::uploatToServer(BASE_PATH . '/uploads/cache_pins/' . $image_path . $name, $name) ) {                                        
+                    if ( self::uploatToServer(BASE_PATH . '/uploads/cache_pins/' . $image_path . $name, $image_path .$name) ) {                                        
 			
 						$model_images = new Helper_Images();
 			
@@ -306,10 +308,12 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 		}
 		
 		$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
+		$img = 'http://images.amatteur.com/' . $img;
 		if( ( $img_size = @getimagesize($img) ) !== false ) {
 			return array(
 				'image' => $img,
-				'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $user['avatar'],
+				//'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $user['avatar'],
+				'original' => 'http://images.amatteur.com/' . $user['avatar'],
 				'width' => $img_size[0],
 				'height' => $img_size[1],
 				'mime' => $img_size['mime']

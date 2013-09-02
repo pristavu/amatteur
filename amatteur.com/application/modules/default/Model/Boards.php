@@ -385,7 +385,6 @@ class Model_Boards {
 							->where('boards.board_id = ?', (int)$board_id)
 							/*->where('users_boards.user_id = ?', (int)$user_id)*/
 							->limit(1);
-		
 		$data = $db->fetchRow($query);
 	
 		if(!$data) {
@@ -580,6 +579,7 @@ class Model_Boards {
 		
 		$index = 1;
 		$db->query("DELETE FROM url_alias WHERE query = 'board_id=" . $board_id . "'");
+		
 		/*while (self::getTotalKey($uniqueSlug)) {
 			$uniqueSlug = $slug . '-' . $index ++;
 		}*/
@@ -609,7 +609,6 @@ class Model_Boards {
 		$array['default'] = 'default';
 		
 		$array = JO_Utf8::array_change_key_case_unicode($array);
-		
 		return self::rename_if_exists($array, mb_strtolower($uniqueSlug, 'utf-8'));
 	}
 	

@@ -92,6 +92,7 @@ class Helper_Pin {
 			'limit' => 6
 		)); 
 		$data = array();
+		
 		if($pins) {
 			foreach($pins AS $pin) {
 
@@ -197,7 +198,6 @@ class Helper_Pin {
 	}
 
 	public static function returnHtml($pin, $recache = false) { 
-	
 		static $view = null, $model_images = null, $request = null;
 		if($view === null) { $view = JO_View::getInstance(); }
 		if($model_images === null) { $model_images = new Helper_Images(); }
@@ -260,7 +260,7 @@ class Helper_Pin {
 			$pin['url_like'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=like&pin_id=' . $pin['pin_id'] );
 			$pin['url_repin'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=repin&pin_id=' . $pin['pin_id'] );
 			$pin['url_comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );
-                        $pin['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );                        
+            $pin['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );                        
 			$pin['edit'] = JO_Session::get('user[user_id]') == $pin['user_id'] ? WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=edit&pin_id=' . $pin['pin_id'] ) : false;
 		} else {
 			$pin['url_like'] = $pin['url_repin'] = $pin['url_comment'] = $pin['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=landing' );
@@ -332,7 +332,7 @@ class Helper_Pin {
 				Model_Pins::generateCache($cache_file, $response);
 			}
 		}
-		
+
 		return $response;
 	}
 	
@@ -456,11 +456,11 @@ class Helper_Pin {
 	
 
 	public static function returnHtmlDetail($pin, $banners = false) {
+		//XPER: función que carga PIN
 		static $view = null, $model_images = null, $request = null;
 		if($view === null) { $view = JO_View::getInstance(); }
 		if($model_images === null) { $model_images = new Helper_Images(); }
 		if($request === null) { $request = JO_Request::getInstance(); }
-		
 		
 		$next_pin = Model_Pins::getNextPin($pin['pin_id']);
 		if($next_pin) {
@@ -470,7 +470,6 @@ class Helper_Pin {
 		if($prev_pin) {
 			$view->prev_navigation_pin = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $prev_pin['pin_id'] );
 		}
-		
 		
 		$image = call_user_func(array(self::formatUploadModule($pin['store']), 'getPinImage'), $pin, '_B');
 		if($image) {
@@ -491,7 +490,6 @@ class Helper_Pin {
 		} else {
 			JO_Action::getInstance()->forward('error', 'error404');
 		}
-		
 		
 		
 		$pin_description = self::descriptionFix($pin['description']);

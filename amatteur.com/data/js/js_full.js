@@ -2713,10 +2713,11 @@ catch(e)
 /* add masonry container */
 $(window).load(function(){
 	
-	onComplete = function() {
+	/*onComplete = function() {
         var containerwidth = $("#container").width(); 
+		alert(containerwidth);
 		$("#topwrapper, #menuwrapper, #category").css({'width' : containerwidth + 'px'});
-    };
+    };*/
 	
 	$('#container').masonry({
 		itemSelector : '.box',
@@ -2728,8 +2729,8 @@ $(window).load(function(){
 		animate: true,
 		animationOptions: {
 			duration: 500,
-			queue: false,
-			complete: onComplete
+			queue: false/*,
+			complete: onComplete*/
 		}
 
 	});
@@ -2739,7 +2740,8 @@ $(window).load(function(){
 	if(containerwidth < max_size) {
 		containerwidth = max_size;
 	}
-	$("#topwrapper, #menuwrapper, #category").css({'width' : containerwidth + 'px'});
+	/*alert(containerwidth);
+	$("#topwrapper, #menuwrapper, #category").css({'width' : containerwidth + 'px'});*/
 
 });
 
@@ -3413,6 +3415,7 @@ var Pins = {
 	},
 	opener: '',
 	initPopupOpener: function($pin, opener){
+		//XPER: Inicio de ventana de PIN
 		hist = new JoGetPinsHistory();
 		
 		var opener = Pins.opener = window.location.href;
@@ -3439,7 +3442,7 @@ var Pins = {
 			'onStart' : function(){
 				
 				/*$('#fancybox-wrap, .pin-overlay, #fancybox-overlay').addClass('visibility_hidden');*/
-				
+				$('#container').infinitescroll('pause');
 				$("#fancybox-wrap").wrap('<div class="pin-overlay" />');
 			    $("body").addClass('noscroll');
 			    $(".scrolltotop").hide();
@@ -3459,7 +3462,6 @@ var Pins = {
 			    $("#buttonswrapper-popup").hide();
 	        },
 	        'onComplete' : function(a){
-	        	
 	        	/*var fwarap = $('#fancybox-wrap');
 	        	
 	        	fwarap.css({'margin-top': -(fwarap.innerHeight(true) + 100)}).removeClass("visibility_hidden");
@@ -3504,7 +3506,6 @@ var Pins = {
 	        	
 	        }, 
 	        'onClosed': function(){
-	        	$('#container').infinitescroll('resume');
 	        	if(opener) {
                             if (navigator.userAgent.indexOf('MSIE') ==-1) {                                
 	        		hist.setPage({'pin_id': $pin.attr('id')}, opener);
@@ -6771,7 +6772,6 @@ function resend_email_verification(){
 	$.infinitescroll.prototype = {
 	
 	    _binding: function infscr_binding(binding) {
-	
 	        var instance = this,
 				opts = instance.options;
 	
@@ -6815,13 +6815,13 @@ function resend_email_verification(){
 	        if (!path) { this._debug('Navigation selector not found'); return; }
 	        
 	        opts.path = this._determinepath(path);
-	
+			
 	        opts.loading.msg = $('<div id="infscr-loading"><img alt="Loading..." src="' + opts.loading.img + '" /><div>' + opts.loading.msgText + '</div></div>');
 	
 	        (new Image()).src = opts.loading.img;
 	
 	        opts.pixelsFromNavToBottom = $(document).height() - $(opts.navSelector).offset().top;
-	
+
 	        opts.loading.start = opts.loading.start || function() {
 				
 				$(opts.navSelector).hide();
@@ -6936,8 +6936,7 @@ function resend_email_verification(){
 	
 	    },
 	
-	    _loadcallback: function infscr_loadcallback(box, data) {
-	
+	    _loadcallback: function infscr_loadcallback(box, data) {	
 	        var opts = this.options,
 	    		callback = this.options.callback, 
 	    		result = (opts.state.isDone) ? 'done' : (!opts.appendCallback) ? 'no-append' : 'append',
@@ -7004,9 +7003,10 @@ function resend_email_verification(){
 	    },
 	
 	    _nearbottom: function infscr_nearbottom() {
-	
+
 	        var opts = this.options,
 	        	pixelsFromWindowBottomToBottom = 0 + $(document).height() - (opts.binder.scrollTop()) - $(window).height();
+				
 	
 			if (!!opts.behavior && this['_nearbottom_'+opts.behavior] !== undefined) {
 				this['_nearbottom_'+opts.behavior].call(this);
@@ -7014,13 +7014,14 @@ function resend_email_verification(){
 			}
 	
 			this._debug('math:', pixelsFromWindowBottomToBottom, opts.pixelsFromNavToBottom);
-	
-	        return (pixelsFromWindowBottomToBottom - opts.bufferPx < opts.pixelsFromNavToBottom);
+			
+	        //return (pixelsFromWindowBottomToBottom - opts.bufferPx < opts.pixelsFromNavToBottom);
+			return (pixelsFromWindowBottomToBottom < 750);
 	
 	    },
 	
 	    _pausing: function infscr_pausing(pause) {
-	
+
 	        var opts = this.options;
 	
 			if (!!opts.behavior && this['_pausing_'+opts.behavior] !== undefined) {
@@ -7117,11 +7118,11 @@ function resend_email_verification(){
 		},
 		
 		resume: function infscr_resume() {
+
 			this._pausing('resume');
 		},
 	
 	    retrieve: function infscr_retrieve(pageNum) {
-	
 	        var instance = this,
 				opts = instance.options,
 				path = opts.path,
@@ -7572,15 +7573,16 @@ $(window).load(function(){
 			},
 		
 			function( newElements ) { 
+				//alert("Carga callback");
 				page++;
 				var $newElems = $( newElements );
 				$container.masonry( "appended", $newElems );
 				$newElems.find('.thumb img').LazyLoad();
-				$.ajax({
-					url: (window.Pins.url+(window.Pins.url.indexOf('?')>-1?'&':'?')+'page=' +(page+1)),
-					dataType: "jsonp",
-					jsonp: "jsoncallback"
-				});
+				//$.ajax({
+					//url: (window.Pins.url+(window.Pins.url.indexOf('?')>-1?'&':'?')+'page=' +(page+1)),
+					//dataType: "jsonp",
+					//jsonp: "jsoncallback"
+				//});
 				$('.navigation.hide a').removeClass('next').filter('.page_'+page).addClass('next');
 				
 				Pins.init();
@@ -7604,10 +7606,10 @@ $(window).load(function(){
 		if(containerwidth < 850) {
 			containerwidth = 850;
 		}
-		$("#topwrapper, #menuwrapper, #category").css({'width' : containerwidth + 'px'});
+		/*$("#topwrapper, #menuwrapper, #category").css({'width' : containerwidth + 'px'});
 		
 	
-		$('#TopNagCallout .LiquidContainer').css({'width' : $("#topwrapper").width() + 'px'});
+		$('#TopNagCallout .LiquidContainer').css({'width' : $("#topwrapper").width() + 'px'});*/
 		
 	}, 2000);
 	

@@ -4,37 +4,51 @@
 }    
 ?>
 <script type='text/javascript' src='data/js/js_full.js'></script>
+<script type='text/javascript'>
+	function Modal_hide_delete() {
+		$("#create_new_pin").hide();
+		$(".noMessage").fadeIn();
+		$("#text_message").val("");
+		return false;
+	}
+</script>
 <div id='profile'>
 	<div class='banner'>
                         <div class="infoMessage"> 
                             <?php if($this->has_messages || !$this->enable_edit) { ?>
                             <h3><?php echo $this->translate('Conversation');?></h3>
-                            <?php if($this->loged) { ?> 
+                            <?php if($this->userdata["user_id"]>0) { ?> 
                             	 <div id="btnCreaMensaje"> 
-                                    <a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                    <a href="<?php echo $this->popup_messages;?>" class="white mbtn silverboxMessage" title="<?php echo $this->translate('Create a Message');?>" id="crearMensaje"><?php echo $this->translate('Create a Message');?></a>
                                  </div>
                                     <?php } ?>
-                            <?php echo "logadouno". $this->loged ."-"; ?>
-                            <p class="colorless noMessage">
+                            <div class="noMessage">
                                 <?php echo $this->messages_users ?>&nbsp;
-                            </p>
+                            </div>
                             <?php } else { ?>
                             <h3><?php echo $this->translate('Conversation');?></h3>
-                            <?php if($this->loged) { ?> 
+                            <?php if($this->userdata["user_id"]>0) { ?> 
                             	 <div id="btnCreaMensaje"> 
-                                    <a href="<?php echo $this->popup_messages;?>" class="Button RedButton message silverboxMessage" title="<?php echo $this->translate('Create a Message');?>"><?php echo $this->translate('Create a Message');?></a>
+                                    <a href="<?php echo $this->popup_messages;?>" class="white mbtn silverboxMessage" title="<?php echo $this->translate('Create a Message');?>" id="crearMensaje"><?php echo $this->translate('Create a Message');?></a>
                                  </div>
                                     <?php } ?>
-                            <?php echo "logadodos". $this->loged ."-"; ?>
-                            <p class="colorless noMessage">
-                                    <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>
-                                    
-                            </p>
+                            <div class="noMessage">
+                                    <em><?php echo $this->translate('You have no messages right now. Write one!');?></em>    
+                            </div>
                             <?php } ?>
                         </div>
       </div></div>
 <script type="text/javascript">
 $(document).ready(function(){    
+	$("#crearMensaje").click(function(){
+			$(".noMessage").hide();
+		});
+	$(".btnReply").click(function(){
+			$(".noMessage").hide();
+		});
+	$(".btnBorrar").click(function(){
+			$(".noMessage").hide();
+		});
 	$(".cuerpoMensaje").each(function(){
 		var text = $(this).html();
     	$(this).html(replaceURLWithHTMLLinks(text));

@@ -655,6 +655,7 @@ class Model_Pins {
 	}
 	
 	public static function getPin($pin_id, $fields = array('*')) {
+		
 		$db = JO_Db::getDefaultAdapter();
 
 		$query = $db->select()
@@ -684,7 +685,7 @@ class Model_Pins {
 			'filter_pin_id' => $pin_id
 		)) : 0;
 		$result['liked'] = $result['likes'] ? self::pinIsLiked($result['pin_id']) : 0;
-		
+
 		return $result;
 	}
   	
@@ -798,7 +799,6 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-                error_log($query);
 //echo $query.'<hr />';
 		$results = $db->fetchAll($query);
 		$results_array = array();
@@ -818,7 +818,6 @@ class Model_Pins {
 		}
 		
 //		var_dump( microtime(true)-JO_Registry::get('start_microtime') ); exit;
-		
 		return $results_array;
 	}
 

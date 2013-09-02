@@ -600,17 +600,17 @@ $(".like_btn").live('tap',function(event){
 					if($(that).parent().prev().find($('.icon'))){
 						
 						if($(that).attr('data-liked') == 0){
-							that.find('strong').text('Unlike')
+							that.find('strong').text(genericUnlike)
 							$(that).attr('data-liked',1)
 							$(that).addClass('pressed');
 							$(that).parent().prev().find('.pin_likes .likeIcon').addClass('icon');
-							$(that).parent().prev().find('.pin_likes span').text(lt+1);
+							$(that).parent().prev().find('.pin_likes span').html('<img width="15px" height="14px" src="data/images/ico_mg.png" alt="Me gusta" /> ' + (lt+1));
 						}
 						else{
-							that.find('strong').text('Like')
+							that.find('strong').text(genericLike)
 							$(that).attr('data-liked',0)
 							$(that).removeClass('pressed');
-							$(that).parent().prev().find('.pin_likes span').text(lt-1);
+							$(that).parent().prev().find('.pin_likes span').html('<img width="15px" height="14px" src="data/images/ico_mg.png" alt="Me gusta" /> ' + (lt-1));
 								
 						}
 						

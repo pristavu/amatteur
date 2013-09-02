@@ -4,6 +4,14 @@
 }    
 ?>
 <script type='text/javascript' src='data/js/js_full.js'></script>
+<script type='text/javascript'>
+	function Modal_hide_delete() {
+		$("#create_new_pin").hide();
+		$(".noAgenda").fadeIn();
+		$("#texto").val("");
+		return false;
+	}
+</script>
 <div id='profile'>
 	<div class='banner'>
         <div class="infoBody">    
@@ -11,7 +19,7 @@
                             	<h3><?php echo $this->translate('Diary & News');?></h3>
                                 <div id="btnCreaMensaje">    
                                 	<?php if($this->enable_edit) { ?>                       
-                                	<a id="crearAgenda" href="<?php echo $this->popup_agenda;?>" class="Button RedButton message silverboxMessage" ><?php echo $this->translate('Create an Event');?></a>
+                                	<a id="crearAgenda" href="<?php //echo $this->popup_agenda;?>#" class="white mbtn" ><?php echo $this->translate('Create an Event');?></a>
                                     <?php } ?>
                                 </div> 
                             </div>    
@@ -22,12 +30,45 @@
                                     <em><?php echo $this->translate('You have no calendar right now. Write a little bit about your calendar!');?></em>
                                 <?php } ?>
                             </div>
-                        </div>
-</div></div>
+    	</div>
+	</div>
+</div>
+<div id="create_new_pin" class="hide">
+	<div id="content-holder">
+		<div id="emailpin">
+			<form action="" method="post">
+				<div class="hide">
+                	<input type="hidden" name="user_id" id="user_id" value="<?php echo $this->userdata["user_id"];?>">
+				</div>
+				
+				<div class="left w335px">
+					<p>
+						<label for="message"><?php echo $this->translate('New Agenda');?>:<br></label>
+						<textarea name="texto" id="texto" rows="5" cols="30"></textarea>
+					</p>
+					<p class="text_counter"></p>
+					<p class="submit">
+                    	<input class="disabled white mbtn" type="submit" value="<?php echo $this->translate('Pinit');?>">
+                        <a onclick="Modal_hide_delete(); return false" class="white mbtn" href="#"><?php echo $this->translate('Cancel');?></a>
+                    </p>
+                        
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
 <script type="text/javascript">
 $(document).ready(function(){
 	<?php if($this->enable_edit) { ?>
 		var controlSpan="";
+		$("#crearAgenda").click(function(){
+			$(".noAgenda").hide();
+			$("#create_new_pin").fadeIn();
+			$("#texto").focus();
+			return false;
+		});
 		$(".agenda .cuerpoMensaje").click(function(){
 			controlSpan=$(this).find(".textoOriginal");
 			controlSpan.hide();
@@ -40,6 +81,37 @@ $(document).ready(function(){
 			controlSpan.html(replaceURLWithHTMLLinks($(this).val()));
 			$(this).hide();
 			controlSpan.show();
+		});
+		$('#texto').jqEasyCounter({
+			holder: 'p.text_counter',
+			maxChars: 255,
+			maxCharsWarning: 225,
+			template: '{count}'
+		}).bind("keydown keyup keypress focus paste",function() {
+			regExPrice.addExpresionLine(this.value);
+					if($.trim($('#texto').val())) {
+							$('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+					} 
+					else 
+					{
+							$('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+					}
+			regExPrice.addExpresionLine(this.value, false);
+		});
+		$('#emailpin form').unbind('submit').submit(function(){
+			$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+			$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+					var user_id = $('#user_id').val();
+					var texto = $('#texto').val();
+					  
+			$.post('/users/agendaPopup', {user_id:user_id, texto:texto}, function(data,status){
+				
+				$('#loading_button').remove();
+							location.reload();                      
+				
+				
+					});
+			return false;
 		});
 	<?php } ?>
 	$(".cuerpoMensaje .textoOriginal").each(function(){

@@ -31,10 +31,10 @@ img {
 input[type=text]:focus, input[type=password]:focus, textarea:focus {
 	outline: 0 none;
 }
-input::-moz-focus-inner {
+/*input::-moz-focus-inner {
     border: 0;
     padding: 0;
-}
+}*/
 a {
     text-decoration: none;
 	/*color: #221919;*/
@@ -80,7 +80,7 @@ a:hover {
     margin-right: auto;
     margin-left: auto;
     position: relative;
-    min-width:1050px;
+    width:1170px !important;
 }
 #topwrapper .search {
     height: 28px;
@@ -389,14 +389,14 @@ a:hover {
 }
 #menu.fixed {
     position: fixed !important;
-    top: 56px; !important;
+    top: 56px !important;
 }
 #menuwrapper {
     margin-right: auto;
     margin-left: auto;
     position: relative;
     height: 34px;
-    min-width:1065px;
+    width:1170px !important;
 }
 #menuwrapper .menubienvenido {
 	float:left;
@@ -420,7 +420,7 @@ a:hover {
 #menuwrapper .menumenus {
     padding-top:3px;
 	float:right;
-    width:750px;
+    width:850px;
     float:right;
 }
 #menuwrapper .links {
@@ -430,7 +430,7 @@ a:hover {
     line-height: 15px;
     position: absolute;
     /*left: 50%;*/
-    width:750px;
+    width:850px;
     float:right;
 }
 #menuwrapper .links li {
@@ -3108,12 +3108,12 @@ color: #524D4D;
 .fancybox-ie6 #fancybox-title-float-right { background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./images/fancybox/fancy_title_right.png', sizingMethod='scale'); }
 
 .fancybox-ie6 #fancybox-bg-w, .fancybox-ie6 #fancybox-bg-e, .fancybox-ie6 #fancybox-left, .fancybox-ie6 #fancybox-right, #fancybox-hide-sel-frame {
-	height: expression(this.parentNode.clientHeight + 'px');
+	/*height: expression(this.parentNode.clientHeight + 'px');*/
 }
 
 #fancybox-loading.fancybox-ie6 {
 	position: absolute; margin-top: 0;
-	top: expression( (-20 + (document.documentElement.clientHeight ? document.documentElement.clientHeight/2 : document.body.clientHeight/2 ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop )) + 'px');
+	/*top: expression( (-20 + (document.documentElement.clientHeight ? document.documentElement.clientHeight/2 : document.body.clientHeight/2 ) + ( ignoreMe = document.documentElement.scrollTop ? document.documentElement.scrollTop : document.body.scrollTop )) + 'px');*/
 }
 
 #fancybox-loading.fancybox-ie6 div	{ background: transparent; filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='./images/fancybox/fancy_loading.png', sizingMethod='scale'); }
@@ -3652,7 +3652,7 @@ a.link:hover {
 	color:#aaaaaa;
 	width: 330px;
 	word-wrap: break-word;
-	break-word: break-all;
+	word-break: break-all;
 }
 
 #create_new_pin #content-holder #emailpin form p input[type=text] {
@@ -3873,8 +3873,8 @@ a.link:hover {
 	background: -webkit-gradient(linear, 0% 0%, 0% 100%, from(#FDFAFB), to(#F0EDED), color-stop(.5,#F9F7F7),color-stop(.5,#F6F3F4));
 }
 
-button::-moz-focus-inner { border: 0; }
-input::-moz-focus-inner { border: 0; }
+/*button::-moz-focus-inner { border: 0; }
+input::-moz-focus-inner { border: 0; }*/
 :focus, :active, a, label
 {
   -moz-outline-style: none;
@@ -4352,7 +4352,7 @@ input::-moz-focus-inner { border: 0; }
 
 #FriendSelectorInput {
 	position: relative;
-	margin: 10px 0 5x 0;
+	margin: 10px 0 5px 0;
 	border-bottom: 1px solid #E2E2E2;
 	padding: 10px 0;
 	text-align: center;
@@ -7429,10 +7429,12 @@ pre, code, kbd, samp, tt {
 }
 
 #inv-boards {
-    margin-left: auto;
+  /*margin-left: auto;
     margin-right: auto;
-    width: 1185px;
-    list-style: none;
+	list-style: none;*/
+    width: 750px;
+    float:left;
+	margin-bottom:35px;
 }
 
 h2.inv-title {
@@ -7448,13 +7450,13 @@ h2.inv-title {
 .inv-box {
 	position: absolute; 
 	top: 10px;
-	left: 11px;
+	left: 2px;
 	display: block;
 	width: 180px;
 	height:65px;
 	background:#ffffff;
 	border-radius:5px;
-	padding:10px;
+	padding:20px;
 	-webkit-box-shadow: 0px 0px 5px 2px rgba(000, 000, 000, 0.3);
 	box-shadow: 0px 0px 5px 2px rgba(000, 000, 000, 0.3);
 }
@@ -8059,12 +8061,13 @@ display:block;
 
 .slides_controlls{
 margin-top: 0px;
-width: 400px;
+width: 450px;
 left: 50%;
 margin-left: -200px;
 text-align: center;
 position: absolute;
 height: 40px;
+top:270px;
 }
 
 .slides_controlls ul{
@@ -8102,7 +8105,7 @@ width: 15px;
 	padding:5px;
 	top:188px;
 	left:10%;
-	over-flow:hidden;
+	overflow:hidden;
 }
 
 #muestraBienvenida{
@@ -8135,7 +8138,7 @@ width: 15px;
 	padding:5px;
 	top:90px;
 	left:10%;
-	over-flow:hidden;
+	overflow:hidden;
 }
 
 #headerVideo .headerVideoImage {
@@ -8306,8 +8309,8 @@ display:none;
 }
 
 .c_icons_small_pb{
-	-webkit-transform-style: none;
-	-webkit-transform-origin:none;
+	/*-webkit-transform-style: none;
+	-webkit-transform-origin:none;*/
 	-webkit-transform: none;
 	-webkit-transition:none;
 	z-index:10000;
@@ -8481,8 +8484,8 @@ left:0px;
 	-o-transform: rotateZ(90deg);
 	-o-transition:.2s linear;
 
-	transform-style: preserve-3d;
-	transform-origin:0px 0px;
+	/*transform-style: preserve-3d;
+	transform-origin:0px 0px;*/
 	transform: rotate3d(0,1,0,-90deg);
 	transition:.2s linear;
 	
@@ -8506,8 +8509,8 @@ left:0px;
 	-o-transform: rotateZ(-90deg);
 	-o-transition-duration:.2s;
 
-	transform-style: preserve-3d;
-	transform-origin:0px 0px;
+	/*transform-style: preserve-3d;
+	transform-origin:0px 0px;*/
 	transform: rotateZ(0);
 	transition:.2s linear;
 	
@@ -8583,3 +8586,19 @@ span .likeIcon{
 	position:absolute;
 	left:0px;
 }
+
+
+.tooltip{position:absolute;z-index:1020;display:block;padding:5px;font-size:11px;opacity:0;filter:alpha(opacity=0);visibility:visible}
+.tooltip.in{opacity:0.8;filter:alpha(opacity=80);}
+.tooltip.top{margin-top:-2px;border:none !important;background-color:transparent !important}
+.tooltip.right{margin-left:2px;}
+.tooltip.bottom{margin-top:2px;}
+.tooltip.left{margin-left:-2px;}
+.tooltip.top .tooltip-arrow{bottom:0;left:50%;margin-left:-5px;border-top:5px solid #000000;border-right:5px solid transparent;border-left:5px solid transparent;}
+.tooltip.left .tooltip-arrow{top:50%;right:0;margin-top:-5px;border-top:5px solid transparent;border-bottom:5px solid transparent;border-left:5px solid #000000;}
+.tooltip.bottom .tooltip-arrow{top:0;left:50%;margin-left:-5px;border-right:5px solid transparent;border-bottom:5px solid #000000;border-left:5px solid transparent;}
+.tooltip.right .tooltip-arrow{top:50%;left:0;margin-top:-5px;border-top:5px solid transparent;border-right:5px solid #000000;border-bottom:5px solid transparent;}
+.tooltip-inner{max-width:200px;padding:3px 8px;color:#ffffff;text-align:center;text-decoration:none;background-color:#000000;-webkit-border-radius:4px;-moz-border-radius:4px;border-radius:4px;}
+.tooltip-arrow{position:absolute;width:0;height:0;}
+.fade{opacity:0;-webkit-transition:opacity 0.15s linear;-moz-transition:opacity 0.15s linear;-ms-transition:opacity 0.15s linear;-o-transition:opacity 0.15s linear;transition:opacity 0.15s linear;}
+.fade.in{opacity:1;}

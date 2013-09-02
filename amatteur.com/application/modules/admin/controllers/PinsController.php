@@ -22,6 +22,7 @@ class PinsController extends JO_Action {
 	}
 	
 	public function indexAction() {
+		
 		if($this->session->get('successfu_edite')) {
     		$this->view->successfu_edite = true;
     		$this->session->clear('successfu_edite'); 

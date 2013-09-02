@@ -18,7 +18,6 @@ $(document).ready(function(){
 			$(".slides_controlls ul li a").click(function(event){
 				event.preventDefault();
 			});	
-			
 			startSlide();
 		}
 	});
@@ -47,10 +46,10 @@ $(document).ready(function(){
 
 		
 		var count = $(".slides_container div").size();
-		
+		var i=0;
 		
 		var interval = setInterval(function(){
-			var i = $('.activeImg').data('count');
+			//var i = $('.activeImg').data('count');
 			
 			$(".slides_controlls ul li a").click(function(event){
 				i = $('.activeImg').data('count');
@@ -68,10 +67,9 @@ $(document).ready(function(){
 			});
 			
 			var next  = $(".activeImg").next();
-			
+
 			var nextControll = $(".slides_controlls ul li a span.activeControll").parent().parent().next();
-			
-			
+
 			if(i < count-1){
 				$(".activeImg").hide().removeClass("activeImg").addClass("hidden");
 				$(".slides_controlls ul li a span.activeControll").removeClass('activeControll');

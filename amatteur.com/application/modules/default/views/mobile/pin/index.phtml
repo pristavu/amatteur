@@ -86,7 +86,7 @@
 				   
 					</div>
                     
-                    		<?php if($_SESSION['pintastic']['user']['user_id'] !== 0): ?>
+                    		<?php if($this->loged): ?>
 							<div style='text-align: center;width: 100%;padding-bottom:10px' >
 		    				<a class="comment_btn white mbtn" id='commentButton' title="" ontouchstart="commentPin(event)" ><strong><?php echo $this->translate('Comment');?></strong><span></span></a>
 		    			    <a href='<?php echo $this->pin['url_like'] ?>' ontouchstart='likePin(event)' class="white mbtn like_btn" data-liked='<?php echo $this->pin['liked'] ?>'> 
@@ -105,6 +105,11 @@
 		    			    </a>
 		    			 
 		    				<a class="repin_btn white mbtn" href="<?php echo $this->pin['url_repin'] ?>" title="" ontouchstart="repin(event)"><strong>Repin</strong><span></span></a>
+                            <?php if($this->pin['edit']){?>
+                                <a href='<?php echo  $this->pin['edit'];?>' class='repin_btn white mbtn' title="<?php echo $this->translate('Edit');?>">
+                                	<strong><?php echo $this->translate("Edit"); ?></strong>
+                                </a>
+							<?php }?>
 							</div>
 							<?php endif; ?>
 				                     	
@@ -150,18 +155,18 @@
                         <a class="tappable_link" href="/lbh3/it-will-be-mine-oh-yes/">
                             <div class="tappable">
                               <a class="board_link" href="<?php echo $this->pin['onto_board2']['0']['href'] ?>">
-						<div style="width: 80%;">
-						<span>
-							<?php echo $this->pin['board'] ?>
-						</span>
+								<div style="width: 80%;">
+									<span>
+										<?php echo $this->pin['board'] ?>
+									</span>
 						
-						<div class="board_images" style="min-height: 30px">
-							<?php foreach($this->pin['onto_board2'] as $img): ?>
-								<img src='<?php echo $img['thumb'] ?>'/>
-						    <?php endforeach; ?>		
-						</div>
-					</div>
-					 <div style="float: right;width: 20%;margin-bottom: -20%;">
+                                    <div class="board_images" style="min-height: 30px">
+                                        <?php foreach($this->pin['onto_board2'] as $img): ?>
+                                            <img src='<?php echo $img['thumb'] ?>'/>
+                                        <?php endforeach; ?>		
+                                    </div>
+								</div>
+					 		<div style="float: right;width: 20%;margin-bottom: -20%;">
         			 <img src="../data_mobile/images/arrow.png" height="14px" style="float: right;margin-top: -45px">
     				 </div>
 						</a>

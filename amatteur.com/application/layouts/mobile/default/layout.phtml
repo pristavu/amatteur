@@ -55,8 +55,8 @@ if(!$og_recipe) {
 		
 		<!--  <link href="<?php //echo WM_Minify::minifyCSS('data_mobile/css/mobile.css');?>" rel="stylesheet" type="text/css" />  -->
 		<link rel='stylesheet' type="text/css" href="<?php echo $base_url?>data_mobile/css/mobile.css"/>
-        <link rel="stylesheet" type="text/css" href="data/css/bootstrap.min.css"/>
-		<link rel="stylesheet" type="text/css" href="data/css/jquery-ui.css"/>                     
+        <!--<link rel="stylesheet" type="text/css" href="data/css/bootstrap.min.css"/>
+		<link rel="stylesheet" type="text/css" href="data/css/jquery-ui.css"/>    -->                 
                 <script type="text/javascript" src="<?php echo $base_url; ?>data_mobile/js/jquery-1.8.0.min.js"></script>
                 <script src='<?php echo $base_url; ?>data_mobile/js/jquery.mobile.custom1.js'></script>
                 <script src="data/js/bootstrap.min.js" type="text/javascript"></script>
@@ -66,6 +66,8 @@ if(!$og_recipe) {
                 <script type='text/javascript' src='<?php echo $base_url?>data_mobile/js/hideMobileAddressBar.js'></script>
                 <script type='text/javascript'>
 					var commentButtonText = "<?php echo $this->translate('Comment'); ?>";
+					var genericLike="<?php echo $this->translate('Like'); ?>" ;
+					var genericUnlike="<?php echo $this->translate('Unlike'); ?>" ;
 					var commentPinUrl = "<?php WM_Router::create($base_url);?>"
 				</script>
                 

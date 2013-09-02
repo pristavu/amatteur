@@ -135,7 +135,6 @@ class Model_Boards {
 					->from('boards', array('*', "(SELECT keyword FROM url_alias WHERE query = 'board_id=".$board_id."' LIMIT 1) AS keyword"))
 					->where('board_id = ?', $board_id)
 					->limit(1);
-		
 		return $db->fetchRow($query);
 		
 	}

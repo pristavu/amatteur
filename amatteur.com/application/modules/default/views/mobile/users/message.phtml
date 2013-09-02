@@ -12,7 +12,7 @@
                 <?php echo $this->message['text_message'];?>
             </div>
                   
-        <?php if($this->loged) { ?> 
+        <?php if($this->userdata["user_id"]>0) { ?> 
         	 
         	<a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a> 
             <?php if($this->message['message_from_id']==0)
@@ -38,7 +38,7 @@
                     <?php echo $this->message['text_message'];?>
                 </div>
                       
-            <?php if($this->loged) { ?>  
+            <?php if($this->userdata["user_id"]>0) { ?>  
                  <?php if ($this->message['from_user_id']==JO_Session::get('user[user_id]')) { ?>
                 <a class="btnBorrar silverboxMessage" href="<?php echo $this->message['hrefDelete'];?>" title="<?php  echo $this->translate('Borrar'); ?>"></a>   
                 <?php } ?>

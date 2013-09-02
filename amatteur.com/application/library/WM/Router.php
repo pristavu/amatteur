@@ -55,9 +55,11 @@ class WM_Router {
 		
 		$get_controller = null;
 		$get_action = null;
-		if($request->getController() != 'index' && in_array( $request->getController(), WM_Modules::getControllers() ) ) {
+		if($request->getController() != 'index' && in_array( $request->getController(), WM_Modules::getControllers() ) )
+		{
 			$get_controller = $request->getController();
-			if($request->getAction() != 'index' && in_array( $request->getAction(), WM_Modules::getControllerResources($get_controller) ) ) {
+			if($request->getAction() != 'index' && in_array( $request->getAction(), WM_Modules::getControllerResources($get_controller) ) ) 
+			{
 				$get_action = $request->getAction();
 			}
 		}
@@ -279,7 +281,6 @@ class WM_Router {
 					->where("query = ?", $value)
 					->limit(1);
 		$result = $db->fetchRow($query);
-		
 
 		$aliases[(string)$value] = $result;
 		return $result;

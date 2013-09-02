@@ -18,7 +18,10 @@
                                                 <input type="checkbox" id="private_message" name="private_message" value="true"><?php echo $this->translate('Private message');?></input>
 					</p>
 					<p class="text_counter"></p>
-					<p class="submit"><input class="disabled" type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
+					<p class="submit">
+                    <input class="disabled white mbtn" type="submit" value="<?php echo $this->translate('Pinit');?>">
+                    <a onclick="Modal_hide_delete(); return false" class="white mbtn" href="#"><?php echo $this->translate('Cancel');?></a>
+                    </p>
 					<div class="clear"></div>
 				</div>
 				<div class="clear"></div>
@@ -32,9 +35,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
 
-$('html, body').animate({ scrollTop: $('#create_new_pin').offset().top }, 'slow');
 
-	regExPrice.addExpresionLine($('#text_message').html(), true);
 	
         
 	$('#text_message').jqEasyCounter({
@@ -43,7 +44,7 @@ $('html, body').animate({ scrollTop: $('#create_new_pin').offset().top }, 'slow'
 		maxCharsWarning: 270,
 		template: '{count}'
 	}).bind("keydown keyup keypress focus paste",function() {
-		regExPrice.addExpresionLine(this.value);
+		
 		var comboCarpeta=false;
 		$("#board_id option:selected").each(function(){
 			comboCarpeta=true
@@ -87,9 +88,7 @@ $('html, body').animate({ scrollTop: $('#create_new_pin').offset().top }, 'slow'
 			}
                         */
 			$('#loading_button').remove();
-                        var urlmensajes = '<?php echo $this->urlmensajes ;?>';
-			window.location.href = urlmensajes;//document.referrer;
-                        $.fancybox.close();
+                       location.reload();
 			
 			
                 });
