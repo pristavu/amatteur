@@ -2276,6 +2276,9 @@ color: #524D4D;
     position: fixed;
     top: 0;
 }
+#mask{position:absolute;left:0;top:0;z-index:9000;background-color:#000;display:none}
+#boxes .window{position:absolute;left:0;top:0;width:440px;height:200px;display:none;z-index:9999;padding:20px}
+#boxes #dialog{width:375px;height:203px;background-color:#fff;padding:10px}
 #detail .pin {
     /*width: 644px;*/
 	width: 693px;
