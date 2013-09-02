@@ -286,7 +286,7 @@
 			
 			<?php if($this->loged)://if($_SESSION['pintastic']['user']['user_id'] !== 0): ?>
 				<div style='text-align: center;width: 100%;padding-bottom:10px' >
-                    <a class="repin_btn white mbtn" href="<?php echo $this->pin['url_repin'] ?>" title="" ontouchstart="repin(event)"><strong>Repin</strong></a>
+                    <a class="repin_btn white mbtn" href="<?php echo $this->pin['url_repin'] ?>" title="" ontouchstart="repin(event)"><strong><?php echo $this->translate('Repin');?></strong></a>
     			    <a href='<?php echo $this->pin['url_like'] ?>'  ontouchstart='likePin(event)' class="white mbtn like_btn" data-liked='<?php echo $this->pin['liked'] ?>'> 
            				<strong>
            				 	<?php if($this->pin['liked']  == 0)
