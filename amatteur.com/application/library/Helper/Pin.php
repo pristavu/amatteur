@@ -227,33 +227,62 @@ class Helper_Pin {
 			}
                          
 		}
-                
-		$image = Helper_Uploadimages::pin($pin, '_B');
-		if($image) {
-			$pin['thumb'] = $image['image'];
-			$pin['thumb_width'] = $image['width'];
-			$pin['thumb_height'] = $image['height'];
-			$pin['original_image'] = $image['original'];
-		} else {
-			return '';
-		}
+          //$image='';     
+		//error_log("INICIO IMAGE thumb _B (): ".self::udate("Y-m-d H:i:s.u"));
+		//$image = Helper_Uploadimages::pin($pin, '_B');
+		//if($image) {
+			//$pin['thumb'] = $image['image'];
+			//$pin['thumb_width'] = $image['width'];
+			//$pin['thumb_height'] = $image['height'];
+			//$pin['original_image'] = $image['original'];
+		//} else {
+			//return '';
+		//}
 		
-		$image = Helper_Uploadimages::pin($pin, '_D');
-		if($image) {
-			$pin['popup'] = $image['image'];
-			$pin['popup_width'] = $image['width'];
-			$pin['popup_height'] = $image['height'];
-			$pin['original_image'] = $image['original'];
-		} else {
-			return '';
+		if ($pin["store"]=="amazons3")
+		{
+			$host="http://images.amatteur.com/";
+			$sufijo="_B.";
+		}else
+		{
+			$host="/uploads";
+			$sufijo=".";
 		}
+		//cogemos la extensión del fichero
+		$extension= substr(strrchr($pin['image'], '.'), 1);
+		//ahora la quitamos
+		$nombreSextension=substr($pin['image'], 0,strlen($pin['image'])-strlen($extension)-1);
+		//$img_size = @getimagesize($host.$nombreSextension."_B.".$extension);
+		$pin['thumb'] = $host.$nombreSextension.$sufijo.$extension;
+		$pin['thumb_width'] = $pin['width'];
+		$pin['thumb_height'] = $pin['height'];
+		$pin['original_image'] = $host.$pin['image'];
+		//error_log("FIN IMAGE thumb _B (): ".self::udate("Y-m-d H:i:s.u"));
+		//error_log("INICIO IMAGE thumb _D (): ".self::udate("Y-m-d H:i:s.u"));
+		//$image = Helper_Uploadimages::pin($pin, '_D');
+		//if($image) {
+			//$pin['popup'] = $image['image'];
+			//$pin['popup_width'] = $image['width'];
+			//$pin['popup_height'] = $image['height'];
+			//$pin['original_image'] = $image['original'];
+		//} else {
+			//return '';
+		//}
 		
+		
+		//$pin['popup'] = $host.$nombreSextension."_D.".$extension;
+		//$pin['popup_width'] = $pin['width'];
+		//$pin['popup_height'] = $pin['height'];
+		//$pin['original_image'] = $host.$pin['image'];
+		//error_log("FIN IMAGE thumb _D (): ".self::udate("Y-m-d H:i:s.u"));
 		$date_dif = array_shift( WM_Date::dateDiff($pin['date_added'], time()) );
 		$pin['date_dif'] = $date_dif;
 		
 		
-		$pin['description'] = self::descriptionFix($pin['description']);
-                
+		$pin['description'] = self::descriptionFix($pin['description']);    
+		
+		//$pin['description'] = $pin['user'];
+				
 		$pin['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] );
 		
 		if(JO_Session::get('user[user_id]')) {
@@ -272,16 +301,61 @@ class Helper_Pin {
 		
 		$view->author = $pin['user'];
 		
+		if ($pin["user"]["store"]=="amazons3")
+		{
+			$host="http://images.amatteur.com/";
+			$sufijo="_A.";
+		}else
+		{
+			$host="/uploads";
+			$sufijo=".";
+		}
+		if($pin["user"]["avatar"]=="")
+		{
+			$imageUser="/uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+		}else
+		{
+			//cogemos la extensión del fichero
+			$extension= substr(strrchr($pin["user"]["avatar"], '.'), 1);
+			//ahora la quitamos
+			$nombreSextension=substr($pin["user"]["avatar"], 0,strlen($pin["user"]["avatar"])-strlen($extension)-1);
+			$imageUser=$host.$nombreSextension.$sufijo.$extension;
+		}
+		$view->author['avatar'] =$imageUser;
+		//$avatar = Helper_Uploadimages::avatar($pin['user'], '_A');
+		//$avatar='';
+		//$view->author['avatar'] = $avatar['image'];
 		
-		$avatar = Helper_Uploadimages::avatar($pin['user'], '_A');
-		$view->author['avatar'] = $avatar['image'];
 		
 		$view->author['profile'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $pin['user_id'] );
 		
 		if(JO_Session::get('user[user_id]')) {
-			
-			$avatar = Helper_Uploadimages::avatar(JO_Session::get('user'), '_A');
-			$view->author_self = $avatar['image'];
+			//error_log("entra");
+			$imageProp=JO_Session::get('user');
+			if ($imageProp["store"]=="amazons3")
+				{
+					$host="http://images.amatteur.com/";
+					$sufijo="_A.";
+				}else
+				{
+					$host="/uploads";
+					$sufijo=".";
+				}
+				if($imageProp["avatar"]=="")
+				{
+					$imageUser="/uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+				}else
+				{
+					//cogemos la extensión del fichero
+					$extension= substr(strrchr($imageProp["avatar"], '.'), 1);
+					//ahora la quitamos
+					$nombreSextension=substr($imageProp["avatar"], 0,strlen($imageProp["avatar"])-strlen($extension)-1);
+					$imageUser=$host.$nombreSextension.$sufijo.$extension;
+				}
+				$view->author_self =$imageUser;
+			//$avatar = Helper_Uploadimages::avatar(JO_Session::get('user'), '_A');
+			//$avatar='';
+			//$view->author_self = $avatar['image'];
 
 			$view->profile_self = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') );
 		}
@@ -293,13 +367,34 @@ class Helper_Pin {
 					unset($pin['latest_comments'][$key]);
 					continue;
 				}
-				
-				$avatar = Helper_Uploadimages::avatar($pin['latest_comments'][$key]['user'], '_A');
-				$pin['latest_comments'][$key]['user']['avatar'] = $avatar['image'];
+				if ($pin['latest_comments'][$key]['user']["store"]=="amazons3")
+				{
+					$host="http://images.amatteur.com/";
+					$sufijo="_A.";
+				}else
+				{
+					$host="/uploads";
+					$sufijo=".";
+				}
+				if($pin['latest_comments'][$key]['user']["avatar"]=="")
+				{
+					$imageUser="/uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+				}else
+				{
+					//cogemos la extensión del fichero
+					$extension= substr(strrchr($pin['latest_comments'][$key]['user']["avatar"], '.'), 1);
+					//ahora la quitamos
+					$nombreSextension=substr($pin['latest_comments'][$key]['user']["avatar"], 0,strlen($pin['latest_comments'][$key]['user']["avatar"])-strlen($extension)-1);
+					$imageUser=$host.$nombreSextension.$sufijo.$extension;
+				}
+				$pin['latest_comments'][$key]['user']['avatar'] =$imageUser;
+				//$avatar = Helper_Uploadimages::avatar($pin['latest_comments'][$key]['user'], '_A');
+				//$avatar='';
+				//$pin['latest_comments'][$key]['user']['avatar'] = $avatar['image'];
 				
 				
 				$pin['latest_comments'][$key]['user']['profile'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $comment['user_id'] );
-                                $pin['latest_comments'][$key]['delete'] = '';
+                $pin['latest_comments'][$key]['delete'] = '';
 				if( JO_Session::get('user[user_id]') ) {
 					if( JO_Session::get('user[is_admin]') || JO_Session::get('user[user_id]') == $comment['user_id'] ) {
 						$pin['latest_comments'][$key]['delete'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=deleteComment&comment_id=' . $comment['comment_id'] );
@@ -745,6 +840,15 @@ class Helper_Pin {
 		
 		$view->pin = $pin;
 		return $view->render('pinBoxDetail', 'pin');
+	}
+	public static function udate($format, $utimestamp = null) {
+	  if (is_null($utimestamp))
+		$utimestamp = microtime(true);
+	
+	  $timestamp = floor($utimestamp);
+	  $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+	
+	  return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
 	}
 	
 }
