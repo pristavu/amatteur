@@ -243,20 +243,36 @@ class Helper_Pin {
 		{
 			$host="http://images.amatteur.com/";
 			$sufijo="_B.";
+			//cogemos la extensión del fichero
+			$extension= substr(strrchr($pin['image'], '.'), 1);
+			//ahora la quitamos
+			$nombreSextension=substr($pin['image'], 0,strlen($pin['image'])-strlen($extension)-1);
+			//$img_size = @getimagesize($host.$nombreSextension."_B.".$extension);
+			$pin['thumb'] = $host.$nombreSextension.$sufijo.$extension;
+			if ($pin['width']!=0)
+			{
+				$pin['thumb_width'] = $pin['width'];
+				$pin['thumb_height'] = $pin['height'];
+			}else
+			{
+				$pin['thumb_width'] = 194;
+				$pin['thumb_height'] = $pin['height'];
+			}
+			$pin['original_image'] = $host.$pin['image'];
 		}else
 		{
 			$host="/uploads";
 			$sufijo=".";
+			$image = Helper_Uploadimages::pin($pin, '_B');
+			if($image) {
+				$pin['thumb'] = $image['image'];
+				$pin['thumb_width'] = $image['width'];
+				$pin['thumb_height'] = $image['height'];
+				$pin['original_image'] = $image['original'];
+			} else {
+				return '';
+			}
 		}
-		//cogemos la extensión del fichero
-		$extension= substr(strrchr($pin['image'], '.'), 1);
-		//ahora la quitamos
-		$nombreSextension=substr($pin['image'], 0,strlen($pin['image'])-strlen($extension)-1);
-		//$img_size = @getimagesize($host.$nombreSextension."_B.".$extension);
-		$pin['thumb'] = $host.$nombreSextension.$sufijo.$extension;
-		$pin['thumb_width'] = $pin['width'];
-		$pin['thumb_height'] = $pin['height'];
-		$pin['original_image'] = $host.$pin['image'];
 		//error_log("FIN IMAGE thumb _B (): ".self::udate("Y-m-d H:i:s.u"));
 		//error_log("INICIO IMAGE thumb _D (): ".self::udate("Y-m-d H:i:s.u"));
 		//$image = Helper_Uploadimages::pin($pin, '_D');

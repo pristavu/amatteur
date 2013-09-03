@@ -6,25 +6,25 @@ class IndexController extends JO_Action {
 
 		$request = $this->getRequest();
                 
-                JO_Session::clear('category_id');
-                
-                //para las APP's
-                if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
-                {
-                    $_SESSION['token'] = $_POST['token'];
-                    JO_Session::set('token', $_POST['token']);
-
-                        $result = Model_Users::checkLoginAPP($_POST['userid']);
-                        if ($result)
-                        {
-                            if ($result['status'])
-                            {
-                                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
-                                JO_Session::set(array('user' => $result));
-                            }  
-                        }
-
-                }
+		JO_Session::clear('category_id');
+	
+//para las APP's
+if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
+{
+    $_SESSION['token'] = $_POST['token'];
+    JO_Session::set('token', $_POST['token']);
+    
+        $result = Model_Users::checkLoginAPP($_POST['userid']);
+        if ($result)
+        {
+            if ($result['status'])
+            {
+                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                JO_Session::set(array('user' => $result));
+            }  
+        }
+     
+}
                 
 		
 		if($request->getParam('direct_path') == 'true') {
@@ -75,7 +75,7 @@ class IndexController extends JO_Action {
 		//error_log("INICIO PINS: ".date("Y-m-d H:i:s"));
 		$pins = Model_Pins::getPins($data);
 		
-		error_log("EMPIEZAN PINES: ".self::udate("Y-m-d H:i:s:u"));
+		//error_log("EMPIEZAN PINES: ".self::udate("Y-m-d H:i:s:u"));
 		if($pins) {
 			$banners = Model_Banners::getBanners(
 				new JO_Db_Expr("`controller` = '".$request->getController()."' AND position BETWEEN '".(int)$data['start']."' AND '".(int)$data['limit']."'")
@@ -99,7 +99,7 @@ class IndexController extends JO_Action {
 // 				JO_Registry::set('marker', Model_Pins::getMaxPin($data));
 			}
 		}
-		error_log("FIN PINES(".$cuentaPins."): ".self::udate("Y-m-d H:i:s:u"));
+		//error_log("FIN PINES(".$cuentaPins."): ".self::udate("Y-m-d H:i:s:u"));
 		if(!$request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
 			$history = Model_History::getHistory(array(
 				'start' => 0,
