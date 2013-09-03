@@ -307,9 +307,11 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 			$img = $user['avatar'];
 		}
 		
-		$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
+		//$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
 		$img = 'http://images.amatteur.com/' . $img;
+		//error_log("Buscamos: ".$img);
 		if( ( $img_size = @getimagesize($img) ) !== false ) {
+			//error_log("Encontramos imagen");
 			return array(
 				'image' => $img,
 				//'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $user['avatar'],

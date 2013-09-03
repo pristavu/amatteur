@@ -104,9 +104,9 @@
 		           				<span></span>
 		    			    </a>
 		    			 
-		    				<a class="repin_btn white mbtn" href="<?php echo $this->pin['url_repin'] ?>" title="" ontouchstart="repin(event)"><strong>Repin</strong><span></span></a>
+		    				<a class="repin_btn white mbtn" href="<?php echo $this->pin['url_repin'] ?>" title="" ontouchstart="repin(event)"><strong><?php echo $this->translate('Repin');?></strong><span></span></a>
                             <?php if($this->pin['edit']){?>
-                                <a href='<?php echo  $this->pin['edit'];?>' class='repin_btn white mbtn' title="<?php echo $this->translate('Edit');?>">
+                                <a href='<?php echo  $this->pin['edit'];?>' class='edit_btn white mbtn' title="<?php echo $this->translate('Edit');?>">
                                 	<strong><?php echo $this->translate("Edit"); ?></strong>
                                 </a>
 							<?php }?>

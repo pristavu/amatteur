@@ -73,7 +73,7 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 		//error_log("INICIO PINS: ".date("Y-m-d H:i:s"));
 		$pins = Model_Pins::getPins($data);
 		
-		
+		error_log("EMPIEZAN PINES: ".self::udate("Y-m-d H:i:s:u"));
 		if($pins) {
 			$banners = Model_Banners::getBanners(
 				new JO_Db_Expr("`controller` = '".$request->getController()."' AND position BETWEEN '".(int)$data['start']."' AND '".(int)$data['limit']."'")
@@ -88,13 +88,16 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 					$this->view->pins .= Helper_Banners::returnHtml($banners[$key]);
 				}
 				//pins
+				//error_log("EMPIEZA PIN(".$cuentaPins."): ".self::udate("Y-m-d H:i:s:u"));
 				$this->view->pins .= Helper_Pin::returnHtml($pin);
+				//error_log("FIN PIN(".$cuentaPins."): ".self::udate("Y-m-d H:i:s:u"));
 			}
 			//error_log("FIN BUCLE (".$cuentaPins." PINS): ".date("Y-m-d H:i:s"));
 			if(JO_Session::get('user[user_id]')) {
 // 				JO_Registry::set('marker', Model_Pins::getMaxPin($data));
 			}
 		}
+		error_log("FIN PINES(".$cuentaPins."): ".self::udate("Y-m-d H:i:s:u"));
 		if(!$request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
 			$history = Model_History::getHistory(array(
 				'start' => 0,
@@ -143,7 +146,15 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
 	}
 	
 	
-	
+	public static function udate($format, $utimestamp = null) {
+          if (is_null($utimestamp))
+            $utimestamp = microtime(true);
+
+          $timestamp = floor($utimestamp);
+          $milliseconds = round(($utimestamp - $timestamp) * 1000000);
+
+          return date(preg_replace('`(?<!\\\\)u`', $milliseconds, $format), $timestamp);
+        }
 }
 
 ?>

@@ -529,7 +529,7 @@ $(".comment_btn").live('tap',function(){
 		
 		   $(".submit_comment").click(function(event){
 		  
-		   	$(this).addClass('disabled').text('Posting');
+		   	$(this).addClass('disabled').text(comentando);
 		   	event.preventDefault();
 		   	
 		 	$.ajax({
@@ -600,17 +600,17 @@ $(".like_btn").live('tap',function(event){
 					if($(that).parent().prev().find($('.icon'))){
 						
 						if($(that).attr('data-liked') == 0){
-							that.find('strong').text(genericUnlike)
-							$(that).attr('data-liked',1)
-							$(that).addClass('pressed');
+							$(this).find('strong').text(genericUnlike)
+							$(this).attr('data-liked',1)
+							$(this).addClass('pressed');
 							$(that).parent().prev().find('.pin_likes .likeIcon').addClass('icon');
-							$(that).parent().prev().find('.pin_likes span').html('<img width="15px" height="14px" src="data/images/ico_mg.png" alt="Me gusta" /> ' + (lt+1));
+							$(that).parent().prev().find('.pin_likes span').html('<img width="15px" height="14px" src="data/images/ico_mg.png" alt="' + genericUnlike + '" /> ' + (lt+1));
 						}
 						else{
-							that.find('strong').text(genericLike)
-							$(that).attr('data-liked',0)
-							$(that).removeClass('pressed');
-							$(that).parent().prev().find('.pin_likes span').html('<img width="15px" height="14px" src="data/images/ico_mg.png" alt="Me gusta" /> ' + (lt-1));
+							$(this).find('strong').text(genericLike)
+							$(this).attr('data-liked',0)
+							$(this).removeClass('pressed');
+							$(that).parent().prev().find('.pin_likes span').html('<img width="15px" height="14px" src="data/images/ico_mg.png" alt="' + genericLike + '" /> ' + (lt-1));
 								
 						}
 						
@@ -637,7 +637,9 @@ $(".like_btn").live('tap',function(event){
 			
 })
 
-
+$(".edit_btn").live('tap',function(event){
+	$(this).addClass('disabled');
+});
 
 $(".repin_btn").live('tap',function(event){
 				
@@ -740,60 +742,62 @@ $(".repin_btn").live('tap',function(event){
 			   		
 			   		  //SENDING POST TO REPIN CONTROLLER
 			   		  $("#submitRepin").live('tap',function(){
-			   		
-			   		 
-			   		  	function submit(boardId){
-			   		  		$.ajax({
-						  		url:$(that).attr('href'),
-						  		type:"POST",
-						  		dataType:"text",
-						  		data:{'message':$("#message").text(),'board_id':boardId},
-						  		success:function(d){
-						  		  
-						  		    $(that).parent().parent().find(".pin_repins .repinIcon").addClass('icon');
-						  			$(that).parent().parent().find(".pin_repins span").text(rc+1);
-						  				clearRepin();
-						  			
-						  			
-						  		},
-						  		error:function(error){
-						  		
-						  		}
-						  	})
-			   		  	}
-					
-					  
-					  		if($("#createBoardInput").hasClass('opened')){
-					  			
-					  				var boardName = $("#createBoardInput").val();
-					  				
-					  			    if(boardName == ''){
-					  				alert($("#createBoardInput").data('msg'))
-					  				
-					  				}
-					  			else{
-										$.ajax({
-											url:$("#createBoardInput").data('cb'),
-											type:"POST",
-											dataType:"JSON",
-											data:{"newboard":boardName},
-											success:function(d){
+			   			if (!$(this).hasClass('disabled'))
+						{
+							$(this).addClass('disabled').text(guardando);
+						 
+							function submit(boardId){
+								$.ajax({
+									url:$(that).attr('href'),
+									type:"POST",
+									dataType:"text",
+									data:{'message':$("#message").text(),'board_id':boardId},
+									success:function(d){
+									  
+										$(that).parent().parent().find(".pin_repins .repinIcon").addClass('icon');
+										$(that).parent().parent().find(".pin_repins span").text(rc+1);
+											clearRepin();
+										
+										
+									},
+									error:function(error){
+									
+									}
+								})
+							}
+						
+						  
+								if($("#createBoardInput").hasClass('opened')){
+									
+										var boardName = $("#createBoardInput").val();
+										
+										if(boardName == ''){
+										alert($("#createBoardInput").data('msg'))
+										
+										}
+									else{
+											$.ajax({
+												url:$("#createBoardInput").data('cb'),
+												type:"POST",
+												dataType:"JSON",
+												data:{"newboard":boardName},
+												success:function(d){
+													
+													submit(d.data.board_id);
+												},
+												error:function(error){
 												
-												submit(d.data.board_id);
-											},
-											error:function(error){
-											
-											}
-										})				  				
-						  			}
-					  		}
-					  		
-					  		else{
-					  			submit($("#board_id option:selected").val());					  			
-					  		}
-					  		
-					  })	
-			
+												}
+											})				  				
+										}
+								}
+								
+								else{
+									submit($("#board_id option:selected").val());					  			
+								}
+						}
+								
+						  })
 					}
 				})		
 					

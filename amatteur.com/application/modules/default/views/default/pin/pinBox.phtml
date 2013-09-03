@@ -8,7 +8,8 @@
 			<div class='pinAuthor'>
 					<p class="avatar">
 						<a href="<?php echo $this->author['profile'];?>">
-							<img src="<?php echo $this->author['avatar'];?>?<?php echo $this->image_no_cache;?>" alt="<?php echo $this->author['fullname'];?>" />
+							<!--<img src="<?php //echo $this->author['avatar'];?>?<?php //echo $this->image_no_cache;?>" alt="<?php //echo $this->author['fullname'];?>" />-->
+                            <img src="<?php echo $this->author['avatar'];?>" alt="<?php echo $this->author['fullname'];?>" />
 						</a>
 					</p>
 					
@@ -132,7 +133,7 @@
 				<?php if($this->pin['latest_comments']) { ?>
 				<?php foreach($this->pin['latest_comments'] AS $crow => $comment) { ?>
 				<li<?php echo ($crow == ( count($this->pin['latest_comments']) - 1) ? ' class="last"' : '' );?>>
-					<p class="avatar"><a href="<?php echo $comment['user']['profile'];?>"><img src="<?php echo $comment['user']['avatar'];?>?<?php echo $this->image_no_cache;?>" alt="<?php echo $comment['user']['fullname'];?>" /></a></p>
+					<p class="avatar"><a href="<?php echo $comment['user']['profile'];?>"><img src="<?php echo $comment['user']['avatar'];?><?php //echo $this->image_no_cache;?>" alt="<?php echo $comment['user']['fullname'];?>" /></a></p>
 					<p class="message"><a href="<?php echo $comment['user']['profile'];?>"><?php echo $comment['user']['fullname'];?></a> <?php echo $comment['comment'];?></p>
 					<div class="clear"></div>
 					<?php if($comment['delete']) { ?>
@@ -146,7 +147,7 @@
 				<li class="addComment">
 					<p class="avatar">
 						<a href="<?php echo $this->profile_self;?>">
-							<img src="<?php echo $this->author_self;?>?<?php echo $this->image_no_cache;?>" alt="" />
+							<img src="<?php echo $this->author_self;?><?php //echo $this->image_no_cache;?>" alt="" />
 						</a>
 					</p>
 					<form action="<?php echo $this->pin['url_comment'];?>" method="post" class="comment-form">

@@ -23,7 +23,6 @@ class AllController extends JO_Action {
 				new JO_Db_Expr("`controller` = '".$request->getController()."' AND position BETWEEN '".(int)$data['start']."' AND '".(int)$data['limit']."'")
 			);
 			$pp = JO_Registry::get('config_front_limit');
-			
 			foreach($pins AS $row => $pin) {
 				///banners
 				$key = $row + (($pp*$page)-$pp);
