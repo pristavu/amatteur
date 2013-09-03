@@ -15,7 +15,8 @@ class GiftsController extends JO_Action {
 			'filter_marker' => $request->getRequest('marker'),
 			'filter_price_from' => (int)$request->getRequest('price_from'),
 			'filter_price_to' => (int)$request->getRequest('price_to'),
-			'allow_gifts' => true
+			'allow_gifts' => true,
+                        'filter_category_id' => $request->getRequest('category_id')
 		);
 		
 //		if((int)JO_Session::get('user[user_id]')) {

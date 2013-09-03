@@ -5,6 +5,8 @@ class AllController extends JO_Action {
 	public function indexAction() {		
 		
 		$request = $this->getRequest();
+                
+                JO_Session::clear('category_id');
 		
 		$page = (int)$request->getRequest('page');
 		if($page < 1) { $page = 1; }

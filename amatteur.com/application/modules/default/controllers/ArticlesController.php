@@ -13,7 +13,8 @@ class ArticlesController extends JO_Action {
 			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
 			'limit' => JO_Registry::get('config_front_limit'),
 			'filter_is_article' => 1,
-			'filter_marker' => $request->getRequest('marker')
+			'filter_marker' => $request->getRequest('marker'),
+                        'filter_category_id' => $request->getRequest('category_id')
 		);
 		
 //		if((int)JO_Session::get('user[user_id]')) {

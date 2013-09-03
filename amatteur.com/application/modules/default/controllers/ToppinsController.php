@@ -22,7 +22,8 @@ class ToppinsController extends JO_Action {
                             'sort' => 'DESC',
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
-                            'filter_pin_top_10_7' => '7'
+                            'filter_pin_top_10_7' => '7',
+                            'filter_category_id' => $request->getRequest('category_id')
                     );
                 }
                 else if ($index_id == 2)
@@ -34,7 +35,8 @@ class ToppinsController extends JO_Action {
                             'sort' => 'DESC',
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
-                            'filter_pin_top_10' => true
+                            'filter_pin_top_10' => true,
+                            'filter_category_id' => $request->getRequest('category_id')
                     );
                 }
                 else if ($index_id == 3)
@@ -46,7 +48,8 @@ class ToppinsController extends JO_Action {
                             'sort' => 'DESC',
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
-                            'filter_profile_top_10_7' => '7'
+                            'filter_profile_top_10_7' => '7',
+                            'filter_category_id' => $request->getRequest('category_id')
                     );
                 }
                 else if ($index_id == 4)
@@ -58,7 +61,8 @@ class ToppinsController extends JO_Action {
                             'sort' => 'DESC',
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
-                            'filter_profile_top_10' => true
+                            'filter_profile_top_10' => true,
+                            'filter_category_id' => $request->getRequest('category_id')
                     );
                 }
 

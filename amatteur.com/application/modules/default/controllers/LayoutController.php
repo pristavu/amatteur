@@ -135,7 +135,14 @@ class LayoutController extends JO_Action {
 			if($category['active']) {
 				$this->view->category_active = $category['title'];
 			} else {
-				
+                            $i = 0;
+                            foreach($category['subcategories'] AS $subcategory) {  
+                                $category['subcategories'][$i]['active'] = $subcategory['category_id'] == $request->getRequest('category_id');
+                            	if($category['subcategories'][$i]['active']) {
+                                    $this->view->category_active = $subcategory['title'];
+                                }
+                                $i++;
+                            }
 			}
 			
 			$this->view->categories[] = $category;
@@ -167,33 +174,65 @@ class LayoutController extends JO_Action {
 		
 		$this->view->registration = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=register' );
 		
-		////////////////////////////// GIFTS ///////////////////////////
-		$this->view->gifts = WM_Router::create( $request->getBaseUrl() . '?controller=gifts' );
-		$this->view->gifts1 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=1&price_to=20' );
-		$this->view->gifts2 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=20&price_to=50' );
-		$this->view->gifts3 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=50&price_to=100' );
-		$this->view->gifts4 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=100&price_to=200' );
-		$this->view->gifts5 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=200&price_to=500' );
-		$this->view->gifts6 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=500' );
-		
-		//////////// Video ////////////
-		$this->view->video_url = WM_Router::create( $request->getBaseUrl() . '?controller=videos' );
-		
-		//////////// Popular ////////////
-		$this->view->popular_url = WM_Router::create( $request->getBaseUrl() . '?controller=popular' );
-		
+                $category_id = null;
+                if ($request->getRequest('category_id'))
+                {
+                    $category_id = $request->getRequest('category_id');
+                    ////////////////////////////// GIFTS ///////////////////////////
+                    $this->view->gifts = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&category_id='.$category_id );
+                    $this->view->gifts1 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=1&price_to=20&category_id='.$category_id );
+                    $this->view->gifts2 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=20&price_to=50&category_id='.$category_id );
+                    $this->view->gifts3 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=50&price_to=100&category_id='.$category_id );
+                    $this->view->gifts4 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=100&price_to=200&category_id='.$category_id );
+                    $this->view->gifts5 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=200&price_to=500&category_id='.$category_id );
+                    $this->view->gifts6 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=500&category_id='.$category_id );
+
+                    //////////// Video ////////////
+                    $this->view->video_url = WM_Router::create( $request->getBaseUrl() . '?controller=videos&category_id='.$category_id );
+
+                    //////////// Popular ////////////
+                    $this->view->popular_url = WM_Router::create( $request->getBaseUrl() . '?controller=popular&category_id='.$category_id );
+
+
+                    //////////// Articles ////////////
+                    $this->view->article_url = WM_Router::create( $request->getBaseUrl() . '?controller=articles&category_id='.$category_id );
+
+                    //////////// Ranking ////////////
+                    $this->view->pinTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=1&category_id='.$category_id );
+                    $this->view->pinTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=2&category_id='.$category_id );
+                    $this->view->profileTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=3&category_id='.$category_id );
+                    $this->view->profileTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=4&category_id='.$category_id );
+
+                }
+                else
+                {
+                    ////////////////////////////// GIFTS ///////////////////////////
+                    $this->view->gifts = WM_Router::create( $request->getBaseUrl() . '?controller=gifts' );
+                    $this->view->gifts1 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=1&price_to=20' );
+                    $this->view->gifts2 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=20&price_to=50' );
+                    $this->view->gifts3 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=50&price_to=100' );
+                    $this->view->gifts4 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=100&price_to=200' );
+                    $this->view->gifts5 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=200&price_to=500' );
+                    $this->view->gifts6 = WM_Router::create( $request->getBaseUrl() . '?controller=gifts&price_from=500' );
+
+                    //////////// Video ////////////
+                    $this->view->video_url = WM_Router::create( $request->getBaseUrl() . '?controller=videos' );
+
+                    //////////// Popular ////////////
+                    $this->view->popular_url = WM_Router::create( $request->getBaseUrl() . '?controller=popular' );
+
+
+                    //////////// Articles ////////////
+                    $this->view->article_url = WM_Router::create( $request->getBaseUrl() . '?controller=articles' );
+
+                    //////////// Ranking ////////////
+                    $this->view->pinTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=1' );
+                    $this->view->pinTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=2' );
+                    $this->view->profileTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=3' );
+                    $this->view->profileTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=4' );
+        }
 		//////////// ALL PINS ////////////
 		$this->view->all_url = WM_Router::create( $request->getBaseUrl() . '?controller=all' );
-		
-		//////////// Articles ////////////
-		$this->view->article_url = WM_Router::create( $request->getBaseUrl() . '?controller=articles' );
-
-		//////////// Ranking ////////////
-		$this->view->pinTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=1' );
-                $this->view->pinTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=2' );
-                $this->view->profileTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=3' );
-                $this->view->profileTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=4' );
-                
                 
 		////////////////////////////// SEARCH ///////////////////////////
 		
