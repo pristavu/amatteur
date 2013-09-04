@@ -238,15 +238,15 @@ class Helper_Pin {
 		//} else {
 			//return '';
 		//}
-		
+		//cogemos la extensión del fichero
+		$extension= substr(strrchr($pin['image'], '.'), 1);
+		//ahora la quitamos
+		$nombreSextension=substr($pin['image'], 0,strlen($pin['image'])-strlen($extension)-1);
 		if ($pin["store"]=="amazons3")
 		{
 			$host="http://images.amatteur.com/";
 			$sufijo="_B.";
-			//cogemos la extensión del fichero
-			$extension= substr(strrchr($pin['image'], '.'), 1);
-			//ahora la quitamos
-			$nombreSextension=substr($pin['image'], 0,strlen($pin['image'])-strlen($extension)-1);
+			
 			//$img_size = @getimagesize($host.$nombreSextension."_B.".$extension);
 			$pin['thumb'] = $host.$nombreSextension.$sufijo.$extension;
 			if ($pin['width']!=0)
@@ -281,15 +281,24 @@ class Helper_Pin {
 			//$pin['popup_width'] = $image['width'];
 			//$pin['popup_height'] = $image['height'];
 			//$pin['original_image'] = $image['original'];
-		//} else {
+		//}else {
 			//return '';
 		//}
 		
-		
-		//$pin['popup'] = $host.$nombreSextension."_D.".$extension;
+		if ($pin["store"]=="amazons3")
+		{
+			$host="http://images.amatteur.com/";
+			$sufijo="_B.";
+		}
+		else
+		{
+			$host="/uploads";
+			$sufijo=".";
+		}
+		$pin['popup'] = $host.$nombreSextension.$sufijo.$extension;
 		//$pin['popup_width'] = $pin['width'];
 		//$pin['popup_height'] = $pin['height'];
-		//$pin['original_image'] = $host.$pin['image'];
+		$pin['original_image'] = $host.$pin['image'];
 		//error_log("FIN IMAGE thumb _D (): ".self::udate("Y-m-d H:i:s.u"));
 		$date_dif = array_shift( WM_Date::dateDiff($pin['date_added'], time()) );
 		$pin['date_dif'] = $date_dif;
