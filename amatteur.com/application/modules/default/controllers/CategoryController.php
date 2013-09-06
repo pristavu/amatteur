@@ -8,7 +8,7 @@ class CategoryController extends JO_Action {
 		
 		$category_id = $request->getRequest('category_id');
 		
-                JO_Session::set('category_id', $category_id);
+                JO_Session::set('categoria_id', $category_id);
                 
 		$category_info = Model_Categories::getCategory($category_id);
 		

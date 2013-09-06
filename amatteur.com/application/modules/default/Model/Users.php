@@ -357,6 +357,7 @@ class Model_Users extends JO_Model {
 		if($avatar) {
 			
 			///// upload images
+			//error_log("Vamos a subir la imagen");
 			$front = JO_Front::getInstance();
 			$request = JO_Request::getInstance();
 			$upload_model = Helper_Pin::formatUploadModule(JO_Registry::get('default_upload_method'));
@@ -368,10 +369,12 @@ class Model_Users extends JO_Model {
 				
 			$image = false;
 			if(file_exists($upload_model_file)) {
+				//error_log("EXISTE FILE");
 				$image = call_user_func(array($upload_model, 'uploadUserAvatar'), $avatar, $user_id );
 			}
 			
 			if($image) {
+				//error_log("EXISTE FILE");
 				$result = $db->update('users', array(
 					'avatar' => $image['image'],
 					'store' => $image['store'],

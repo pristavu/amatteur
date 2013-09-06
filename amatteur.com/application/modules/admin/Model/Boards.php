@@ -264,8 +264,8 @@ class Model_Boards {
 		$db = JO_Db::getDefaultAdapter();
 		$query = $db->select()
 					->from('url_alias', array('keyword', 'keyword'))
-					->where('keyword = ?', $uniqueSlug)
-					->orWhere('keyword LIKE ?', $uniqueSlug . '-%');
+					->where('keyword = ?', strtolower($uniqueSlug))
+					->orWhere('keyword LIKE ?', strtolower($uniqueSlug) . '-%');
 		$array = $db->fetchPairs($query);
 		foreach(WM_Modules::getControllers( APPLICATION_PATH . '/modules/default/controllers/' ) AS $controller) {
 			$array[$controller] = $controller;

@@ -6,25 +6,25 @@ class IndexController extends JO_Action {
 
 		$request = $this->getRequest();
                 
-		JO_Session::clear('category_id');
-	
-//para las APP's
-if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
-{
-    $_SESSION['token'] = $_POST['token'];
-    JO_Session::set('token', $_POST['token']);
-    
-        $result = Model_Users::checkLoginAPP($_POST['userid']);
-        if ($result)
-        {
-            if ($result['status'])
-            {
-                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
-                JO_Session::set(array('user' => $result));
-            }  
-        }
-     
-}
+                //JO_Session::clear('category_id');
+                
+                //para las APP's
+                if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
+                {
+                    $_SESSION['token'] = $_POST['token'];
+                    JO_Session::set('token', $_POST['token']);
+
+                        $result = Model_Users::checkLoginAPP($_POST['userid']);
+                        if ($result)
+                        {
+                            if ($result['status'])
+                            {
+                                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                                JO_Session::set(array('user' => $result));
+                            }  
+                        }
+
+                }
                 
 		
 		if($request->getParam('direct_path') == 'true') {

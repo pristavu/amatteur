@@ -328,7 +328,7 @@ class Helper_Pin {
 		
 		if ($pin["user"]["store"]=="amazons3")
 		{
-			$host="http://images.amatteur.com/";
+			$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
 			$sufijo="_A.";
 		}else
 		{
@@ -359,7 +359,7 @@ class Helper_Pin {
 			$imageProp=JO_Session::get('user');
 			if ($imageProp["store"]=="amazons3")
 				{
-					$host="http://images.amatteur.com/";
+					$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
 					$sufijo="_A.";
 				}else
 				{
@@ -394,7 +394,7 @@ class Helper_Pin {
 				}
 				if ($pin['latest_comments'][$key]['user']["store"]=="amazons3")
 				{
-					$host="http://images.amatteur.com/";
+					$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
 					$sufijo="_A.";
 				}else
 				{

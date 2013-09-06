@@ -307,15 +307,15 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 			$img = $user['avatar'];
 		}
 		
-		//$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
-		$img = 'http://images.amatteur.com/' . $img;
+		$img = 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $img;
+		//$img = 'http://images.amatteur.com/' . $img;
 		//error_log("Buscamos: ".$img);
 		if( ( $img_size = @getimagesize($img) ) !== false ) {
 			//error_log("Encontramos imagen");
 			return array(
 				'image' => $img,
-				//'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $user['avatar'],
-				'original' => 'http://images.amatteur.com/' . $user['avatar'],
+				'original' => 'http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . $user['avatar'],
+				//'original' => 'http://images.amatteur.com/' . $user['avatar'],
 				'width' => $img_size[0],
 				'height' => $img_size[1],
 				'mime' => $img_size['mime']
