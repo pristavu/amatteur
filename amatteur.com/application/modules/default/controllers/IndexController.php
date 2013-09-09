@@ -6,7 +6,7 @@ class IndexController extends JO_Action {
 
 		$request = $this->getRequest();
                 
-                //JO_Session::clear('category_id');
+                //JO_Session::clear('categoria_id');
                 
                 //para las APP's
                 if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))

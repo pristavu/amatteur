@@ -437,7 +437,13 @@ class Model_Pins {
 			$query->where('pins.from_md5 = ?', $data['filter_from_md5']);
 			$ignore_in = true;
 		}
-		
+				
+                if(isset($data['filter_categoria_id']) && !is_null($data['filter_categoria_id'])) {
+			$query->where('pins.category_id in (select category_id FROM category where parent_id IN (?) or category.category_id IN (?))', new JO_Db_Expr($data['filter_categoria_id']));
+			
+			$ignore_in = true;
+		}
+                
 		if(isset($data['filter_category_id']) && !is_null($data['filter_category_id'])) {
 			$query->where('pins.category_id in (?)', new JO_Db_Expr($data['filter_category_id']));
 			

@@ -190,9 +190,10 @@ class LayoutController extends JO_Action {
                     //////////// Video ////////////
                     $this->view->video_url = WM_Router::create( $request->getBaseUrl() . '?controller=videos&category_id='.$category_id );
 
+                    /*
                     //////////// Popular ////////////
                     $this->view->popular_url = WM_Router::create( $request->getBaseUrl() . '?controller=popular&category_id='.$category_id );
-
+*/
 
                     //////////// Articles ////////////
                     $this->view->article_url = WM_Router::create( $request->getBaseUrl() . '?controller=articles&category_id='.$category_id );
@@ -218,9 +219,10 @@ class LayoutController extends JO_Action {
                     //////////// Video ////////////
                     $this->view->video_url = WM_Router::create( $request->getBaseUrl() . '?controller=videos' );
 
+                    /*
                     //////////// Popular ////////////
                     $this->view->popular_url = WM_Router::create( $request->getBaseUrl() . '?controller=popular' );
-
+*/
 
                     //////////// Articles ////////////
                     $this->view->article_url = WM_Router::create( $request->getBaseUrl() . '?controller=articles' );
@@ -231,6 +233,9 @@ class LayoutController extends JO_Action {
                     $this->view->profileTop7_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=3' );
                     $this->view->profileTop_url = WM_Router::create( $request->getBaseUrl() . '?controller=toppins&index_id=4' );
         }
+                //////////// Popular ////////////
+                $this->view->popular_url = WM_Router::create( $request->getBaseUrl() . '?controller=premiostt' );
+
 		//////////// ALL PINS ////////////
 		$this->view->all_url = WM_Router::create( $request->getBaseUrl() . '?controller=all' );
                 

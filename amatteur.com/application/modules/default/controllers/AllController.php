@@ -6,7 +6,7 @@ class AllController extends JO_Action {
 		
 		$request = $this->getRequest();
                 
-                //JO_Session::clear('category_id');
+                //JO_Session::clear('categoria_id');
 		
 		$page = (int)$request->getRequest('page');
 		if($page < 1) { $page = 1; }

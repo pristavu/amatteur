@@ -16,7 +16,7 @@ class PopularController extends JO_Action {
 			'sort' => 'DESC',
 //			'filter_marker' => $request->getRequest('marker'),
 			'filter_like_repin_comment' => true,
-                        'filter_category_id' => $request->getRequest('category_id')
+                        'filter_categoria_id' => $request->getRequest('category_id')
 		);
 		
 //		if((int)JO_Session::get('user[user_id]')) {
