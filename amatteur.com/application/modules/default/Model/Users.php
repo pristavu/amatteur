@@ -1624,6 +1624,45 @@ class Model_Users extends JO_Model {
 			return true;
 		}
 	}
+        
+	public function getUserType($data = array()) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$query = $db->select()
+					->from('user_type', array('*'))
+					->where('parent_id = ? or parent_id is null',0)
+					
+					->order('user_type.sort_order ASC');
+					
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		$data_info = $db->fetchAll($query);
+		$result = array();
+		if($data_info) { 
+			$result = $data_info;
+		}
+		
+		return $result;
+	}        
+        
+	public static function getSubUserType($user_type_id){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('user_type',array('title','user_type_id','status'))->where('parent_id = ?',$user_type_id)->order('user_type.sort_order ASC');
+		$result= $db->fetchAll($query);
+		return $result; 
+	}
+
+        function getUserTypeTitle($user_type_id){
+		$db = JO_Db::getDefaultAdapter();
+		$sql = "select title from user_type where user_type_id = {$user_type_id}";
+		$result = $db->fetchOne($sql);
+		return $result;
+	}
 	
 	
 }

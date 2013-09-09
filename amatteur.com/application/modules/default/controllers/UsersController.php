@@ -1493,7 +1493,29 @@ $view->loged = JO_Session::get('user[user_id]');
 	public function registerAction() {
 		
 		$request = $this->getRequest();
-		
+
+                //////////// Categories ////////////
+                $this->view->categories =  array();
+                $categories = Model_Categories::getCategories(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($categories as $category){
+                        $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+                        $this->view->categories[] = $category;
+                }
+
+                //////////// User Type ////////////
+                $this->view->user_type =  array();
+                $user_types = Model_Users::getUserType(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($user_types as $user_type){
+                        $user_type['subuser_types'] = Model_Users::getSubUserType($user_type['user_type_id']);
+                        $this->view->user_types[] = $user_type;
+                }
+                
 		if( JO_Session::get('user[user_id]') ) {
 			$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
 		}
@@ -1530,6 +1552,12 @@ $view->loged = JO_Session::get('user[user_id]');
 			$validate->_set_rules($request->getPost('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
 			$validate->_set_rules($request->getPost('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
 			$validate->_set_rules($request->getPost('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
+                        $validate->_set_rules($request->getPost('ubication'), $this->translate('Ubication'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('category_id1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('category_id2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('category_id3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('user_type_id'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+
 			
 			if($validate->_valid_form()) {
 				if( md5($request->getPost('password')) != md5($request->getPost('password2')) ) {
@@ -1611,6 +1639,54 @@ $view->loged = JO_Session::get('user[user_id]');
 		
 		$this->view->password = $request->getPost('password');
 		$this->view->password2 = $request->getPost('password2');
+                
+		if($request->issetPost('ubication')) {
+			$this->view->ubication = $request->getPost('ubication');
+		} else {
+			$this->view->ubication = '';
+		}
+		if($request->issetPost('category_id1')) {
+			$this->view->category_id1 = $request->getPost('category_id1');
+                        if ($request->getPost('category_id1') != "")
+                        {
+                            $this->view->cat_title1 = Model_Boards::getCategoryTitle($request->getPost('category_id1'));
+                        }
+		} else {
+			$this->view->category_id1 = '';
+		}
+		if($request->issetPost('category_id2')) {
+			$this->view->category_id2 = $request->getPost('category_id2');
+                        if ($request->getPost('category_id2') != "")
+                        {
+                            $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getPost('category_id2'));
+                        }
+		} else {
+			$this->view->category_id2 = '';
+		}
+		if($request->issetPost('category_id3')) {
+			$this->view->category_id3 = $request->getPost('category_id3');
+                        if ($request->getPost('category_id3') != "")
+                        {
+                            $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getPost('category_id3'));
+                        }
+		} else {
+			$this->view->category_id3 = '';
+		}
+                if($request->issetPost('user_type_id')) {
+			$this->view->user_type_id = $request->getPost('user_type_id');
+                        if ($request->getPost('user_type_id') != "")
+                        {
+                            $this->view->usertype_title = Model_Users::getUserTypeTitle($request->getPost('user_type_id'));
+                        }
+		} else {
+			$this->view->user_type_id = '';
+		}
+                /*
+                $this->view->ubication = $request->getPost('ubication');
+                $this->view->category_id = $request->getPost('category_id');
+                $this->view->user_type_id = $request->getPost('user_type_id');
+                $this->edit = TRUE;
+		*/
 		
 		
 		$this->view->children = array(
