@@ -5,6 +5,7 @@
 				<div class="hide">
                 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id;?>">
 				</div>
+                            <ul>
 				                <!-- Gender -->
                 <li>
                     <label for="id_gender_0"><?php echo $this->translate('Gender');?></label>
@@ -22,16 +23,16 @@
                     <label for="type_user-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Age');?></label>
                     <div class="Right" id='catList'>
                          
-                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-TypeUser' style='width: 352px; display: inline-block;'>
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Age' style='width: 352px; display: inline-block;'>
                          	<?php if(!$this->usertype_title){?>
-                                        <span class='selectBox-label' id='selectBox-label-TypeUser' style="width: 345px;"><?php echo  $this->translate('Please choose age');?></span>
+                                        <span class='selectBox-label' id='selectBox-label-Age' style="width: 345px;"><?php echo  $this->translate('Please choose age');?></span>
                          	<?php }else{?>
-                         		<span class='selectBox-label' id='selectBox-label-TypeUser' style="width: 345px;"><?php echo  $this->age_title;?></span>
+                         		<span class='selectBox-label' id='selectBox-label-Age' style="width: 345px;"><?php echo  $this->age_title;?></span>
                          	<?php } ?>
                          	 <span class="selectBox-arrow" style=""></span>
                          </a>
                          
-                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-TypeUser-dropdown-menu' style='display:none;overflow-x: hidden;width: 370px;'>
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Age' style='display:none;overflow-x: hidden;width: 370px;'>
                          
                         	<?php foreach($this->ages as $age) { ?>
                         		<li  class = 'master' style='border:none !important' >
@@ -62,20 +63,21 @@
       <label for="changetype-geocode">Geocodes</lable>
     </div-->
     <div id="map-canvas"></div>
+    <ul>
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Sport');?></label>
                     <div class="Right" id='catList'>
                          
-                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category1' style='width: 352px; display: inline-block;'>
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
                          	<?php if(!$this->cat_title1){?>
-                         		 <span class='selectBox-label' id='selectBox-label-Category1' style="width: 352px;"><?php echo  $this->translate('Please choose sport');?></span>
+                         		 <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo  $this->translate('Please choose sport');?></span>
                          	<?php }else{?>
-                         		<span class='selectBox-label' id='selectBox-label-Category1' style="width: 352px;"><?php echo  $this->cat_title1;?></span>
+                         		<span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo  $this->cat_title1;?></span>
                          	<?php }?>
                          	 <span class="selectBox-arrow" style=""></span>
                          </a>
                          
-                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category1' style='display:none;overflow-x: hidden;width: 370px;'>
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 370px;'>
                          
                         	<?php foreach($this->categories as $category) { ?>
                         		<li  class = 'master' style='border:none !important' >
@@ -93,7 +95,7 @@
                         	<?php }?>
                         </ul>
                         
-                        <input type='hidden' id='catId1' name='sport_category_1' value = '<?php echo $this->sport_category_1;?>'/>
+                        <input type='hidden' id='catId' name='sport_category' value = '<?php echo $this->sport_category;?>'/>
                       
                     </div>
                 </li>
@@ -103,20 +105,20 @@
                     <label for="type_user-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Level');?></label>
                     <div class="Right" id='catList'>
                          
-                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-TypeUser' style='width: 352px; display: inline-block;'>
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Level' style='width: 352px; display: inline-block;'>
                          	<?php if(!$this->usertype_title){?>
-                                        <span class='selectBox-label' id='selectBox-label-TypeUser' style="width: 345px;"><?php echo  $this->translate('Please choose level');?></span>
+                                        <span class='selectBox-label' id='selectBox-label-Level' style="width: 345px;"><?php echo  $this->translate('Please choose level');?></span>
                          	<?php }else{?>
-                         		<span class='selectBox-label' id='selectBox-label-TypeUser' style="width: 345px;"><?php echo  $this->level_title;?></span>
+                         		<span class='selectBox-label' id='selectBox-label-Level' style="width: 345px;"><?php echo  $this->level_title;?></span>
                          	<?php } ?>
                          	 <span class="selectBox-arrow" style=""></span>
                          </a>
                          
-                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-TypeUser-dropdown-menu' style='display:none;overflow-x: hidden;width: 370px;'>
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Level' style='display:none;overflow-x: hidden;width: 370px;'>
                          
                         	<?php foreach($this->levels as $level) { ?>
                         		<li  class = 'master' style='border:none !important' >
-                        			<a data-id='<?php echo $level['level_id'];?>' href="" class='' style='color:#AAA;' ><?php echo $level['leve_title']?></a>
+                        			<a data-id='<?php echo $level['level_id'];?>' href="" class='' style='color:#AAA;' ><?php echo $level['level_title']?></a>
                         		</li>
                         	<?php }?>
                         </ul>
@@ -133,7 +135,8 @@
                             <input type="checkbox" id="id_dont_search_index" name="dont_search_index" <?php echo ($this->user_data['dont_search_index'] ? 'checked="checked"' : '');?> /> <?php echo $this->translate('Hide your profile from search engines');?>
                         </label>
                     </div>
-                </li>                
+                </li>   
+                </ul>
 			<label for="tc"><?php echo sprintf($this->translate('Activate Options'));?> <br class="hide" /></label>
 			<span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
                         <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
@@ -202,3 +205,538 @@ $(document).ready(function(){
 
 
 </script>
+
+                
+<script type="text/javascript">
+$(document).ready(function(){
+	$('#category_id-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox({
+		onOpen: function (inst) {
+                    try
+                    {
+			console.log("open", inst);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log("open", inst);
+                        }                        
+                    }
+		},
+		onClose: function (inst) {
+                    try
+                    {
+			console.log("close", inst);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log("close", inst);
+                        }                        
+                    }
+                        
+		}
+	});
+	$('#type_user-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox({
+		onOpen: function (inst) {
+                    try
+                    {
+			console.log("open", inst);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log("open", inst);
+                        }                        
+                    }
+		},
+		onClose: function (inst) {
+                    try
+                    {
+			console.log("close", inst);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log("close", inst);
+                        }                        
+                    }
+                        
+		}
+	});        
+	$('input.collaborator_name').clearOnFocus();
+
+	
+	var cache = {};
+	$('.collaborator_name.ui-autocomplete-input').live('keyup', function(){
+		var val = this.value;
+		if(cache[val]) {
+			autocompleteResults(cache[val]);
+		} else {
+			$.post('<?php echo $this->friends_href;?>', {term: val}, function(data){
+				cache[val] = data.users;
+				autocompleteResults(data.users);
+			}, 'json');
+		}
+	}).after('<div class="menu_friends" style="position: absolute; display: none; margin-top: 33px;z-index:2147483647;">');
+	
+	function autocompleteResults(data) {
+
+		var holder = $('.menu_friends').empty();
+		if($(data).objectSize() < 1) {
+			holder.hide();
+			return;
+		}
+		holder.show(function(){
+			$(document).unbind('.joauto').bind('click.joauto',function(e){
+				holder.hide();
+			});
+		});
+		$(data).each(function(i, item){
+			user = $('<div class="option_friends"><img alt="'+item.label+'" src="'+item.image+'"><span>'+item.label+'</span></div>').click(function(){
+				holder.hide();
+				if( $('#user_fr_'+item.value+'<?php echo ($this->is_edit?'-edit':'');?>').size() > 0 ) { return; }
+				$('input.collaborator_name').val('');
+				$('#invite_response<?php echo ($this->is_edit?'-edit':'');?>').append('<input id="hidden_user_fr_'+item.value+'<?php echo ($this->is_edit?'-edit':'');?>" type="hidden" name="friends['+item.value+']" value="'+item.value+'" />');
+
+				template = $('#friend-template<?php echo ($this->is_edit?'-edit':'');?>').html();
+				for(e in item) {
+					template = template.replace(new RegExp(RegExp.quote('{'+e+'}'), 'g'), item[e]);
+				}
+				
+				$('#CurrentCollaborators<?php echo ($this->is_edit?'-edit':'');?>').append(template);
+			}).css({'cursor': 'pointer'});
+			
+			holder.append(user);
+		});
+	}
+
+	RegExp.quote = function(str) {
+	    return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+	};
+		
+	
+});
+
+function saveBoardData() {
+	
+	$.post('<?php echo $this->form_action;?>', $('#CreateBoard<?php echo ($this->is_edit?'-edit':'');?>').serialize(), function(data){
+		if(data.error) {
+			Pins.error(data.error);
+		} else if(data.data) {
+			window.location = data.data.href;
+		}
+	}, 'json');
+	return false;
+}
+
+function deleteFriend(id) {
+	$('#user_fr_'+id+'<?php echo ($this->is_edit?'-edit':'');?>').remove();
+	$('#hidden_user_fr_'+id+'<?php echo ($this->is_edit?'-edit':'');?>').remove();
+}
+
+
+$(document).ready(function(){
+    /*
+	$(".selectBox.selectBox-dropdown").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$(".selectBox.selectBox-dropdown").hide();
+		$(".selectBox-dropdown-menu.selectBox-options").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$(".selectBox-dropdown-menu.selectBox-options").hide();
+			$(".selectBox.selectBox-dropdown").show();
+			$(".selectBox-label").text(element.text());
+			$("#catId").val(element.data("id"));
+			
+			}
+
+		
+	});
+        */
+
+	$("#selectBox-Level").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-Level").hide();
+		$("#selectBox-dropdown-menu-Level").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$("#selectBox-dropdown-menu-Level").hide();
+			$("#selectBox-Level").show();
+			$("#selectBox-label-Level").text(element.text());
+			$("#levelId").val(element.data("id"));
+			
+			}
+	});
+
+	$("#selectBox-Category").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-Category").hide();
+		$("#selectBox-dropdown-menu-Category").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$("#selectBox-dropdown-menu-Category").hide();
+			$("#selectBox-Category").show();
+			$("#selectBox-label-Category").text(element.text());
+			$("#catId").val(element.data("id"));
+			
+			}
+        });	
+        
+        $("#selectBox-Age").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-Age").hide();
+		$("#selectBox-dropdown-menu-Age").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$("#selectBox-dropdown-menu-Age").hide();
+			$("#selectBox-Age").show();
+			$("#selectBox-label-Age").text(element.text());
+			$("#AgeId").val(element.data("id"));
+			
+			}
+	});
+
+	$("#selectBox-TypeUser").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-TypeUser").hide();
+		$("#selectBox-TypeUser-dropdown-menu").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$("#selectBox-TypeUser-dropdown-menu").hide();
+			$("#selectBox-TypeUser").show();
+			$("#selectBox-label-TypeUser").text(element.text());
+			$("#user_typeId").val(element.data("id"));
+			
+			}
+
+		
+	});
+	return;
+	
+	
+});
+
+</script>
+
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>    
+    <script>
+function initialize() {
+  var mapOptions = {
+    center: new google.maps.LatLng(-33.8688, 151.2195),
+    zoom: 13,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+    mapOptions);
+
+  var input = /** @type {HTMLInputElement} */(document.getElementById('searchTextField'));
+  var autocomplete = new google.maps.places.Autocomplete(input);
+
+  autocomplete.bindTo('bounds', map);
+
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map
+  });
+
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    marker.setVisible(false);
+    input.className = '';
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      // Inform the user that the place was not found and return.
+      input.className = 'notfound';
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker);
+  });
+
+  // Sets a listener on a radio button to change the filter type on Places
+  // Autocomplete.
+  function setupClickListener(id, types) {
+    var radioButton = document.getElementById(id);
+    google.maps.event.addDomListener(radioButton, 'click', function() {
+      autocomplete.setTypes(types);
+    });
+  }
+
+  setupClickListener('changetype-all', []);
+  setupClickListener('changetype-establishment', ['establishment']);
+  setupClickListener('changetype-geocode', ['geocode']);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>

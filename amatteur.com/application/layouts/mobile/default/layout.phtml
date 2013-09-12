@@ -54,7 +54,7 @@ if(!$og_recipe) {
 		<base href="<?php echo $request->getBaseUrl();?>" />
 		
 		<!--  <link href="<?php //echo WM_Minify::minifyCSS('data_mobile/css/mobile.css');?>" rel="stylesheet" type="text/css" />  -->
-		<link rel='stylesheet' type="text/css" href="<?php echo $base_url?>data_mobile/css/mobile.css"/>
+		<link rel='stylesheet' type="text/css" href="<?php echo $base_url?>data_mobile/css/mobile.css?<?php echo rand(1,9999); ?>"/>
         <!--<link rel="stylesheet" type="text/css" href="data/css/bootstrap.min.css"/>
 		<link rel="stylesheet" type="text/css" href="data/css/jquery-ui.css"/>    -->                 
                 <script type="text/javascript" src="<?php echo $base_url; ?>data_mobile/js/jquery-1.8.0.min.js"></script>

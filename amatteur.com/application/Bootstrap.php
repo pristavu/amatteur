@@ -122,7 +122,8 @@ class Bootstrap extends JO_Application_Bootstrap_Bootstrap {
 			if( $mobile_detect->isMobile() && !$mobile_detect->isTablet() ) {
 				if( !$request->getCookie('full_version') ) {
 					JO_Registry::set('template', 'mobile');
-					JO_Registry::set('config_front_limit', 5);
+					//JO_Registry::set('config_front_limit', 5);
+                                        JO_Registry::set('config_front_limit', 6);
 					switch(true) {
 						case ($request->getController() == 'search' && $request->getAction() == 'index'):
 							JO_Registry::set('config_front_limit', $config_front_limit);

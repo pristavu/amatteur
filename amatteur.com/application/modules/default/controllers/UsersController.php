@@ -419,6 +419,7 @@ class UsersController extends JO_Action {
                 }
 
                 $this->view->popup_messages = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+                $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
                 
                 if(JO_Registry::get('isMobile'))
                 {
@@ -798,6 +799,78 @@ class UsersController extends JO_Action {
 		}
 	}        
         
+	public function activatePopupAction() {
+		
+		$request = $this->getRequest();
+                
+                //////////// Categories ////////////
+                $this->view->categories =  array();
+                $categories = Model_Categories::getCategories(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($categories as $category){
+                        $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+                        $this->view->categories[] = $category;
+                }
+
+                
+                //////////// Age ////////////
+                $this->view->ages =  array();
+                $ages = Model_Users::getAge();
+                $this->view->ages = $ages;
+
+                //////////// Level ////////////
+                $this->view->levels =  array();
+                $levels = Model_Users::getLevel();
+                $this->view->levels = $levels;
+
+
+                
+                if(JO_Registry::get('isMobile'))
+                {
+                    $this->view->urlmensajes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('board_user')   );
+                }
+
+                $this->view->message_from_id = $request->getRequest('message_from_id');
+                $this->view->user_from = $request->getRequest('user_from');
+                $this->view->user_to = $request->getRequest('user_to');
+                $this->view->board_user = $request->getRequest('board_user');
+	
+		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=get_images' );
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup' );
+		
+		$this->view->popup_main_box = $this->view->render('activatePopup','users');
+		
+		if( $request->isPost() ) {
+/*
+                    $result = Model_Users::createMessage(array(
+				'to_user_id' => $request->getPost('user_to'),
+				'from_user_id' => $request->getPost('user_from'),
+				'text_message' => $request->getPost('text_message'),
+				'private_message' => $request->getPost('private_message'),
+                                'board_user_id' => $request->getPost('board_user'),
+                                'message_from_id' => $request->getPost('message_from_id')
+			));
+			if($result) {
+                            //Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+				Model_History::addHistory($request->getPost('user_to'), Model_History::MESSAGEUSER, $result, $request->getPost('board_user'), $request->getPost('text_message'));
+			}
+ */
+		}
+		if($request->isXmlHttpRequest()) {
+			$this->noViewRenderer(true);
+			echo $this->view->popup_main_box;
+			$this->view->is_popup = true;
+		} else {
+			$this->view->is_popup = false;
+			$this->view->children = array(
+	        	'header_part' 	=> 'layout/header_part',
+	        	'footer_part' 	=> 'layout/footer_part',
+	        	'left_part' 	=> 'layout/left_part'
+                        );
+		}
+	}        
         
 	public function feedAction(){
 		

@@ -1664,14 +1664,14 @@ class Model_Users extends JO_Model {
 		return $result;
 	}
 	
-	public static function getAge(){
+	public function getAge(){
 		$db  = JO_Db::getDefaultAdapter();
 		$query =  $db->select()->from('age',array('age_title'))->order('age.age_id ASC');
 		$result= $db->fetchAll($query);
 		return $result; 
 	}	
 
-        public static function getLevel(){
+        public function getLevel(){
 		$db  = JO_Db::getDefaultAdapter();
 		$query =  $db->select()->from('level',array('level_title'))->order('level.level_id ASC');
 		$result= $db->fetchAll($query);
