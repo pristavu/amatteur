@@ -7,7 +7,7 @@ $(document).ready(function(){
 		var docLength = $(document).height();
 		var ratio = parseFloat(currPos/docLength);
 	 
-		if(ratio > 0.45 && loaded < i){
+		if(ratio > 0.20 && loaded < i){
 			
 			$("#floader").show();
 		
@@ -43,8 +43,13 @@ $(document).ready(function(){
 										$(that).removeClass('notLoadedImg');
 									
 									})
+									if ($('#container').width()>768)
+									{
+										$('#container').masonry('reload');
+									}
 								})
 							}
+							
 							
 								$("#floader").hide();
 							

@@ -5,11 +5,23 @@
 
 $masonry = true;
 ?>
-<script type="text/javascript" src='data_mobile/js/infscroll.js'>
-	$(document).ready(function(){
+<script type="text/javascript" src='data_mobile/js/infscroll.js?<?php echo rand(1,999); ?>'></script>
+<script type="text/javascript" src='data_mobile/js/jquery.masonry.min.js'></script>
+<script type="text/javascript">	
+		$(document).ready(function(){
+			if ($('#container').width()>768)
+			{
+				$('#container').masonry({
+					itemSelector : '.pin'
+				  });
+				  
+				$(window).bind('deviceorientation', function() { $('#container').masonry('reload'); });
+				$(window).bind('MozOrientation', function() { $('#container').masonry('reload'); });
+				$(window).bind('load', function() { $('#container').masonry('reload'); }); 
+			}
+		});	 
 		lazyLoad();
 		infScroll();
-	});
 </script>
 <!-- here we put the variables for the users pinboards -->
 
@@ -17,9 +29,7 @@ $masonry = true;
 
 	<div id="container">
 		
-		
-		
-	
+
 		<?php echo $this->pins;?>
 		
 		

@@ -1012,8 +1012,10 @@ font-size: 25px;
     @media screen and (min-width: 768px) {
 		.pinboard .pin {
 			float:left;
-			margin-right:10px;
-			width:370px;
+			margin-right:18px;
+			width:360px;
+			margin-bottom:15px;
+			border:#CCCCCC solid 1px;
 		}
 	}
         #pinBox {
