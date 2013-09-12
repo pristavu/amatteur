@@ -22,6 +22,28 @@ class SettingsController extends JO_Action {
 		
 		$request = $this->getRequest();
 		
+                //////////// Categories ////////////
+                $this->view->categories =  array();
+                $categories = Model_Categories::getCategories(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($categories as $category){
+                        $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+                        $this->view->categories[] = $category;
+                }
+
+                //////////// User Type ////////////
+                $this->view->user_type =  array();
+                $user_types = Model_Users::getUserType(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($user_types as $user_type){
+                        $user_type['subuser_types'] = Model_Users::getSubUserType($user_type['user_type_id']);
+                        $this->view->user_types[] = $user_type;
+                }                
+                
 		$user_data = Model_Users::getUser( JO_Session::get('user[user_id]') );
 		
 		$upload = new JO_Upload_SessionStore();
@@ -40,6 +62,12 @@ class SettingsController extends JO_Action {
 			$validate->_set_rules($request->getPost('firstname'), $this->translate('First name'), 'not_empty;min_length[3];max_length[100]');
 			$validate->_set_rules($request->getPost('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
 			$validate->_set_rules($request->getPost('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
+                        $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category_1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category_2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category_3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+
 			
 			$data = $request->getPost();
 		
@@ -119,11 +147,68 @@ class SettingsController extends JO_Action {
 			$user_data['has_avatar'] = @getimagesize($user_data['avatar']) ? true : false;
 		}
 		
+                $this->view->location = '';
+		if($request->issetPost('location')) {
+			$this->view->location = $request->getPost('location');
+		} else {
+			$this->view->location = '';
+		}
+                $this->view->cat_title1 = '';
+                $this->view->sport_category_1 = '';
+		if($request->issetPost('sport_category_1')) {
+			$this->view->sport_category_1 = $request->getPost('sport_category_1');
+                        if ($request->getPost('sport_category_1') != "")
+                        {
+                            $this->view->cat_title1 = Model_Boards::getCategoryTitle($request->getPost('sport_category_1'));
+                        }
+		} elseif ($user_data['sport_category_1'] != "") {
+			$this->view->sport_category_1 = $user_data['sport_category_1'];
+                        $this->view->cat_title1 = Model_Boards::getCategoryTitle($user_data['sport_category_1']);
+		}
+                $this->view->cat_title2 = '';
+                $this->view->sport_category_2 = '';
+		if($request->issetPost('sport_category_2')) {
+			$this->view->sport_category_2 = $request->getPost('sport_category_2');
+                        if ($request->getPost('sport_category_2') != "")
+                        {
+                            $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getPost('sport_category_2'));
+                        }
+		} elseif ($user_data['sport_category_2'] != "") {
+			$this->view->sport_category_2 = $user_data['sport_category_2'];
+                        $this->view->cat_title2 = Model_Boards::getCategoryTitle($user_data['sport_category_2']);
+		}
+                $this->view->cat_title3 = '';
+                $this->view->sport_category_3 = '';
+		if($request->issetPost('sport_category_3')) {
+			$this->view->sport_category_3 = $request->getPost('sport_category_3');
+                        if ($request->getPost('sport_category_3') != "")
+                        {
+                            $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getPost('sport_category_3'));
+                        }
+		} elseif ($user_data['sport_category_3'] != "") {
+			$this->view->sport_category_3 = $user_data['sport_category_3'];
+                        $this->view->cat_title3 = Model_Boards::getCategoryTitle($user_data['sport_category_3']);
+		}
+                $this->view->usertype_title = '';
+                $this->view->type_user = '';
+                if($request->issetPost('type_user')) {
+                        $this->view->type_user = $request->getPost('type_user');
+                        if ($request->getPost('type_user') != "")
+                        {
+                            $this->view->usertype_title = Model_Users::getUserTypeTitle($request->getPost('type_user'));
+                        }
+		} elseif ($user_data['type_user'] != "") {
+			$this->view->type_user = $user_data['type_user'];
+                        $this->view->usertype_title = Model_Users::getUserTypeTitle($user_data['type_user']);
+		}
+
+                
+                
 		$this->view->instagram_enable = JO_Registry::get('oauth_in_key');
 		$this->view->twitteroauth_enable = JO_Registry::get('oauth_tw_key');
 		$this->view->facebook_enable = JO_Registry::get('oauth_fb_key');
         
-        $this->view->user_data = $user_data;
+                $this->view->user_data = $user_data;
 		
 		$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=settings&action=upload_avatar' );
 		$this->view->invites_fb = WM_Router::create( $request->getBaseUrl() . '?controller=invites&action=facebook' );

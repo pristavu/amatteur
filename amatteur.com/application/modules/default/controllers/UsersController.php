@@ -442,23 +442,23 @@ class UsersController extends JO_Action {
             
                 $request = $this->getRequest();
 
-//para las APP's
-if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
-{
-    $_SESSION['token'] = $_POST['token'];
-    JO_Session::set('token', $_POST['token']);
-    
-        $result = Model_Users::checkLoginAPP($_POST['userid']);
-        if ($result)
-        {
-            if ($result['status'])
-            {
-                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
-                JO_Session::set(array('user' => $result));
-            }  
-        }
-     
-}
+                //para las APP's
+                if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
+                {
+                    $_SESSION['token'] = $_POST['token'];
+                    JO_Session::set('token', $_POST['token']);
+
+                        $result = Model_Users::checkLoginAPP($_POST['userid']);
+                        if ($result)
+                        {
+                            if ($result['status'])
+                            {
+                                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                                JO_Session::set(array('user' => $result));
+                            }  
+                        }
+
+                }
 
 		$user_data = $this->profileHelp();
         
@@ -579,26 +579,28 @@ if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
             
                 $request = $this->getRequest();
 
-//error_log("antes de APP");
-//para las APP's
-if (isset($_SESSION['token']))
-{
-    //error_log("dentro de app");
-    
-        $result = Model_Users::checkLoginAPP($_SESSION['userid']);
-        if ($result)
-        {
-            if ($result['status'])
-            {
-                @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
-                JO_Session::set(array('user' => $result));
-                
-                //error_log("fin de app");
-            }  
-        }
-     
-}
-$view->loged = JO_Session::get('user[user_id]');
+                //error_log("antes de APP");
+                //para las APP's
+                if (isset($_SESSION['token']))
+                {
+                    //error_log("dentro de app");
+                    if (isset($_SESSION['userid']))
+                    {
+                            $result = Model_Users::checkLoginAPP($_SESSION['userid']);
+                            if ($result)
+                            {
+                                if ($result['status'])
+                                {
+                                    @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                                    JO_Session::set(array('user' => $result));
+
+                                    //error_log("fin de app");
+                                }  
+                            }
+                    }
+
+                }
+                $view->loged = JO_Session::get('user[user_id]');
 
 		$user_data = $this->profileHelp();
         
@@ -1552,11 +1554,11 @@ $view->loged = JO_Session::get('user[user_id]');
 			$validate->_set_rules($request->getPost('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
 			$validate->_set_rules($request->getPost('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
 			$validate->_set_rules($request->getPost('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
-                        $validate->_set_rules($request->getPost('ubication'), $this->translate('Ubication'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('category_id1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('category_id2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('category_id3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('user_type_id'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+                        $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category_1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category_2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category_3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
 
 			
 			if($validate->_valid_form()) {
@@ -1587,6 +1589,11 @@ $view->loged = JO_Session::get('user[user_id]');
 					'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
 					'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
 					'facebook_id' => isset($shared_content['facebook_id']) ? $shared_content['facebook_id'] : 0,
+                                        'location' => $request->getPost('location'),
+                                        'sport_category_1' => $request->getPost('sport_category_1'), 
+                                        'sport_category_2' => $request->getPost('sport_category_2'), 
+                                        'sport_category_3' => $request->getPost('sport_category_3'), 
+                                        'type_user' => $request->getPost('type_user'), 
 					'confirmed' => '0',
 					'regkey'=>$reg_key
 				));
@@ -1640,51 +1647,62 @@ $view->loged = JO_Session::get('user[user_id]');
 		$this->view->password = $request->getPost('password');
 		$this->view->password2 = $request->getPost('password2');
                 
-		if($request->issetPost('ubication')) {
-			$this->view->ubication = $request->getPost('ubication');
+                $this->view->location = '';
+		if($request->issetPost('location')) {
+			$this->view->location = $request->getPost('location');
 		} else {
-			$this->view->ubication = '';
+			$this->view->location = '';
 		}
-		if($request->issetPost('category_id1')) {
-			$this->view->category_id1 = $request->getPost('category_id1');
-                        if ($request->getPost('category_id1') != "")
+                $this->view->cat_title1 = '';
+                $this->view->sport_category_1 = '';
+		if($request->issetPost('sport_category_1')) {
+			$this->view->sport_category_1 = $request->getPost('sport_category_1');
+                        if ($request->getPost('sport_category_1') != "")
                         {
-                            $this->view->cat_title1 = Model_Boards::getCategoryTitle($request->getPost('category_id1'));
+                            $this->view->cat_title1 = Model_Boards::getCategoryTitle($request->getPost('sport_category_1'));
                         }
 		} else {
-			$this->view->category_id1 = '';
+			$this->view->sport_category_1 = '';
 		}
-		if($request->issetPost('category_id2')) {
-			$this->view->category_id2 = $request->getPost('category_id2');
-                        if ($request->getPost('category_id2') != "")
+                $this->view->cat_title2 = '';
+                $this->view->sport_category_2 = '';
+		if($request->issetPost('sport_category_2')) {
+			$this->view->sport_category_2 = $request->getPost('sport_category_2');
+                        if ($request->getPost('sport_category_2') != "")
                         {
-                            $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getPost('category_id2'));
+                            $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getPost('sport_category_2'));
                         }
 		} else {
-			$this->view->category_id2 = '';
+			$this->view->sport_category_2 = '';
 		}
-		if($request->issetPost('category_id3')) {
-			$this->view->category_id3 = $request->getPost('category_id3');
-                        if ($request->getPost('category_id3') != "")
+                $this->view->cat_title3 = '';
+                $this->view->sport_category_3 = '';
+		if($request->issetPost('sport_category_3')) {
+			$this->view->sport_category_3 = $request->getPost('sport_category_3');
+                        if ($request->getPost('sport_category_3') != "")
                         {
-                            $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getPost('category_id3'));
+                            $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getPost('sport_category_3'));
                         }
 		} else {
-			$this->view->category_id3 = '';
+			$this->view->sport_category_3 = '';
 		}
-                if($request->issetPost('user_type_id')) {
-			$this->view->user_type_id = $request->getPost('user_type_id');
-                        if ($request->getPost('user_type_id') != "")
+                $this->view->usertype_title = '';
+                $this->view->type_user = '';
+                if($request->issetPost('type_user')) {
+                        $this->view->type_user = $request->getPost('type_user');
+                        if ($request->getPost('type_user') != "")
                         {
-                            $this->view->usertype_title = Model_Users::getUserTypeTitle($request->getPost('user_type_id'));
+                            $this->view->usertype_title = Model_Users::getUserTypeTitle($request->getPost('type_user'));
                         }
 		} else {
-			$this->view->user_type_id = '';
+			$this->view->type_user = '';
 		}
+                
+
                 /*
                 $this->view->ubication = $request->getPost('ubication');
                 $this->view->category_id = $request->getPost('category_id');
-                $this->view->user_type_id = $request->getPost('user_type_id');
+                $this->view->type_user = $request->getPost('type_user');
                 $this->edit = TRUE;
 		*/
 		

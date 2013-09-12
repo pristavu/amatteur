@@ -4615,7 +4615,7 @@ input::-moz-focus-inner { border: 0; }*/
 }
 
 #ProfileHeader .info {
-    height: 165px;
+    height: 205px;
     position: relative;
     width: 750px;
 }

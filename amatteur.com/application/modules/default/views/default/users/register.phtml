@@ -54,8 +54,9 @@
 		</p>
 		<div class="hr"></div>
 		<p class="input">
-			<label for="ubication"><?php echo $this->translate('Ubication');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="ubication" id="searchTextField" value="<?php echo $this->ubication;?>" /></span>
+			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
+                        <span class="help_text"><?php echo $this->translate('e.g. Palo Alto, CA');?></span>                        
 		</p>
     <!--div id="panel" style="margin-left: 260px">
       <input id="searchTextField" type="text" size="50">
@@ -69,7 +70,7 @@
       <label for="changetype-geocode">Geocodes</lable>
     </div-->
     <div id="map-canvas"></div>
-                
+       
     <div id="create-board" class="Form StaticForm" style="padding-left:0px;" >
             <ul style="margin:0px;">
                 <!-- Deportes -->
@@ -104,7 +105,7 @@
                         	<?php }?>
                         </ul>
                         
-                        <input type='hidden' id='catId1' name='category_id1' value = '<?php echo $this->category_id1;?>'/>
+                        <input type='hidden' id='catId1' name='sport_category_1' value = '<?php echo $this->sport_category_1;?>'/>
                       
                     </div>
                 </li>
@@ -140,7 +141,7 @@
                         	<?php }?>
                         </ul>
                         
-                        <input type='hidden' id='catId2' name='category_id2' value = '<?php echo $this->category_id2;?>'/>
+                        <input type='hidden' id='catId2' name='sport_category_2' value = '<?php echo $this->sport_category_2;?>'/>
                       
                     </div>
                 </li>
@@ -177,14 +178,14 @@
                         	<?php }?>
                         </ul>
                         
-                        <input type='hidden' id='catId3' name='category_id3' value = '<?php echo $this->category_id3;?>'/>
+                        <input type='hidden' id='catId3' name='sport_category_3' value = '<?php echo $this->sport_category_3;?>'/>
                       
                     </div>
                 </li>
 
                 <!-- Tipo Usuario -->
                 <li style="border:0px">
-                    <label for="user_type_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('User Type');?></label>
+                    <label for="type_user-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('User Type');?></label>
                     <div class="Right" id='catList'>
                          
                          <a href="" class='selectBox selectBox-dropdown' id='selectBox-TypeUser' style='width: 352px; display: inline-block;'>
@@ -214,7 +215,7 @@
                         	<?php }?>
                         </ul>
                         
-                        <input type='hidden' id='user_typeId' name='user_type_id' value = '<?php echo $this->user_type_id;?>'/>
+                        <input type='hidden' id='user_typeId' name='type_user' value = '<?php echo $this->type_user;?>'/>
 
                     </div>
                 </li>
@@ -294,7 +295,7 @@ $(document).ready(function(){
                         
 		}
 	});
-	$('#user_type_id-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox({
+	$('#type_user-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox({
 		onOpen: function (inst) {
                     try
                     {
