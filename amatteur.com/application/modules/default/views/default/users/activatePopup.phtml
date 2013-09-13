@@ -1,12 +1,12 @@
 <div id="create_new_pin">
 	<div id="content-holder">
 		<div id="emailpin">
-			<form action="<?php echo $this->activatePopup;?>" method="post">
+			<form class="Form StaticForm" action="<?php echo $this->activatePopup;?>" method="post">
 				<div class="hide">
                 	<input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id;?>">
 				</div>
                             <ul>
-				                <!-- Gender -->
+		<!-- Gender -->
                 <li>
                     <label for="id_gender_0"><?php echo $this->translate('Gender');?></label>
                     <div id="genderOptions" class="Right">
@@ -45,7 +45,7 @@
 
                     </div>
                 </li>
-            </ul>
+                <li>
             		<p class="input">
 			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
 			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
@@ -63,7 +63,7 @@
       <label for="changetype-geocode">Geocodes</lable>
     </div-->
     <div id="map-canvas"></div>
-    <ul>
+   </li>
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Sport');?></label>
                     <div class="Right" id='catList'>
@@ -129,32 +129,52 @@
                 </li>
                 <!-- Search Index -->
                 <li>
-                    <label for="id_dont_search_index"><?php echo $this->translate('Hide');?></label>
+                    <label for="id_dont_search_index"><?php echo $this->translate('Activate');?></label>
                     <div class="Right NoInput">
                         <label for="id_dont_search_index" class="large">
                             <input type="checkbox" id="id_dont_search_index" name="dont_search_index" <?php echo ($this->user_data['dont_search_index'] ? 'checked="checked"' : '');?> /> <?php echo $this->translate('Hide your profile from search engines');?>
                         </label>
                     </div>
                 </li>   
-                </ul>
+                <li>
 			<label for="tc"><?php echo sprintf($this->translate('Activate Options'));?> <br class="hide" /></label>
+                        <div style="display:table">
+                            <div style="display:table-row">
+                            <div style="display:table-cell">
 			<span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
-                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
-                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
-                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
-                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
-                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Practice sports together'));?> </span>
-
+                        </div><div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Organize match / tournament'));?> </span>
+                        </div><div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Team look for sportman'));?> </span>
+                        </div><div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Sportman look for team'));?> </span>
+                        </div>
+                        </div>
+                        <div style="display:table-row">
+                        <div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Look for sponsor'));?> </span>
+                        </div><div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Volunteer helps paraolimpics'));?> </span>
+                        </div><div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Aprendiz look for menthor'));?> </span>
+                        </div><div style="display:table-cell">
+                        <span class="" style='text-align:left'><input type='checkbox' id='tc'><?php echo sprintf($this->translate('Menthor begins aprendiz'));?> </span>
+                        </div>
+                        </div>
+                        </div>
+                </li>
+                <li>
 				<div class="left w335px">
 					<p>
 						<label for="message"><?php echo $this->translate('Comment');?>:<br></label>
 						<textarea name="texto" id="texto" rows="5" cols="30"><?php echo $this->title;?></textarea>
 					</p>
-					<p class="text_counter"></p>
+                                </li>				<p class="text_counter"></p>
+    </ul>                                        
 					<p class="submit">
                     	<input class="disabled" type="submit" value="<?php echo $this->translate('Pinit');?>"></p>
 					<div class="clear"></div>
-				</div>
+				
 				<div class="clear"></div>
 			</form>
 		</div>
@@ -204,10 +224,7 @@ $(document).ready(function(){
 });
 
 
-</script>
 
-                
-<script type="text/javascript">
 $(document).ready(function(){
 	$('#category_id-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox({
 		onOpen: function (inst) {
@@ -344,70 +361,6 @@ function deleteFriend(id) {
 
 
 $(document).ready(function(){
-    /*
-	$(".selectBox.selectBox-dropdown").bind('click',function(event){
-		$('ul.hidden').hide();
-		event.preventDefault();
-		$(".selectBox.selectBox-dropdown").hide();
-		$(".selectBox-dropdown-menu.selectBox-options").show();
-
-		$(".master").unbind('click').bind('click',function(event){
-			event.preventDefault();
-
-			
-			var children  = $(this).find($('ul'));
-			if(children.hasClass('opened')){
-				children.hide().removeClass('opened');
-			
-				
-			}else{
-
-			$(".hidden").hide();
-			var self  = $(this);
-			children.addClass('opened');
-
-
-			if($(children).hasClass('hidden')){
-				try
-                                {
-                                    console.log("OK");
-                                }
-                                catch(e)
-                                {
-                                    if (window.console // check for window.console not console
-                                        && window.console.log)
-                                    {
-                                        window.console.log("OK");
-                                    }
-
-                                }
-				children.show();
-				children.find('li a').click(function(event){
-						event.preventDefault();
-						appendElementInMain($(this));
-						$(".hidden").hide();
-				});
-			}else{
-				
-				appendElementInMain(self.find($('a')));
-				
-			}
-
-			}
-		});
-	
-
-		function appendElementInMain(element){
-			$(".selectBox-dropdown-menu.selectBox-options").hide();
-			$(".selectBox.selectBox-dropdown").show();
-			$(".selectBox-label").text(element.text());
-			$("#catId").val(element.data("id"));
-			
-			}
-
-		
-	});
-        */
 
 	$("#selectBox-Level").bind('click',function(event){
 		$('ul.hidden').hide();
@@ -660,8 +613,9 @@ $(document).ready(function(){
 });
 
 </script>
-
+<!--
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places"></script>    
+
     <script>
 function initialize() {
   var mapOptions = {
@@ -740,3 +694,4 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
+-->

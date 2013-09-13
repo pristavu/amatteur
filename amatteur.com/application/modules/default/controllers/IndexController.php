@@ -61,6 +61,12 @@ class IndexController extends JO_Action {
 		$data = array(
 			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
 			'limit' => JO_Registry::get('config_front_limit')
+                        // por si hay que ordenar por más vistos en la pantalla inicial
+                        /*,
+			'order' => 'pins.views',
+			'sort' => 'DESC'
+                         * */
+                         
 		);
 		
 		if(JO_Session::get('user[user_id]')) {

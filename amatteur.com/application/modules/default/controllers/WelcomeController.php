@@ -147,7 +147,8 @@ class WelcomeController extends JO_Action {
 		}
 		
 		$this->view->pinmarklet_href = WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . JO_Registry::get('page_pinmarklet') );
-		$this->view->direct_path = WM_Router::create( $request->getBaseUrl() . '?direct_path=true' );
+		//$this->view->direct_path = WM_Router::create( $request->getBaseUrl() . '?direct_path=true' );
+                $this->view->direct_path = WM_Router::create( $request->getBaseUrl() . '?controller=guia-rapida' );
 		
 		
 	}

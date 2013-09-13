@@ -288,7 +288,7 @@ class Helper_Pin {
 		if ($pin["store"]=="amazons3")
 		{
 			$host="http://images.amatteur.com/";
-			$sufijo="_B.";
+			$sufijo="_D.";
 		}
 		else
 		{

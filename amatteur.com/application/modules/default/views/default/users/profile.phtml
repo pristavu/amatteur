@@ -111,19 +111,13 @@
 								<span class="icon location"></span><?php echo $this->userdata['location'];?>
 							</li>
 							<?php } ?>
-
                                                 <?php if($this->enable_edit) { ?>  
                                                       <?php if (!$this->userIsActivate) { ?>
                                                 <img src="data/images/activateNo.png">
-                                                <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsActivate?' gray':'');?>" href="<?php echo $this->popup_activate;?>">
-                                                       <?php  $this->translate("Activate"); ?> 
-                                                </a>
+                                                    <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton message silverboxMessage" ><?php echo $this->translate('Activate');?></a>
                                                       <?php } else { ?> 
                                                 <img src="data/images/activateSi.png">
-                                                <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsActivate?' gray':'');?>" href="<?php echo $this->popup_activate;?>">
-                                                       <?php  $this->translate("Activate"); ?> 
-                                                </a>
-
+                                                    <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton message silverboxMessage" ><?php echo $this->translate('Activate');?></a>
                                                       <?php }  ?>   
                                                 <?php }  ?>  
                                                         

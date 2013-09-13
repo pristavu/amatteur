@@ -419,7 +419,7 @@ class UsersController extends JO_Action {
                 }
 
                 $this->view->popup_messages = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
-                $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+                $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
                 
                 if(JO_Registry::get('isMobile'))
                 {
@@ -826,7 +826,7 @@ class UsersController extends JO_Action {
                 $this->view->levels = $levels;
 
 
-                
+                /*
                 if(JO_Registry::get('isMobile'))
                 {
                     $this->view->urlmensajes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('board_user')   );
@@ -836,9 +836,9 @@ class UsersController extends JO_Action {
                 $this->view->user_from = $request->getRequest('user_from');
                 $this->view->user_to = $request->getRequest('user_to');
                 $this->view->board_user = $request->getRequest('board_user');
-	
+	*/
 		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=get_images' );
-                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup' );
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup' );
 		
 		$this->view->popup_main_box = $this->view->render('activatePopup','users');
 		
