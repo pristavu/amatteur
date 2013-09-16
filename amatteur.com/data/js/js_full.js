@@ -7699,4 +7699,5 @@ $(document).ready(function(){
 			window.location = data.li.find('a').attr('href');
 		}
 	});
+	$('#IntercomDefaultWidget').attr("title","fdfdf");
 });

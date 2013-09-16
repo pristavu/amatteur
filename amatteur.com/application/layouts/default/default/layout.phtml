@@ -92,6 +92,7 @@ if(!$og_recipe) {
         amatteur utiliza cookies propias y de terceros para mejorar su experiencia de navegación y realizar tareas de analítica.
         <p>Si continúa navegando, entendemos que acepta nuestra <a href="http://www.amatteur.com/cookies">política de cookies</a>.</p>
 </div>
+
 <!-- Mask to cover the whole screen -->
 <div style="width: 1478px; height: 900px; display: none; opacity: 0.8;" id="mask"></div>
 </div>
@@ -121,6 +122,7 @@ if(!$og_recipe) {
 		{
 			$user = Model_Users::getUser(JO_Session::get('user[user_id]'));
 		?>
+        	<div id="IntercomMask" title="<?php echo $this->translate('Envía tu feedback');?>"></div>
     		<script id="IntercomSettingsScriptTag">
 		  window.intercomSettings = {
 			// TODO: The current logged in user's email address.
@@ -147,7 +149,14 @@ if(!$og_recipe) {
 <script type="text/javascript">
 $(document).ready(function() 
 {
-    
+	$("#IntercomMask").tooltip({
+		position:{ my: "left+15 left", at: "right right" },
+		  effect: "fade",
+		  opacity: 0.7
+     	 });
+	$("#IntercomMask").click(function (){
+		$("#IntercomDefaultWidget").click();
+	});
         var sesionActiva = $.cookie("sesionActiva");
 	if(sesionActiva != 1) { 
                 
