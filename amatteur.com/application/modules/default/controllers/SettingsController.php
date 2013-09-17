@@ -18,6 +18,7 @@ class SettingsController extends JO_Action {
 		$this->facebook = JO_Registry::get('facebookapi');
 	}
 
+
 	public function indexAction() {
 		
 		$request = $this->getRequest();
@@ -33,8 +34,9 @@ class SettingsController extends JO_Action {
                         $this->view->categories[] = $category;
                 }
 
+                
                 //////////// User Type ////////////
-                $this->view->user_type =  array();
+                $this->view->user_types =  array();
                 $user_types = Model_Users::getUserType(array(
                         'filter_status' => 1
                 ));
@@ -72,6 +74,7 @@ class SettingsController extends JO_Action {
 			$data = $request->getPost();
 		
 			if($validate->_valid_form()) {
+                            
 				if( Model_Users::isExistEmail($request->getPost('email'), JO_Session::get('user[email]')) ) {
 					$validate->_set_form_errors( $this->translate('This e-mail address is already used') );
 					$validate->_set_valid_form(false);

@@ -1666,17 +1666,38 @@ class Model_Users extends JO_Model {
 	
 	public function getAge(){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('age',array('age_title'))->order('age.age_id ASC');
+		$query =  $db->select()->from('age',array('*'))->order('age.age_id ASC');
 		$result= $db->fetchAll($query);
+		return $result; 
+	}	
+
+        public function getAgeTitle($age_id){
+		$db  = JO_Db::getDefaultAdapter();
+		$sql = "select title from age where age_id = {$age_id}";
+		$result = $db->fetchOne($sql);
 		return $result; 
 	}	
 
         public function getLevel(){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('level',array('level_title'))->order('level.level_id ASC');
+		$query =  $db->select()->from('level',array('*'))->order('level.level_id ASC');
 		$result= $db->fetchAll($query);
 		return $result; 
+	}
+        
+        public function getLevelTitle($level_id){
+		$db  = JO_Db::getDefaultAdapter();
+		$sql = "select title from level where level_id = {$level_id}";
+		$result = $db->fetchOne($sql);
+		return $result; 
 	}	
+        
+        public function getActivateUser(){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('users_activate',array('*'));
+		$result= $db->fetchAll($query);
+		return $result; 
+	}
 
 }
 
