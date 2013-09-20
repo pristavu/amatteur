@@ -190,8 +190,7 @@ $(document).ready(function(){
                                 <label for="message"><?php echo $this->translate('Comment'); ?>:<br></label>
                                 <textarea name="texto" id="texto" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
                             </p>
-                            <p class="text_counter"></p>
-                    </li>	
+                    </li>				<p class="text_counter"></p>
                 </ul>    
                     <span style="color:red">*</span> <?php echo $this->translate('Fields required'); ?>                
                 <p class="submit">
@@ -627,6 +626,68 @@ $(document).ready(function(){
             }
         });
 
+        $("#selectBox-TypeUser").bind('click',function(event){
+            $('ul.hidden').hide();
+            event.preventDefault();
+            $("#selectBox-TypeUser").hide();
+            $("#selectBox-TypeUser-dropdown-menu").show();
+
+            $(".master").unbind('click').bind('click',function(event){
+                event.preventDefault();
+
+			
+                var children  = $(this).find($('ul'));
+                if(children.hasClass('opened')){
+                    children.hide().removeClass('opened');
+			
+				
+                }else{
+
+                    $(".hidden").hide();
+                    var self  = $(this);
+                    children.addClass('opened');
+
+
+                    if($(children).hasClass('hidden')){
+                        try
+                        {
+                            console.log("OK");
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.console.log("OK");
+                            }
+
+                        }
+                        children.show();
+                        children.find('li a').click(function(event){
+                            event.preventDefault();
+                            appendElementInMain($(this));
+                            $(".hidden").hide();
+                        });
+                    }else{
+				
+                        appendElementInMain(self.find($('a')));
+				
+                    }
+
+                }
+            });
+	
+
+            function appendElementInMain(element){
+                $("#selectBox-TypeUser-dropdown-menu").hide();
+                $("#selectBox-TypeUser").show();
+                $("#selectBox-label-TypeUser").text(element.text());
+                $("#user_typeId").val(element.data("id"));
+			
+            }
+
+		
+        });
         return;
 	
 	

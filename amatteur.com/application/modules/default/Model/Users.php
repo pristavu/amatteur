@@ -1673,7 +1673,7 @@ class Model_Users extends JO_Model {
 
         public function getAgeTitle($age_id){
 		$db  = JO_Db::getDefaultAdapter();
-		$sql = "select title from age where age_id = {$age_id}";
+		$sql = "select age_title from age where age_id = {$age_id}";
 		$result = $db->fetchOne($sql);
 		return $result; 
 	}	
@@ -1687,18 +1687,68 @@ class Model_Users extends JO_Model {
         
         public function getLevelTitle($level_id){
 		$db  = JO_Db::getDefaultAdapter();
-		$sql = "select title from level where level_id = {$level_id}";
+		$sql = "select level_title from level where level_id = {$level_id}";
 		$result = $db->fetchOne($sql);
 		return $result; 
 	}	
         
-        public function getActivateUser(){
+        public function getActivateUser($user_id){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('users_activate',array('*'));
-		$result= $db->fetchAll($query);
+		//$sql = "select * from users_activate where user_id = {$user_id}";
+		//$result = $db->fetchOne($sql);
+		$query =  $db->select()->from('users_activate',array('*'))->where('user_id = ?',$user_id);
+                $result= $db->fetchRow($query);
 		return $result; 
 	}
 
+	public static function createActivate($user_id, $data) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$rows = self::describeTable('users_activate');
+		
+		//$user_info_get = self::getUser($user_id);
+		
+		//$created = WM_Date::format($user_info_get['created'], 'yy-mm-dd H:i:s');
+                
+		$update = array();
+		foreach($rows AS $row) {
+			if( array_key_exists($row, $data) ) {
+                            $update[$row] = $data[$row];
+			}
+		}
+		
+		if(!$update) {
+				return false;
+		}
+		
+                $user_data = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
+                if (!$user_data)
+                {
+                    $db->insert('users_activate', $update);
+		
+                    $user_id = $db->lastInsertId();
+		
+                    if(!$user_id) {
+			return false;
+                    }
+
+                }
+                else
+                {
+                    $result = $db->update('users_activate', $update, array('user_id = ?' => (string)$user_id));
+
+                    if (!$result)
+                    {
+                        return false;
+                    }
+
+                }
+		
+		
+		return true;
+	}
+        
+        
 }
 
 ?>

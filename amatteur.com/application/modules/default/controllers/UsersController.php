@@ -419,7 +419,17 @@ class UsersController extends JO_Action {
                 }
 
                 $this->view->popup_messages = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
-                $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+                //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+                //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activateDetail'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+                $_SESSION["activate_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+                $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate'); 
+                
+                $activate = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
+                
+                if ($activate)
+                {
+                    $this->view->userIsActivate = $activate["activate"];
+                }
                 
                 if(JO_Registry::get('isMobile'))
                 {
@@ -799,7 +809,7 @@ class UsersController extends JO_Action {
 		}
 	}        
         
-	public function activatePopupAction() {
+        public function activateAction() {
 		
 		$request = $this->getRequest();
                 
@@ -825,37 +835,213 @@ class UsersController extends JO_Action {
                 $this->view->levels = $levels;
                 
                 $user_data = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
+                $this->view->user_data = $user_data;
 
                 if(JO_Registry::get('isMobile'))
                 {
                     $this->view->urlmensajes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('board_user')   );
                 }
 
-                $this->view->gender = $request->getRequest('gender');
-                $this->view->user_from = $request->getRequest('user_from');
-                $this->view->user_to = $request->getRequest('user_to');
-                $this->view->board_user = $request->getRequest('board_user');
-	
-		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=get_images' );
-                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup' );
+                //gender
+                if($request->issetPost('gender')) {
+                    $this->view->gender = $request->getRequest('gender');
+                } elseif (isset ($user_data['gender'])) {
+                    $this->view->gender = $user_data['gender'];
+                }
+                else
+                {
+                    $this->view->gender = "";
+                }
+                
+                //location		
+                if($request->issetPost('location')) {
+			$this->view->location = $request->getPost('location');
+		}  elseif (isset ($user_data['location'])) {
+			$this->view->location = $user_data['location'];
+		}
+                else
+                {
+                        $this->view->location = '';
+                }
+                
+                //sport category
+		if($request->issetPost('sport_category')) {
+			$this->view->sport_category = $request->getPost('sport_category');
+                        if ($request->getPost('sport_category') != "")
+                        {
+                            $this->view->cat_title = Model_Boards::getCategoryTitle($request->getPost('sport_category'));
+                        }
+		} elseif (isset ($user_data['sport_category'])) {
+			$this->view->sport_category = $user_data['sport_category'];
+                        $this->view->cat_title = Model_Boards::getCategoryTitle($user_data['sport_category']);
+		}
+                else
+                {
+                        $this->view->cat_title = '';
+                        $this->view->sport_category = '';
+                }
+                
+                //age
+		if($request->issetPost('age')) {
+			$this->view->age = $request->getPost('age');
+                        if ($request->getPost('age') != "")
+                        {
+                            $this->view->age_title = Model_Users::getAgeTitle($request->getPost('age'));
+                        }
+		} elseif (isset ($user_data['age'])) {
+			$this->view->age = $user_data['age'];
+                        $this->view->age_title = Model_Users::getAgeTitle($user_data['age']);
+		}
+                else
+                {
+                    $this->view->age_title = '';
+                    $this->view->age = '';
+                }
+                
+                //level
+		if($request->issetPost('level')) {
+			$this->view->level = $request->getPost('level');
+                        if ($request->getPost('level') != "")
+                        {
+                            $this->view->level_title = Model_Users::getLevelTitle($request->getPost('level'));
+                        }
+		} elseif (isset ($user_data['level'])) {
+			$this->view->level = $user_data['level'];
+                        $this->view->level_title = Model_Users::getLevelTitle($user_data['level']);
+		}
+                else
+                {
+                    $this->view->level_title = '';
+                    $this->view->level = '';
+                }
+
+                //comment		
+                if($request->issetPost('comment')) {
+			$this->view->comment = $request->getPost('comment');
+		}  elseif (isset ($user_data['comment'])) {
+			$this->view->comment = $user_data['comment'];
+		}
+                else
+                {
+                        $this->view->comment = '';
+                }
+                
+                //activate		
+                if($request->issetPost('activate')) {
+			$this->view->activate = $request->getPost('activate');
+		}  elseif (isset ($user_data['activate'])) {
+			$this->view->activate = $user_data['activate'];
+		}
+                else
+                {
+                        $this->view->activate = '';
+                }
+                
+                //option1		
+                if($request->issetPost('option1')) {
+			$this->view->option1 = $request->getPost('option1');
+		}  elseif (isset ($user_data['option1'])) {
+			$this->view->option1 = $user_data['option1'];
+		}
+                else
+                {
+                        $this->view->option1 = '';
+                }
+
+                //option2		
+                if($request->issetPost('option2')) {
+			$this->view->option2 = $request->getPost('option2');
+		}  elseif (isset ($user_data['option2'])) {
+			$this->view->option2 = $user_data['option2'];
+		}
+                else
+                {
+                        $this->view->option2 = '';
+                }
+                
+                //option3
+                if($request->issetPost('option3')) {
+			$this->view->option3 = $request->getPost('option3');
+		}  elseif (isset ($user_data['option3'])) {
+			$this->view->option3 = $user_data['option3'];
+		}
+                else
+                {
+                        $this->view->option3 = '';
+                }
+                
+                //option4		
+                if($request->issetPost('option4')) {
+			$this->view->option4 = $request->getPost('option4');
+		}  elseif (isset ($user_data['option4'])) {
+			$this->view->option4 = $user_data['option4'];
+		}
+                else
+                {
+                        $this->view->option4 = '';
+                }
+                
+                //option5		
+                if($request->issetPost('option5')) {
+			$this->view->option5 = $request->getPost('option5');
+		}  elseif (isset ($user_data['option5'])) {
+			$this->view->option5 = $user_data['option5'];
+		}
+                else
+                {
+                        $this->view->option5 = '';
+                }
+                
+                //option6		
+                if($request->issetPost('option6')) {
+			$this->view->option6 = $request->getPost('option6');
+		}  elseif (isset ($user_data['option6'])) {
+			$this->view->option6 = $user_data['option6'];
+		}
+                else
+                {
+                        $this->view->option6 = '';
+                }
+                
+                //option7		
+                if($request->issetPost('option7')) {
+			$this->view->option7 = $request->getPost('option7');
+		}  elseif (isset ($user_data['option7'])) {
+			$this->view->option7 = $user_data['option7'];
+		}
+                else
+                {
+                        $this->view->option7 = '';
+                }
+                
+                //option8		
+                if($request->issetPost('option8')) {
+			$this->view->option8 = $request->getPost('option8');
+		}  elseif (isset ($user_data['option8'])) {
+			$this->view->option8 = $user_data['option8'];
+		}
+                else
+                {
+                        $this->view->option8 = '';
+                }
+
+                
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate' );
 		
-		$this->view->popup_main_box = $this->view->render('activatePopup','users');
+                $this->view->popup_main_box = $this->view->render('activate','users');
 		
 		if( $request->isPost() ) {
                     
-
-
                         $validate = new Helper_Validate();
                         $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');
                         $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('age'), $this->translate('Age'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('level'), $this->translate('Level'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
-                   error_log("ha validado post");                    
-			if($validate->_valid_form()) { 
-                   error_log("post ok");
+                        $validate->_set_rules($request->getPost('gender'), $this->translate('Gender'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('level'), $this->translate('Level'), 'not_empty;min_length[1];max_length[100]');
+                        //$validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+
+                        if($validate->_valid_form()) { 
                             
-                             $result = Model_Users::createActivate(array(
+                             $result = Model_Users::createActivate(JO_Session::get('user[user_id]'), array(
                                 'user_id' =>  JO_Session::get('user[user_id]'),
 				'gender' => $request->getPost('gender'),
 				'age' => $request->getPost('age'),
@@ -882,20 +1068,79 @@ class UsersController extends JO_Action {
 			}
                     */
 			} else {
-                                               error_log("post ko ". $validate->_get_error_messages());
+                            
 				$this->view->error = $validate->_get_error_messages();
+                                
 			}
                     
 		}
                 
-                $this->view->location = '';
-		if($request->issetPost('location')) {
+                
+                $this->view->children = array(
+        	'header_part' 	=> 'layout/header_part',
+        	'footer_part' 	=> 'layout/footer_part'
+                );
+
+	}        
+        
+
+	public function activatePopupAction() {
+        //public function activateDetailAction() {
+		
+		$request = $this->getRequest();
+                
+                //////////// Categories ////////////
+                $this->view->categories =  array();
+                $categories = Model_Categories::getCategories(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($categories as $category){
+                        $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+                        $this->view->categories[] = $category;
+                }
+                
+                //////////// Age ////////////
+                $this->view->ages =  array();
+                $ages = Model_Users::getAge();
+                $this->view->ages = $ages;
+
+                //////////// Level ////////////
+                $this->view->levels =  array();
+                $levels = Model_Users::getLevel();
+                $this->view->levels = $levels;
+                
+                $user_data = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
+                $this->view->user_data = $user_data;
+
+                if(JO_Registry::get('isMobile'))
+                {
+                    $this->view->urlmensajes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('board_user')   );
+                }
+
+                //gender
+                if($request->issetPost('gender')) {
+                    $this->view->gender = $request->getRequest('gender');
+                } elseif (isset ($user_data['gender'])) {
+                    $this->view->gender = $user_data['gender'];
+                }
+                else
+                {
+                    $this->view->gender = "";
+                }
+                
+                //location		
+                if($request->issetPost('location')) {
 			$this->view->location = $request->getPost('location');
-		} else {
-			$this->view->location = '';
+		}  elseif (isset ($user_data['location'])) {
+			$this->view->location = $user_data['location'];
 		}
-                $this->view->cat_title = '';
-                $this->view->sport_category = '';
+                else
+                {
+                        $this->view->location = '';
+                }
+                
+                //sport category
 		if($request->issetPost('sport_category')) {
 			$this->view->sport_category = $request->getPost('sport_category');
                         if ($request->getPost('sport_category') != "")
@@ -906,8 +1151,13 @@ class UsersController extends JO_Action {
 			$this->view->sport_category = $user_data['sport_category'];
                         $this->view->cat_title = Model_Boards::getCategoryTitle($user_data['sport_category']);
 		}
-                $this->view->age_title = '';
-                $this->view->age = '';
+                else
+                {
+                        $this->view->cat_title = '';
+                        $this->view->sport_category = '';
+                }
+                
+                //age
 		if($request->issetPost('age')) {
 			$this->view->age = $request->getPost('age');
                         if ($request->getPost('age') != "")
@@ -918,8 +1168,13 @@ class UsersController extends JO_Action {
 			$this->view->age = $user_data['age'];
                         $this->view->age_title = Model_Users::getAgeTitle($user_data['age']);
 		}
-                $this->view->level_title = '';
-                $this->view->level = '';
+                else
+                {
+                    $this->view->age_title = '';
+                    $this->view->age = '';
+                }
+                
+                //level
 		if($request->issetPost('level')) {
 			$this->view->level = $request->getPost('level');
                         if ($request->getPost('level') != "")
@@ -927,11 +1182,93 @@ class UsersController extends JO_Action {
                             $this->view->level_title = Model_Users::getLevelTitle($request->getPost('level'));
                         }
 		} elseif (isset ($user_data['level'])) {
-			$this->view->level = $user_data['age'];
-                        $this->view->level_title = Model_Users::getLevelTitle($user_data['age']);
+			$this->view->level = $user_data['level'];
+                        $this->view->level_title = Model_Users::getLevelTitle($user_data['level']);
 		}
+                else
+                {
+                    $this->view->level_title = '';
+                    $this->view->level = '';
+                }
 
+                //comment		
+                if($request->issetPost('comment')) {
+			$this->view->comment = $request->getPost('comment');
+		}  elseif (isset ($user_data['comment'])) {
+			$this->view->comment = $user_data['comment'];
+		}
+                else
+                {
+                        $this->view->comment = '';
+                }
                 
+	
+		//$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=get_images' );
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup' );
+                //$this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activateDetail' );
+		
+		$this->view->popup_main_box = $this->view->render('activatePopup','users');
+                //$this->view->popup_main_box = $this->view->render('activateDetail','users');
+		
+		if( $request->isPost() ) {
+                    
+                        $validate = new Helper_Validate();
+                        $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('gender'), $this->translate('Gender'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('level'), $this->translate('Level'), 'not_empty;min_length[1];max_length[100]');
+                        //$validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+
+                        if($validate->_valid_form()) { 
+                            
+                             $result = Model_Users::createActivate(JO_Session::get('user[user_id]'), array(
+                                'user_id' =>  JO_Session::get('user[user_id]'),
+				'gender' => $request->getPost('gender'),
+				'age' => $request->getPost('age'),
+				'location' => $request->getPost('location'),
+				'sport_category' => $request->getPost('sport_category'),
+                                'level' => $request->getPost('level'),
+                                'activate' => $request->getPost('activate'),
+                                'option1' => $request->getPost('option1'),
+                                'option2' => $request->getPost('option2'),
+                                'option3' => $request->getPost('option3'),
+                                'option4' => $request->getPost('option4'),
+                                'option5' => $request->getPost('option5'),
+                                'option6' => $request->getPost('option6'),
+                                'option7' => $request->getPost('option7'),
+                                'option8' => $request->getPost('option8'),
+                                'comment' => $request->getPost('comment')
+                            ));
+                             
+                            $this->view->successfu_edite = true;
+                    /*
+			if($result) {
+                            //Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+				Model_History::addHistory($request->getPost('user_to'), Model_History::MESSAGEUSER, $result, $request->getPost('board_user'), $request->getPost('text_message'));
+			}
+                    */
+			} else {
+                            
+				$this->view->error = $validate->_get_error_messages();
+                                
+			}
+                    
+		}
+                
+                
+			$this->view->popup = true;
+			echo Helper_Externallinks::fixExternallinks(Helper_User::returnHtmlDetail());
+			$this->noViewRenderer(true);
+/*                
+if ($this->view->successfu_edite || $this->view->error)
+{
+    error_log("error o ok");
+			$this->noViewRenderer(true);
+			echo $this->view->popup_main_box;
+			$this->view->is_popup = true;
+   
+}
+/*                
 		if($request->isXmlHttpRequest()) {
 			$this->noViewRenderer(true);
 			echo $this->view->popup_main_box;
@@ -944,6 +1281,8 @@ class UsersController extends JO_Action {
 	        	'left_part' 	=> 'layout/left_part'
                         );
 		}
+ * 
+ */
 	}        
         
 	public function feedAction(){

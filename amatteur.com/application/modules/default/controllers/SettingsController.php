@@ -40,6 +40,9 @@ class SettingsController extends JO_Action {
                 $user_types = Model_Users::getUserType(array(
                         'filter_status' => 1
                 ));
+                
+                $_SESSION["activate_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=settings'); 
+                $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate'); 
 
                 foreach ($user_types as $user_type){
                         $user_type['subuser_types'] = Model_Users::getSubUserType($user_type['user_type_id']);
@@ -118,13 +121,17 @@ class SettingsController extends JO_Action {
 						$this->view->verify_email_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&user_id='.JO_Session::get('user[user_id]').'&verify=' . $new_email_key );
 						$this->view->user_info = $user_data;
 						Model_Email::send(
-		    	        	$request->getPost('email'),
-		    	        	JO_Registry::get('noreply_mail'),
-		    	        	$this->translate('Please verify your email'),
-		    	        	$this->view->render('verify_email', 'mail')
-		    	        );
+                                                    $request->getPost('email'),
+                                                    JO_Registry::get('noreply_mail'),
+                                                    $this->translate('Please verify your email'),
+                                                    $this->view->render('verify_email', 'mail')
+                                                );
 						
 					}
+                                	if(Model_Users::createActivate( JO_Session::get('user[user_id]'), $data )) {
+                                            
+                                        }
+                                        
 					
 					$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=settings' ) );
 				} else {
@@ -205,7 +212,21 @@ class SettingsController extends JO_Action {
                         $this->view->usertype_title = Model_Users::getUserTypeTitle($user_data['type_user']);
 		}
 
-                
+                if($request->issetPost('activate')) {
+                     $this->view->activate = $request->getPost('activate');
+                }
+                else
+                {
+                    $activate = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
+                    if ($activate)
+                    {
+                        $this->view->activate = $activate["activate"];
+                    }
+                    else
+                    {
+                        $this->view->activate = "";
+                    }
+                }
                 
 		$this->view->instagram_enable = JO_Registry::get('oauth_in_key');
 		$this->view->twitteroauth_enable = JO_Registry::get('oauth_tw_key');

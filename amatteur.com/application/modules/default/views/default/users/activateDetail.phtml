@@ -1,19 +1,95 @@
-<div id="create_new_pin">
-    <div id="content-holder">
-        <div id="emailpin">
-    <!--span><?php echo $this->translate('Activate. desde aquí puedes hacer mucho'); ?></span-->                    
-            
-<!--div id="pin" class="popuppin">
-	<div class="box boxlarge">
-    	<a class="closePop"></a-->
-<?php if($this->error) { ?>
-<script type="text/javascript">
-$(document).ready(function(){
-	!Pins.error('<?php echo $this->translate('Please select at least one category.');?>');
-});
-</script>
-<?php } ?>
+<?php if($this->popup) { ?>
 
+<div class="buttonswrapper">
+	<div id="buttons">
+		<ul>
+			<li class="fb-like-button"></li>
+			<?php /* ?> 
+			<li><a id="share-fb">11111</a></li>
+			<?php */ ?>
+			<li><a href="<?php echo $this->pin_url;?>" class="tweet" title="<?php echo $this->translate('Tweet');?>"><span><?php echo $this->translate('Tweet');?></span></a></li>
+			<li><a href="<?php echo $this->url_embed;?>" class="embed" title="<?php echo $this->translate('Embed');?>"><span><?php echo $this->translate('Embed');?></span></a></li>
+			<?php if(!$this->pin['pinIsReported']) { ?>
+			<li><a href="<?php echo $this->url_report;?>" class="report" title="<?php echo $this->translate('Report Pin');?>"><span><?php echo $this->translate('Report Pin');?></span></a></li>
+			<?php } ?>
+			<?php if($this->loged) { ?>
+			<li><a href="<?php echo $this->url_email;?>" class="email" title="<?php echo $this->translate('Email');?>"><span><?php echo $this->translate('Email');?></span></a></li>
+			<?php } ?>
+		</ul>
+	</div>
+</div>
+
+<div id="pin" class="popuppin">
+	<div class="box boxlarge">
+    	<a class="closePop"></a>
+            
+		<?php } ?>
+		
+		<div class="info">
+			<div class="title">
+				<div class="left">
+					<h3>
+						<?php echo $this->translate('COSAS');?> 
+					</h3>
+				</div>
+				
+			</div>
+			
+			<div class="view">
+			
+					<!--form action="<?php echo $this->pin['href'];?>" method="post" id="pin_commentt_form">
+						<p class="hide">
+							<input name="av2" />
+						</p>
+						<ul>
+							<?php if($this->comments) { ?>
+							<?php foreach($this->comments AS $crow => $comment) { ?>
+							<li>
+								<p class="avatar">
+									<a href="<?php echo $comment['user']['profile'];?>">
+										<img src="<?php echo $comment['user']['avatar'];?>" alt="<?php echo $comment['user']['fullname'];?>" />
+									</a>
+								</p>
+								<h4><a href="<?php echo $comment['user']['profile'];?>"><?php echo $comment['user']['fullname'];?></a></h4>
+								<p class="text"><?php echo $comment['comment'];?></p>
+								<div class="clear"></div>
+								
+								<?php if($comment['delete']) { ?>
+								<a href="<?php echo $comment['delete'];?>" class="delete" title="<?php echo $this->translate('Delete Comment');?>">X</a>
+								<?php } elseif($comment['report']) { ?>
+								<a href="<?php echo $comment['report'];?>" class="report silverbox" title="<?php echo $this->translate('Report Comment');?>">Denunciar comentario</a>
+								<?php } ?>
+							</li>
+							<?php } ?>
+							<?php } ?>
+							
+							<?php if($this->loged) { ?>
+							<li class="addComments">
+								<p class="avatar">
+									<a href="<?php echo $this->self_profile;?>">
+										<img src="<?php echo $this->self_avatar;?>" alt="<?php echo $this->self_fullname;?>" />
+									</a>
+								</p>
+								<div class="form">
+									<div id="friends_in_comment" class="hide"></div>
+									<div class="posrelat">
+										<label for="comment" class="hide"><?php echo $this->translate('Comment:');?><br /></label>
+										<textarea name="write_comment" id="comment" rows="5" cols="30"><?php echo $this->translate('Add a comment...');?></textarea>
+									</div>
+									<p class="submit"><input type="submit" value="<?php echo $this->translate('Post comment');?>" /> <?php echo $this->translate('Type @ to recommend this pin to another Pinner');?> </p>
+								</div>
+								<div class="clear"></div>
+							</li>
+							<?php } else { ?>
+							<li>
+								<h4 class="login-link"><a href="<?php echo $this->login_href;?>"><?php echo $this->translate('Login to Comment')?></a></h4>
+								<div class="clear"></div>
+							</li>
+							<?php } ?>
+						</ul>
+						<div class="clear"></div>
+					</form-->
+                            
             <form class="Form StaticForm" action="<?php echo $this->activatePopup; ?>" method="post">
                 <div class="hide">
                     <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id; ?>">
@@ -190,8 +266,7 @@ $(document).ready(function(){
                                 <label for="message"><?php echo $this->translate('Comment'); ?>:<br></label>
                                 <textarea name="texto" id="texto" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
                             </p>
-                            <p class="text_counter"></p>
-                    </li>	
+                    </li>				<p class="text_counter"></p>
                 </ul>    
                     <span style="color:red">*</span> <?php echo $this->translate('Fields required'); ?>                
                 <p class="submit">
@@ -201,18 +276,25 @@ $(document).ready(function(){
                 
                 <div class="clear"></div>
 
-                <div class="clear"></div>
             </form>
-        </div>
-    </div>
-<!--/div-->
-<!--
-<script type="css/text">
-#activateOptions .ui-radio .ui-icon-radio-on {
-    background-color: green !important;
-}
-</script>
- -->   
+                            
+				</div>	
+			</div>
+
+
+			
+
+			
+
+		</div>
+		
+		<?php if($this->popup) { ?>
+	</div>
+</div>
+<?php } ?>
+
+
+
 <?php $key = str_replace('.', '', microtime(true)); ?>
 <script type="text/javascript">
     $(document).ready(function(){
@@ -302,147 +384,6 @@ $(document).ready(function(){
                    
         });
 		
-    });
-
-
-
-    $(document).ready(function(){
-        $('#category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>').selectBox({
-            onOpen: function (inst) {
-                try
-                {
-                    console.log("open", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("open", inst);
-                    }                        
-                }
-            },
-            onClose: function (inst) {
-                try
-                {
-                    console.log("close", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("close", inst);
-                    }                        
-                }
-                        
-            }
-        });
-        $('#type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>').selectBox({
-            onOpen: function (inst) {
-                try
-                {
-                    console.log("open", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("open", inst);
-                    }                        
-                }
-            },
-            onClose: function (inst) {
-                try
-                {
-                    console.log("close", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("close", inst);
-                    }                        
-                }
-                        
-            }
-        });        
-        $('input.collaborator_name').clearOnFocus();
-
-	
-        var cache = {};
-        $('.collaborator_name.ui-autocomplete-input').live('keyup', function(){
-            var val = this.value;
-            if(cache[val]) {
-                autocompleteResults(cache[val]);
-            } else {
-                $.post('<?php echo $this->friends_href; ?>', {term: val}, function(data){
-                    cache[val] = data.users;
-                    autocompleteResults(data.users);
-                }, 'json');
-            }
-        }).after('<div class="menu_friends" style="position: absolute; display: none; margin-top: 33px;z-index:2147483647;">');
-	
-        function autocompleteResults(data) {
-
-            var holder = $('.menu_friends').empty();
-            if($(data).objectSize() < 1) {
-                holder.hide();
-                return;
-            }
-            holder.show(function(){
-                $(document).unbind('.joauto').bind('click.joauto',function(e){
-                    holder.hide();
-                });
-            });
-            $(data).each(function(i, item){
-                user = $('<div class="option_friends"><img alt="'+item.label+'" src="'+item.image+'"><span>'+item.label+'</span></div>').click(function(){
-                    holder.hide();
-                    if( $('#user_fr_'+item.value+'<?php echo ($this->is_edit ? '-edit' : ''); ?>').size() > 0 ) { return; }
-                    $('input.collaborator_name').val('');
-                    $('#invite_response<?php echo ($this->is_edit ? '-edit' : ''); ?>').append('<input id="hidden_user_fr_'+item.value+'<?php echo ($this->is_edit ? '-edit' : ''); ?>" type="hidden" name="friends['+item.value+']" value="'+item.value+'" />');
-
-                    template = $('#friend-template<?php echo ($this->is_edit ? '-edit' : ''); ?>').html();
-                    for(e in item) {
-                        template = template.replace(new RegExp(RegExp.quote('{'+e+'}'), 'g'), item[e]);
-                    }
-				
-                    $('#CurrentCollaborators<?php echo ($this->is_edit ? '-edit' : ''); ?>').append(template);
-                }).css({'cursor': 'pointer'});
-			
-                holder.append(user);
-            });
-        }
-
-        RegExp.quote = function(str) {
-            return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-        };
-		
-	
-    });
-
-    function saveBoardData() {
-	
-        $.post('<?php echo $this->from_url; ?>', $('#CreateBoard<?php echo ($this->is_edit ? '-edit' : ''); ?>').serialize(), function(data){
-            alert(data);
-            if(data.error) {
-                Pins.error(data.error);
-            } else if(data.data) {
-                window.location = data.data.href;
-            }
-        }, 'json');
-        return false;
-    }
-
-    function deleteFriend(id) {
-        $('#user_fr_'+id+'<?php echo ($this->is_edit ? '-edit' : ''); ?>').remove();
-        $('#hidden_user_fr_'+id+'<?php echo ($this->is_edit ? '-edit' : ''); ?>').remove();
-    }
-
-
-    $(document).ready(function(){
 
         $("#selectBox-Level").bind('click',function(event){
             $('ul.hidden').hide();

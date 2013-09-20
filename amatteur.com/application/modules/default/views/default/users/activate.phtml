@@ -1,24 +1,19 @@
-<div id="create_new_pin">
-    <div id="content-holder">
-        <div id="emailpin">
-    <!--span><?php echo $this->translate('Activate. desde aquí puedes hacer mucho'); ?></span-->                    
-            
-<!--div id="pin" class="popuppin">
-	<div class="box boxlarge">
-    	<a class="closePop"></a-->
-<?php if($this->error) { ?>
-<script type="text/javascript">
-$(document).ready(function(){
-	!Pins.error('<?php echo $this->translate('Please select at least one category.');?>');
-});
-</script>
-<?php } ?>
+﻿<?php echo $this->header_part; ?>
 
-            <form class="Form StaticForm" action="<?php echo $this->activatePopup; ?>" method="post">
+<div id="detail" class="editprofile">       
+	<div id="view-profile">
+		
+          
+            <form class="Form StaticForm" action="<?php echo $this->activatePopup; ?>" method="post" id="profileEdit">
+                
+                <h3 style="border-bottom:0px;padding-bottom:0px"><b><?php echo $this->translate('Activate');?></b></h3>
+                <?php echo $this->translate('Here you can activate your profile.');?>
+                <h3></h3>
+            
                 <div class="hide">
                     <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id; ?>">
                 </div>
-                <?php echo $this->error;?>
+
                 <ul>
                     <!-- Gender -->
                     <li>
@@ -30,7 +25,7 @@ $(document).ready(function(){
                         </div>
                     </li>
                     <!-- Edad -->
-                    <li style="border:0px">
+                    <li>
                         <label for="type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Age'); ?></label>
                         <div class="Right" id='catList'>
                             <a href="" class='selectBox selectBox-dropdown' id='selectBox-Age' style='width: 352px; display: inline-block;'>
@@ -58,6 +53,7 @@ $(document).ready(function(){
 
                         </div>
                     </li>
+                    <!-- Ubicacion -->
                     <li>
                         <p class="input">
                             <label for="location"><?php echo $this->translate('Location'); ?> <br class="hide" /></label>
@@ -78,7 +74,8 @@ $(document).ready(function(){
                         </div-->
                         <div id="map-canvas"></div>
                     </li>
-                    <li style="border:0px">
+                    <!-- Deporte -->
+                    <li>
                         <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Sport'); ?></label>
                         <div class="Right" id='catList'>
 
@@ -120,7 +117,7 @@ $(document).ready(function(){
                     </li>
 
                     <!-- Nivel -->
-                    <li style="border:0px">
+                    <li>
                         <label for="type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Level'); ?></label>
                         <div class="Right" id='catList'>
 
@@ -149,77 +146,89 @@ $(document).ready(function(){
                             <span style="color:red">*</span>
                         </div>
                     </li>
-                    <!-- Search Index -->
+                    <!-- Activate -->
                     <li>
                         <label for="id_activate"><?php echo $this->translate('Activate'); ?></label>
                         <div id="activateOptions" class="">
-                            <label for="id_activate_0"><input <?php echo ($this->user_data['activate'] == '1' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="1" id="id_activate_0"> <?php echo $this->translate('Activate'); ?></label>
-                            <label for="id_activate_1"><input <?php echo ($this->user_data['activate'] == '0' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="0" id="id_activate_1"> <?php echo $this->translate('Deactivate'); ?></label>
+                            <label for="id_activate_0"><input <?php echo ($this->activate == '1' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="1" id="id_activate_0"> <?php echo $this->translate('Activate'); ?></label>
+                            <label for="id_activate_1"><input <?php echo ($this->activate == '0' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="0" id="id_activate_1"> <?php echo $this->translate('Deactivate'); ?></label>
                         </div>
                     </li>  
+                    <!-- Opciones -->
                     <li>
                         <label for="tc"><?php echo sprintf($this->translate('Activate Options')); ?> <br class="hide" /></label>
                         <div style="display:table">
-                            <div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option1'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' class='option1'><?php echo sprintf($this->translate('Practice sports together')); ?> </span>
-                                </div><div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option2'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option2' class='option2'><?php echo sprintf($this->translate('Organize match / tournament')); ?> </span>
-                                </div><div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option3'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option3' class='option3'><?php echo sprintf($this->translate('Team look for sportman')); ?> </span>
-                                </div><div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option4'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option4' class='option4'><?php echo sprintf($this->translate('Sportman look for team')); ?> </span>
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option1 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option1' class='option1' value="1" ><?php echo " ". sprintf($this->translate('Practice sports together')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option2 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option2' name='option2' class='option2' value="1"><?php echo " ". sprintf($this->translate('Organize match / tournament')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Team look for sportman')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option4 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option4' name='option4' class='option4' value="1"><?php echo " ". sprintf($this->translate('Sportman look for team')); ?> </span>
                                 </div>
                             </div>
-                            <div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option5'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option5' class='option5'><?php echo sprintf($this->translate('Look for sponsor')); ?> </span>
-                                </div><div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option6'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option6' class='option6'><?php echo sprintf($this->translate('Volunteer helps paraolimpics')); ?> </span>
-                                </div><div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option7'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option7' class='option7'><?php echo sprintf($this->translate('Trainee look for tutor')); ?> </span>
-                                </div><div style="display:table-cell">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->user_data['option8'] == '0' ? 'checked="checked"' : ''); ?> type='checkbox' id='option8' class='option8'><?php echo sprintf($this->translate('Tutor begins trainee')); ?> </span>
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Look for sponsor')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Volunteer helps paraolimpics')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('Trainee look for tutor')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option8 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span>
                                 </div>
                             </div>
                         </div>
                     </li>
+                    <!-- Comentario -->
                     <li>
                         <div class="left w335px">
                             <p>
                                 <label for="message"><?php echo $this->translate('Comment'); ?>:<br></label>
-                                <textarea name="texto" id="texto" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
+                                <textarea name="comment" id="comment" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
                             </p>
                             <p class="text_counter"></p>
-                    </li>	
-                </ul>    
-                    <span style="color:red">*</span> <?php echo $this->translate('Fields required'); ?>                
-                <p class="submit">
-                    <input type="submit" value="<?php echo $this->translate('Pinit'); ?>">
-                </p>
-                    <a class="Button RedButton message close" ><?php echo $this->translate('Cancel'); ?></a>
+                        </div>
+                <!-- Grabar -->
+                                    <li>
+                        <div class="left w335px">
+                            <p class="submit">
+                                
+                                    <label for="required"><span style="color:red">*</span><?php echo $this->translate('Fields required'); ?><br></label>
+                            <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
+                            </p>
+                        </div>
+                    </li>				
+                </ul>
                 
                 <div class="clear"></div>
 
-                <div class="clear"></div>
             </form>
-        </div>
+    
     </div>
-<!--/div-->
-<!--
-<script type="css/text">
-#activateOptions .ui-radio .ui-icon-radio-on {
-    background-color: green !important;
-}
-</script>
- -->   
+    
+    <div class="clear"></div>    
+</div>
+
+
 <?php $key = str_replace('.', '', microtime(true)); ?>
 <script type="text/javascript">
     $(document).ready(function(){
        
-        $('.Button .RedButton .message .close').click(function(){
-            alert("close");
-		$.fancybox.close();
+        $('.Button.RedButton.message.close').click(function(){
+		//history.go(-1);
+                var origen = '<?php echo $_SESSION["activate_url"]; ?>';
+                window.location.href=origen;
 	});
 
 /*
@@ -241,16 +250,16 @@ $(document).ready(function(){
 	<?php } ?>
         
 
-        regExPrice.addExpresionLine($('#texto').html(), true);
+        regExPrice.addExpresionLine($('#comment').html(), true);
 	
-        $('#texto').jqEasyCounter({
+        $('#comment').jqEasyCounter({
             holder: 'p.text_counter',
             maxChars: 255,
             maxCharsWarning: 225,
             template: '{count}'
         }).bind("keydown keyup keypress focus paste",function() {
             regExPrice.addExpresionLine(this.value);
-            if($.trim($('#texto').val())) {
+            if($.trim($('#comment').val())) {
                 $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
             } 
             else 
@@ -264,6 +273,7 @@ $(document).ready(function(){
         $('#emailpin form').unbind('submit').submit(function(){
             $('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
             $('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+            
             
             var user_id = $('#user_id').val();
             var gender = $('.gender:checked').val();
@@ -280,19 +290,15 @@ $(document).ready(function(){
             var option6 = $('.option6:checked').val();            
             var option7 = $('.option7:checked').val();            
             var option8 = $('.option8:checked').val();            
-            var comment = $('#texto').val();      
+            var comment = $('#comment').val();
+            alert($('.option1:checked').val());
+            alert($('#comment').val());
             
             
                   
             $.post('<?php echo $this->from_url; ?>', {user_id:user_id, gender : gender, age : age, location : location, sport_category : sport_category, level : level, activate : activate, option1 : option1, option2 : option2, option3 : option3, option4 : option4, option5 : option5, option6 : option6, option7 : option7, option8 : option8, comment:comment}, function(data,status){
-                alert(status);
-	<?php if($this->successfu_edite) { ?>                
                 $('#loading_button').remove();
                 $.fancybox.close();                        
-	<?php } ?>
-            var kk = '';
-	kk = '<?php echo $this->error;?>';
-        alert(data);
 
             $('#emailpin form .submit input').after(kk);
             $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
@@ -302,147 +308,6 @@ $(document).ready(function(){
                    
         });
 		
-    });
-
-
-
-    $(document).ready(function(){
-        $('#category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>').selectBox({
-            onOpen: function (inst) {
-                try
-                {
-                    console.log("open", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("open", inst);
-                    }                        
-                }
-            },
-            onClose: function (inst) {
-                try
-                {
-                    console.log("close", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("close", inst);
-                    }                        
-                }
-                        
-            }
-        });
-        $('#type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>').selectBox({
-            onOpen: function (inst) {
-                try
-                {
-                    console.log("open", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("open", inst);
-                    }                        
-                }
-            },
-            onClose: function (inst) {
-                try
-                {
-                    console.log("close", inst);
-                }
-                catch(e)
-                {
-                    if (window.console // check for window.console not console
-                        && window.console.log)
-                    {
-                        window.console.log("close", inst);
-                    }                        
-                }
-                        
-            }
-        });        
-        $('input.collaborator_name').clearOnFocus();
-
-	
-        var cache = {};
-        $('.collaborator_name.ui-autocomplete-input').live('keyup', function(){
-            var val = this.value;
-            if(cache[val]) {
-                autocompleteResults(cache[val]);
-            } else {
-                $.post('<?php echo $this->friends_href; ?>', {term: val}, function(data){
-                    cache[val] = data.users;
-                    autocompleteResults(data.users);
-                }, 'json');
-            }
-        }).after('<div class="menu_friends" style="position: absolute; display: none; margin-top: 33px;z-index:2147483647;">');
-	
-        function autocompleteResults(data) {
-
-            var holder = $('.menu_friends').empty();
-            if($(data).objectSize() < 1) {
-                holder.hide();
-                return;
-            }
-            holder.show(function(){
-                $(document).unbind('.joauto').bind('click.joauto',function(e){
-                    holder.hide();
-                });
-            });
-            $(data).each(function(i, item){
-                user = $('<div class="option_friends"><img alt="'+item.label+'" src="'+item.image+'"><span>'+item.label+'</span></div>').click(function(){
-                    holder.hide();
-                    if( $('#user_fr_'+item.value+'<?php echo ($this->is_edit ? '-edit' : ''); ?>').size() > 0 ) { return; }
-                    $('input.collaborator_name').val('');
-                    $('#invite_response<?php echo ($this->is_edit ? '-edit' : ''); ?>').append('<input id="hidden_user_fr_'+item.value+'<?php echo ($this->is_edit ? '-edit' : ''); ?>" type="hidden" name="friends['+item.value+']" value="'+item.value+'" />');
-
-                    template = $('#friend-template<?php echo ($this->is_edit ? '-edit' : ''); ?>').html();
-                    for(e in item) {
-                        template = template.replace(new RegExp(RegExp.quote('{'+e+'}'), 'g'), item[e]);
-                    }
-				
-                    $('#CurrentCollaborators<?php echo ($this->is_edit ? '-edit' : ''); ?>').append(template);
-                }).css({'cursor': 'pointer'});
-			
-                holder.append(user);
-            });
-        }
-
-        RegExp.quote = function(str) {
-            return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
-        };
-		
-	
-    });
-
-    function saveBoardData() {
-	
-        $.post('<?php echo $this->from_url; ?>', $('#CreateBoard<?php echo ($this->is_edit ? '-edit' : ''); ?>').serialize(), function(data){
-            alert(data);
-            if(data.error) {
-                Pins.error(data.error);
-            } else if(data.data) {
-                window.location = data.data.href;
-            }
-        }, 'json');
-        return false;
-    }
-
-    function deleteFriend(id) {
-        $('#user_fr_'+id+'<?php echo ($this->is_edit ? '-edit' : ''); ?>').remove();
-        $('#hidden_user_fr_'+id+'<?php echo ($this->is_edit ? '-edit' : ''); ?>').remove();
-    }
-
-
-    $(document).ready(function(){
 
         $("#selectBox-Level").bind('click',function(event){
             $('ul.hidden').hide();
@@ -714,3 +579,5 @@ function initialize() {
 google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
+
+<?php echo $this->footer_part; ?>
