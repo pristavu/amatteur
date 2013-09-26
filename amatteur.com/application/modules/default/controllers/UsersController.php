@@ -235,9 +235,10 @@ class UsersController extends JO_Action {
                 $this->view->boards6 = '';
                 $board_counter = 0;
                 
+                $this->view->loged = JO_Session::get('user[user_id]');
 		if($boards) {
 			$view = JO_View::getInstance();
-			$view->loged = JO_Session::get('user[user_id]');
+			//$view->loged = JO_Session::get('user[user_id]');
 			$view->enable_sort = true;
 			$model_images = new Helper_Images();
 			foreach($boards AS $board) {
@@ -2036,14 +2037,23 @@ if ($this->view->successfu_edite || $this->view->error)
 			$validate = new Helper_Validate();
 			$validate->_set_rules($request->getPost('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
 			$validate->_set_rules($request->getPost('firstname'), $this->translate('First name'), 'not_empty;min_length[3];max_length[100]');
-			$validate->_set_rules($request->getPost('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
+			//$validate->_set_rules($request->getPost('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
 			$validate->_set_rules($request->getPost('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
 			$validate->_set_rules($request->getPost('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
 			$validate->_set_rules($request->getPost('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
-                        $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('sport_category_1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('sport_category_2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
-                        $validate->_set_rules($request->getPost('sport_category_3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
+                        if($request->issetPost('type_user')) {
+                            if($request->getPost('type_user') != 1 && $request->getPost('type_user') != 5 && $request->getPost('type_user') != 12) {
+                                $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');                                        
+                            }
+                        }
+                        //is_nan() sino
+                        if($request->getPost('sport_category_1') == "" && $request->getPost('sport_category_2') == "" && $request->getPost('sport_category_3') == "") {
+                            $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id'), 'not_empty;min_length[3];max_length[100]');
+
+                        }
+                        //$validate->_set_rules($request->getPost('sport_category_1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+                        //$validate->_set_rules($request->getPost('sport_category_2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
+                        //$validate->_set_rules($request->getPost('sport_category_3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
                         $validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
 
 			
@@ -2084,12 +2094,27 @@ if ($this->view->successfu_edite || $this->view->error)
 					'regkey'=>$reg_key
 				));
 				
+
 				if($result) {
 					
+                                        for($i = 0; $i <= $request->getPost('locationcounter'); $i++)
+                                        {
+                                            $location = 'location'.$i;
+                                            if ($request->issetPost($location)){
+                                                if ($request->getPost($location) != "")
+                                                {
+                                                    if (Model_Users::createUsersLocation($result, $request->getPost($location)))
+                                                    {}
+                                                }
+                                            }
+                                        }
+                                    
 					if(self::sendMail($result)){
 						self::loginInit($result);
 					};
 					
+
+                                        
 				} else {
 					$this->view->error = $this->translate('There was a problem with the record. Please try again!');
 				}
@@ -2145,7 +2170,14 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->sport_category_1 = $request->getPost('sport_category_1');
                         if ($request->getPost('sport_category_1') != "")
                         {
+                            if ($request->getPost('sport_category_1') == 0)
+                            {
+                                $this->view->cat_title1 = "Todo";
+                            }
+                            else
+                            {
                             $this->view->cat_title1 = Model_Boards::getCategoryTitle($request->getPost('sport_category_1'));
+                            }
                         }
 		} else {
 			$this->view->sport_category_1 = '';
@@ -2156,7 +2188,14 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->sport_category_2 = $request->getPost('sport_category_2');
                         if ($request->getPost('sport_category_2') != "")
                         {
-                            $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getPost('sport_category_2'));
+                            if ($request->getPost('sport_category_2') == 0)
+                            {
+                                $this->view->cat_title2 = "Todo";
+                            }
+                            else
+                            {
+                                $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getPost('sport_category_2'));
+                            }
                         }
 		} else {
 			$this->view->sport_category_2 = '';
@@ -2167,7 +2206,14 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->sport_category_3 = $request->getPost('sport_category_3');
                         if ($request->getPost('sport_category_3') != "")
                         {
-                            $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getPost('sport_category_3'));
+                            if ($request->getPost('sport_category_3') == 0)
+                            {
+                                $this->view->cat_title3 = "Todo";
+                            }
+                            else
+                            {
+                                $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getPost('sport_category_3'));
+                            }
                         }
 		} else {
 			$this->view->sport_category_3 = '';
@@ -2184,13 +2230,28 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->type_user = '';
 		}
                 
-
-                /*
-                $this->view->ubication = $request->getPost('ubication');
-                $this->view->category_id = $request->getPost('category_id');
-                $this->view->type_user = $request->getPost('type_user');
-                $this->edit = TRUE;
-		*/
+                //////////// User location ////////////
+                $this->view->user_location =  array();
+                $this->view->locationcounter = 0;
+		if($request->issetPost('location1')) {
+			$user_location = array();
+                        for($i = 1; $i <= $request->getPost('locationcounter'); $i++)
+                        {
+                            $location = 'location'.$i;
+                            if ($request->issetPost($location)){
+                                if ($request->getPost($location) != "")
+                                {
+                                     $user_location[] = $request->getPost($location);
+                                }
+                            }
+                        }
+                        $this->view->user_location = $user_location;
+                        $this->view->locationcounter = $request->getPost('locationcounter');
+		} 
+                else
+                {
+                    $this->view->locationcounter = 0;
+                }
 		
 		
 		$this->view->children = array(

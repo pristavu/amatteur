@@ -125,9 +125,7 @@
                                   <div style='float:left;width:100%;'>
 
                                     <?php if($this->userdata['sport_category_1']) { ?>
-                                    <!--li id="ProfileSports"-->
                                     <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;"><?php echo $this->translate("Sports: "). " " . Model_Boards::getCategoryTitle($this->userdata['sport_category_1']). ", ". Model_Boards::getCategoryTitle($this->userdata['sport_category_2']) . ", ". Model_Boards::getCategoryTitle($this->userdata['sport_category_3']);?></span>
-                                    <!--/li-->
                                     <?php } ?>
                                     </div>
                                     </div>                                    
@@ -137,9 +135,7 @@
                                   <div style='float:left;width:100%;'>
                                     
                                     <?php if($this->userdata['type_user']) { ?>
-                                    <!--li id="ProfileType"-->
                                     <span style="padding-bottom:5px;color: #8C7E7E;font-weight: 600;"><?php echo $this->translate("Profile type: "). " " . Model_Users::getUserTypeTitle($this->userdata['type_user']);?></span>
-                                    <!--/li-->
                                     <?php } ?>
                                     </div>
                                     </div>                                    
@@ -315,7 +311,10 @@
 	<?php } else { ?>
 	<?php echo $this->boards;?>
 	<?php } ?>
-        <?php if ($this->active == 'boards') { ?>
+<?php } else { ?>        
+    <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">
+<?php } ?>            
+
         <div id="ProfileHeader">
                 <div class="FixedContainer row clearfix">
                         <div class="infoBody">    
@@ -353,9 +352,8 @@
                         </div>
                 </div>
         </div>
-        <?php } ?>
-<?php } 
-	if($this->follow_user) { ?>
+</div>                    
+<?php if($this->follow_user) { ?>
 <script type="text/javascript">
 $(document).ready(function(){
 	Pins.initFollow('#ContextBar .action .following', function(element){

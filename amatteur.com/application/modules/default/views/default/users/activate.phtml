@@ -307,13 +307,32 @@
             return false;
                    
         });
-		
+	
+
+	$("#selectBox-dropdown-menu-Level").bind('mouseleave',function(event){
+                        $("#selectBox-Level").show();
+                        $("#selectBox-dropdown-menu-Level").hide();
+
+        });
+          
 
         $("#selectBox-Level").bind('click',function(event){
             $('ul.hidden').hide();
             event.preventDefault();
             $("#selectBox-Level").hide();
             $("#selectBox-dropdown-menu-Level").show();
+
+                if (!$("#selectBox-Age").is(":visible"))  
+                    {
+        		$("#selectBox-Age").show();
+                	$("#selectBox-dropdown-menu-Age").hide();
+                    }
+                if (!$("#selectBox-Category").is(":visible"))  
+                    {
+        		$("#selectBox-Category").show();
+                	$("#selectBox-dropdown-menu-Category").hide();
+                    }
+
 
             $(".master").unbind('click').bind('click',function(event){
                 event.preventDefault();
@@ -370,11 +389,32 @@
             }
         });
 
+
+	$("#selectBox-dropdown-menu-Category").bind('mouseleave',function(event){
+                        $("#selectBox-Category").show();
+                        $("#selectBox-dropdown-menu-Category").hide();
+
+        });
+        
+
+
         $("#selectBox-Category").bind('click',function(event){
             $('ul.hidden').hide();
             event.preventDefault();
             $("#selectBox-Category").hide();
             $("#selectBox-dropdown-menu-Category").show();
+
+                if (!$("#selectBox-Age").is(":visible"))  
+                    {
+        		$("#selectBox-Age").show();
+                	$("#selectBox-dropdown-menu-Age").hide();
+                    }
+                if (!$("#selectBox-Level").is(":visible"))  
+                    {
+        		$("#selectBox-Level").show();
+                	$("#selectBox-dropdown-menu-Level").hide();
+                    }
+
 
             $(".master").unbind('click').bind('click',function(event){
                 event.preventDefault();
@@ -429,13 +469,32 @@
                 $("#catId").val(element.data("id"));
 			
             }
-        });	
+        });
+
+	$("#selectBox-dropdown-menu-Age").bind('mouseleave',function(event){
+                        $("#selectBox-Age").show();
+                        $("#selectBox-dropdown-menu-Age").hide();
+
+        });
+
         
         $("#selectBox-Age").bind('click',function(event){
             $('ul.hidden').hide();
             event.preventDefault();
             $("#selectBox-Age").hide();
             $("#selectBox-dropdown-menu-Age").show();
+
+                if (!$("#selectBox-Level").is(":visible"))  
+                    {
+        		$("#selectBox-Level").show();
+                	$("#selectBox-dropdown-menu-Level").hide();
+                    }
+                if (!$("#selectBox-Category").is(":visible"))  
+                    {
+        		$("#selectBox-Category").show();
+                	$("#selectBox-dropdown-menu-Category").hide();
+                    }
+
 
             $(".master").unbind('click').bind('click',function(event){
                 event.preventDefault();

@@ -695,12 +695,58 @@ class Model_Users extends JO_Model {
 		if(isset($data['filter_user_id']) && $data['filter_user_id']) {
 			$query->where('users.user_id = ?', (string)$data['filter_user_id']);
 		}
-		
+
+		if(isset($data['filter_firstname']) && $data['filter_firstname']) {
+			$query->where('users.firstname = ?', (string)$data['filter_firstname']);
+		}
+                		
+		if(isset($data['filter_location']) && $data['filter_location']) {
+			$query->where('users.location = ?', (string)$data['filter_location']);
+		}
+
+		if(isset($data['filter_gender']) && $data['filter_gender']) {
+			$query->where('users.gender = ?', (string)$data['filter_gender']);
+		}
+                
+                if(isset($data['filter_sport_category']) && $data['filter_sport_category'] > -1) {
+			$query->where('(users.sport_category_1 = ? OR users.sport_category_2 = ? OR users.sport_category_3 = ?)', $data['filter_sport_category']);
+		}
+
+                if(isset($data['filter_sport_category_1']) && $data['filter_sport_category_1'] > -1) {
+			$query->where('users.sport_category_1 = ? ', $data['filter_sport_category_1']);
+		}
+
+                if(isset($data['filter_sport_category_2']) && $data['filter_sport_category_2'] > -1) {
+			$query->where('users.sport_category_2 = ? ', $data['filter_sport_category_2']);
+		}
+
+                if(isset($data['filter_sport_category_3']) && $data['filter_sport_category_3'] > -1) {
+			$query->where('users.sport_category_3 = ? ', $data['filter_sport_category_3']);
+		}
+
+                
+                if(isset($data['filter_typeuser']) && $data['filter_typeuser']) {
+                        $datos = 0;
+                        foreach($data['filter_typeuser'] as $type_user) {
+                            if ($type_user != "")
+                            {
+                                $query->where('users.type_user = ?', (string)$type_user);
+                                $datos = 1;
+                            }
+                        }
+                        if ($datos == 0)
+                        {
+                            if(isset($data['filter_typeuser_profesional']) && $data['filter_typeuser_profesional']) {
+                                          $query->where('users.type_user in (2, 3, 4, 6, 7, 8, 9, 10, 11)');
+                            }
+                        }
+		}
+
 		if(isset($data['filter_username']) && $data['filter_username']) {
 			$query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
 		}
                 
-
+                error_log("query  $query"); 
 //		echo $query; exit;
 		$results = $db->fetchAll($query);
 
@@ -1631,7 +1677,7 @@ class Model_Users extends JO_Model {
 		$query = $db->select()
 					->from('user_type', array('*'))
 					->where('parent_id = ? or parent_id is null',0)
-					
+					->where('status = ? ',1)
 					->order('user_type.sort_order ASC');
 					
 		if(isset($data['start']) && isset($data['limit'])) {
@@ -1652,7 +1698,7 @@ class Model_Users extends JO_Model {
         
 	public static function getSubUserType($user_type_id){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('user_type',array('title','user_type_id','status'))->where('parent_id = ?',$user_type_id)->order('user_type.sort_order ASC');
+		$query =  $db->select()->from('user_type',array('title','user_type_id','status'))->where('parent_id = ?',$user_type_id)->where('status = ? ',1)->order('user_type.sort_order ASC');
 		$result= $db->fetchAll($query);
 		return $result; 
 	}
@@ -1701,7 +1747,170 @@ class Model_Users extends JO_Model {
 		return $result; 
 	}
 
-	public static function createActivate($user_id, $data) {
+        public function getUsersActivate($data = array()) {
+		
+		$key = md5(serialize($data));
+		
+		static $result = array();
+		if(isset($result[$key])) { return $result[$key]; }
+		
+		$db = JO_Db::getDefaultAdapter();
+        
+		$query = $db
+					->select()
+					->from('users_activate', array('users_activate.user_id'))
+                                        ->where('users_activate.activate = 1');
+	
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+                /*
+		if(isset($data['sort']) && strtolower($data['sort']) == 'desc') {
+			$sort = ' DESC';
+		} else {
+			$sort = ' ASC';
+		}
+		
+		$allow_sort = array(
+			'users.user_id',
+			'users.username',
+			'users.firstname',
+			'users.status',
+                        'users.likers'
+		);
+		if(isset($data['filter_like_pin_id'])) {
+			$allow_sort[] = 'pins_likes.like_id';
+		}
+		
+		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
+			$query->order($data['order'] . $sort);
+		} else {
+			$query->order('firstname' . $sort);
+		}
+		*/
+		////////////filter
+		
+		/*if(isset($data['filter_welcome']) && is_array($data['filter_welcome'])) {
+			$query->joinLeft('boards', 'boards.user_id = users.user_id', array())
+			->where('boards.category_id IN (?)', new JO_Db_Expr(implode(',',$data['filter_welcome'])))
+			->group('users.user_id');
+		}*/
+		
+		
+/*		
+		if(isset($data['filter_followers_user_id']) && $data['filter_followers_user_id']) {
+			$query->joinLeft('users_following_user', 'users.user_id = users_following_user.following_id', array())
+			->where('users_following_user.user_id = ?', (string)$data['filter_followers_user_id']);
+		}
+		
+		if(isset($data['filter_following_user_id']) && $data['filter_following_user_id']) {
+			$query->joinLeft('users_following_user', 'users.user_id = users_following_user.user_id', array())
+			->where('users_following_user.following_id = ?', (string)$data['filter_following_user_id']);
+		}
+		
+		if(isset($data['filter_likers_user_id']) && $data['filter_likers_user_id']) {
+			$query->joinLeft('users_likes', 'users.user_id = users_likes.user_like_id', array())
+			->where('users_likes.user_id = ?', (string)$data['filter_likers_user_id']);
+		}
+		
+		if(isset($data['filter_liking_user_id']) && $data['filter_liking_user_id']) {
+			$query->joinLeft('users_likes', 'users.user_id = users_likes.user_id', array())
+			->where('users_likes.user_like_id = ?', (string)$data['filter_liking_user_id']);
+		}
+                
+		if(isset($data['filter_like_pin_id']) && $data['filter_like_pin_id']) {
+			$query->joinLeft('pins_likes', 'users.user_id = pins_likes.user_id')
+			->where('pins_likes.pin_id = ?', (string)$data['filter_like_pin_id']);
+		}
+*/		
+		if(isset($data['filter_gender']) && $data['filter_gender']) {
+			$query->where('users_activate.gender = ?', (string)$data['filter_gender']);
+		}
+
+                if(isset($data['filter_age']) && $data['filter_age']) {
+			$query->where('users_activate.age = ?', (string)$data['filter_age']);
+		}
+		
+		if(isset($data['filter_location']) && $data['filter_location']) {
+			$query->where('users_activate.location = ?', (string)$data['filter_location']);
+		}
+                
+		if(isset($data['filter_sport_category']) && $data['filter_sport_category']) {
+			$query->where('users_activate.sport_category = ?', (string)$data['filter_sport_category']);
+		}
+                
+		if(isset($data['filter_level']) && $data['filter_level']) {
+			$query->where('users_activate.level = ?', (string)$data['filter_level']);
+		}
+
+		if(isset($data['filter_option1']) && $data['filter_option1']) {
+			$query->where('users_activate.option1 = ?', (string)$data['filter_option1']);
+		}
+                
+		if(isset($data['filter_option2']) && $data['filter_option2']) {
+			$query->where('users_activate.option2 = ?', (string)$data['filter_option2']);
+		}
+                
+		if(isset($data['filter_option3']) && $data['filter_option3']) {
+			$query->where('users_activate.option3 = ?', (string)$data['filter_option3']);
+		}
+                
+		if(isset($data['filter_option4']) && $data['filter_option4']) {
+			$query->where('users_activate.option4 = ?', (string)$data['filter_option4']);
+		}
+                
+		if(isset($data['filter_option5']) && $data['filter_option5']) {
+			$query->where('users_activate.option5 = ?', (string)$data['filter_option5']);
+		}
+                
+		if(isset($data['filter_option6']) && $data['filter_option6']) {
+			$query->where('users_activate.option6 = ?', (string)$data['filter_option6']);
+		}
+                
+		if(isset($data['filter_option7']) && $data['filter_option7']) {
+			$query->where('users_activate.option7 = ?', (string)$data['filter_option7']);
+		}
+                
+		if(isset($data['filter_option8']) && $data['filter_option8']) {
+			$query->where('users_activate.option8 = ?', (string)$data['filter_option8']);
+		}
+                
+                /*
+                if(isset($data['filter_welcome']) && is_array($data['filter_welcome'])) {
+			$query->where('users.user_id IN (SELECT user_id FROM boards WHERE category_id IN (?) OR category_id IN (SELECT category_id FROM category WHERE parent_id IN (?))) ', new JO_Db_Expr(implode(',',$data['filter_welcome'])));
+		}
+*/
+                $results  = array();
+
+//		echo $query; exit;
+		$results = $db->fetchAll($query);
+
+                error_log("query  $query ");
+                return $results;
+                /*
+		$result[$key] = array();
+		if($results) {
+			foreach($results AS $data) {
+				$data['pins_array'] = array();
+				if(trim($data['latest_pins'])) {
+					$data['pins_array'] = $db->fetchAll($db->select()->from('pins')->where("pin_id IN ('?')", new JO_Db_Expr(implode("','", explode(',',$data['latest_pins']))))->order('pin_id DESC')->limit(15));
+				}
+				
+				$result[$key][] = $data;
+			}
+		}
+		
+		return $result[$key];
+                 * 
+                 */
+	}
+
+        
+        public static function createActivate($user_id, $data) {
 		$db = JO_Db::getDefaultAdapter();
 		
 		$rows = self::describeTable('users_activate');
@@ -1748,7 +1957,54 @@ class Model_Users extends JO_Model {
 		return true;
 	}
         
+	public static function deleteUsersLocation($user_id) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$row = $db->query("DELETE FROM users_location WHERE user_id = ". $user_id );
         
+		if(!$row) {
+			return false;
+		}
+		
+		return $row;
+	}
+        
+        
+        public static function createUsersLocation($user_id, $location) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$rows = self::describeTable('users_location');
+		
+                
+		$update = array();
+		
+                
+                $db->insert('users_location', array(
+                        'user_id' => $user_id,
+                        'location' => (string)$location
+                ));		
+
+                $user_id = $db->lastInsertId();
+
+                error_log("inserta " .$user_id. " text ".$location );
+
+                if(!$user_id) {
+                    return false;
+                }
+
+		
+		
+		return true;
+	}
+
+        
+        public function getUserLocation($user_id){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('users_location',array('*'))->where('user_id = ?',$user_id);
+		$result= $db->fetchAll($query);
+		return $result; 
+	}
+
 }
 
 ?>

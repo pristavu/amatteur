@@ -198,6 +198,29 @@ if (!$this->show_header_line && $this->show_header_invate)
             </ul>
 
             <form action="<?php echo $this->search_action; ?>" method="get" class="search">
+
+    <?php if ($this->show_hidden)
+    { ?>
+                    <p class="hide">
+                        <input type="hidden" value="search" name="controller" />
+        <?php if ($this->with_action)
+        { ?>
+                            <input type="hidden" value="<?php echo $this->with_action; ?>" name="action" />
+    <?php } ?>
+                    </p>
+<?php } ?>
+                <p class="keyword">
+                    <label for="keyword" class="hide"><?php echo $this->translate('Keyword'); ?>:<br /></label>
+                    <input type="text" id="keyword" name="q" value="<?php echo $this->keywords; ?>" />
+                </p>
+                
+                <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" /></p>
+            </form>
+            <p style="float:inherit">
+                <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Advanced Search'); ?></a>            
+            </p>
+            
+            <!--form action="<?php echo $this->search_action_advanced; ?>" method="get" class="search">
     <?php if ($this->show_hidden)
     { ?>
                     <p class="hide">
@@ -213,8 +236,9 @@ if (!$this->show_header_line && $this->show_header_invate)
                     <input type="text" id="keyword" name="q" value="<?php echo $this->keywords; ?>" />
                 </p>
                 <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" /></p>
-            </form>
-
+            </form-->
+            
+            
         </div>
     </div>
 <?php
