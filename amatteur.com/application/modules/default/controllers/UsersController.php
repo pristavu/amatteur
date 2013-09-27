@@ -2170,7 +2170,7 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->sport_category_1 = $request->getPost('sport_category_1');
                         if ($request->getPost('sport_category_1') != "")
                         {
-                            if ($request->getPost('sport_category_1') == 0)
+                            if ($request->getPost('sport_category_1') == 1)
                             {
                                 $this->view->cat_title1 = "Todo";
                             }
@@ -2188,7 +2188,7 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->sport_category_2 = $request->getPost('sport_category_2');
                         if ($request->getPost('sport_category_2') != "")
                         {
-                            if ($request->getPost('sport_category_2') == 0)
+                            if ($request->getPost('sport_category_2') == 1)
                             {
                                 $this->view->cat_title2 = "Todo";
                             }
@@ -2206,7 +2206,7 @@ if ($this->view->successfu_edite || $this->view->error)
 			$this->view->sport_category_3 = $request->getPost('sport_category_3');
                         if ($request->getPost('sport_category_3') != "")
                         {
-                            if ($request->getPost('sport_category_3') == 0)
+                            if ($request->getPost('sport_category_3') == 1)
                             {
                                 $this->view->cat_title3 = "Todo";
                             }

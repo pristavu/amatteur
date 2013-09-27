@@ -708,19 +708,19 @@ class Model_Users extends JO_Model {
 			$query->where('users.gender = ?', (string)$data['filter_gender']);
 		}
                 
-                if(isset($data['filter_sport_category']) && $data['filter_sport_category'] > -1) {
+                if(isset($data['filter_sport_category']) && $data['filter_sport_category']) {
 			$query->where('(users.sport_category_1 = ? OR users.sport_category_2 = ? OR users.sport_category_3 = ?)', $data['filter_sport_category']);
 		}
 
-                if(isset($data['filter_sport_category_1']) && $data['filter_sport_category_1'] > -1) {
+                if(isset($data['filter_sport_category_1']) && $data['filter_sport_category_1'] ) {
 			$query->where('users.sport_category_1 = ? ', $data['filter_sport_category_1']);
 		}
 
-                if(isset($data['filter_sport_category_2']) && $data['filter_sport_category_2'] > -1) {
+                if(isset($data['filter_sport_category_2']) && $data['filter_sport_category_2']) {
 			$query->where('users.sport_category_2 = ? ', $data['filter_sport_category_2']);
 		}
 
-                if(isset($data['filter_sport_category_3']) && $data['filter_sport_category_3'] > -1) {
+                if(isset($data['filter_sport_category_3']) && $data['filter_sport_category_3']) {
 			$query->where('users.sport_category_3 = ? ', $data['filter_sport_category_3']);
 		}
 

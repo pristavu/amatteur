@@ -111,7 +111,7 @@ class SearchController extends JO_Action {
 			$this->view->sport_category_1 = $request->getPost('sport_category_1');
                         if ($request->getPost('sport_category_1') != "")
                         {
-                            if ($request->getPost('sport_category_1') == 0)
+                            if ($request->getPost('sport_category_1') == 1)
                             {
                                 $this->view->cat_title1 = "Todo";
                             }
@@ -129,7 +129,7 @@ class SearchController extends JO_Action {
 			$this->view->sport_category_2 = $request->getPost('sport_category_2');
                         if ($request->getPost('sport_category_2') != "")
                         {
-                            if ($request->getPost('sport_category_2') == 0)
+                            if ($request->getPost('sport_category_2') == 1)
                             {
                                 $this->view->cat_title2 = "Todo";
                             }
@@ -147,7 +147,7 @@ class SearchController extends JO_Action {
 			$this->view->sport_category_3 = $request->getPost('sport_category_3');
                         if ($request->getPost('sport_category_3') != "")
                         {
-                            if ($request->getPost('sport_category_3') == 0)
+                            if ($request->getPost('sport_category_3') == 1)
                             {
                                 $this->view->cat_title3 = "Todo";
                             }
@@ -400,7 +400,7 @@ class SearchController extends JO_Action {
                 {
                         
                         //boards
-                        if ($request->getPost('option1') == "1")
+                        if ($request->getPost('option1') == "1" || $request->getPost('option7') == "1")
                         {
                             $data = array(
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
@@ -462,7 +462,7 @@ class SearchController extends JO_Action {
 
                         }
                         //users
-                        if ($request->getPost('option2') == "1")
+                        if ($request->getPost('option2') == "1" || $request->getPost('option7') == "1")
                         {
                             $data = array(
                                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
@@ -507,7 +507,7 @@ class SearchController extends JO_Action {
 
                         }
                         //pins
-                        if ($request->getPost('option3') == "1")
+                        if ($request->getPost('option3') == "1" || $request->getPost('option7') == "1")
                         {
                             $data = array(
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
@@ -823,7 +823,7 @@ class SearchController extends JO_Action {
 			$this->view->sport_category_1 = $request->getPost('sport_category_1');
                         if ($request->getPost('sport_category_1') != "")
                         {
-                            if ($request->getPost('sport_category_1') == 0)
+                            if ($request->getPost('sport_category_1') == 1)
                             {
                                 $this->view->cat_title1 = "Todo";
                             }
@@ -841,7 +841,7 @@ class SearchController extends JO_Action {
 			$this->view->sport_category_2 = $request->getPost('sport_category_2');
                         if ($request->getPost('sport_category_2') != "")
                         {
-                            if ($request->getPost('sport_category_2') == 0)
+                            if ($request->getPost('sport_category_2') == 1)
                             {
                                 $this->view->cat_title2 = "Todo";
                             }
@@ -859,7 +859,7 @@ class SearchController extends JO_Action {
 			$this->view->sport_category_3 = $request->getPost('sport_category_3');
                         if ($request->getPost('sport_category_3') != "")
                         {
-                            if ($request->getPost('sport_category_3') == 0)
+                            if ($request->getPost('sport_category_3') == 1)
                             {
                                 $this->view->cat_title3 = "Todo";
                             }
@@ -1192,214 +1192,6 @@ class SearchController extends JO_Action {
 		}	
 	}
 
-        public function amatteurAction() {		
-		
-		$request = $this->getRequest();
-		
-		$page = (int)$request->getRequest('page');
-		if($page < 1) { $page = 1; }
-		
-		$query = $request->getRequest('q');
-		
-		$this->view->query = $query;
-		
-		$this->view->menuSearch = $this->searchMenu($query);
-		
-		$data = array(
-			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-			'limit' => JO_Registry::get('config_front_limit'),
-			'filter_description' => $query,
-			'filter_marker' => $request->getRequest('marker')
-		);
-		
-		$this->view->pins = '';
-		
-		$pins = Model_Pins::getPins($data);
-		if($pins) {
-			foreach($pins AS $pin) {
-				$this->view->pins .= Helper_Pin::returnHtml($pin);
-			}
-// 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-		}
-
-		if($request->isXmlHttpRequest()) {
-			echo $this->view->pins;
-			$this->noViewRenderer(true);
-		} else {
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
-		}	
-	}
-
-        
-	public function pinsAction() {		
-		
-		$request = $this->getRequest();
-		
-		$page = (int)$request->getRequest('page');
-		if($page < 1) { $page = 1; }
-		
-		$query = $request->getRequest('q');
-		
-		$this->view->query = $query;
-		
-		$this->view->menuSearch = $this->searchMenu($query);
-		
-		$data = array(
-			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-			'limit' => JO_Registry::get('config_front_limit'),
-			'filter_description' => $query,
-			'filter_marker' => $request->getRequest('marker')
-		);
-		
-		$this->view->pins = '';
-		
-		$pins = Model_Pins::getPins($data);
-		if($pins) {
-			foreach($pins AS $pin) {
-				$this->view->pins .= Helper_Pin::returnHtml($pin);
-			}
-// 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-		}
-
-		if($request->isXmlHttpRequest()) {
-			echo $this->view->pins;
-			$this->noViewRenderer(true);
-		} else {
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
-		}	
-	}        
-
-	public function videoAction() {		
-		
-		$request = $this->getRequest();
-		
-		$page = (int)$request->getRequest('page');
-		if($page < 1) { $page = 1; }
-		
-		$query = $request->getRequest('q');
-		
-		$this->view->query = $query;
-		
-		$this->view->menuSearch = $this->searchMenu($query);
-		
-		$data = array(
-			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-			'limit' => JO_Registry::get('config_front_limit'),
-                        'filter_is_video' => 1,
-			'filter_description' => $query,
-			'filter_marker' => $request->getRequest('marker')
-		);
-		
-		$this->view->pins = '';
-		
-		$pins = Model_Pins::getPins($data);
-		if($pins) {
-			foreach($pins AS $pin) {
-				$this->view->pins .= Helper_Pin::returnHtml($pin);
-			}
-// 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-		}
-
-		if($request->isXmlHttpRequest()) {
-			echo $this->view->pins;
-			$this->noViewRenderer(true);
-		} else {
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
-		}	
-	}
-
-        public function articleAction() {		
-		
-		$request = $this->getRequest();
-		
-		$page = (int)$request->getRequest('page');
-		if($page < 1) { $page = 1; }
-		
-		$query = $request->getRequest('q');
-		
-		$this->view->query = $query;
-		
-		$this->view->menuSearch = $this->searchMenu($query);
-		
-		$data = array(
-			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-			'limit' => JO_Registry::get('config_front_limit'),
-                        'filter_is_article' => 1,
-			'filter_description' => $query,
-			'filter_marker' => $request->getRequest('marker')
-		);
-		
-		$this->view->pins = '';
-		
-		$pins = Model_Pins::getPins($data);
-		if($pins) {
-			foreach($pins AS $pin) {
-				$this->view->pins .= Helper_Pin::returnHtml($pin);
-			}
-// 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-		}
-
-		if($request->isXmlHttpRequest()) {
-			echo $this->view->pins;
-			$this->noViewRenderer(true);
-		} else {
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
-		}	
-	}
-
-        public function giftAction() {		
-		
-		$request = $this->getRequest();
-		
-		$page = (int)$request->getRequest('page');
-		if($page < 1) { $page = 1; }
-		
-		$query = $request->getRequest('q');
-		
-		$this->view->query = $query;
-		
-		$this->view->menuSearch = $this->searchMenu($query);
-		
-		$data = array(
-			'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-			'limit' => JO_Registry::get('config_front_limit'),
-                        'allow_gifts' => true,
-			'filter_description' => $query,
-			'filter_marker' => $request->getRequest('marker')
-		);
-		
-		$this->view->pins = '';
-		
-		$pins = Model_Pins::getPins($data);
-		if($pins) {
-			foreach($pins AS $pin) {
-				$this->view->pins .= Helper_Pin::returnHtml($pin);
-			}
-// 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-		}
-
-		if($request->isXmlHttpRequest()) {
-			echo $this->view->pins;
-			$this->noViewRenderer(true);
-		} else {
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part'
-	        );
-		}	
-	}
         
 	public function pageAction(){
 		$this->forward('search', 'index');
