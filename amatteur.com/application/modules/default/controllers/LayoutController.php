@@ -285,7 +285,7 @@ class LayoutController extends JO_Action {
 		$this->view->keywords = $request->issetQuery('q') ? $request->getQuery('q') : $this->translate('Search...');
                 */
                 
-                $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
+                $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=amatteur');
 		////////////////////////////// ADD PIN ///////////////////////////
 		
 		$this->view->addPin = WM_Router::create($request->getBaseUrl() . '?controller=addpin');

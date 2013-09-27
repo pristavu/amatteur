@@ -151,22 +151,18 @@
                                                     <img src="data/images/activateSi.png">
                                                     <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
                                                       <?php } ?>
-                                                <?php } ?>
-                                                    
                                     <div id="topwrappers" style="position:relative;margin-top:-33px;margin-left:80px;width: 290px important!">
 
 
-                                                    <form action="<?php echo $this->search_url; ?>" method="get" class="search" style="height: 28px;    position: absolute;    left: 10px;    top: 8px;    height: 28px;    position: absolute;    top: 0px;    right: 0px;    background-color: rgb(255, 255, 255);    box-shadow: 0px 1px rgb(255, 255, 255), 0px 1px rgba(34, 25, 25, 0.1) inset;">
-                                                          <p class="keyword">
-                                                            <label for="keyword" class="hide"><?php echo $this->translate('Keyword'); ?>:<br /></label>
-                                                            <input type="text" id="keyword" style="background-image: url('data/images/search.png');background-repeat: no-repeat;text-indent: -5000px;overflow: hidden;height: 33px;width: 50px;border-style: none;cursor: pointer;-moz-border-bottom-colors: none;border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: transparent;background-position: center center;float: left;margin-left: -1px;min-height: 17px;padding: 7px 7px 2px;" value="<?php echo $this->keywords; ?>" />
+                                                    <form onsubmit="window.location.replace('<?php echo $this->search_url; ?>'); return false" method="get" class="search" style="height: 28px;    position: absolute;    left: 10px;    top: 8px;    height: 28px;    position: absolute;    top: 0px;    right: 0px;    background-color: rgb(255, 255, 255);    box-shadow: 0px 1px rgb(255, 255, 255), 0px 1px rgba(34, 25, 25, 0.1) inset;">
+                                                        <p class="submit">
+                                                            <input type="submit" value="<?php echo $this->translate('Search'); ?>" style="background-image: url('data/images/search.png');background-repeat: no-repeat;text-indent: -5000px;overflow: hidden;height: 48px;width: 60px;border-style: none;cursor: pointer;-moz-border-bottom-colors: none;border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: transparent;background-position: center center;float: left;margin-left: -1px;min-height: 17px;padding: 7px 7px 2px;" value="<?php echo $this->keywords; ?>"/>
                                                         </p>
-                                                        <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" style="background-image: url('data/images/search.png');background-repeat: no-repeat;text-indent: -5000px;overflow: hidden;height: 33px;width: 50px;border-style: none;cursor: pointer;-moz-border-bottom-colors: none;border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: transparent;background-position: center center;float: left;margin-left: -1px;min-height: 17px;padding: 7px 7px 2px;" value="<?php echo $this->keywords; ?>"/></p>
                                                     </form>
                                         </div>  
-                                                                <p style="right:460px;top:20px;position:absolute;color:black !important;font-size:16px;font-weight: bold;">
-                <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Advanced Search'); ?></a>            
-            </p>
+
+                                                <?php } ?>
+                                                    
 
                                     </div>
                                     </div>

@@ -424,6 +424,7 @@ class UsersController extends JO_Action {
                 //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activateDetail'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
                 $_SESSION["activate_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
                 $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate'); 
+                $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
                 
                 $activate = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
                 
