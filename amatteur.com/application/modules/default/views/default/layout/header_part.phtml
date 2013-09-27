@@ -238,7 +238,7 @@ if (!$this->show_header_line && $this->show_header_invate)
                 <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" /></p>
             </form-->
             
-            
+
         </div>
     </div>
 <?php
@@ -349,7 +349,118 @@ if (!$this->is_loged)
                         <div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
                         <div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Know us'); ?></a></div>
     <?php } ?>
+    <?php if ($this->is_loged)
+    { 
+		//Sacamos el total de mails sin leer del usuario
+		$totalmails=Model_Mails::getTotalMails(array('user_id' => JO_Session::get('user[user_id]')));
+	?>
+    					<div id="muestraMensajes"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="18px" alt="<?php echo $this->translate('Mensajes'); ?>"/><?php echo $this->translate('Mensajes'); ?></a></div>
+    <?php
+		if ($totalmails>0)
+		{
+			function cambiafyh_espanol($fechaH)
+			{
+				$traducir_fecha = explode("-",$fechaH);
+				$separaHoras=explode(" ",$traducir_fecha[2]);
+				$fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+				return $fecha_espana;
+			}
+			echo '<div id="avisoMensajes">'.$totalmails.'</div>';
+			echo '<div id="divMails" style="display:none">';
+				echo '<div id="cabeceraCajaMails"></div>';
+				echo '<div id="divMailsHeader">';
+				echo '</div>';
+				echo '<div id="divMailsScroll">';
+					//Vamos a sacar el total de mails del usuario
+					$mails=Model_Mails::getMails(array('user_id' => JO_Session::get('user[user_id]')));
+					echo '<ul>';
+					foreach($mails AS $mail) {
+						if ($mail["store"]=="amazons3")
+						{
+							$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
+							$sufijo="_A.";
+						}else
+						{
+							$host="/uploads";
+							$sufijo=".";
+						}
+						if($mail["avatar"]=="")
+						{
+							$imageUser="uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+						}else
+						{
+							//cogemos la extensión del fichero
+							$extension= substr(strrchr($mail["avatar"], '.'), 1);
+							//ahora la quitamos
+							$nombreSextension=substr($mail["avatar"], 0,strlen($mail["avatar"])-strlen($extension)-1);
+							$imageUser=$host.$nombreSextension.$sufijo.$extension;
+						}
+						$textLeido="";
+						if ($mail["read_mail"]==0)
+						{
+							$textLeido="NOleido";
+						}
+						echo '<li>
+								<a class="messagesContent '.$textLeido.'" href="" role="button">
+								<div class="clearfix">
+									<div class="imagenMails">
+										<div class="_55lt" style="width:50px;height:50px;" size="50" data-reactid=".r[33odf]">
+											<img class="img" src="'.$imageUser.'" width="50" height="50" data-reactid=".r[33odf].[0]">
+										</div>
+									</div>
+									<div class="textoMails">
+										<div class="content fsm fwn fcg">
+											<div class="author">
+												<strong>'.$mail["fullname"].'</strong>
+											</div>
+											<div class="prwText">
+												<span>'.$mail["text_mail"].'</span>
+											</div>
+											<div class="time">
+												<abbr title="" class="timestamp">'.cambiafyh_espanol($mail["date_mail"]).'</abbr>
+											</div>
+										</div>
+									</div>
+									<div class="x_div"><div class="_5c9q" title="Marcar la conversación como no leída"></div></div>
+								</div>
+								</a>
+							</li>';
+					}
+					echo '</ul>';
+				echo '</div>';
+				echo '<div id="divMailsFooter">';
+				echo '</div>';
+			echo '</div>';
+		}
+	}
+	?>
+    <script type="text/javascript">
+			$(document).ready(function() 
+				{
+					$("#muestraMensajes .ados").click(function (){
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}else
+						{
+							$("#divMails").fadeIn();
+						}
+						return false;
+					});
+					$("#avisoMensajes").click(function (){
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}else
+						{
+							$("#divMails").fadeIn();
+						}
+						return false;
+					});
+				});
+	</script>
                         <div id="muestraBlog"><a href="http://blog.amatteur.com" class="ados" target="_blank">Blog</a></div>
+                        
                     </div>
                         
                 <div class="menumenus">
