@@ -1,0 +1,392 @@
+﻿<?php echo $this->header_part; ?>
+
+<div id="detail" class="editprofile">       
+	<div id="view-profile">
+		
+          
+            <form class="Form StaticForm" action="<?php echo $this->deportes; ?>" method="post" id="profileEdit">
+
+                <ul>
+                    <!-- Deporte -->
+                    <li>
+                
+                <h3 style="border-bottom:0px;padding-bottom:0px"><b><?php echo $this->translate('Deportes');?></b></h3>
+                <strong><?php echo $this->translate('Deportistas: ');?></strong>&nbsp;<?php echo $this->translate('Elegid por lo menos uno de vuestros deportes favoritos');?><br/>
+                <strong><?php echo $this->translate('Profesionales y Empresas: ');?></strong>&nbsp;<?php echo $this->translate('Elegid vuestra especialización(es).');?>
+                    </li></ul>
+            
+                <div class="hide">
+                    <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id; ?>">
+                </div>
+
+                <ul>
+                    <!-- Deporte -->
+                    <li>
+                        <label style="width:1000px;" for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Nota: Puedes elegir deportes individuales, grupo de deportes y en caso de empresa / profesional generalista, todo.'); ?></label>
+                        <br/><br/>
+                        <div class="Right" id='catList' style="background:white; min-width: 930px">
+                        <br/><br/>
+                            <div style="margin-left:40px"><div class="todos">
+                                <input <?php echo (Model_Users::getUserSportsById(JO_Session::get('user[user_id]'),'1') == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option1' class='option1' value="1" >&nbsp;&nbsp;<img src="data/images/mail/icon_pinterest_app.jpg" /><?php echo " ". $this->translate('All'); ?><br/>
+                                </div>
+                                <div style="margin-left:40px">
+                                <?php foreach ($this->categories as $category)
+                                    { ?>
+                                    <div class="categoria<?php echo $category['category_id']; ?>">
+                                           <input <?php echo (Model_Users::getUserSportsById(JO_Session::get('user[user_id]'),$category['category_id'])== $category['category_id'] ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option<?php echo $category['category_id']; ?>' class='option1' value="<?php echo $category['category_id']; ?>" >&nbsp;&nbsp;<img src="data/images/mail/icon_pinterest_app.jpg" /><?php echo " ". sprintf($category['title']); ?><br/>
+                                    </div>                                           
+                                        <?php if ($category['subcategories'])
+                                        { ?>
+                                           <div class="subcategoria<?php echo $category['category_id']; ?>" style="margin-left:40px">
+                                        <?php 
+                                           $filas = count($category['subcategories']) / 3;
+                                           $columnas = 3;
+                                           $i=0;
+                                             ?>
+                                               
+                                            <?php //foreach ($category['subcategories'] as $subcat)
+                                            {  ?>
+                                                   <div style="display:table">
+                                                        <?php for($t = 0; $t < $filas; $t++) { ?>
+
+                                                        <div style="display:table-row">
+                                                             <?php for($y = 0; $y < $columnas; $y++) {  ?>
+                                                              <div style="display:table-cell;padding: 10px">
+                                                                  <!--input <?php echo ($this->option1 == $subcat['category_id'] ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option1' class='option1' value="<?php echo $subcat['category_id']; ?>" --><?php //echo " ". sprintf($subcat['title']); ?>
+                                                                  <?php if ($i < count($category['subcategories'])) {  ?>
+                                                                    <input <?php echo (Model_Users::getUserSportsById(JO_Session::get('user[user_id]'),$category['subcategories'][$i]['category_id']) == $category['subcategories'][$i]['category_id'] ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option<?php echo $category['subcategories'][$i]['category_id']; ?>' class='option1' value="<?php echo $category['subcategories'][$i]['category_id']; ?>" ><?php echo " ". sprintf($category['subcategories'][$i]['title']); ?>
+                                                                  <?php }  ?>
+                                                              </div>    
+                                                           <?php $i++; }  ?>
+                                                        </div>
+                                                     <?php } $i=0; ?>
+                                                </div>
+
+                                            <?php }  ?>
+                                           </div>
+                                <?php } ?>
+                                    
+                            <?php } ?>
+
+                            <input type='hidden' id='catId' name='sport_category' class='sport_category' value = '<?php echo $this->sport_category; ?>'/>
+                            </div>
+                            </div>
+                        <br/><br/>
+                        </div>
+                    </li>
+
+                <!-- Grabar -->
+                                    <li>
+                        <div class="left w335px">
+                            <p class="submit">
+                                
+                            <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
+                            </p>
+                        </div>
+                    </li>				
+                </ul>
+                
+                <div class="clear"></div>
+
+            </form>
+    
+    </div>
+    
+    <div class="clear"></div>    
+</div>
+
+
+<?php $key = str_replace('.', '', microtime(true)); ?>
+<script type="text/javascript">
+    $(document).ready(function(){
+       
+        $('.Button.RedButton.message.close').click(function(){
+		//history.go(-1);
+                var origen = '<?php echo $_SESSION["deportes_url"]; ?>';
+                window.location.href=origen;
+	});
+/*
+          
+        
+	<?php if($this->successfu_edite) { ?>
+	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');
+	<?php } ?>
+	<?php if($this->error) { ?>
+	Pins.error('<?php echo $this->error;?>');
+	<?php } ?>
+        
+
+        regExPrice.addExpresionLine($('#comment').html(), true);
+	*/
+        $('#comment').jqEasyCounter({
+            holder: 'p.text_counter',
+            maxChars: 255,
+            maxCharsWarning: 225,
+            template: '{count}'
+        }).bind("keydown keyup keypress focus paste",function() {
+            regExPrice.addExpresionLine(this.value);
+            if($.trim($('#comment').val())) {
+                $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+            } 
+            else 
+            {
+                $('#emailpin .submit input').addClass('disabled').attr('disabled', true);
+            }
+            regExPrice.addExpresionLine(this.value, false);
+        });
+
+
+        $('#emailpin form').unbind('submit').submit(function(){
+            $('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+            $('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+            
+            
+            var user_id = $('#user_id').val();
+            var option1 = $('.option1:checked').val();            
+            var option2 = $('.option2:checked').val();            
+            var option3 = $('.option3:checked').val();            
+            var option4 = $('.option4:checked').val();            
+            var option5 = $('.option5:checked').val();            
+            var option6 = $('.option6:checked').val();            
+            var option7 = $('.option7:checked').val();            
+            var option8 = $('.option8:checked').val();            
+            alert($('.option1:checked').val());
+            alert($('#comment').val());
+            
+            
+                  
+            $.post('<?php echo $this->from_url; ?>', {user_id:user_id, gender : gender, age : age, location : location, sport_category : sport_category, level : level, activate : activate, option1 : option1, option2 : option2, option3 : option3, option4 : option4, option5 : option5, option6 : option6, option7 : option7, option8 : option8, comment:comment}, function(data,status){
+                $('#loading_button').remove();
+                $.fancybox.close();                        
+
+            $('#emailpin form .submit input').after(kk);
+            $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
+			
+            });
+            return false;
+                   
+        });
+	
+
+	$(".todos input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                //$("#todos input[type='checkbox']").attr("checked","checked")
+                //checkAll($(this));
+                //$(".categoria input[type='checkbox']").attr("checked","checked")
+                $(".categoria127 input[type='checkbox']").attr("checked","checked")
+                $(".categoria182 input[type='checkbox']").attr("checked","checked")
+                $(".categoria212 input[type='checkbox']").attr("checked","checked")
+                $(".categoria226 input[type='checkbox']").attr("checked","checked")
+                $(".categoria236 input[type='checkbox']").attr("checked","checked")
+                $(".categoria245 input[type='checkbox']").attr("checked","checked")
+                $(".categoria256 input[type='checkbox']").attr("checked","checked")
+                $(".categoria308 input[type='checkbox']").attr("checked","checked")
+                $(".categoria324 input[type='checkbox']").attr("checked","checked")
+                $(".categoria333 input[type='checkbox']").attr("checked","checked")
+                $(".categoria349 input[type='checkbox']").attr("checked","checked")
+                $(".categoria199 input[type='checkbox']").attr("checked","checked")
+                $(".categoria267 input[type='checkbox']").attr("checked","checked")
+                $(".categoria277 input[type='checkbox']").attr("checked","checked")
+                $(".categoria286 input[type='checkbox']").attr("checked","checked")
+                $(".categoria296 input[type='checkbox']").attr("checked","checked")
+                $(".categoria316 input[type='checkbox']").attr("checked","checked")
+                $(".categoria350 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria127 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria182 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria212 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria226 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria236 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria245 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria256 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria308 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria324 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria333 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria349 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria199 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria267 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria277 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria286 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria296 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria316 input[type='checkbox']").attr("checked","checked")
+                $(".subcategoria350 input[type='checkbox']").attr("checked","checked")
+                
+            }
+        });
+
+
+	$(".categoria127 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria127 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria182 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria182 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+
+	$(".categoria212 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria212 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria226 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria226 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria236 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria236 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria245 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria245 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria256 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria256 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria308 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria308 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria324 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria324 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria333 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria333 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria349 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria349 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria199 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria199 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria267 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria267 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria277 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria277 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria286 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria286 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria296 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria296 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria316 input[type='checkbox']").bind('click',function(event)
+        {
+            alert("Cate");
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria316 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+	$(".categoria350 input[type='checkbox']").bind('click',function(event)
+        {
+            if( $(this).is(':checked') ) 
+            {
+                $(".subcategoria350 input[type='checkbox']").attr("checked","checked")
+            }
+        });
+
+
+        return;
+	
+	
+    });
+
+</script>
+
+        <script type="text/javascript">
+        function checkAll(obj1)
+        {
+            alert("dentro"+obj1.data("id"));
+                //strb.AppendLine("var checkboxCollection = document.getElementById('<%=panelChk.ClientID %>').getElementsByTagName('input');
+           var checkboxCollection = document.getElementById(obj1.data("id")).getElementsByTagName('input');
+           for(var i=0; i<checkboxCollection.length; i++)
+           {
+               if(checkboxCollection[i].type.toString().toLowerCase() == "checkbox")
+               {
+                   checkboxCollection[i].checked = obj1.checked;
+               }
+           }
+        }
+        </script>
+
+
+<?php echo $this->footer_part; ?>

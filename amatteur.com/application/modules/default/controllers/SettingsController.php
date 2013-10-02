@@ -50,6 +50,18 @@ class SettingsController extends JO_Action {
                 /////////// activate //////////
                 $_SESSION["activate_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=settings'); 
                 $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate'); 
+
+                $_SESSION["deportes_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=settings');                 
+                $this->view->deportes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes');                 
+                
+                $this->view->user_sports =  array();
+                $users_sports = Model_Users::getUserSports(JO_Session::get('user[user_id]'));
+                $i=0;
+                foreach ($users_sports as $user_sports){
+                    $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
+                    $i++;
+                }                
+                $this->view->sportcounter = $i;
                 
                 
 		$user_data = Model_Users::getUser( JO_Session::get('user[user_id]') );
@@ -75,11 +87,14 @@ class SettingsController extends JO_Action {
                                 $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');                                        
                             }
                         }
+                        $validate->_set_rules($request->getPost('sports'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
                         //is_nan() sino
+                        /*
                         if($request->getPost('sport_category_1') == "" && $request->getPost('sport_category_2') == "" && $request->getPost('sport_category_3') == "") {
                             $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id'), 'not_empty;min_length[3];max_length[100]');
 
                         }
+                         * */
                         //$validate->_set_rules($request->getPost('sport_category_1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
                         //$validate->_set_rules($request->getPost('sport_category_2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
                         //$validate->_set_rules($request->getPost('sport_category_3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
@@ -158,6 +173,7 @@ class SettingsController extends JO_Action {
                                                                 }
                                                             }
                                         }
+
 					
 					$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=settings' ) );
 				} else {

@@ -1889,7 +1889,7 @@ class Model_Users extends JO_Model {
 //		echo $query; exit;
 		$results = $db->fetchAll($query);
 
-                error_log("query  $query ");
+                error_log("query activate  $query ");
                 return $results;
                 /*
 		$result[$key] = array();
@@ -1986,8 +1986,6 @@ class Model_Users extends JO_Model {
 
                 $user_id = $db->lastInsertId();
 
-                error_log("inserta " .$user_id. " text ".$location );
-
                 if(!$user_id) {
                     return false;
                 }
@@ -2004,6 +2002,72 @@ class Model_Users extends JO_Model {
 		$result= $db->fetchAll($query);
 		return $result; 
 	}
+        
+	public static function deleteUsersSports($user_id) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$row = $db->query("DELETE FROM users_sports WHERE user_id = ". $user_id );
+        
+		if(!$row) {
+			return false;
+		}
+		
+		return $row;
+	}
+        
+        
+        public static function createUsersSports($user_id, $sport_id) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$rows = self::describeTable('users_sports');
+		
+                
+		$update = array();
+		
+                
+                $db->insert('users_sports', array(
+                        'user_id' => $user_id,
+                        'sport_category' => (string)$sport_id
+                ));		
+
+                $user_id = $db->lastInsertId();
+
+                error_log("inserta " .$user_id. " text ".$sport_id );
+
+                if(!$user_id) {
+                    return false;
+                }
+
+		
+		
+		return true;
+	}
+        
+        public function getUserSports($user_id){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('users_sports',array('*'))->where('user_id = ?',$user_id);
+                error_log("query users ". $query);
+		$result= $db->fetchAll($query);
+		return $result; 
+	}
+        
+        public function getUserSportsById($user_id, $sport_category){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('users_sports','sport_category')->where('user_id = ?',$user_id)->where('sport_category = ?',$sport_category);
+                error_log("query users ". $query);
+		$result= $db->fetchOne($query);
+		return $result; 
+	}
+        
+        
+	public function editUserSports($user_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$result= $db->update('users_sports', array(
+			'user_id' => $user_id
+                        ), array('user_id = ?' => '0'));
+                return $result; 
+	}
+        
 
 }
 

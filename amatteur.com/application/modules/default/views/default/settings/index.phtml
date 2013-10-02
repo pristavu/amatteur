@@ -134,6 +134,22 @@
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
                     <div class="Right" id='catList'>
+                        <a id="moresports" href="<?php echo $this->deportes;?>" class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
+                        <br/><br/>
+                        <div id="divSports">
+                        	<?php foreach($this->user_sports as $user_sport) {  ?>
+                                <?php  echo trim($user_sport); ?><br/>
+                                <?php     } ?>
+                                
+                            <input id="sports" class="sports" name="sports" type="hidden" value="<?php echo $this->user_sports; ?>" />
+                        </div>
+                    </div>
+                    <span class="help_text"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>
+                </li>
+                
+                <!--li style="border:0px">
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
+                    <div class="Right" id='catList'>
                          
                          <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category1' style='width: 352px; display: inline-block;'>
                          	<?php if(!$this->cat_title1){?>
@@ -249,11 +265,11 @@
                         <input type='hidden' id='catId3' name='sport_category_3' value = '<?php echo $this->sport_category_3;?>'/>
                       
                     </div>
-                </li>
+                </li-->
 
             </ul>
         </div>  
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <!--br/><br/><br/><br/--><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
                 <!-- Location -->
                 <li>
                     <label for="id_location"><?php echo $this->translate('Location');?></label>

@@ -425,6 +425,7 @@ class UsersController extends JO_Action {
                 $_SESSION["activate_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
                 $this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate'); 
                 $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
+                //$this->view->deportes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes'); 
                 
                 $activate = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
                 
@@ -809,6 +810,185 @@ class UsersController extends JO_Action {
 	        	'left_part' 	=> 'layout/left_part'
                         );
 		}
+	}        
+        
+        public function deportesAction() {
+		
+		$request = $this->getRequest();
+                
+                //////////// Categories ////////////
+                $this->view->categories =  array();
+                $categories = Model_Categories::getCategories(array(
+                        'filter_status' => 1
+                ));
+
+                foreach ($categories as $category){
+                        $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+                        $this->view->categories[] = $category;
+                }
+                
+                /*
+                $this->view->user_sports =  array();
+                $users_sports = Model_Users::getUserSports(JO_Session::get('user[user_id]'));
+                foreach ($users_sports as $user_sports){
+                    $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
+                }                
+                */
+                
+                $existe = 0;
+                for ($i=0; $i< 350; $i++)
+                {
+                    $existe = 1;
+                    break;
+                    /*
+                    //option1		
+                    if($request->issetPost('option'.$i)) {
+                            $this->view->option.$i = $request->getPost('option'.$i);
+                    }  elseif (isset ($user_data['option'.$i])) {
+                            $this->view->option.$i = $user_data['option'.$i];
+                    }
+                    else
+                    {
+                            $this->view->option.$i = '';
+                    }
+                     * 
+                     */
+                }
+                
+                //option2		
+                if($request->issetPost('option2')) {
+			$this->view->option2 = $request->getPost('option2');
+		}  elseif (isset ($user_data['option2'])) {
+			$this->view->option2 = $user_data['option2'];
+		}
+                else
+                {
+                        $this->view->option2 = '';
+                }
+                
+                //option3
+                if($request->issetPost('option3')) {
+			$this->view->option3 = $request->getPost('option3');
+		}  elseif (isset ($user_data['option3'])) {
+			$this->view->option3 = $user_data['option3'];
+		}
+                else
+                {
+                        $this->view->option3 = '';
+                }
+                
+                //option4		
+                if($request->issetPost('option4')) {
+			$this->view->option4 = $request->getPost('option4');
+		}  elseif (isset ($user_data['option4'])) {
+			$this->view->option4 = $user_data['option4'];
+		}
+                else
+                {
+                        $this->view->option4 = '';
+                }
+                
+                //option5		
+                if($request->issetPost('option5')) {
+			$this->view->option5 = $request->getPost('option5');
+		}  elseif (isset ($user_data['option5'])) {
+			$this->view->option5 = $user_data['option5'];
+		}
+                else
+                {
+                        $this->view->option5 = '';
+                }
+                
+                //option6		
+                if($request->issetPost('option6')) {
+			$this->view->option6 = $request->getPost('option6');
+		}  elseif (isset ($user_data['option6'])) {
+			$this->view->option6 = $user_data['option6'];
+		}
+                else
+                {
+                        $this->view->option6 = '';
+                }
+                
+                //option7		
+                if($request->issetPost('option7')) {
+			$this->view->option7 = $request->getPost('option7');
+		}  elseif (isset ($user_data['option7'])) {
+			$this->view->option7 = $user_data['option7'];
+		}
+                else
+                {
+                        $this->view->option7 = '';
+                }
+                
+                //option8		
+                if($request->issetPost('option8')) {
+			$this->view->option8 = $request->getPost('option8');
+		}  elseif (isset ($user_data['option8'])) {
+			$this->view->option8 = $user_data['option8'];
+		}
+                else
+                {
+                        $this->view->option8 = '';
+                }
+
+                
+                $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes' );
+		
+                $this->view->popup_main_box = $this->view->render('deportes','users');
+		
+		if( $request->isPost() ) {
+                    
+                        $validate = new Helper_Validate();
+                        //$validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+
+                        if($validate->_valid_form()) { 
+                            
+
+                            if ($existe == 1)
+                            {
+                               if(Model_Users::deleteUsersSports(JO_Session::get('user[user_id]')))
+                               {
+                                    for ($i=0; $i < 350; $i++)
+                                    {
+                                        //option1		
+                                        if($request->issetPost('option'.$i)) {
+                                                $this->view->successfu_edite = false;
+                                                $sport = $request->getPost('option'.$i);
+                                                if (Model_Users::createUsersSports(JO_Session::get('user[user_id]'), $sport))
+                                                {
+                                                    $this->view->successfu_edite = true;
+                                                }
+                                        }
+                                    }
+                               }
+                            }
+                             
+                            if ($this->view->successfu_edite == true)
+                            {
+                                header("HTTP/1.1 301"); 
+                                header('Location: '. $_SESSION["deportes_url"]);
+                            }
+                    /*
+			if($result) {
+                            //Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));
+				Model_History::addHistory($request->getPost('user_to'), Model_History::MESSAGEUSER, $result, $request->getPost('board_user'), $request->getPost('text_message'));
+			}
+                    */
+			} else {
+                            
+				$this->view->error = $validate->_get_error_messages();
+                                
+			}
+                    
+		}
+                
+                
+                $this->view->children = array(
+        	'header_part' 	=> 'layout/header_part',
+        	'footer_part' 	=> 'layout/footer_part'
+                );
+
 	}        
         
         public function activateAction() {
@@ -1984,6 +2164,9 @@ if ($this->view->successfu_edite || $this->view->error)
 		
 		$request = $this->getRequest();
 
+                $_SESSION["deportes_url"] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=register');                 
+                $this->view->deportes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes');                 
+                
                 //////////// Categories ////////////
                 $this->view->categories =  array();
                 $categories = Model_Categories::getCategories(array(
@@ -1996,15 +2179,26 @@ if ($this->view->successfu_edite || $this->view->error)
                 }
 
                 //////////// User Type ////////////
-                $this->view->user_type =  array();
+                $this->view->user_types =  array();
                 $user_types = Model_Users::getUserType(array(
                         'filter_status' => 1
                 ));
-
+                
                 foreach ($user_types as $user_type){
                         $user_type['subuser_types'] = Model_Users::getSubUserType($user_type['user_type_id']);
                         $this->view->user_types[] = $user_type;
                 }
+                
+                $this->view->user_sports =  array();
+                $users_sports = Model_Users::getUserSports(0);
+                $i=0;
+                foreach ($users_sports as $user_sports){
+                    $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
+                    $i++;
+                }                
+                //$this->view->sportcounter = $i;
+                
+                
                 
 		if( JO_Session::get('user[user_id]') ) {
 			$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') ) );
@@ -2048,11 +2242,11 @@ if ($this->view->successfu_edite || $this->view->error)
                             }
                         }
                         //is_nan() sino
-                        if($request->getPost('sport_category_1') == "" && $request->getPost('sport_category_2') == "" && $request->getPost('sport_category_3') == "") {
+                        /*if($request->getPost('sport_category_1') == "" && $request->getPost('sport_category_2') == "" && $request->getPost('sport_category_3') == "") {
                             $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id'), 'not_empty;min_length[3];max_length[100]');
 
-                        }
-                        //$validate->_set_rules($request->getPost('sport_category_1'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+                        }*/
+                        $validate->_set_rules($request->getPost('sports'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
                         //$validate->_set_rules($request->getPost('sport_category_2'), $this->translate('Category_id2'), 'not_empty;min_length[3];max_length[100]');
                         //$validate->_set_rules($request->getPost('sport_category_3'), $this->translate('Category_id3'), 'not_empty;min_length[3];max_length[100]');
                         $validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
@@ -2109,6 +2303,8 @@ if ($this->view->successfu_edite || $this->view->error)
                                                 }
                                             }
                                         }
+                                        if (Model_Users::editUserSports($result));
+                                        {}
                                     
 					if(self::sendMail($result)){
 						self::loginInit($result);
