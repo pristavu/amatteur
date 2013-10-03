@@ -746,7 +746,6 @@ class Model_Users extends JO_Model {
 			$query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
 		}
                 
-                error_log("query  $query"); 
 //		echo $query; exit;
 		$results = $db->fetchAll($query);
 
@@ -1889,7 +1888,6 @@ class Model_Users extends JO_Model {
 //		echo $query; exit;
 		$results = $db->fetchAll($query);
 
-                error_log("query activate  $query ");
                 return $results;
                 /*
 		$result[$key] = array();
@@ -2002,6 +2000,14 @@ class Model_Users extends JO_Model {
 		$result= $db->fetchAll($query);
 		return $result; 
 	}
+
+        public function getLocationUsers($location){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('users_location',array('user_id'))->where('location = ?',$location);
+		$result= $db->fetchAll($query);
+		return $result; 
+	}
+        
         
 	public static function deleteUsersSports($user_id) {
 		$db = JO_Db::getDefaultAdapter();
@@ -2032,7 +2038,6 @@ class Model_Users extends JO_Model {
 
                 $user_id = $db->lastInsertId();
 
-                error_log("inserta " .$user_id. " text ".$sport_id );
 
                 if(!$user_id) {
                     return false;
@@ -2046,15 +2051,21 @@ class Model_Users extends JO_Model {
         public function getUserSports($user_id){
 		$db  = JO_Db::getDefaultAdapter();
 		$query =  $db->select()->from('users_sports',array('*'))->where('user_id = ?',$user_id);
-                error_log("query users ". $query);
 		$result= $db->fetchAll($query);
 		return $result; 
 	}
+
+        public function getUserIdSportsUser($sport_category){
+		$db  = JO_Db::getDefaultAdapter();
+		$query =  $db->select()->from('users_sports',array('user_id'))->where('sport_category = ?',$sport_category);
+		$result= $db->fetchAll($query);
+		return $result; 
+	}
+       
         
         public function getUserSportsById($user_id, $sport_category){
 		$db  = JO_Db::getDefaultAdapter();
 		$query =  $db->select()->from('users_sports','sport_category')->where('user_id = ?',$user_id)->where('sport_category = ?',$sport_category);
-                error_log("query users ". $query);
 		$result= $db->fetchOne($query);
 		return $result; 
 	}

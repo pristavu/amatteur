@@ -58,8 +58,11 @@ class SettingsController extends JO_Action {
                 $users_sports = Model_Users::getUserSports(JO_Session::get('user[user_id]'));
                 $i=0;
                 foreach ($users_sports as $user_sports){
-                    $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
-                    $i++;
+                    if (!Model_Boards::isCategoryParent($user_sports['sport_category']))
+                    {
+                        $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
+                        $i++;
+                    }
                 }                
                 $this->view->sportcounter = $i;
                 

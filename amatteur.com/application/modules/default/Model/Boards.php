@@ -811,7 +811,15 @@ class Model_Boards {
 		$result = $db->fetchOne($sql);
 		return $result;
 	}
-	
+
+	function isCategoryParent($category_id){
+		$db = JO_Db::getDefaultAdapter();
+		$sql = "select category_id from category where category_id = {$category_id} AND (parent_id = 0 OR parent_id is null)";
+		$result = $db->fetchOne($sql);
+		return $result;
+	}
+        
+        
 	public static function getTotalBoards($data = array()) {
 		
 		$db = JO_Db::getDefaultAdapter();
