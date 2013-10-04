@@ -92,7 +92,11 @@ class WelcomeController extends JO_Action {
 			
 			$categories[] = $userSport["sport_category"];
 		}
-
+                
+                if( !$categories || count($categories) < 1 ) {
+                        $this->view->error = true;
+                }                
+                JO_Session::set('category_id', $categories);
 		
 		$users = Model_Users::getUsers(array(
 			'filter_welcome' => $categories,
@@ -152,6 +156,7 @@ class WelcomeController extends JO_Action {
 				$this->view->boards .= $view->render('box', 'users');
 			}
 		}
+               
 		
 		$this->view->pinmarklet_href = WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . JO_Registry::get('page_pinmarklet') );
 		//$this->view->direct_path = WM_Router::create( $request->getBaseUrl() . '?direct_path=true' );
