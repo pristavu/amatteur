@@ -100,11 +100,11 @@ class WelcomeController extends JO_Action {
 			'limit' => 20
 		));
 		
-		if(!$users) {
+		/*if(!$users) {
 			JO_Session::clear('category_id');
 			$this->redirect( WM_Router::create($request->getBaseUrl() . '?controller=welcome') );
 		}
-		
+		*/
 		$this->view->boards = '';
 		if($users) {
 			$view = JO_View::getInstance();
