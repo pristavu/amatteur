@@ -409,8 +409,15 @@ if (!$this->is_loged)
 							$textLeido="NOleido";
 							$textToolTip=$this->translate('Marcar la conversación como leída');
 						}
+						if ($mail["parent_mail_id"]==0)
+						{
+							$id=$mail["mail_id"];
+						}else
+						{
+							$id=$mail["parent_mail_id"];
+						}
 						echo '<li>
-								<a class="messagesContent '.$textLeido.'" href="" role="button" id="mail'.$mail["mail_id"].'">
+								<a class="silverbox messagesContent '.$textLeido.'" href="'.$this->viewMail.'?id='.$id.'" role="button" id="mail'.$mail["mail_id"].'" title="'.$this->translate('Mensajería').'">
 								<div class="clearfix">
 									<div class="imagenMails">
 										<div class="_55lt" style="width:50px;height:50px;" size="50" data-reactid=".r[33odf]">
@@ -423,7 +430,7 @@ if (!$this->is_loged)
 												<strong>'.$mail["fullname"].'</strong>
 											</div>
 											<div class="prwText">
-												<span>'.$mail["text_mail"].'</span>
+												<span>'.str_replace("<br/>"," ",$mail["text_mail"]).'</span>
 											</div>
 											<div class="time">
 												<abbr title="" class="timestamp">'.cambiafyh_espanol($mail["date_mail"]).'</abbr>
@@ -448,6 +455,9 @@ if (!$this->is_loged)
 			$(document).ready(function() 
 				{
 					$("#newMail").click(function (){
+						$("#divMails").fadeOut();
+					});
+					$(".messagesContent").click(function (){
 						$("#divMails").fadeOut();
 					});
 					$("._5c9q").click(function (){

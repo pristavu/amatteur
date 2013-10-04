@@ -1,46 +1,83 @@
 <?php //var_dump($this);exit;?>
-<div id="create-mail">
-		<form name="CreateMail" method="post" action="<?php echo $this->form_action;?>" class="Form StaticForm" id="CreateMail">
+<div id="reply-mail">
+		<form name="ReplyMail" method="post" action="<?php echo $this->form_action;?>" class="StaticForm" id="ReplyMail">
             <ul>
-                <li>
-                    <label for="id_website"><?php echo $this->translate('Destinatario/s');?></label>
-                    <div class="Right">
-                        
-					<div class="add_collaborators Right">
-                        
-        
-                        <div class="clearfix">
-                            <span id="invite_response<?php echo ($this->is_edit?'-edit':'');?>">
-                            <?php if($this->another_users) { ?>
-                            	<?php foreach($this->another_users AS $u) { ?>
-                            	<input id="hidden_user_fr_<?php echo $u['user_id']?><?php echo ($this->is_edit?'-edit':'');?>" type="hidden" name="friends[<?php echo $u['user_id']?>]" value="<?php echo $u['user_id']?>" />
-                            	<?php } ?>
-                            <?php } ?>
-                            </span>
-                            <input type="text" class="collaborator_name ui-autocomplete-input" value="<?php echo $this->translate('Add another pinner');?>" name="collaborator_name" autocomplete="off" role="textbox" aria-autocomplete="list" aria-haspopup="true">
-                            
-                            <ul id="CurrentCollaborators<?php echo ($this->is_edit?'-edit':'');?>">
-                            	<?php if($this->another_users) { ?>
-                            	<?php foreach($this->another_users AS $u) { ?>
-                            	<li class="collaborator invite" id="user_fr_<?php echo $u['user_id']?><?php echo ($this->is_edit?'-edit':'');?>">
-									<a href="<?php echo $u['href']?>">
-										<img alt="<?php echo $this->translate('Collaborator Photo');?>" src="<?php echo $u['avatar']?>" class="collaborator_image">
-									</a>
-									<a href="<?php echo $u['href']?>" class="collaborator_name"><?php echo $u['fullname']?></a>
-									<a class="delete_collaborator invite" href="javascript:void(0);" onclick="deleteFriend('<?php echo $u['user_id']?>');"><?php echo $this->translate('Remove');?></a>
-								</li>
-                            	<?php } ?>
-                            	<?php } ?>
-                            </ul>
+            	<?php
+					function cambiafyh_espanol($fechaH)
+					{
+						$traducir_fecha = explode("-",$fechaH);
+						$separaHoras=explode(" ",$traducir_fecha[2]);
+						$fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+						return $fecha_espana;
+					}
+					$mails=Model_Mails::getMailConversation($_GET["id"]);
+					$user_replies="";
+					foreach($mails AS $mail) {
+						///Marcamos como leído
+						Model_Mails::updateMail(array('read_mail' => 1,'mail_id' => $mail["mail_id"]));
+						if ($mail["store"]=="amazons3")
+						{
+							$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
+							$sufijo="_A.";
+						}else
+						{
+							$host="/uploads";
+							$sufijo=".";
+						}
+						if($mail["avatar"]=="")
+						{
+							$imageUser="uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+						}else
+						{
+							//cogemos la extensión del fichero
+							$extension= substr(strrchr($mail["avatar"], '.'), 1);
+							//ahora la quitamos
+							$nombreSextension=substr($mail["avatar"], 0,strlen($mail["avatar"])-strlen($extension)-1);
+							$imageUser=$host.$nombreSextension.$sufijo.$extension;
+						}
+						$linkProfile=WM_Router::create( $this->base_url . '?controller=users&action=profile&user_id=' . $mail['from_user_id'] );
+						if ($mail['from_user_id']!=JO_Session::get('user[user_id]'))
+						{
+							$pos = strpos($user_replies, $mail['from_user_id'].",");
+							if ($pos===false)
+							{
+								$user_replies.=$mail['from_user_id'].",";
+							}
+						}
+				?>
+                <li class="mensajeConversacion clearfix">
+                	<div class="clearfix">
+                    	<div class="imagenMails conversacion">
+                        	<a href="<?php echo $linkProfile; ?>" title="<?php echo $this->translate('Ver perfil');?>">
+                            	<img src="<?php echo $imageUser; ?>" alt="<?php echo $mail["fullname"]; ?>" width="35" height="35" />
+                            </a>
+                        </div>
+                        <div class="textoMails">
+                        	<div style="float:right">
+                            	<span></span>
+                                    <abbr title="18 de mayo de 2010" data-utime="1274190476" class="_35 timestamp"><?php echo cambiafyh_espanol($mail["date_mail"]); ?></abbr>
+                            </div>
+                            <div>
+                            	<strong class="_36">
+                                	<a href="<?php echo $linkProfile; ?>">
+                                    	<?php echo $mail["fullname"]; ?>
+                                    </a>
+                                </strong>
+                            	<div class="_37">
+                                	<?php echo $mail["text_mail"]; ?>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                        
-                    </div>
                 </li>
-			
+                <?php }//end for ?>
+       
+                
 				<li>
-                	<label for="id_website"><?php echo $this->translate('Mensaje');?></label>
+                	<label for="id_website"><?php echo $this->translate('Respuesta');?></label>
                     <div class="Right">
+                    	<input type="hidden" value="<?php echo $_GET["id"]; ?>" name="parent" id="parent" />
+                        <input type="hidden" value="<?php echo $user_replies; ?>" name="replies" id="replies" />
                 		<textarea style="width: 400px; height: 100px;" title="<?php echo $this->translate('Please enter a code');?>" class="inputbox required" name="text" id="text"></textarea>
                     </div>
                 </li>
@@ -50,7 +87,7 @@
             <!-- Button -->
             <div class="Submit">
                 <a class="Button WhiteButton RedButton create-board" href="javascript:void(0);" onclick="saveMailData();">
-                	<strong><?php echo $this->translate('Enviar');?></strong>
+                	<strong><?php echo $this->translate('Responder');?></strong>
                 	<span></span>
                 </a>
             </div>
@@ -125,7 +162,7 @@ function saveMailData() {
 		$("#text").focus();
 		return false;
 	}
-	$.post('<?php echo $this->form_action;?>', $('#CreateMail').serialize(), function(data){
+	$.post('<?php echo $this->form_action;?>', $('#ReplyMail').serialize(), function(data){
 		if(data.error) {
 			Pins.error(data.error);
 		} else if(data.data) {

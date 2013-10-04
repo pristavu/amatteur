@@ -2,6 +2,20 @@
 
 class Model_Mails {
 	
+	public static function getReplyConversation($mail_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db
+					->select()
+					->from(array('m' => 'users_mails'))
+					->joinLeft(array('u' => 'users'), 'm.from_user_id = u.user_id', array('fullname' => "CONCAT(firstname,' ', lastname)",'u.username','u.avatar','u.store'))
+					->joinLeft(array('t' => 'users_mails_to'), 'm.mail_id = t.mail_id','t.user_id')
+					->where('m.mail_id = ? OR m.parent_mail_id = ?', $mail_id);
+					error_log($query);
+		
+		return $db->fetchAll($query);
+		
+	}
+	
 	public static function getMails($data = array()) {
 		$db = JO_Db::getDefaultAdapter();
     
@@ -30,16 +44,17 @@ class Model_Mails {
 		return $db->fetchOne($query);
 	}
 	
-	public static function getMail($mail_id) {
+	public static function getMailConversation($mail_id) {
 		$db = JO_Db::getDefaultAdapter();
-        
 		$query = $db
 					->select()
-					->from('users_mails')
-					->where('mail_id = ?', $mail_id)
-					->limit(1);
+					->from(array('m' => 'users_mails'))
+					->joinLeft(array('u' => 'users'), 'm.from_user_id = u.user_id', array('fullname' => "CONCAT(firstname,' ', lastname)",'u.username','u.avatar','u.store'))
+					->joinLeft(array('t' => 'users_mails_to'), 'm.mail_id = t.mail_id','t.read_mail')
+					->where('(m.mail_id = ? OR m.parent_mail_id = ?) AND t.user_id='.(string)JO_Session::get('user[user_id]'), $mail_id)
+					->order('date_mail ASC');
 		
-		return $db->fetchRow($query);
+		return $db->fetchAll($query);
 		
 	}
 	
@@ -89,6 +104,59 @@ class Model_Mails {
 		return array(
 			'status' => "OK",
 			'unread' => $totalmails
+		);
+		
+	}
+	
+	public static function replyMail($data) {
+		
+		
+		$db = JO_Db::getDefaultAdapter();
+		
+		$db->insert('users_mails', array(
+			'from_user_id' => isset($data['user_id'])?(string)$data['user_id']:JO_Session::get('user[user_id]'),
+			'date_mail' => new JO_Db_Expr('NOW()'),
+			'text_mail' => (string)$data['text'],
+			'parent_mail_id' => isset($data['parent'])?(string)$data['parent']:0
+		));
+		
+		$mail_id = $db->lastInsertId();
+		
+		if(!$mail_id) {
+			return false;
+		}
+		
+		$replies=self::getReplyConversation($data['parent']);
+		$recipients="";
+		foreach($replies AS $reply) {
+			if($reply["from_user_id"]!=JO_Session::get('user[user_id]'))
+			{
+				$pos = strpos($recipients, $reply["from_user_id"].",");
+				if ($pos===false)
+				{
+					$recipients.=$reply["from_user_id"].",";
+					$db->insert('users_mails_to', array(
+						'user_id' => $reply["from_user_id"],
+						'mail_id' => $mail_id
+					));
+				}
+			}
+			if($reply["user_id"]!=JO_Session::get('user[user_id]'))
+			{
+				$pos = strpos($recipients, $reply["user_id"].",");
+				if ($pos===false)
+				{
+					$recipients.=$reply["user_id"].",";
+					$db->insert('users_mails_to', array(
+						'user_id' => $reply["user_id"],
+						'mail_id' => $mail_id
+					));
+				}
+			}
+		}
+		
+		return array(
+			'status' => "OK"
 		);
 		
 	}
