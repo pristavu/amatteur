@@ -51,6 +51,7 @@ class Model_Mails {
 		$db->insert('users_mails', array(
 			'from_user_id' => isset($data['user_id'])?(string)$data['user_id']:JO_Session::get('user[user_id]'),
 			'date_mail' => new JO_Db_Expr('NOW()'),
+			'text_mail' => $data['text'],
 			'parent_mail_id' => isset($data['parent_mail_id'])?(string)$data['parent_mail_id']:0
 		));
 		
