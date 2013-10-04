@@ -290,6 +290,12 @@ class LayoutController extends JO_Action {
 		
 		$this->view->addPin = WM_Router::create($request->getBaseUrl() . '?controller=addpin');
 		
+		////////////////////////////// MAILS ///////////////////////////
+		
+		$this->view->addMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=create');
+		$this->view->stateMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=state');
+		$this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
+		
 		////////////////////////////// FULL URL ///////////////////////////
 		$this->view->full_url_js = false;
 		switch(true) {

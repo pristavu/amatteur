@@ -358,6 +358,18 @@ if (!$this->is_loged)
     <?php
 		if ($totalmails>0)
 		{
+			echo '<div id="avisoMensajes">'.$totalmails.'</div>';
+		}else
+		{
+			echo '<div id="avisoMensajes" style="display:none">0</div>';
+		}
+		echo '<div id="divMails" style="display:none">';
+			echo '<div id="cabeceraCajaMails"></div>';
+			echo '<div id="divMailsHeader">';
+				echo '<a id="newMail" href="'.$this->addMail.'" class="silverbox" title="'.$this->translate('Nuevo mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
+			echo '</div>';
+		if ($totalmails>0)
+		{
 			function cambiafyh_espanol($fechaH)
 			{
 				$traducir_fecha = explode("-",$fechaH);
@@ -365,11 +377,6 @@ if (!$this->is_loged)
 				$fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
 				return $fecha_espana;
 			}
-			echo '<div id="avisoMensajes">'.$totalmails.'</div>';
-			echo '<div id="divMails" style="display:none">';
-				echo '<div id="cabeceraCajaMails"></div>';
-				echo '<div id="divMailsHeader">';
-				echo '</div>';
 				echo '<div id="divMailsScroll">';
 					//Vamos a sacar el total de mails del usuario
 					$mails=Model_Mails::getMails(array('user_id' => JO_Session::get('user[user_id]')));
@@ -396,12 +403,14 @@ if (!$this->is_loged)
 							$imageUser=$host.$nombreSextension.$sufijo.$extension;
 						}
 						$textLeido="";
+						$textToolTip=$this->translate('Marcar la conversación como no leída');
 						if ($mail["read_mail"]==0)
 						{
 							$textLeido="NOleido";
+							$textToolTip=$this->translate('Marcar la conversación como leída');
 						}
 						echo '<li>
-								<a class="messagesContent '.$textLeido.'" href="" role="button">
+								<a class="messagesContent '.$textLeido.'" href="" role="button" id="mail'.$mail["mail_id"].'">
 								<div class="clearfix">
 									<div class="imagenMails">
 										<div class="_55lt" style="width:50px;height:50px;" size="50" data-reactid=".r[33odf]">
@@ -421,7 +430,7 @@ if (!$this->is_loged)
 											</div>
 										</div>
 									</div>
-									<div class="x_div"><div class="_5c9q" title="Marcar la conversación como no leída"></div></div>
+									<div class="x_div"><div class="_5c9q '.$textLeido.'" id="'.$mail["mail_id"].'" title="'.$textToolTip.'"></div></div>
 								</div>
 								</a>
 							</li>';
@@ -430,13 +439,46 @@ if (!$this->is_loged)
 				echo '</div>';
 				echo '<div id="divMailsFooter">';
 				echo '</div>';
-			echo '</div>';
+			
 		}
+		echo '</div>';
 	}
 	?>
     <script type="text/javascript">
 			$(document).ready(function() 
 				{
+					$("#newMail").click(function (){
+						$("#divMails").fadeOut();
+					});
+					$("._5c9q").click(function (){
+						if ($(this).hasClass("NOleido"))
+						{
+							$.post('<?php echo $this->stateMail;?>', {id:$(this).attr("id"),read:1}, function(data){
+								if (data.data.unread==0)
+								{
+									$("#avisoMensajes").hide();
+								}else
+								{
+									$("#avisoMensajes").html(data.data.unread);
+									$("#avisoMensajes").show();
+								}
+							}, 'json');
+							$("#mail" + $(this).attr("id")).removeClass("NOleido");
+							$(this).removeClass("NOleido");
+							$(this).attr("title","<?php echo $this->translate('Marcar la conversación como no leída'); ?>");
+						}else
+						{
+							$.post('<?php echo $this->stateMail;?>', {id:$(this).attr("id"),read:0}, function(data){
+								$("#avisoMensajes").html(data.data.unread);
+								$("#avisoMensajes").show();
+							}, 'json');
+							$("#mail" + $(this).attr("id")).addClass("NOleido");
+							$(this).addClass("NOleido");	
+							$(this).attr("title","<?php echo $this->translate('Marcar la conversación como leída'); ?>");
+											
+						}
+						return false;
+					});
 					$("#muestraMensajes .ados").click(function (){
 						if ($("#divMails").is(":visible"))
 						{
@@ -459,10 +501,10 @@ if (!$this->is_loged)
 					});
 				});
 	</script>
-                        <div id="muestraBlog"><a href="http://blog.amatteur.com" class="ados" target="_blank"> <img width="20px" height="18px" src="data/images/blog_ico.png" />&nbsp;&nbsp;<?php echo $this->translate('Blog'); ?></a></div>
-                        <div id="eventtos"><a id='eventoTrigger' class="ados" href='eventos-deportivos'><img width="75px" height="30px" src="data/images/eventtoslogo.png" alt="" /></a></div>
+                                                <div id="muestraBlog"><a href="http://blog.amatteur.com" class="ados" target="_blank"> <img width="20px" height="18px" src="data/images/blog_ico.png" />&nbsp;&nbsp;<?php echo $this->translate('Blog'); ?></a></div>
+                                                <div id="eventtos"><a id='eventoTrigger' class="ados" href='eventos-deportivos'><img width="75px" height="30px" src="data/images/eventtoslogo.png" alt="" /></a></div>
 
-                        
+
                     </div>
                         
                 <div class="menumenus">
