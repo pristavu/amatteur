@@ -51,9 +51,8 @@ class Model_Mails {
 					->from(array('m' => 'users_mails'))
 					->joinLeft(array('u' => 'users'), 'm.from_user_id = u.user_id', array('fullname' => "CONCAT(firstname,' ', lastname)",'u.username','u.avatar','u.store'))
 					->joinLeft(array('t' => 'users_mails_to'), 'm.mail_id = t.mail_id','t.read_mail')
-					->where('(m.mail_id = ? OR m.parent_mail_id = ?) AND t.user_id='.(string)JO_Session::get('user[user_id]'), $mail_id)
+					->where('(m.mail_id = ? OR m.parent_mail_id = ?) AND (t.user_id='.(string)JO_Session::get('user[user_id]').' OR m.from_user_id='.(string)JO_Session::get('user[user_id]').')', $mail_id)
 					->order('date_mail ASC');
-		
 		return $db->fetchAll($query);
 		
 	}

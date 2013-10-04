@@ -12,7 +12,13 @@
 					}
 					$mails=Model_Mails::getMailConversation($_GET["id"]);
 					$user_replies="";
+					$mails_ids_showed="";
 					foreach($mails AS $mail) {
+						$pos = strpos($mails_ids_showed, $mail['mail_id'].",");
+						if ($pos===false)
+						{
+								$mails_ids_showed.=$mail['mail_id'].",";
+						
 						///Marcamos como leído
 						Model_Mails::updateMail(array('read_mail' => 1,'mail_id' => $mail["mail_id"]));
 						if ($mail["store"]=="amazons3")
@@ -70,7 +76,8 @@
                         </div>
                     </div>
                 </li>
-                <?php }//end for ?>
+                <?php } 
+				}//end for ?>
        
                 
 				<li>
