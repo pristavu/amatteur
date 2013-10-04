@@ -167,10 +167,13 @@ class SettingsController extends JO_Action {
                                                             for($i = 0; $i <= $request->getPost('locationcounter'); $i++)
                                                             {
                                                                 $location = 'location'.$i;
-                                                                if ($request->issetPost($location)){
+                                                                $lat = 'lat'.$i;
+                                                                $len = 'len'.$i;
+                                                                if ($request->issetPost($location))
+                                                                {
                                                                     if ($request->getPost($location) != "")
                                                                     {
-                                                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location)))
+                                                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location), $request->getPost($lat), $request->getPost($len)))
                                                                         {}
                                                                     }
                                                                 }
@@ -205,20 +208,30 @@ class SettingsController extends JO_Action {
                 
                 //////////// User location ////////////
                 $this->view->user_location =  array();
+                $this->view->user_lat = array();
+                $this->view->user_len = array();
                 $this->view->locationcounter = 0;
 		if($request->issetPost('location1')) {
 			$user_location = array();
+                        $user_lat = array();
+                        $user_len = array();
                         for($i = 1; $i <= $request->getPost('locationcounter'); $i++)
                         {
                             $location = 'location'.$i;
+                            $lat = 'lat'.$i;
+                            $len = 'len'.$i;
                             if ($request->issetPost($location)){
                                 if ($request->getPost($location) != "")
                                 {
                                      $user_location[] = $request->getPost($location);
+                                     $user_lat[] = $request->getPost($lat);
+                                     $user_len[] = $request->getPost($len);
                                 }
                             }
                         }
                         $this->view->user_location = $user_location;
+                        $this->view->user_lat = $user_lat;
+                        $this->view->user_len = $user_len;                        
                         $this->view->locationcounter = $request->getPost('locationcounter');
 		} 
                 else
@@ -227,6 +240,8 @@ class SettingsController extends JO_Action {
                     $i=0;
                     foreach ($users_location as $user_location){
                         $this->view->user_location[] = $user_location['location'];
+                        $this->view->user_lat[] = $user_location['lat'];
+                        $this->view->user_len[] = $user_location['len'];
                         $i++;
                     }                
                     $this->view->locationcounter = $i;

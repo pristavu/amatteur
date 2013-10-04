@@ -1968,7 +1968,7 @@ class Model_Users extends JO_Model {
 	}
         
         
-        public static function createUsersLocation($user_id, $location) {
+        public static function createUsersLocation($user_id, $location, $lat, $len) {
 		$db = JO_Db::getDefaultAdapter();
 		
 		$rows = self::describeTable('users_location');
@@ -1979,7 +1979,9 @@ class Model_Users extends JO_Model {
                 
                 $db->insert('users_location', array(
                         'user_id' => $user_id,
-                        'location' => (string)$location
+                        'location' => (string)$location,
+                        'lat' => (string)$lat,
+                        'len' => (string)$len
                 ));		
 
                 $user_id = $db->lastInsertId();

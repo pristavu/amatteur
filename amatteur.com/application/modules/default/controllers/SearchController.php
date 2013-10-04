@@ -1115,7 +1115,13 @@ class SearchController extends JO_Action
 
                 if ($id == "amatteur")
                 {
+                        $validate = new Helper_Validate();
+                        
+                        if($request->getPost('option1') == "" && $request->getPost('option2') == "" && $request->getPost('option3') == "" && $request->getPost('option4') == "" && $request->getPost('option5') == "" && $request->getPost('option6') == "" && $request->getPost('option7') == "") {
+                            $validate->_set_rules($request->getPost('option1'), $this->translate('Opción de búsqueda amatteur'), 'not_empty;min_length[3];max_length[100]');
 
+                        }
+			if($validate->_valid_form()) {
                     //boards
                     if ($request->getPost('option1') == "1" || $request->getPost('option7') == "1")
                     {
@@ -1363,6 +1369,10 @@ class SearchController extends JO_Action
                     {
                         
                     }
+			} else {
+				$this->view->error = $this->translate("Tiene que seleccionar algún criterio de búsqueda");//$validate->_get_error_messages();
+			}
+                    
                 }
                 else if ($id == "activate")
                 {
@@ -1525,6 +1535,10 @@ class SearchController extends JO_Action
                         $this->view->users = $users;                        
                     }
                 }
+            }
+            if ($this->view->isPost == "true" && !$this->view->pins && !$this->view->error)
+            {
+                $this->view->error = $this->translate("La búsqueda no ha devuelto resultados");
             }
         }
 

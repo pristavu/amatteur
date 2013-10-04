@@ -43,7 +43,7 @@ class WelcomeController extends JO_Action {
 	
 	public function indexAction() {
 		
-	
+/*	
 		$request = $this->getRequest();
 		
 		if($request->isPost()) {
@@ -79,13 +79,20 @@ class WelcomeController extends JO_Action {
 	}
 	
 	function secondAction() {
-		
+*/		
 		$request = $this->getRequest();
 		
 		$this->helpas();
 		
-		$categories = JO_Session::get('category_id');
+		//$categories = JO_Session::get('category_id');
+                $userSports = Model_Users::getUserSports(JO_Session::get('user[user_id]'));
 		
+                $categories = array();
+		foreach($userSports AS $userSport) {
+			
+			$categories[] = $userSport["sport_category"];
+		}
+
 		
 		$users = Model_Users::getUsers(array(
 			'filter_welcome' => $categories,

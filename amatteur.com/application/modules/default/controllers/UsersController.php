@@ -1239,7 +1239,9 @@ class UsersController extends JO_Action {
                                 'option6' => $request->getPost('option6'),
                                 'option7' => $request->getPost('option7'),
                                 'option8' => $request->getPost('option8'),
-                                'comment' => $request->getPost('comment')
+                                'comment' => $request->getPost('comment'),
+                                'lat' => $request->getPost('lat'),
+                                'len' => $request->getPost('len')
                             ));
                              
                             $this->view->successfu_edite = true;
@@ -2288,6 +2290,8 @@ if ($this->view->successfu_edite || $this->view->error)
                                         'sport_category_2' => $request->getPost('sport_category_2'), 
                                         'sport_category_3' => $request->getPost('sport_category_3'), 
                                         'type_user' => $request->getPost('type_user'), 
+                                        'lat' => $request->getPost('lat'),
+                                        'len' => $request->getPost('len'),
 					'confirmed' => '0',
 					'regkey'=>$reg_key
 				));
@@ -2298,10 +2302,12 @@ if ($this->view->successfu_edite || $this->view->error)
                                         for($i = 0; $i <= $request->getPost('locationcounter'); $i++)
                                         {
                                             $location = 'location'.$i;
+                                            $lat = 'lat'.$i;
+                                            $len = 'len'.$i;
                                             if ($request->issetPost($location)){
                                                 if ($request->getPost($location) != "")
                                                 {
-                                                    if (Model_Users::createUsersLocation($result, $request->getPost($location)))
+                                                    if (Model_Users::createUsersLocation($result, $request->getPost($location), $request->getPost($lat), $request->getPost($len)))
                                                     {}
                                                 }
                                             }
