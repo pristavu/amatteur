@@ -31,7 +31,7 @@ class MailsController extends JO_Action {
 		if( $request->isPost() ) {
 			if( JO_Session::get('user[user_id]') ) {
 						$data = Model_Mails::createMail(array(
-							'text' => $request->getPost('textoMail'),
+							'text' => $request->getPost('text'),
 							'toUsers' => $request->getPost('friends')
 						));
 						if($data) {
