@@ -141,7 +141,7 @@
                                 <?php  echo trim($user_sport); ?><br/>
                                 <?php     } ?>
                                 
-                            <input id="sports" class="sports" name="sports" type="hidden" value="<?php echo $this->user_sports; ?>" />
+                            <input id="sports" class="sports" name="sports" type="hidden" value="<?php foreach($this->user_sports as $user_sport) {  echo trim($user_sport); break; } ?>" />
                         </div>
                     </div>
                     <span class="help_text"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>
@@ -1273,15 +1273,18 @@ $(document).ready(function(){
 	
         $(".morelocations").bind('click',function(event){
 		event.preventDefault();
-                var contador = $(".locationcounter").val();
-                contador++;
-                $(".locationcounter").val(contador) ;
-                $(".locations").html($(".locations").html() + "<label></label><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'><br/>");
-                $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
-                $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
-                $("#searchTextField2").val("");
-                $("#latAux").val("");
-                $("#lenAux").val("");
+                if ($("#latAux").val() != "")
+                {
+                    var contador = $(".locationcounter").val();
+                    contador++;
+                    $(".locationcounter").val(contador) ;
+                    $(".locations").html($(".locations").html() + "<label></label><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'><br/>");
+                    $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
+                    $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
+                    $("#searchTextField2").val("");
+                    $("#latAux").val("");
+                    $("#lenAux").val("");
+                }
                 //initialize();
         });
         

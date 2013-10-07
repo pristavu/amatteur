@@ -123,10 +123,10 @@
                                  <div style='clear:both'>
 
                                   <div style='float:left;width:100%;'>
-
+                                    <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;">
                                      <?php  $users_sports = Model_Users::getUserSports($this->userdata['user_id']); ?>
                                     <?php if  ($users_sports) { ?>
-                                    <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;">
+
                                         <?php echo $this->translate("Sports: "). " "; $i = 0; ?>
                                      <?php  foreach ($users_sports as $user_sports){ $i++; ?>
                                     <?php if (!Model_Boards::isCategoryParent($user_sports['sport_category'])) ?>
@@ -135,8 +135,9 @@
                                     <?php    } ?>
                                     <?php if  ($i > 2) { break; } else { echo ", " ;} ?>                                        
                                     <?php } ?>                                        
-                                    </span>
+
                                     <?php } ?>
+                                    </span>                                        
 
                                     <?php /*if($this->userdata['sport_category_1']) { ?>
                                     <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;"><?php echo $this->translate("Sports: "). " " . Model_Boards::getCategoryTitle($this->userdata['sport_category_1']). ", ". Model_Boards::getCategoryTitle($this->userdata['sport_category_2']) . ", ". Model_Boards::getCategoryTitle($this->userdata['sport_category_3']);?></span>

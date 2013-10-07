@@ -101,14 +101,14 @@
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
                     <div class="Right" id='catList'>
-                        <a id="moresports" href="<?php echo $this->deportes;?>" class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
+                        <a id="moresports" onclick="deportes()"  class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
                         <br/><br/>
-                        <div id="divSports">
+                        <div id="divSports" name="divSports" >
                         	<?php foreach($this->user_sports as $user_sport) {  ?>
                                 <?php  echo trim($user_sport); ?><br/>
                                 <?php     } ?>
                             
-                            <input id="sports" class="sports" name="sports" type="hidden" value="<?php echo $this->user_sports; ?>" />
+                            <input id="sports" class="sports" name="sports" type="hidden" value="<?php foreach($this->user_sports as $user_sport) {  echo trim($user_sport); break; } ?>" />
                         </div>
                     </div>
                     <span class="addtext" style="float:right"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>                    
@@ -303,7 +303,24 @@
 				$(".warn").remove();
 			}
 		});
-
+                $("#moresports").click(function(){
+                    var locationcounter = $('#locationcounter').val();
+                    var locations = '&locationcounter='+ $('#locationcounter').val();
+                    var k = 0;
+                    for(var i = 1; i <= locationcounter; i++)
+                    {
+                        if ($.trim($('#location' + i).val()) != "")
+                        {
+                            k++;
+                            locations += '&location'+ k + '='+ $('#location' + i).val();
+                        }
+                    }                    
+                    window.location.href = '<?php echo $this->deportes;?>?email=' + $('#email').val() + 
+                        '&firstname=' + $('#firstname').val() + '&username=' + $('#username').val() + 
+                        /*'&password=' + $('#password').val() + '&password2=' + $('#password2').val() + */
+                        '&location=' + $('.location').val() + '&type_user=' + $('#user_typeId').val() + 
+                        locations;
+                });
 	
 	});
 </script>
@@ -1142,15 +1159,18 @@ $(document).ready(function(){
         
         $(".morelocations").bind('click',function(event){
 		event.preventDefault();
-                var contador = $(".locationcounter").val();
-                contador++;
-                $(".locationcounter").val(contador) ;
-                $(".locations").html($(".locations").html() + "<p class='input'><label></label><span class='field'><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'></span></p>");
-                $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
-                $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
-                $("#searchTextField2").val("");
-                $("#latAux").val("");
-                $("#lenAux").val("");
+                if ($("#latAux").val() != "")
+                {
+                    var contador = $(".locationcounter").val();
+                    contador++;
+                    $(".locationcounter").val(contador) ;
+                    $(".locations").html($(".locations").html() + "<p class='input'><label></label><span class='field'><input type='text' value='" + $("#searchTextField2").val() + "' id='location" + contador + "' name='location" + contador + "'></span></p>");
+                    $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
+                    $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
+                    $("#searchTextField2").val("");
+                    $("#latAux").val("");
+                    $("#lenAux").val("");
+                    }
                 //initialize();
         });
         
@@ -1263,6 +1283,7 @@ function initialize() {
     infowindow.open(map, marker);
   });
 
+    GLoad();
   // Sets a listener on a radio button to change the filter type on Places
   // Autocomplete.
   function setupClickListener(id, types) {
@@ -1366,7 +1387,7 @@ var map;
                     }
                 }
 
-                  pausecomp(201);
+                  //pausecomp(201);
               });
               
             });  

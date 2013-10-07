@@ -30,19 +30,19 @@
 				<p>
                                 <label> <?php echo sprintf($this->translate('Buscar en:')); ?> </label>
                                 <?php if ($this->advancedActive == "amatteur") { ?>
-                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="Button RedButton morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
                                 <?php } else { ?>
-                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="Button RedButton morelocations " style="background-color:gray; margin-top:0px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="background-color:gray; margin-top:0px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
                                 <?php } ?>                                
                                 <?php if ($this->advancedActive == "activate") { ?>                    
-                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="Button RedButton morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
                                 <?php } else { ?> 
-                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="Button RedButton morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
                                 <?php } ?>                    
                                 <?php  if ($this->advancedActive == "services") { ?>                    
-                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="Button RedButton morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
                                 <?php } else { ?>      
-                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="Button RedButton morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
                                 <?php } ?>
 	        	</p>
         	</div>
@@ -106,15 +106,12 @@
                         </ul>
                 </div>                        
                 </p>
-                <br/><br/><br/><br/><br/><br/><br/><br/><br/>
 		<p class="input">
-			<label for="palabrasclave"><?php echo $this->translate('Palabras Clave');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words; ?>" /></span>
+			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words; ?>" id="registration_box" placeholder="<?php echo $this->translate('Palabras Clave') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
                 
 		<p class="input">
-			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname; ?>" /></span>
+			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname; ?>" id="registration_box" placeholder="<?php echo $this->translate('First name') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
                 
                     <!-- Gender -->
@@ -128,11 +125,10 @@
                         </div>
                         </span>    
                 </p>
-<br/>
+
                     <!--  Location -->
 		<p class="input">
-			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
+			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>"  id="registration_box" placeholder="<?php echo $this->translate('Location') ?>" style='width: 250px !important' autocomplete='off'/></span>
                         <input type="hidden" size="1" name="zoom" id="zoom" value=15 />
 
 		</p>
@@ -271,7 +267,7 @@
 
             </ul>
         </div>  
-        <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        
 		
 		<div class="hr"></div>
                 <input type="hidden" size="1" name="zoom" value=15 />
@@ -329,8 +325,7 @@
                     <!-- Ubicacion -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <label for="location"><?php echo $this->translate('Location'); ?> <br class="hide" /></label>
-                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Location') ?>" style='width: 250px !important' autocomplete='off'/></span>
                         </div>
 
                         <div id="map-canvas"></div>
@@ -510,15 +505,13 @@
         </div>        
                 
                 </p>
-                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                
 		<p class="input">
-			<label for="palabrasclave"><?php echo $this->translate('Palabras Clave');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words;?>" /></span>
+			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words;?>"  id="registration_box" placeholder="<?php echo $this->translate('Palabras Clave') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
 
 		<p class="input">
-			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname;?>" /></span>
+			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname;?>"  id="registration_box" placeholder="<?php echo $this->translate('First name') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
                 
                 
@@ -577,13 +570,12 @@
 
         <!--  Location -->
 		<p class="input">
-			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
+			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>"  id="registration_box" placeholder="<?php echo $this->translate('Location') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
 
                 <div id="map-canvas"></div>
                 
-    <br/>
+    
                 <!-- Grabar -->
                     <!--li>
                         <div class="left w335px">

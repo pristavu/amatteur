@@ -677,7 +677,7 @@ function GLoad() {
          var len = <?php echo count($this->users); ?>;
          
         <?php foreach($this->users as $user) { ?>
-            var location = '<?php echo $user["location"]; ?>';
+            var location = '<?php echo ($this->location)?>';
             //if (location != "")
             {
                 locations.push(location);

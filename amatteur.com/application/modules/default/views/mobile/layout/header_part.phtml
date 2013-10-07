@@ -66,6 +66,10 @@
                                             <input id="query" name="q" type="text" action='<?php echo $base_url?>search' placeholder="<?php echo $this->translate("Search"); ?>">
                                         </form>
                                     </li>
+                                    <li class="search">
+                                        <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Advanced Search'); ?></a>            
+                                    </li>
+                                    
                                     <?php if($this->is_loged !== 0): ?>
                                     	<a class="selected" href="">
                     						<li><?php echo $this->translate('Pinners You Follow') ?></li>

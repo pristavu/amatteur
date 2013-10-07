@@ -835,6 +835,46 @@ class UsersController extends JO_Action {
                 }                
                 */
                 
+                if($request->issetQuery('email')) {
+                    $_SESSION["email"] = $request->getQuery('email');
+                }
+                if($request->issetQuery('firstname')) {
+                    $_SESSION["firstname"] = $request->getQuery('firstname');
+                }
+                if($request->issetQuery('username')) {
+                    $_SESSION["username"] = $request->getQuery('username');
+                }
+                if($request->issetQuery('password')) {
+                    $_SESSION["password"] = $request->getQuery('password');
+                }
+                if($request->issetQuery('password2')) {
+                    $_SESSION["password2"] = $request->getQuery('password2');
+                }
+                if($request->issetQuery('location')) {
+                    $_SESSION["location"] = $request->getQuery('location');
+                }
+                if($request->issetQuery('usertype_title')) {
+                    $_SESSION["usertype_title"] = $request->getQuery('usertype_title');
+                }
+                if($request->issetQuery('type_user')) {
+                    $_SESSION["type_user"] = $request->getQuery('type_user');
+                }
+                
+                if($request->issetQuery('location1')) {
+                    $_SESSION["locationcounter"] = $request->getQuery('locationcounter');
+                    for($i = 1; $i <= $_SESSION['locationcounter']; $i++)
+                    {
+                        $location = 'location'.$i;
+                        //if (isset($request->getQuery($location)))
+                        {
+                            //if ($request->getQuery[$location] != "")
+                            {
+                                 $_SESSION[$location] = $request->getQuery($location);
+                            }
+                        }
+                    }
+                }
+                
                 $existe = 0;
                 for ($i=0; $i< 350; $i++)
                 {
@@ -2459,7 +2499,65 @@ if ($this->view->successfu_edite || $this->view->error)
                     $this->view->locationcounter = 0;
                 }
 		
-		
+                // si llama a los deportes
+                if (isset($_SESSION["email"]))
+                {
+                    $this->view->email = $_SESSION["email"];
+                    $_SESSION["email"] = null;
+                }
+                if (isset($_SESSION["firstname"]))
+                {
+                    $this->view->firstname = $_SESSION["firstname"];
+                    $_SESSION["firstname"] = null;
+                }
+                if (isset($_SESSION["username"]))
+                {
+                    $this->view->username = $_SESSION["username"];
+                    $_SESSION["username"] = null;
+                }
+                if (isset($_SESSION["password"]))
+                {
+                    $this->view->password = $_SESSION["password"];
+                    $_SESSION["password"] = null;
+                }
+                if (isset($_SESSION["password2"]))
+                {
+                    $this->view->password2 = $_SESSION["password2"];
+                    $_SESSION["password2"] = null;
+                }
+                if (isset($_SESSION["location"]))
+                {
+                    $this->view->location = $_SESSION["location"];
+                    $_SESSION["location"] = null;
+                }
+                if (isset($_SESSION["type_user"]))
+                {
+                    if ($_SESSION["type_user"] != "")
+                    {
+                        $this->view->type_user = $_SESSION["type_user"];
+                        $this->view->usertype_title = Model_Users::getUserTypeTitle($_SESSION["type_user"]);
+                    }
+                    $_SESSION["type_user"] = null;
+                }
+                if (isset($_SESSION["location1"]))
+                {
+                    $user_location = array();
+                    for($i = 1; $i <= $_SESSION['locationcounter']; $i++)
+                    {
+                        $location = 'location'.$i;
+                        if (isset($_SESSION[$location])){
+                            if ($_SESSION[$location] != "")
+                            {
+                                 $user_location[] = $_SESSION[$location];
+                                 $_SESSION[$location] = null;
+                            }
+                        }
+                    }
+                    $this->view->user_location = $user_location;
+                    $this->view->locationcounter = $_SESSION['locationcounter'];
+                    $_SESSION['locationcounter'] = null;
+                }
+                
 		$this->view->children = array(
         	'header_part' 	=> 'layout/header_part',
         	'footer_part' 	=> 'layout/footer_part'

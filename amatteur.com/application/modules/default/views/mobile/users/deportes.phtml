@@ -81,8 +81,8 @@
                             <p class="submit">
                                 
                             <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
                             </p>
                         </div>
                     </li>				
@@ -102,7 +102,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
        
-        $('.Button.RedButton.message.close').click(function(){
+        $('.red.mbtn.close').click(function(){
 		//history.go(-1);
                 var origen = '<?php echo $_SESSION["deportes_url"]; ?>';
                 window.location.href=origen;

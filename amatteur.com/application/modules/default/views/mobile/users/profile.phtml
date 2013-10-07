@@ -106,7 +106,7 @@
                                                 <?php }  ?>  
             </div>
                                     <br>
-                                <div style='width:100%;clear:none;overflow:auto'>
+                                <div style='width:100%;clear:none;overflow:none'>
 
                                  <div style='clear:both'>
 
@@ -136,18 +136,18 @@
 
                                                 <?php if($this->enable_edit) { ?>
                                                       <?php if (!$this->userIsActivate) { ?>
-                                                    <img src="data/images/activateNo.png">
-                                                    <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
+                                                    <img src="data_mobile/images/activateNo.png">
+                                                    <a id="activate" href="<?php echo $this->popup_activate;?>" class="red mbtn " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
                                                       <?php } else { ?>
-                                                    <img src="data/images/activateSi.png">
-                                                    <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
+                                                    <img src="data_mobile/images/activateSi.png">
+                                                    <a id="activate" href="<?php echo $this->popup_activate;?>" class="red mbtn " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
                                                       <?php } ?>
-                                    <div id="topwrappers" style="position:relative;margin-top:-33px;margin-left:80px;width: 290px important!">
+                                    <div id="topwrappers" style="position:relative;margin-top:-33px;margin-left:100px;width: 290px important!">
 
 
                                                     <form onsubmit="window.location.replace('<?php echo $this->search_url; ?>'); return false" method="get" class="search" style="height: 28px;    position: absolute;    left: 10px;    top: 8px;    height: 28px;    position: absolute;    top: 0px;    right: 0px;    background-color: rgb(255, 255, 255);    box-shadow: 0px 1px rgb(255, 255, 255), 0px 1px rgba(34, 25, 25, 0.1) inset;">
                                                         <p class="submit">
-                                                            <input type="submit" value="<?php echo $this->translate('Search'); ?>" style="background-image: url('data/images/search.png');background-repeat: no-repeat;text-indent: -5000px;overflow: hidden;height: 48px;width: 60px;border-style: none;cursor: pointer;-moz-border-bottom-colors: none;border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: transparent;background-position: center center;float: left;margin-left: -1px;min-height: 17px;padding: 7px 7px 2px;" value="<?php echo $this->keywords; ?>"/>
+                                                            <input type="submit" value="<?php echo $this->translate('Search'); ?>" style="background-image: url('data/images/search.png');background-repeat: no-repeat;text-indent: -5000px;overflow: hidden;height: 28px;width: 60px;border-style: none;cursor: pointer;-moz-border-bottom-colors: none;border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: transparent;background-position: center center;float: left;margin-left: -1px;min-height: 17px;padding: 7px 7px 2px;" value="<?php echo $this->keywords; ?>"/>
                                                         </p>
                                                     </form>
                                         </div>  
