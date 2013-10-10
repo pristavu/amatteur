@@ -1310,7 +1310,7 @@ class Model_Users extends JO_Model {
 		if(isset($data['filter_username']) && $data['filter_username']) {
 			$query->where('users.firstname LIKE ? OR CONCAT(firstname," ",lastname) LIKE ?', $data['filter_username'] . '%');
 		}
-		
+		$query->group('users.user_id');
 //	    echo $query;
 //	    exit;
 		return $db->fetchAll($query);
