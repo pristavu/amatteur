@@ -7,6 +7,7 @@ class MailsController extends JO_Action {
 		$request = $this->getRequest();
 		
 		$this->view->popup_main_box = $this->view->render('popup_form','mails');
+		$this->view->friends_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=mailfriends');
 		
 		if($request->isXmlHttpRequest()) {
 			$this->noViewRenderer(true);
@@ -24,7 +25,7 @@ class MailsController extends JO_Action {
 		
 		$request = $this->getRequest();
 		$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=mails&action=create' );
-		$this->view->friends_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=friends');
+		$this->view->friends_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=mailfriends');
 		$this->view->popup_main_box = $this->view->render('popup_form','mails');
 		
 		

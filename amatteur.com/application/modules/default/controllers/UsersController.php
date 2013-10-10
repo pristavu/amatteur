@@ -2628,6 +2628,46 @@ if ($this->view->successfu_edite || $this->view->error)
 		
 	}
 	
+	public function mailfriendsAction(){
+		$request = $this->getRequest();
+		
+		$this->view->users = array();
+		
+		if((int)JO_Session::get('user[user_id]') && $request->getPost('term')) {
+			
+			$friends = Model_Users::getUserMailFriends(array(
+				'start' => 0,
+				'limit' => 100,
+				'filter_username' => $request->getPost('term')
+			));
+			
+			if($friends) {
+				$model_images = new Helper_Images();
+				foreach($friends AS $friend) {
+					if(!isset($friend['store'])) {
+						continue;
+					}
+					$avatar = Helper_Uploadimages::avatar($friend, '_A');
+		
+					$this->view->users[] = array(
+						'image' => $avatar['image'],
+						'label' => $friend['fullname'],
+						'value' => $friend['user_id'],
+						'href' => WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $friend['user_id']),
+						'username' => $friend['username']
+					);
+				}
+			}
+		}
+		
+		if($request->isXmlHttpRequest()) {
+			echo $this->renderScript('json');
+		} else {
+			$this->forward('error', 'error404');
+		}
+		
+	}
+	
 	public function followAction(){
 	
 		$this->noViewRenderer(true);
