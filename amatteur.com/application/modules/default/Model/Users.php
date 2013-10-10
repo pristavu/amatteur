@@ -1270,6 +1270,52 @@ class Model_Users extends JO_Model {
 		return $db->fetchAll($query);
 	}
 	
+	public static function getUserMailFriends($data = array()) {
+		$db = JO_Db::getDefaultAdapter();
+        
+		$query = $db->select()
+					->from('users_following_user', array())
+					->joinLeft('users', 'users.user_id = users_following_user.user_id', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"))
+					->joinLeft('users_activate', 'users.user_id = users_activate.user_id')
+					->where('users_following_user.following_id = ? OR users_activate.activate= 1', (string)JO_Session::get('user[user_id]'));
+		
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		if(isset($data['sort']) && strtolower($data['sort']) == 'desc') {
+			$sort = ' DESC';
+		} else {
+			$sort = ' ASC';
+		}
+		
+		$allow_sort = array(
+			'users.user_id',
+			'users.username',
+			'users.firstname',
+			'users.status'
+		);
+		
+		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
+			$query->order($data['order'] . $sort);
+		} else {
+			$query->order('firstname' . $sort);
+		}
+		
+		////////////filter
+		
+		if(isset($data['filter_username']) && $data['filter_username']) {
+			$query->where('users.firstname LIKE ? OR CONCAT(firstname," ",lastname) LIKE ?', $data['filter_username'] . '%');
+		}
+		
+//	    echo $query;
+//	    exit;
+		return $db->fetchAll($query);
+	}
+	
 	public static function sharedContentInvate($email) {
 		$db = JO_Db::getDefaultAdapter();	
 		$query = $db
