@@ -84,7 +84,7 @@
                                 </div><div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Articles')); ?> </span>
                                 </div><div style="display:table-row">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('All')); ?> </span>
+                                    <!--span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('All')); ?> </span-->
                                 </div><div style="display:table-row">
                                     <!--span class="" style='text-align:left'><input type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span-->
                                 </div>
@@ -108,17 +108,17 @@
                 </p>
                 <br/><br/><br/><br/><br/><br/><br/><br/><br/>
 		<p class="input">
-			<label for="palabrasclave"><?php echo $this->translate('Palabras Clave');?> <br class="hide" /></label>
+			<label for="palabrasclave"><?php echo $this->translate('Palabras Clave o Nombre');?> <br class="hide" /></label>
 			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words; ?>" /></span>
 		</p>
                 
-		<p class="input">
+		<!--p class="input">
 			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
 			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname; ?>" /></span>
-		</p>
+		</p-->
                 
                     <!-- Gender -->
-		<p class="input" style="padding-top: 0px">
+		<!--p class="input" style="padding-top: 0px">
                         <span class="field">
                         
                         <div id="genderOptions" class="Right">
@@ -128,16 +128,16 @@
                         </div>
                         </span>    
                 </p>
-<br/>
+<br/-->
                     <!--  Location -->
-		<p class="input">
+		<!--p class="input">
 			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
 			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
                         <input type="hidden" size="1" name="zoom" id="zoom" value=15 />
 
 		</p>
 
-                 <div id="map-canvas"></div>
+                 <div id="map-canvas"></div-->
                 
 
        
@@ -147,7 +147,7 @@
                 
                 <!-- Deportes -->
                 <li style="border:0px">
-                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Sports');?></label>
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Deporte');?></label>
                     <div class="Right" id='catList'>
                          
                          <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category1' style='width: 352px; display: inline-block;'>
@@ -187,7 +187,7 @@
                     </div>
                 </li>
 
-                <li style="border:0px">
+                <!--li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('');?></label>
                     <div class="Right" id='catList'>
                          
@@ -267,7 +267,7 @@
                         <input type='hidden' id='catId3' name='sport_category_3' value = '<?php echo $this->sport_category_3;?>'/>
                       
                     </div>
-                </li>
+                </li-->
 
             </ul>
         </div>  
@@ -338,7 +338,7 @@
                     </li>
                     <!-- Deporte -->
                     <li>
-                        <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Sport'); ?></label>
+                        <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Deporte'); ?></label>
                         <div class="Right" id='catList'>
 
                             <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
@@ -530,7 +530,7 @@
                 
                 <!-- Deportes -->
                 <li style="border:0px">
-                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Sports');?></label>
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Deporte');?></label>
                     <div class="Right" id='catList'>
                          
                          <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category1' style='width: 352px; display: inline-block;'>
@@ -606,16 +606,19 @@
             <?php } ?>            
         </div>
 		</div>
+
             <?php if ($this->pins) { ?>
+<?php if ($this->advancedActive != "amatteur") { ?>                         
                 <?php if ($this->users) { ?>
                 <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>
                 <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
                 <?php } ?>
+<?php } ?>
                 <div id="container" style="margin-left:0px">
 		<?php echo $this->pins;?>
                 </div>
             <?php } ?>                
-                    
+              
 
 		
 		<div class="clear"></div>
@@ -642,8 +645,8 @@
 	</script>
         
 
-        
-<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I"
+    <!-- AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I -->
+<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
       type="text/javascript"></script>
       
 <!--script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script-->      
@@ -660,7 +663,10 @@ var geocoder;
 var map;
 
 function GLoad() {
-
+    
+<?php if ($this->advancedActive != "amatteur") { ?> 
+        
+        
 <?php if($this->users) { ?>;
         
         var lat = [];
@@ -687,37 +693,40 @@ function GLoad() {
 
                 var geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ 'address': locationPrincipal }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) 
-                {
-                    var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
-                    var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
-
-                      var obj =latAux;
-                      lat.push(obj);
-                      var obj2 =lngAux;
-                      lng.push(obj2);
-
-                }
-                else
-                {
-                    if (status == "OVER_QUERY_LIMIT")
+                    if (status == google.maps.GeocoderStatus.OK) 
                     {
-            $(document).ready(function(){                                                   
-                        //setTimeout(function(){}, 201);
-            });                        
+                        var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
+                        var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
+
+                          var obj =latAux;
+                          lat.push(obj);
+                          var obj2 =lngAux;
+                          lng.push(obj2);
+
                     }
                     else
-                    { 
-                        console.log('error: ' + status);
-                    }
-                }
+                    {
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
 
-                  if (i == len)
-                  {
-                      colocar();
-                  }
-                  i++;
-                  pausecomp(201);
+                        }
+                    }
+
+                    if (i == len)
+                    {
+                        colocar();
+                    }
+                    i++;
+                    pausecomp(201);
               });
           }
           
@@ -729,13 +738,116 @@ function GLoad() {
  
          var i = 1;
          var len = <?php echo count($this->users); ?>;
+        
+        /*
+        var locationsAux = [];
+        var fullnameAux = [];
+        var avatarAux = [];
+        var userAux = [];
+
          
-        <?php foreach($this->users as $user) { ?>
+        <?php /*foreach($this->users as $user) { ?>
             
                 <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
                     foreach ($users_location as $user_location)
                     {
                        ?> 
+                        userAux.push('<?php echo $user["user_id"]; ?>');
+                        locationsAux.push('<?php echo $user_location["location"]; ?>');
+                        fullnameAux.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatarAux.push('<?php echo $avatar['image']; ?>');
+                               
+                <?php } ?> 
+                        userAux.push('<?php echo $user["user_id"]; ?>');                    
+                        locationsAux.push('<?php echo $user["location"]; ?>');
+                        fullnameAux.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatarAux.push('<?php echo $avatar['image']; ?>');
+
+        <?php } */ ?> 
+         
+        console.log("user " + userAux.length)
+        for (i = 0; i < userAux.length; i++) 
+        {             
+                  console.log('i: ' + i + " len: " + userAux.length +  " usuario " + fullnameAux[i] + " location " + locationsAux[i]);         
+                var locationStr = locationsAux[i];
+                var fullnameStr = fullnameAux[i];
+                var avatarStr = avatarAux[i];
+                
+                if (locationStr != "")
+                {
+                
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'address': locationStr }, function (results, status, locationStr) {
+
+        console.log("DENTRO  i " + i + " usuario " + fullnameStr + " location " + locationStr);
+                    if (status == google.maps.GeocoderStatus.OK) 
+                    {
+                        if (locationStr != "")
+                        {
+                            locations.push(locationStr);
+                            fullname.push(fullnameStr);
+                            avatar.push(avatarStr);
+
+
+
+                            var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
+                            var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
+
+                            var obj =latAux;
+                            lat.push(obj);
+                            var obj2 =lngAux;
+                            lng.push(obj2);
+                        }
+                      }
+                      else
+                      {
+
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
+
+                          }
+                      }
+
+
+                        if (i == (userAux.length - 1))
+                        {
+                            colocar();
+                        }
+                        i++;
+                        pausecomp(201);
+                    });
+                }
+                pausecomp(201);
+        }
+        */
+        <?php foreach($this->users as $user) { ?>
+            
+            <?php if ($this->advancedActive != "activate") { ?> 
+                <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
+                    foreach ($users_location as $user_location)
+                    {
+                       ?> 
+
+                        locations.push('<?php echo $user_location["location"]; ?>');
+                        fullname.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatar.push('<?php echo $avatar['image']; ?>');
+
+                        lat.push('<?php echo $user_location["lat"]; ?>');
+                        lng.push('<?php echo $user_location["len"]; ?>');
+                
+/*  
                 var otherLocation = '<?php echo $user_location['location']; ?>';
                 var geocoderOther = new google.maps.Geocoder();
                 geocoderOther.geocode({ 'address': otherLocation }, function (results, status, location) {
@@ -761,35 +873,41 @@ function GLoad() {
                   else
                   {
                       
-                      if (status == "OVER_QUERY_LIMIT")
-                      {
-            $(document).ready(function(){                           
-                          //setTimeout(function(){}, 210);
-            });
-                      }
-                      else
-                      { 
-                          console.log('error: ' + status);
-                      }
-                  }
-                  console.log( " Dentro " + otherLocation);
-/*                  
-        for (i = 0; i < lat.length; i++) 
-        {             
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
 
-            var locationString = locations[i];
-            
-            console.log("BUCLE " + i + " Dentro " + locationString);
-        }
-*/
+                        }
+                  }
+console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname"]; ?>'+ " Otra location " + locations[locations.length-1]);
+
                 pausecomp(201);
                 });
-                  
+*/                  
                 <?php }  ?>                  
+            <?php }  ?>                  
             
-            
+                var latAux = '<?php echo $user["lat"]; ?>';
+                if (latAux != "")
+                {
+                    locations.push('<?php echo $user["location"]; ?>');
+                    fullname.push('<?php echo $user["fullname"]; ?>');
+                    <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                    avatar.push('<?php echo $avatar['image']; ?>');
+                    lat.push('<?php echo $user["lat"]; ?>');
+                    lng.push('<?php echo $user["len"]; ?>');
+                }
+
+                /*
                 var location = '<?php echo $user["location"]; ?>';
-                
                 var geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ 'address': location }, function (results, status, location) {
 
@@ -801,6 +919,8 @@ function GLoad() {
                         fullname.push('<?php echo $user["fullname"]; ?>');
                         <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
                         avatar.push('<?php echo $avatar['image']; ?>');
+
+console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname"]; ?>'+ " la buena location " + locations[locations.length-1]);
 
                         var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
                         var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
@@ -814,16 +934,19 @@ function GLoad() {
                   else
                   {
                       
-                      if (status == "OVER_QUERY_LIMIT")
-                      {
-            $(document).ready(function(){                           
-                          //setTimeout(function(){}, 210);
-            });
-                      }
-                      else
-                      { 
-                          console.log('error: ' + status);
-                      }
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
+
+                        }
                   }
                   
                   console.log('i: ' + i + " len: " + len);
@@ -834,12 +957,13 @@ function GLoad() {
                     i++;
                 pausecomp(201);
                 });
-                
+                */
 
-                
+
 
 
         <?php } ?>
+            colocar();
     <?php } ?>
 
     function pausecomp(ms) {
@@ -867,14 +991,16 @@ function GLoad() {
 
         var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
 
-        for (i = 0; i < lat.length; i++) 
+//console.log("TOTAL " + locations.length);
+        for (i = 0; i < locations.length; i++) 
         {             
 
+//console.log("i " + i + " usuario " + fullname[i] + " location " + locations[i] );
             var locationString = locations[i];
             var fullnameString = fullname[i];
             var avatarString = avatar[i];
             
-            console.log("MAPA " + locationString);
+//console.log("MAPA " + locationString);
 
             var contentString = '<div id="contenido">'+
                 '<div id="siteNotice">'+
@@ -933,6 +1059,8 @@ function GLoad() {
     
     <?php } ?>
 
+<?php } ?> 
+
 }
 
 </script>        
@@ -940,6 +1068,108 @@ function GLoad() {
 <script type="text/javascript">
 
 $(document).ready(function(){
+$(".option1").change(function() {
+    if(this.checked) 
+    {
+        $(".option2").attr("disabled", true);        
+        $(".option3").attr("disabled", true);
+        $(".option4").attr("disabled", true);        
+        $(".option5").attr("disabled", true);
+        $(".option6").attr("disabled", true);        
+    }
+    else
+    {
+        $(".option2").removeAttr("disabled");        
+        $(".option3").removeAttr("disabled");
+        $(".option4").removeAttr("disabled");  
+        $(".option5").removeAttr("disabled");
+        $(".option6").removeAttr("disabled");        
+    }
+            
+});
+$(".option2").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option3").attr("disabled", true);
+        $(".option4").attr("disabled", true);        
+        $(".option5").attr("disabled", true);
+        $(".option6").attr("disabled", true);        
+    }
+    else
+    {
+        $(".option1").removeAttr("disabled");
+        $(".option3").removeAttr("disabled");
+        $(".option4").removeAttr("disabled");  
+        $(".option5").removeAttr("disabled");
+        $(".option6").removeAttr("disabled");        
+    }
+            
+});
+$(".option3").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+$(".option4").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option3").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+$(".option5").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option4").is(":checked") && !$(".option3").is(":checked") && !$(".option6").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+$(".option6").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option3").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
 
 
 	<?php if($this->successfu_edite) { ?>
@@ -1233,7 +1463,7 @@ $(document).ready(function(){
                             }else{
 
                                     appendElementInMain(self.find($('a')));
-                                    console.log("ADD");
+//                                    console.log("ADD");
 
                             }
 

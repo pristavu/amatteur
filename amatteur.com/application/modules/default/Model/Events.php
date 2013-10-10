@@ -1746,16 +1746,6 @@ class Model_Users extends JO_Model {
 		return $result; 
 	}
 
-        public function getActivateLatLen($lat, $len){
-		$db  = JO_Db::getDefaultAdapter();
-		//$sql = "select * from users_activate where user_id = {$user_id}";
-		//$result = $db->fetchOne($sql);
-		$query =  $db->select()->from('users_activate',array('*'))->where('lat = ?',$lat)->where('len = ?',$len);
-                $result= $db->fetchRow($query);
-		return $result; 
-	}
-        
-        
         public function getUsersActivate($data = array()) {
 		
 		$key = md5(serialize($data));
@@ -1767,7 +1757,7 @@ class Model_Users extends JO_Model {
         
 		$query = $db
 					->select()
-					->from('users_activate', array('users_activate.*'))
+					->from('users_activate', array('users_activate.user_id'))
                                         ->where('users_activate.activate = 1');
 	
 		if(isset($data['start']) && isset($data['limit'])) {
@@ -2020,24 +2010,6 @@ class Model_Users extends JO_Model {
 		return $result; 
 	}
         
-        public function getLocationUsersLatLen($lat, $len){
-		$db  = JO_Db::getDefaultAdapter();
-		//$sql = "select * from users_activate where user_id = {$user_id}";
-		//$result = $db->fetchOne($sql);
-		$query =  $db->select()->from('users_location',array('*'))->where('lat = ?',$lat)->where('len = ?',$len);
-                $result= $db->fetchRow($query);
-		return $result; 
-	}
-
-        public function getUsersLatLen($lat, $len){
-		$db  = JO_Db::getDefaultAdapter();
-		//$sql = "select * from users_activate where user_id = {$user_id}";
-		//$result = $db->fetchOne($sql);
-		$query =  $db->select()->from('users',array('*'))->where('lat = ?',$lat)->where('len = ?',$len);
-                $result= $db->fetchRow($query);
-		return $result; 
-	}
-
         
 	public static function deleteUsersSports($user_id) {
 		$db = JO_Db::getDefaultAdapter();

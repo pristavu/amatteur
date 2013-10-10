@@ -244,10 +244,10 @@ class LayoutController extends JO_Action {
 		//$this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search');
 		
                 
-		if(in_array($request->getAction(), array('index', 'page', 'view'))) {
-			$with_action = 0;
-			$this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search');
-		} elseif( in_array($request->getAction(), array('boards', 'people')) ) {
+		if(in_array($request->getAction(), array('advanced', 'page', 'view'))) {
+			$with_action = $request->getAction();
+			$this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action='.$request->getAction());
+		} elseif( in_array($request->getAction(), array('advanced', 'advanced')) ) {
 			$with_action = $request->getAction();
 			$this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action='.$request->getAction());
                 } else {
@@ -255,13 +255,13 @@ class LayoutController extends JO_Action {
 			$this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search');
 		}
 		
-		$this->view->search_autocomplete = WM_Router::create($request->getBaseUrl() . '?controller=search&action=autocomplete');
+		//$this->view->search_autocomplete = WM_Router::create($request->getBaseUrl() . '?controller=search&action=autocomplete');
 		if(strpos($this->view->search, '?') !== false) {
 			$this->view->show_hidden = true;
 			$this->view->with_action = $with_action;    
 		}
 		
-		$this->view->keywords = $request->issetQuery('q') ? $request->getQuery('q') : $this->translate('Search...');
+		//$this->view->keywords = $request->issetQuery('q') ? $request->getQuery('q') : $this->translate('Search...');
 		
                 
                 /*

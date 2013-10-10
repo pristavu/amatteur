@@ -143,6 +143,50 @@ class SettingsController extends JO_Action {
 				$data['new_email'] = $data['email'];
 				unset($data['email']);
 				
+                                $lat = $data['lat'];
+                                $len = $data['len'];
+
+                                while(Model_Users::getUsersLatLen($lat,$len))
+                                {
+
+                                    $posLat = strpos($lat, ".");
+                                    $longLat = strlen(substr((string)$lat, $posLat));
+                                    $cantLat = 0;
+                                    for ($i = 0; $i < ($longLat - 4); $i++)
+                                    {
+                                        if ($i == 0)
+                                        {
+                                            $cantLat .= ".0";
+                                        }
+                                        else
+                                        {
+                                            $cantLat .= "0";
+                                        }
+                                    }
+                                    $cantLat .= "1";
+                                    $lat = $lat + $cantLat;
+
+                                    $posLen = strpos($len, ".");
+                                    $longLen = strlen(substr((string)$len, $posLen));
+                                    $cantLen = 0;
+                                    for ($i = 0; $i < ($longLen - 4); $i++)
+                                    {
+                                        if ($i == 0)
+                                        {
+                                            $cantLen .= ".0";
+                                        }
+                                        else
+                                        {
+                                            $cantLen .= "0";
+                                        }
+                                    }
+                                    $cantLen .= "1";
+                                    $len = $len + $cantLen;
+                                }
+                                
+                                $data['lat'] = $lat;
+                                $data['len'] = $len;
+                                
 				if(Model_Users::edit( JO_Session::get('user[user_id]'), $data )) {
 					JO_Session::set('successfu_edite', true);
 					$upload->getFileInfo(true);
@@ -173,7 +217,46 @@ class SettingsController extends JO_Action {
                                                                 {
                                                                     if ($request->getPost($location) != "")
                                                                     {
-                                                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location), $request->getPost($lat), $request->getPost($len)))
+                                                                        $lat = $request->getPost($lat);
+                                                                        $len = $request->getPost($len);
+
+                                                                        while(Model_Users::getLocationUsersLatLen($lat,$len))
+                                                                        {
+                                                                            $posLat = strpos($lat, ".");
+                                                                            $longLat = strlen(substr((string)$lat, $posLat));
+                                                                            $cantLat = 0;
+                                                                            for ($i = 0; $i < ($longLat - 4); $i++)
+                                                                            {
+                                                                                if ($i == 0)
+                                                                                {
+                                                                                    $cantLat .= ".0";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $cantLat .= "0";
+                                                                                }
+                                                                            }
+                                                                            $cantLat .= "1";
+                                                                            $lat = $lat + $cantLat;
+
+                                                                            $posLen = strpos($len, ".");
+                                                                            $longLen = strlen(substr((string)$len, $posLen));
+                                                                            $cantLen = 0;
+                                                                            for ($i = 0; $i < ($longLen - 4); $i++)
+                                                                            {
+                                                                                if ($i == 0)
+                                                                                {
+                                                                                    $cantLen .= ".0";
+                                                                                }
+                                                                                else
+                                                                                {
+                                                                                    $cantLen .= "0";
+                                                                                }
+                                                                            }
+                                                                            $cantLen .= "1";
+                                                                            $len = $len + $cantLen;
+                                                                        }
+                                                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location), $lat, $len))
                                                                         {}
                                                                     }
                                                                 }

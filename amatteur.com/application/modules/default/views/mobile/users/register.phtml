@@ -889,18 +889,21 @@ $(document).ready(function(){
         
         $(".morelocations").bind('click',function(event){
 		event.preventDefault();
-                if ($("#latAux").val() != "")
+                if ($.trim($("#searchTextField2").val()) != "")
                 {
-                    var contador = $(".locationcounter").val();
-                    contador++;
-                    $(".locationcounter").val(contador) ;
-                    $(".locations").html($(".locations").html() + "<p class='input'><label></label><span class='field'><input type='text' value='" + $("#searchTextField2").val() + "' id='location" + contador + "' name='location" + contador + "'></span></p>");
-                    $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
-                    $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
-                    $("#searchTextField2").val("");
-                    $("#latAux").val("");
-                    $("#lenAux").val("");
+                    if ($("#latAux").val() != "")
+                    {
+                        var contador = $(".locationcounter").val();
+                        contador++;
+                        $(".locationcounter").val(contador) ;
+                        $(".locations").html($(".locations").html() + "<p class='input'><label></label><span class='field'><input type='text' value='" + $("#searchTextField2").val() + "' id='location" + contador + "' name='location" + contador + "'></span></p>");
+                        $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
+                        $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
+                        $("#searchTextField2").val("");
+                        $("#latAux").val("");
+                        $("#lenAux").val("");
                     }
+                }
                 //initialize();
         });
         

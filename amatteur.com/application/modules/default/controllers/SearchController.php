@@ -8,19 +8,19 @@ class SearchController extends JO_Action
         $request = $this->getRequest();
         return array(
             array(
-                'title' => $this->translate('Pins'),
+                'title' => $this->translate('Amatteur'),
                 'active' => in_array($request->getAction(), array('index', 'page', 'view')),
-                'href' => WM_Router::create($request->getBaseUrl() . '?controller=search&q=' . $query)
+                'href' => WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=amatteur&q=' . $query)
             ),
             array(
-                'title' => $this->translate('Boards'),
+                'title' => $this->translate('Deportistas Activados'),
                 'active' => in_array($request->getAction(), array('boards')),
-                'href' => WM_Router::create($request->getBaseUrl() . '?controller=search&action=boards&q=' . $query)
+                'href' => WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate&q=' . $query)
             ),
             array(
-                'title' => $this->translate('People'),
+                'title' => $this->translate('Servicios y Negocios'),
                 'active' => in_array($request->getAction(), array('people')),
-                'href' => WM_Router::create($request->getBaseUrl() . '?controller=search&action=people&q=' . $query)
+                'href' => WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=services&q=' . $query)
             ),
         );
     }
@@ -47,695 +47,7 @@ class SearchController extends JO_Action
       );
       }
      */
-    /*
-      public function advancedGetAction() {
-      $request = $this->getRequest();
 
-
-
-      $page = (int)$request->getRequest('page');
-      if($page < 1) { $page = 1; }
-
-      $this->view->loged = JO_Session::get('user[user_id]');
-
-      //////////// Categories ////////////
-      $this->view->categories =  array();
-      $categories = Model_Categories::getCategories(array(
-      'filter_status' => 1
-      ));
-
-      foreach ($categories as $category){
-      $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
-      $this->view->categories[] = $category;
-      }
-
-
-      //////////// User Type ////////////
-      $this->view->user_types =  array();
-      $user_types = Model_Users::getUserType(array(
-      'filter_status' => 1
-      ));
-
-      //////////// Age ////////////
-      $this->view->ages =  array();
-      $ages = Model_Users::getAge();
-      $this->view->ages = $ages;
-
-      //////////// Level ////////////
-      $this->view->levels =  array();
-      $levels = Model_Users::getLevel();
-      $this->view->levels = $levels;
-
-
-      if($request->issetQuery('firstname')) {
-      $this->view->firstname = $request->getQuery('firstname');
-      } else {
-      $this->view->firstname = '';
-      }
-
-      if($request->issetQuery('words')) {
-      $this->view->words = $request->getQuery('words');
-      } else {
-      $this->view->words = '';
-      }
-
-
-      $this->view->location = '';
-      if($request->issetQuery('location')) {
-      $this->view->location = $request->getQuery('location');
-      } else {
-      $this->view->location = '';
-      }
-      $this->view->cat_title1 = '';
-      $this->view->sport_category_1 = '';
-      if($request->issetQuery('sport_category_1')) {
-      $this->view->sport_category_1 = $request->getQuery('sport_category_1');
-      if ($request->getQuery('sport_category_1') != "")
-      {
-      if ($request->getQuery('sport_category_1') == 1)
-      {
-      $this->view->cat_title1 = "Todo";
-      }
-      else
-      {
-      $this->view->cat_title1 = Model_Boards::getCategoryTitle($request->getQuery('sport_category_1'));
-      }
-      }
-      } else {
-      $this->view->sport_category_1 = '';
-      }
-      $this->view->cat_title2 = '';
-      $this->view->sport_category_2 = '';
-      if($request->issetQuery('sport_category_2')) {
-      $this->view->sport_category_2 = $request->getQuery('sport_category_2');
-      if ($request->getQuery('sport_category_2') != "")
-      {
-      if ($request->getQuery('sport_category_2') == 1)
-      {
-      $this->view->cat_title2 = "Todo";
-      }
-      else
-      {
-      $this->view->cat_title2 = Model_Boards::getCategoryTitle($request->getQuery('sport_category_2'));
-      }
-      }
-      } else {
-      $this->view->sport_category_2 = '';
-      }
-      $this->view->cat_title3 = '';
-      $this->view->sport_category_3 = '';
-      if($request->issetQuery('sport_category_3')) {
-      $this->view->sport_category_3 = $request->getQuery('sport_category_3');
-      if ($request->getQuery('sport_category_3') != "")
-      {
-      if ($request->getQuery('sport_category_3') == 1)
-      {
-      $this->view->cat_title3 = "Todo";
-      }
-      else
-      {
-      $this->view->cat_title3 = Model_Boards::getCategoryTitle($request->getQuery('sport_category_3'));
-      }
-      }
-      } else {
-      $this->view->sport_category_3 = '';
-      }
-      $this->view->usertype_title = '';
-      $this->view->type_user = '';
-      if($request->issetQuery('type_user')) {
-      $this->view->type_user = $request->getQuery('type_user');
-      if ($request->getQuery('type_user') != "")
-      {
-      $this->view->usertype_title = Model_Users::getUserTypeTitle($request->getQuery('type_user'));
-      }
-      } else {
-      $this->view->type_user = '';
-      }
-
-      //gender
-      if($request->issetQuery('gender')) {
-      $this->view->gender = $request->getRequest('gender');
-      } elseif (isset ($user_data['gender'])) {
-      $this->view->gender = $user_data['gender'];
-      }
-      else
-      {
-      $this->view->gender = "";
-      }
-
-      //location
-      if($request->issetQuery('location')) {
-      $this->view->location = $request->getQuery('location');
-      }  elseif (isset ($user_data['location'])) {
-      $this->view->location = $user_data['location'];
-      }
-      else
-      {
-      $this->view->location = '';
-      }
-
-      //sport category
-      if($request->issetQuery('sport_category')) {
-      $this->view->sport_category = $request->getQuery('sport_category');
-      if ($request->getQuery('sport_category') != "")
-      {
-      $this->view->cat_title = Model_Boards::getCategoryTitle($request->getQuery('sport_category'));
-      }
-      } elseif (isset ($user_data['sport_category'])) {
-      $this->view->sport_category = $user_data['sport_category'];
-      $this->view->cat_title = Model_Boards::getCategoryTitle($user_data['sport_category']);
-      }
-      else
-      {
-      $this->view->cat_title = '';
-      $this->view->sport_category = '';
-      }
-
-      //age
-      if($request->issetQuery('age')) {
-      $this->view->age = $request->getQuery('age');
-      if ($request->getQuery('age') != "")
-      {
-      $this->view->age_title = Model_Users::getAgeTitle($request->getQuery('age'));
-      }
-      } elseif (isset ($user_data['age'])) {
-      $this->view->age = $user_data['age'];
-      $this->view->age_title = Model_Users::getAgeTitle($user_data['age']);
-      }
-      else
-      {
-      $this->view->age_title = '';
-      $this->view->age = '';
-      }
-
-      //level
-      if($request->issetQuery('level')) {
-      $this->view->level = $request->getQuery('level');
-      if ($request->getQuery('level') != "")
-      {
-      $this->view->level_title = Model_Users::getLevelTitle($request->getQuery('level'));
-      }
-      } elseif (isset ($user_data['level'])) {
-      $this->view->level = $user_data['level'];
-      $this->view->level_title = Model_Users::getLevelTitle($user_data['level']);
-      }
-      else
-      {
-      $this->view->level_title = '';
-      $this->view->level = '';
-      }
-
-      //option1
-      if($request->issetQuery('option1')) {
-      $this->view->option1 = $request->getQuery('option1');
-      }  elseif (isset ($user_data['option1'])) {
-      $this->view->option1 = $user_data['option1'];
-      }
-      else
-      {
-      $this->view->option1 = '';
-      }
-
-      //option2
-      if($request->issetQuery('option2')) {
-      $this->view->option2 = $request->getQuery('option2');
-      }  elseif (isset ($user_data['option2'])) {
-      $this->view->option2 = $user_data['option2'];
-      }
-      else
-      {
-      $this->view->option2 = '';
-      }
-
-      //option3
-      if($request->issetQuery('option3')) {
-      $this->view->option3 = $request->getQuery('option3');
-      }  elseif (isset ($user_data['option3'])) {
-      $this->view->option3 = $user_data['option3'];
-      }
-      else
-      {
-      $this->view->option3 = '';
-      }
-
-      //option4
-      if($request->issetQuery('option4')) {
-      $this->view->option4 = $request->getQuery('option4');
-      }  elseif (isset ($user_data['option4'])) {
-      $this->view->option4 = $user_data['option4'];
-      }
-      else
-      {
-      $this->view->option4 = '';
-      }
-
-      //option5
-      if($request->issetQuery('option5')) {
-      $this->view->option5 = $request->getQuery('option5');
-      }  elseif (isset ($user_data['option5'])) {
-      $this->view->option5 = $user_data['option5'];
-      }
-      else
-      {
-      $this->view->option5 = '';
-      }
-
-      //option6
-      if($request->issetQuery('option6')) {
-      $this->view->option6 = $request->getQuery('option6');
-      }  elseif (isset ($user_data['option6'])) {
-      $this->view->option6 = $user_data['option6'];
-      }
-      else
-      {
-      $this->view->option6 = '';
-      }
-
-      //option7
-      if($request->issetQuery('option7')) {
-      $this->view->option7 = $request->getQuery('option7');
-      }  elseif (isset ($user_data['option7'])) {
-      $this->view->option7 = $user_data['option7'];
-      }
-      else
-      {
-      $this->view->option7 = '';
-      }
-
-      //option8
-      if($request->issetQuery('option8')) {
-      $this->view->option8 = $request->getQuery('option8');
-      }  elseif (isset ($user_data['option8'])) {
-      $this->view->option8 = $user_data['option8'];
-      }
-      else
-      {
-      $this->view->option8 = '';
-      }
-
-      //option9
-      if($request->issetQuery('option9')) {
-      $this->view->option9 = $request->getQuery('option9');
-      }  elseif (isset ($user_data['option9'])) {
-      $this->view->option9 = $user_data['option9'];
-      }
-      else
-      {
-      $this->view->option9 = '';
-      }
-
-      //option10
-      if($request->issetQuery('option10')) {
-      $this->view->option10 = $request->getQuery('option10');
-      }  elseif (isset ($user_data['option10'])) {
-      $this->view->option10 = $user_data['option10'];
-      }
-      else
-      {
-      $this->view->option10 = '';
-      }
-
-      //$this->view->advanced_url = "www.google.es";
-      $this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
-      //controlador
-      $id = $request->getRequest('id');
-      if ($id == "amatteur")
-      {
-      //$this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=amatteur');
-      $this->view->advancedActive = "amatteur";
-      $with_action = $request->getAction();
-      $this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
-
-      }
-      else if ($id == "activate")
-      {
-      //$this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
-      $this->view->advancedActive = "activate";
-      $with_action = $request->getAction();
-      $this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
-
-      }
-      else if ($id == "services")
-      {
-      //$this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=services');
-      $this->view->advancedActive = "services";
-      $with_action = $request->getAction();
-      $this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
-
-      }
-
-      if( $_SERVER['REQUEST_METHOD'] === 'GET') {
-
-      //if($request->issetQuery('words'))
-      {
-
-      $query = $request->getRequest('words');
-
-      $this->view->query = $query;
-
-      //$this->view->menuSearch = $this->searchMenu($query);
-
-      $this->view->pins = '';
-
-      if ($id == "amatteur")
-      {
-
-      //boards
-      if ($request->getQuery('option1') == "1" || $request->getQuery('option7') == "1")
-      {
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_title' => $query
-      );
-
-
-      $boards = Model_Boards::getBoards($data);
-      if($boards) {
-      $view = JO_View::getInstance();
-      $view->loged = JO_Session::get('user[user_id]');
-      $view->enable_sort = false;
-      $model_images = new Helper_Images();
-      foreach($boards AS $board) {
-
-      $board['href'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
-      $board['thumbs'] = array();
-      $get_big = false;
-      for( $i = 0; $i < 5; $i ++) {
-      $image = isset( $board['pins_array'][$i] ) ? $board['pins_array'][$i]['image'] : false;
-      if($image) {
-      if($get_big) {
-      $size = '_A';
-      } else {
-      $size = '_C';
-      $get_big = true;
-      }
-      $data_img = Helper_Uploadimages::pin($board['pins_array'][$i], $size);
-      if($data_img) {
-      $board['thumbs'][] = $data_img['image'];
-      } else {
-      $board['thumbs'][] = false;
-      }
-      } else {
-      $board['thumbs'][] = false;
-      }
-      }
-
-      $board['boardIsFollow'] = Model_Users::isFollow(array(
-      'board_id' => $board['board_id']
-      ));
-
-      $board['userFollowIgnore'] = $board['user_id'] != JO_Session::get('user[user_id]');
-
-      $board['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=follow&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id'] );
-
-      $board['edit'] = false;
-      if($board['user_id'] == JO_Session::get('user[user_id]') || Model_Boards::allowEdit($board['board_id'])) {
-      $board['userFollowIgnore'] = false;
-      $board['edit'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=edit&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id'] );
-      }
-
-
-      $view->board = $board;
-      $this->view->pins .= $view->render('box', 'boards');
-      }
-      }
-
-      }
-      //users
-      if ($request->getQuery('option2') == "1" || $request->getQuery('option7') == "1")
-      {
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_username' => $query,
-      'filter_firstname' => $request->getQuery('firstname'),
-      'filter_location' => $request->getQuery('location'),
-      'filter_gender' => $request->getQuery('gender'),
-      'filter_sport_category_1' => $request->getQuery('sport_category_1'),
-      'filter_sport_category_2' => $request->getQuery('sport_category_2'),
-      'filter_sport_category_3' => $request->getQuery('sport_category_3')
-
-      );
-
-
-      $users = Model_Users::getUsers($data);
-      if($users) {
-      $this->view->follow_user = true;
-      $view = JO_View::getInstance();
-      $view->loged = JO_Session::get('user[user_id]');
-      $model_images = new Helper_Images();
-      foreach($users AS $key => $user) {
-      $avatar = Helper_Uploadimages::avatar($user, '_B');
-      $user['avatar'] = $avatar['image'];
-
-      if($view->loged) {
-      $user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
-      $user['userFollowIgnore'] = $user['user_id'] == JO_Session::get('user[user_id]');
-      } else {
-      $user['userFollowIgnore'] = true;
-      }
-
-      $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
-      $user['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id'] );
-
-      $view->key = $key%2==0;
-      $view->user = $user;
-      $this->view->pins .= $view->render('boxSearch', 'users');
-      $this->view->users .= $users;
-
-      }
-      }
-
-      }
-      //pins
-      if ($request->getQuery('option3') == "1" || $request->getQuery('option7') == "1")
-      {
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_description' => $query,
-      'filter_marker' => $request->getRequest('marker')
-      );
-
-
-      $pins = Model_Pins::getPins($data);
-      if($pins) {
-      foreach($pins AS $pin) {
-      $this->view->pins .= Helper_Pin::returnHtml($pin);
-      }
-      // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-      }
-
-      }
-      //videos
-      if ($request->getQuery('option4') == "1" && ($request->getQuery('option3') != "1"))
-      {
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_is_video' => 1,
-      'filter_description' => $query,
-      'filter_marker' => $request->getRequest('marker')
-      );
-
-
-      $pins = Model_Pins::getPins($data);
-      if($pins) {
-      foreach($pins AS $pin) {
-      $this->view->pins .= Helper_Pin::returnHtml($pin);
-      }
-      // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-      }
-
-      }
-      //gifts
-      if ($request->getQuery('option5') == "1" && ($request->getQuery('option3') != "1"))
-      {
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'allow_gifts' => true,
-      'filter_description' => $query,
-      'filter_marker' => $request->getRequest('marker')
-      );
-
-
-      $pins = Model_Pins::getPins($data);
-      if($pins) {
-      foreach($pins AS $pin) {
-      $this->view->pins .= Helper_Pin::returnHtml($pin);
-      }
-      // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-      }
-
-      }
-      //articles
-      if ($request->getQuery('option6') == "1" && ($request->getQuery('option3') != "1"))
-      {
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_is_article' => 1,
-      'filter_description' => $query,
-      'filter_marker' => $request->getRequest('marker')
-      );
-
-
-      $pins = Model_Pins::getPins($data);
-      if($pins) {
-      foreach($pins AS $pin) {
-      $this->view->pins .= Helper_Pin::returnHtml($pin);
-      }
-      // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-      }
-
-      }
-      //all
-      if ($request->getQuery('option7') == "1")
-      {
-
-      }
-      }
-      else if ($id == "activate")
-      {
-      error_log("entro en activate");
-      $dataActivate = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_gender' => $request->getQuery('gender'),
-      'filter_age' => $request->getQuery('age'),
-      'filter_location' => $request->getQuery('location'),
-      'filter_sport_category' => $request->getQuery('sport_category'),
-      'filter_level' => $request->getQuery('level'),
-      'filter_option1' => $request->getQuery('option1'),
-      'filter_option2' => $request->getQuery('option2'),
-      'filter_option3' => $request->getQuery('option3'),
-      'filter_option4' => $request->getQuery('option4'),
-      'filter_option5' => $request->getQuery('option5'),
-      'filter_option6' => $request->getQuery('option6'),
-      'filter_option7' => $request->getQuery('option7'),
-      'filter_option8' => $request->getQuery('option8')
-
-      );
-
-      $activate = Model_Users::getUsersActivate($dataActivate);
-
-      if($activate) {
-      foreach($activate as $user_id) {
-
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_user_id' => $user_id["user_id"]
-      );
-
-      $users = Model_Users::getUsers($data);
-
-      if($users) {
-      $this->view->follow_user = true;
-      $view = JO_View::getInstance();
-      $view->loged = JO_Session::get('user[user_id]');
-      $model_images = new Helper_Images();
-      foreach($users AS $key => $user) {
-      $avatar = Helper_Uploadimages::avatar($user, '_B');
-      $user['avatar'] = $avatar['image'];
-
-      if($view->loged) {
-      $user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
-      $user['userFollowIgnore'] = $user['user_id'] == JO_Session::get('user[user_id]');
-      } else {
-      $user['userFollowIgnore'] = true;
-      }
-
-      $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
-      $user['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id'] );
-
-      $view->key = $key%2==0;
-      $view->user = $user;
-      $this->view->pins .= $view->render('boxSearch', 'users');
-      $this->view->users .= $users;
-
-      }
-      }
-      }
-      }
-      }
-      else if ($id == "services")
-      {
-      $type_user = array(
-      'filter_option1' => $request->getQuery('option1'),
-      'filter_option2' => $request->getQuery('option2'),
-      //'filter_option3' => $request->getQuery('option3'),
-      'filter_option4' => $request->getQuery('option4'),
-      'filter_option5' => $request->getQuery('option5'),
-      'filter_option6' => $request->getQuery('option6'),
-      'filter_option7' => $request->getQuery('option7'),
-      'filter_option8' => $request->getQuery('option8'),
-      'filter_option9' => $request->getQuery('option9'),
-      'filter_option10' => $request->getQuery('option10')
-      );
-
-      $data = array(
-      'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-      'limit' => JO_Registry::get('config_front_limit'),
-      'filter_username' => $request->getQuery('words'),
-      'filter_sport_category' => $request->getQuery('sport_category_1'),
-      'filter_firstname' => $request->getQuery('firstname'),
-      'filter_typeuser' => $type_user,
-      'filter_typeuser_profesional' => 1,
-      'filter_location' => $request->getQuery('location')
-      );
-
-
-      $users = Model_Users::getUsers($data);
-      $users .= Model_Users::getLocationUsers($request->getQuery('location'));
-      $users .= Model_Users::getUserIdSportsUser($request->getQuery('sport_category_1'));
-      if($users) {
-      $this->view->follow_user = true;
-      $view = JO_View::getInstance();
-      $view->loged = JO_Session::get('user[user_id]');
-      $model_images = new Helper_Images();
-      foreach($users AS $key => $user) {
-      $avatar = Helper_Uploadimages::avatar($user, '_B');
-      $user['avatar'] = $avatar['image'];
-
-      if($view->loged) {
-      $user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
-      $user['userFollowIgnore'] = $user['user_id'] == JO_Session::get('user[user_id]');
-      } else {
-      $user['userFollowIgnore'] = true;
-      }
-
-      $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
-      $user['follow'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id'] );
-
-      $view->key = $key%2==0;
-      $view->user = $user;
-      $this->view->pins .= $view->render('boxSearch', 'users');
-      $this->view->users .= $users;
-
-      }
-      }
-
-      }
-
-
-      }
-
-      }
-
-
-
-
-      $this->view->children = array(
-      'header_part' 	=> 'layout/header_part',
-      'footer_part' 	=> 'layout/footer_part'
-      );
-
-
-      }
-     */
 
     public function advancedAction()
     {
@@ -1115,263 +427,305 @@ class SearchController extends JO_Action
 
                 if ($id == "amatteur")
                 {
-                        $validate = new Helper_Validate();
-                        
-                        if($request->getPost('option1') == "" && $request->getPost('option2') == "" && $request->getPost('option3') == "" && $request->getPost('option4') == "" && $request->getPost('option5') == "" && $request->getPost('option6') == "" && $request->getPost('option7') == "") {
-                            $validate->_set_rules($request->getPost('option1'), $this->translate('Opción de búsqueda amatteur'), 'not_empty;min_length[3];max_length[100]');
+                    $validate = new Helper_Validate();
 
-                        }
-			if($validate->_valid_form()) {
-                    //boards
-                    if ($request->getPost('option1') == "1" || $request->getPost('option7') == "1")
+                    if($request->getPost('option1') == "" && $request->getPost('option2') == "" && $request->getPost('option3') == "" && $request->getPost('option4') == "" && $request->getPost('option5') == "" && $request->getPost('option6') == "" && $request->getPost('option7') == "") {
+                        $validate->_set_rules($request->getPost('option1'), $this->translate('Opción de búsqueda amatteur'), 'not_empty;min_length[3];max_length[100]');
+
+                    }
+                    if($validate->_valid_form()) 
                     {
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'filter_title' => $query
-                        );
-
-
-                        $boards = Model_Boards::getBoards($data);
-                        if ($boards)
+                        //boards
+                        if ($request->getPost('option1') == "1")
                         {
-                            $view = JO_View::getInstance();
-                            $view->loged = JO_Session::get('user[user_id]');
-                            $view->enable_sort = false;
-                            $model_images = new Helper_Images();
-                            foreach ($boards AS $board)
-                            {
+                            $data = array(
+                                'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                'limit' => JO_Registry::get('config_front_limit'),
+                                'filter_title' => $query,
+                                'filter_category_id' => $request->getPost('sport_category_1')
+                            );
 
-                                $board['href'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
-                                $board['thumbs'] = array();
-                                $get_big = false;
-                                for ($i = 0; $i < 5; $i++)
+
+                            $boards = Model_Boards::getBoards($data);
+                            if ($boards)
+                            {
+                                $view = JO_View::getInstance();
+                                $view->loged = JO_Session::get('user[user_id]');
+                                $view->enable_sort = false;
+                                $model_images = new Helper_Images();
+                                foreach ($boards AS $board)
                                 {
-                                    $image = isset($board['pins_array'][$i]) ? $board['pins_array'][$i]['image'] : false;
-                                    if ($image)
+
+                                    $board['href'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
+                                    $board['thumbs'] = array();
+                                    $get_big = false;
+                                    for ($i = 0; $i < 5; $i++)
                                     {
-                                        if ($get_big)
+                                        $image = isset($board['pins_array'][$i]) ? $board['pins_array'][$i]['image'] : false;
+                                        if ($image)
                                         {
-                                            $size = '_A';
-                                        } else
-                                        {
-                                            $size = '_C';
-                                            $get_big = true;
-                                        }
-                                        $data_img = Helper_Uploadimages::pin($board['pins_array'][$i], $size);
-                                        if ($data_img)
-                                        {
-                                            $board['thumbs'][] = $data_img['image'];
+                                            if ($get_big)
+                                            {
+                                                $size = '_A';
+                                            } else
+                                            {
+                                                $size = '_C';
+                                                $get_big = true;
+                                            }
+                                            $data_img = Helper_Uploadimages::pin($board['pins_array'][$i], $size);
+                                            if ($data_img)
+                                            {
+                                                $board['thumbs'][] = $data_img['image'];
+                                            } else
+                                            {
+                                                $board['thumbs'][] = false;
+                                            }
                                         } else
                                         {
                                             $board['thumbs'][] = false;
                                         }
-                                    } else
+                                    }
+
+                                    $board['boardIsFollow'] = Model_Users::isFollow(array(
+                                                'board_id' => $board['board_id']
+                                            ));
+
+                                    $board['userFollowIgnore'] = $board['user_id'] != JO_Session::get('user[user_id]');
+
+                                    $board['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=follow&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
+
+                                    $board['edit'] = false;
+                                    if ($board['user_id'] == JO_Session::get('user[user_id]') || Model_Boards::allowEdit($board['board_id']))
                                     {
-                                        $board['thumbs'][] = false;
+                                        $board['userFollowIgnore'] = false;
+                                        $board['edit'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=edit&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
+                                    }
+
+
+                                    $view->board = $board;
+                                    $this->view->pins .= $view->render('box', 'boards');
+                                }
+                            }
+                        }
+                        //users
+                        if ($request->getPost('option2') == "1")
+                        {
+                            $data = array(
+                                'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                'limit' => JO_Registry::get('config_front_limit'),
+                                'filter_username' => $query,
+                                'filter_firstname' => $request->getPost('firstname'),
+                                'filter_location' => $request->getPost('location'),
+                                'filter_gender' => $request->getPost('gender'),
+                                'filter_sport_category_1' => $request->getPost('sport_category_1'),
+                                'filter_sport_category_2' => $request->getPost('sport_category_2'),
+                                'filter_sport_category_3' => $request->getPost('sport_category_3')
+                            );
+
+
+                            $users = Model_Users::getUsers($data);
+                            if ($request->issetPost('location'))
+                            {
+                                $users_id = Model_Users::getLocationUsers($request->getPost('location'));
+                                foreach ($users_id as $user_id)
+                                {
+                                    $dataUser = array(
+                                        'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                        'limit' => JO_Registry::get('config_front_limit'),
+                                        'filter_user_id' => $user_id["user_id"]
+                                    );
+                                    $userAux = Model_Users::getUsers($dataUser);
+                                    //$users[] = Model_Users::getUsers($dataUser);
+                                    if ($userAux)
+                                    {
+                                        //array_push($users, $userAux);
+                                        $users[] = $userAux[0];
                                     }
                                 }
-
-                                $board['boardIsFollow'] = Model_Users::isFollow(array(
-                                            'board_id' => $board['board_id']
-                                        ));
-
-                                $board['userFollowIgnore'] = $board['user_id'] != JO_Session::get('user[user_id]');
-
-                                $board['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=follow&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
-
-                                $board['edit'] = false;
-                                if ($board['user_id'] == JO_Session::get('user[user_id]') || Model_Boards::allowEdit($board['board_id']))
+                            }
+                            if ($request->issetPost('sport_category_1'))
+                            {
+                                $users_id = Model_Users::getUserIdSportsUser($request->getPost('sport_category_1'));
+                                foreach ($users_id as $user_id)
                                 {
-                                    $board['userFollowIgnore'] = false;
-                                    $board['edit'] = WM_Router::create($request->getBaseUrl() . '?controller=boards&action=edit&user_id=' . $board['user_id'] . '&board_id=' . $board['board_id']);
+                                    $dataUser = array(
+                                        'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                        'limit' => JO_Registry::get('config_front_limit'),
+                                        'filter_user_id' => $user_id["user_id"]
+                                    );
+                                    $userAux = Model_Users::getUsers($dataUser);
+                                    if ($userAux)
+                                    {
+                                        $users[] = $userAux[0];
+                                    }
                                 }
+                            }
 
+                            if ($users)
+                            {
+                                $this->view->follow_user = true;
+                                $view = JO_View::getInstance();
+                                $view->loged = JO_Session::get('user[user_id]');
+                                $model_images = new Helper_Images();
+                                foreach ($users AS $key => $user)
+                                {
+                                    $avatar = Helper_Uploadimages::avatar($user, '_B');
+                                    $user['avatar'] = $avatar['image'];
 
-                                $view->board = $board;
-                                $this->view->pins .= $view->render('box', 'boards');
+                                    if ($view->loged)
+                                    {
+                                        $user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
+                                        $user['userFollowIgnore'] = $user['user_id'] == JO_Session::get('user[user_id]');
+                                    } else
+                                    {
+                                        $user['userFollowIgnore'] = true;
+                                    }
+
+                                    $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
+                                    $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
+
+                                    $view->key = $key % 2 == 0;
+                                    $view->user = $user;
+                                    $this->view->pins .= $view->render('boxSearch', 'users');
+                                }
+                                $this->view->users = $users;
                             }
                         }
-                    }
-                    //users
-                    if ($request->getPost('option2') == "1" || $request->getPost('option7') == "1")
-                    {
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'filter_username' => $query,
-                            'filter_firstname' => $request->getPost('firstname'),
-                            'filter_location' => $request->getPost('location'),
-                            'filter_gender' => $request->getPost('gender'),
-                            'filter_sport_category_1' => $request->getPost('sport_category_1'),
-                            'filter_sport_category_2' => $request->getPost('sport_category_2'),
-                            'filter_sport_category_3' => $request->getPost('sport_category_3')
-                        );
-
-
-                        $users = Model_Users::getUsers($data);
-                        if ($request->issetPost('location'))
+                        //pins
+                        if ($request->getPost('option3') == "1")
                         {
-                            $users_id = Model_Users::getLocationUsers($request->getPost('location'));
-                            foreach ($users_id as $user_id)
+                            if ($query != "")
                             {
-                                $dataUser = array(
+                                $data = array(
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
-                                    'filter_user_id' => $user_id["user_id"]
+                                    'filter_description' => $query,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
                                 );
-                                $userAux = Model_Users::getUsers($dataUser);
-                                //$users[] = Model_Users::getUsers($dataUser);
-                                if ($userAux)
-                                {
-                                    //array_push($users, $userAux);
-                                    $users[] = $userAux[0];
-                                }
                             }
-                        }
-                        if ($request->issetPost('sport_category_1'))
-                        {
-                            $users_id = Model_Users::getUserIdSportsUser($request->getPost('sport_category_1'));
-                            foreach ($users_id as $user_id)
+                            else
                             {
-                                $dataUser = array(
+                                $data = array(
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
-                                    'filter_user_id' => $user_id["user_id"]
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
                                 );
-                                $userAux = Model_Users::getUsers($dataUser);
-                                if ($userAux)
+                            }
+                                
+
+                            $pins = Model_Pins::getPins($data);
+                            if ($pins)
+                            {
+                                foreach ($pins AS $pin)
                                 {
-                                    $users[] = $userAux[0];
+                                    $this->view->pins .= Helper_Pin::returnHtml($pin);
                                 }
+                                // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
                             }
                         }
-                        
-                        if ($users)
+                        //videos
+                        if ($request->getPost('option4') == "1")
                         {
-                            $this->view->follow_user = true;
-                            $view = JO_View::getInstance();
-                            $view->loged = JO_Session::get('user[user_id]');
-                            $model_images = new Helper_Images();
-                            foreach ($users AS $key => $user)
+                            if ($query != "")
                             {
-                                $avatar = Helper_Uploadimages::avatar($user, '_B');
-                                $user['avatar'] = $avatar['image'];
+                                $data = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_is_video' => 1,
+                                    'filter_description' => $query,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                );
+                            }
+                            else
+                            {
+                                $data = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_is_video' => 1,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                );
+                            }
 
-                                if ($view->loged)
+                            $pins = Model_Pins::getPins($data);
+                            if ($pins)
+                            {
+                                foreach ($pins AS $pin)
                                 {
-                                    $user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
-                                    $user['userFollowIgnore'] = $user['user_id'] == JO_Session::get('user[user_id]');
-                                } else
-                                {
-                                    $user['userFollowIgnore'] = true;
+                                    $this->view->pins .= Helper_Pin::returnHtml($pin);
                                 }
-
-                                $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
-                                $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
-
-                                $view->key = $key % 2 == 0;
-                                $view->user = $user;
-                                $this->view->pins .= $view->render('boxSearch', 'users');
+                                // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
                             }
-                            $this->view->users = $users;
                         }
-                    }
-                    //pins
-                    if ($request->getPost('option3') == "1" || $request->getPost('option7') == "1")
-                    {
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'filter_description' => $query,
-                            'filter_marker' => $request->getRequest('marker')
-                        );
-
-
-                        $pins = Model_Pins::getPins($data);
-                        if ($pins)
+                        //gifts
+                        if ($request->getPost('option5') == "1")
                         {
-                            foreach ($pins AS $pin)
+                            if ($query != "")
                             {
-                                $this->view->pins .= Helper_Pin::returnHtml($pin);
+                                $data = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'allow_gifts' => true,
+                                    'filter_description' => $query,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                );
                             }
-                            // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
+                            else
+                            {
+                                $data = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'allow_gifts' => true,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                );
+                            }
+
+                            $pins = Model_Pins::getPins($data);
+                            if ($pins)
+                            {
+                                foreach ($pins AS $pin)
+                                {
+                                    $this->view->pins .= Helper_Pin::returnHtml($pin);
+                                }
+                                // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
+                            }
                         }
-                    }
-                    //videos
-                    if ($request->getPost('option4') == "1" && ($request->getPost('option3') != "1"))
-                    {
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'filter_is_video' => 1,
-                            'filter_description' => $query,
-                            'filter_marker' => $request->getRequest('marker')
-                        );
-
-
-                        $pins = Model_Pins::getPins($data);
-                        if ($pins)
+                        //articles
+                        if ($request->getPost('option6') == "1")
                         {
-                            foreach ($pins AS $pin)
+                            if ($query != "")
                             {
-                                $this->view->pins .= Helper_Pin::returnHtml($pin);
+                                $data = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_is_article' => 1,
+                                    'filter_description' => $query,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                );
                             }
-                            // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-                        }
-                    }
-                    //gifts
-                    if ($request->getPost('option5') == "1" && ($request->getPost('option3') != "1"))
-                    {
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'allow_gifts' => true,
-                            'filter_description' => $query,
-                            'filter_marker' => $request->getRequest('marker')
-                        );
-
-
-                        $pins = Model_Pins::getPins($data);
-                        if ($pins)
-                        {
-                            foreach ($pins AS $pin)
+                            else
                             {
-                                $this->view->pins .= Helper_Pin::returnHtml($pin);
+                                $data = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_is_article' => 1,
+                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                );
+
                             }
-                            // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
-                        }
-                    }
-                    //articles
-                    if ($request->getPost('option6') == "1" && ($request->getPost('option3') != "1"))
-                    {
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'filter_is_article' => 1,
-                            'filter_description' => $query,
-                            'filter_marker' => $request->getRequest('marker')
-                        );
 
-
-                        $pins = Model_Pins::getPins($data);
-                        if ($pins)
-                        {
-                            foreach ($pins AS $pin)
+                            $pins = Model_Pins::getPins($data);
+                            if ($pins)
                             {
-                                $this->view->pins .= Helper_Pin::returnHtml($pin);
+                                foreach ($pins AS $pin)
+                                {
+                                    $this->view->pins .= Helper_Pin::returnHtml($pin);
+                                }
+                                // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
                             }
-                            // 			JO_Registry::set('marker', Model_Pins::getMaxPin($data));
                         }
+                    } else {
+                            $this->view->error = $this->translate("Tiene que seleccionar algún criterio de búsqueda");//$validate->_get_error_messages();
                     }
-                    //all
-                    if ($request->getPost('option7') == "1")
-                    {
-                        
-                    }
-			} else {
-				$this->view->error = $this->translate("Tiene que seleccionar algún criterio de búsqueda");//$validate->_get_error_messages();
-			}
                     
                 }
                 else if ($id == "activate")
@@ -1432,10 +786,25 @@ class SearchController extends JO_Action
                                     $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
 
                                     $view->key = $key % 2 == 0;
+                                    $user["location"] = $user_id["location"];
+                                    $user["sport_category_1"] = Model_Boards::getCategoryTitle($user_id["sport_category"]);
+                                    $user["level"] = Model_Users::getLevelTitle($user_id["level"]);
+                                    $user["option1"] = $user_id["option1"];
+                                    $user["option2"] = $user_id["option2"];
+                                    $user["option3"] = $user_id["option3"];
+                                    $user["option4"] = $user_id["option4"];
+                                    $user["option5"] = $user_id["option5"];
+                                    $user["option6"] = $user_id["option6"];
+                                    $user["option7"] = $user_id["option7"];
+                                    $user["option8"] = $user_id["option8"];
+                                    $user["comment"] = $user_id["comment"];
                                     $view->user = $user;
                                     $this->view->pins .= $view->render('boxSearch', 'users');
                                 }
                             }
+                            $users[0]["location"] = $user_id["location"];
+                            $users[0]["lat"] = $user_id["lat"];
+                            $users[0]["len"] = $user_id["len"];
                             $usersTot[] = $users[0];
                         }
                         $this->view->users = $usersTot;

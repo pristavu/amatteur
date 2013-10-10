@@ -1,15 +1,53 @@
-<div class="box user not-popup" id="<?php echo $this->user['user_id'];?>">
-
-		<div class="preview">
-			
+<div class="box person not-popup" id="<?php echo $this->user['user_id'];?>">
 			<p class="thumb">
-				<a href="<?php echo $this->user['href'];?>">
-					<img data-original="<?php echo $this->user['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->user['fullname'];?>" />
+				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
+					<img style="height:110px;width:110px;" data-original="<?php echo $this->user['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->user['fullname'];?>" />
 				</a>
 			</p>
-			<h2><?php echo $this->user['fullname'];?></h2>
-			<p class="location colorless"><?php echo $this->user['location'];?></p>
+
+		<div class="PersonInfo">
 			
+			<h2><?php echo $this->user['fullname'];?></h2>
+                        <div style="display:table">
+                            <div style="display:table-row">
+                                <div style="display:table-cell">
+                                    <p class="location colorless"><?php echo $this->translate('Ubicación:');?> </div>
+                                <div style="display:table-cell">
+                                    <?php echo $this->user['location'];?></p>
+                                </div>
+                            </div><div style="display:table-row">
+                                <div style="display:table-cell">
+                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> </div>
+                                <div style="display:table-cell">
+                                    <?php echo $this->user['sport_category_1'];?></p>
+                                </div>
+                            </div><div style="display:table-row">
+                                <div style="display:table-cell">
+                                    <p class="location colorless"><?php echo $this->translate('Nivel:');?> </div>
+                                <div style="display:table-cell">
+                                    <?php echo $this->user['level'];?></p>
+                                </div>
+                            </div><div style="display:table-row">                                
+                                <div style="display:table-cell">
+                                    <p class="location colorless"><?php echo $this->translate('Opciones:');?> </div>
+                                <div style="display:table-cell">
+                        <?php echo ($this->user['option1'] == '1' ? sprintf($this->translate("Practice sports together")) : ''); ?>
+                        <?php echo ($this->user['option2'] == '1' ? sprintf($this->translate("Organize match / tournament")) : ''); ?> 
+                        <?php echo ($this->user['option3'] == '1' ? sprintf($this->translate("Team look for sportman")) : ''); ?> 
+                        <?php echo ($this->user['option4'] == '1' ? sprintf($this->translate("Sportman look for team")) : ''); ?> 
+                        <?php echo ($this->user['option5'] == '1' ? sprintf($this->translate("Look for sponsor")) : ''); ?> 
+                        <?php echo ($this->user['option6'] == '1' ? sprintf($this->translate("Volunteer helps paraolimpics")) : ''); ?> 
+                        <?php echo ($this->user['option7'] == '1' ? sprintf($this->translate("Trainee look for tutor")) : ''); ?> 
+                        <?php echo ($this->user['option8'] == '1' ? sprintf($this->translate("Tutor begins trainee"))  : ''); ?> 
+                        </p>
+                        </div>
+                            </div><div style="display:table-row">
+                                <div style="display:table-cell">
+                                    <p class="location colorless"><?php echo $this->translate('Comentarios:');?> </div>
+                                <div style="display:table-cell" id="divComentarios">
+                                    <?php echo $this->user['comment'];?></p>
+                                </div>
+                            </div></div>
 			<div class="follow">
 			<?php if($this->loged && !$this->user['userFollowIgnore']) { ?>
 		        <?php if($this->user['userIsFollow']) { ?>

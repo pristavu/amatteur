@@ -138,35 +138,13 @@ if (!$this->show_header_line && $this->show_header_invate)
                 </a>
             </h1>
 
-            <form action="<?php echo $this->search_action; ?>" method="get" class="search" style="right:600px">
-
-    <?php if ($this->show_hidden)
-    { ?>
-                    <p class="hide">
-                        <input type="hidden" value="search" name="controller" />
-        <?php if ($this->with_action)
-        { ?>
-                            <input type="hidden" value="<?php echo $this->with_action; ?>" name="action" />
-    <?php } ?>
-                    </p>
-<?php } ?>
-                <p class="keyword">
-                    <label for="keyword" class="hide"><?php echo $this->translate('Keyword'); ?>:<br /></label>
-                    <input type="text" id="keyword" name="q" value="<?php echo $this->keywords; ?>" />
-                </p>
-                
-                <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" /></p>
-            </form>
-            <p style="right:430px;top:18px;position:absolute;color:black !important;font-size:16px;font-weight: bold;">
-                <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Advanced Search'); ?></a>            
-            </p>
 <?php if ($this->show_brand)
 { ?>
 
                             <?php } ?>
 
 
-            <ul class="userbar" style="right:0px">
+            <ul class="userbar">
 <?php if (JO_Registry::get('isMobile'))
 { ?>
                     <li><a href="/?remove_full_version" title="<?php echo $this->translate('Mobile Site'); ?>"><?php echo $this->translate('Mobile Site'); ?></a></li>
@@ -218,6 +196,28 @@ if (!$this->show_header_line && $this->show_header_invate)
     <?php } ?>
             </ul>
 
+            <form action="<?php echo $this->search_action; ?>" method="get" class="search">
+
+    <?php if ($this->show_hidden)
+    { ?>
+                    <p class="hide">
+                        <input type="hidden" value="search" name="controller" />
+        <?php if ($this->with_action)
+        { ?>
+                            <input type="hidden" value="<?php echo $this->with_action; ?>" name="action" />
+    <?php } ?>
+                    </p>
+<?php } ?>
+                <p class="keyword">
+                    <label for="keyword" class="hide"><?php echo $this->translate('Keyword'); ?>:<br /></label>
+                    <input type="text" id="keyword" name="q" value="<?php echo $this->keywords; ?>" />
+                </p>
+                
+                <p class="submit"><input type="submit" value="<?php echo $this->translate('Search'); ?>" /></p>
+            </form>
+            <p style="right:430px;top:5px;position:absolute;color:black !important;font-size:16px;font-weight: bold;">
+                <a  href="<?php echo $this->search_url; ?>"><img  style="padding-bottom:10px" src="data/images/buscar.png" alt="" /></a>            
+            </p>
 
             
             <!--form action="<?php echo $this->search_action_advanced; ?>" method="get" class="search">
@@ -298,7 +298,7 @@ if (!$this->is_loged)
             </script>
 
             <div id='headerBienve'>
-                <img alt="" src="data/images/bienve.png" width="358px" height="100px">
+                <img alt="" src="data/images/bienve2.png" width="368px" height="200px">
             </div>
 
 
@@ -313,7 +313,7 @@ if (!$this->is_loged)
                     <?php if ($enable_slider)
                     { ?>
                 <div class='headerValores'>
-                    <img alt="" src="data/images/barra_valores.png" width="1315" height="14">
+                    <img alt="" src="data/images/barra_valores2.png" width="1315" height="14">
                 </div>
                 <div class='headerClaim'>
                     <!--

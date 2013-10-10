@@ -316,7 +316,7 @@
                             <label for="id_activate_0"><input <?php echo ($this->activate == '1' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="1" id="id_activate_0"> <?php echo $this->translate('Activate'); ?></label>
                             <label for="vacio" style="width:120px;"></label>
                             <label for="id_activate_1"><input <?php echo ($this->activate == '0' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="0" id="id_activate_1"> <?php echo $this->translate('Deactivate'); ?></label>
-                        <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Edit');?></a>                            
+                        <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;margin-left: -35px;" ><?php echo $this->translate('Edit');?></a>                            
                         </div>
                     </li>  
 
@@ -1206,16 +1206,17 @@ $(document).ready(function(){
         		$("#selectBox-Category3").show();
                 	$("#selectBox-dropdown-menu-Category3").hide();
                     }
-                    
+                  
+                  /*
 		$(".cats-typeuser").bind('click',function(event){
                             event.preventDefault();
                             var self  = $(this);
                		appendElementInMain(self);
 		});
+                */    
                     
-                    
-		//$(".master").unbind('click').bind('click',function(event){
-                $(".master.typeuser").bind('mouseenter',function(event){
+		$(".master").unbind('click').bind('click',function(event){
+                //$(".master.typeuser").bind('mouseenter',function(event){
 			event.preventDefault();
 
 			var children  = $(this).find($('ul'));
@@ -1273,17 +1274,20 @@ $(document).ready(function(){
 	
         $(".morelocations").bind('click',function(event){
 		event.preventDefault();
-                if ($("#latAux").val() != "")
+                if ($.trim($("#searchTextField2").val()) != "")
                 {
-                    var contador = $(".locationcounter").val();
-                    contador++;
-                    $(".locationcounter").val(contador) ;
-                    $(".locations").html($(".locations").html() + "<label></label><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'><br/>");
-                    $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
-                    $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
-                    $("#searchTextField2").val("");
-                    $("#latAux").val("");
-                    $("#lenAux").val("");
+                    if ($("#latAux").val() != "")
+                    {
+                        var contador = $(".locationcounter").val();
+                        contador++;
+                        $(".locationcounter").val(contador) ;
+                        $(".locations").html($(".locations").html() + "<label></label><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'><br/>");
+                        $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
+                        $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
+                        $("#searchTextField2").val("");
+                        $("#latAux").val("");
+                        $("#lenAux").val("");
+                    }
                 }
                 //initialize();
         });
@@ -1305,14 +1309,17 @@ $(document).ready(function(){
         });
 
         $("#searchTextField2").bind('focusout',function(event){
+            $('.morelocations').attr('disabled', true).addClass('disabled');
             GLoad();
         });
         
         $("#searchTextField2").change(function() {
+            $('.morelocations').attr('disabled', true).addClass('disabled');
             GLoad();
         });
 
         $("#searchTextField2").blur(function() {
+            $('.morelocations').attr('disabled', true).addClass('disabled');
             GLoad();
         });
         
@@ -1527,9 +1534,24 @@ var map;
                 }
 
                   pausecomp(201);
+                  cambiadisabled();
+                  
               });
               
             });  
+            
+
+function cambiadisabled()
+{
+
+ $(document).ready(function(){                                                   
+
+    $('.morelocations').attr('disabled', false).removeClass('disabled');            
+
+ }); 
+ 
+ }
+            
             
 function pausecomp(ms) {
         ms += new Date().getTime();

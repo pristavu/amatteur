@@ -71,6 +71,28 @@ class ToppinsController extends JO_Action {
 //		if((int)JO_Session::get('user[user_id]')) {
 //			$data['following_users_from_user_id'] = JO_Session::get('user[user_id]');
 //		}
+                $category_id = $request->getRequest('category_id');
+		$category_info = Model_Categories::getCategory($category_id);
+		
+		if($category_info && !$category_info['parent_id']){
+			$subCats = Model_Categories::getSubcategories($category_id);
+			if($subCats){
+				
+				$category_id = '';
+				foreach($subCats as $sc){
+						$category_id.= $sc['category_id'].",";
+				}
+				
+				$category_id = substr($category_id,0,-1);
+			}
+			
+		}
+		
+		if(!$category_info) {
+			$category_info["title"]="Todo";
+		}
+		
+		$this->view->category = $category_info;
 		
 		
 		$this->view->pins = '';

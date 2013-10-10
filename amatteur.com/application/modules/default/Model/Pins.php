@@ -757,6 +757,7 @@ class Model_Pins {
 			}
 		}
 		
+                
 		if(isset($data['sub_cats']) && $data['sub_cats']){
 			echo "OK";exit;
 		}
@@ -771,7 +772,11 @@ class Model_Pins {
 			$query = $db->select()
 					->from('pins', array('pins.*', 'gift' => new JO_Db_Expr('pins.price > 0.0000')));
 		}
-					
+		
+		if(isset($data['filter_category_id']) && $data['filter_category_id']) {
+			$query->where('category_id = ?', (string)$data['filter_category_id']);
+		}
+                
 		$query = self::FilterBuilder($query, $data);
 
 
@@ -805,6 +810,7 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
+                error_log("Query". $query);
 //echo $query.'<hr />';
 		$results = $db->fetchAll($query);
 		$results_array = array();

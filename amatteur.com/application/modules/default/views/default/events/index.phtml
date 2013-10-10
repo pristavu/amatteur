@@ -1,61 +1,95 @@
-<?php echo $this->header_part; ?>
+﻿<?php echo $this->header_part; ?>
 
-<div id="panel">
-	<h3 class="maintitle"><?php echo $this->translate('Complete your registration');?></h3>
-	
-	<?php if($this->error) { ?>
-	<div class="error-box">
-		<?php echo $this->error;?>
-	</div>
-	<?php } ?>
-	
-	
-	<form action="" method="post" class="edit">
-	
-		<?php if(JO_Registry::get('enable_free_registration')) { ?>
-		<div class="social_buttons register">
-			<?php if($this->fb_register) { ?>
-	        <div class="inset">
-	            <a class="fb login_button" href="<?php echo $this->fb_register;?>">
-	                <span class="logo_wrapper"><span class="logo"></span></span>
-	                <span><?php echo $this->translate('Register with Facebook');?></span>
-	            </a>
-	        </div>
-	        <?php } ?>
-	        <?php /*if($this->instagram_register) { ?>
-	        <div class="inset">
-	            <a class="is login_button" href="<?php echo $this->instagram_register;?>">
-	                <span class="logo_wrapper"><span class="logo"></span></span>
-	                <span><?php echo $this->translate('Register with Instagram');?></span>
-	            </a>
-	        </div>
-	        <?php }*/ ?>
-	        <div class="clear"></div>
-	    </div>
-		<?php } ?>
-	
-		<p class="input">
-			<label for="email"><?php echo $this->translate('Email');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="email" id="email" value="<?php echo $this->email;?>" /></span>
-			<span class="addtext"><?php echo $this->translate('Not shown publicly');?></span>
-		</p>
-		<p class="input">
-			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname;?>" /></span>
-                        <span class="addtext"><?php echo $this->translate('En caso de empresa, nombre de la misma');?></span>
-		</p>
-		<!--p class="input">
-			<label for="lastname"><?php echo $this->translate('Last name');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="lastname" id="lastname" value="<?php echo $this->lastname;?>" /></span>
-		</p-->
-                <input type="hidden" name="lastname" id="lastname" value="" />
-		<p class="input">
-			<label for="username"><?php echo $this->translate('Username');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="username" id="username" value="<?php echo $this->username;?>" /></span>
-			<span class="addtext"><?php echo $this->baseUrl;?>username</span>
-		</p>
-		<div class="hr"></div>
+<div id="detail" class="editprofile">       
+	<div id="view-profile">
+		
+
+		<form name="profileEdit" accept-charset="utf-8" method="post" action="" class="Form StaticForm" id="profileEdit">
+
+            <h3><?php echo $this->translate('Edit Profile');?></h3>
+
+            <ul>
+
+                <!-- Email -->
+                <li>
+                    <label for="id_email"><?php echo $this->translate('Email');?></label>
+                    <div class="Right">
+                        <input type="text" id="id_email" value="<?php echo $this->user_data['new_email'];?>" name="email">
+                        <span class="help_text"><?php echo $this->translate('Not shown publicly');?></span>
+                        
+                        
+                    </div>
+                </li>
+
+                <!-- Notifications -->
+                <li>
+                <label><?php echo $this->translate('Notifications');?></label>
+                    <div class="Right">
+                        <p class="pad"><a class="Button WhiteButton Button18" href="<?php echo $this->prefs_action;?>"><strong><?php echo $this->translate('Change Email Settings');?></strong><span></span></a></p>
+                    </div>
+                </li>
+
+                <!-- Password -->
+                <li>
+                <label><?php echo $this->translate('Password');?></label>
+                    <div class="Right">
+                        <p class="pad"><a class="Button WhiteButton Button18" href="<?php echo $this->new_password;?>"><strong><?php echo $this->translate('Change Password');?></strong><span></span></a></p>
+                    </div>
+                </li>
+
+                <!-- First Name -->
+                <li>
+                    <label for="id_first_name"><?php echo $this->translate('First Name');?></label>
+                    <div class="Right">
+                        <input type="text" id="id_first_name" value="<?php echo $this->user_data['firstname'];?>" name="firstname">
+                        <span class="help_text"><?php echo $this->translate('En caso de empresa, nombre de la misma');?></span>
+                    </div>
+                </li>
+
+                <!-- Last Name -->
+                <!--li>
+                    <label for="id_last_name"><?php echo $this->translate('Last Name');?></label>
+                    <div class="Right">
+                        
+                        <input type="text" id="id_last_name" value="<?php echo $this->user_data['lastname'];?>" name="lastname">
+                    </div>
+                </li-->
+
+                <!-- Username -->
+                <li>
+                    <label for="id_username"><?php echo $this->translate('Username');?></label>
+                    <div class="Right">
+                        <input type="text" id="id_username" value="<?php echo $this->user_data['username'];?>" name="username">
+                        <span class="help_text username_available"><?php echo $this->base_href;?>username</span>
+                        
+                    </div>
+                </li>
+
+                <!-- Gender -->
+                <li>
+                    <label for="id_gender_0"><?php echo $this->translate('Gender');?></label>
+                    <div id="genderOptions" class="Right">
+                        <ul>
+							<li><label for="id_gender_0"><input <?php echo ($this->user_data['gender'] == 'male' ? 'checked="checked"' : '');?> type="radio" name="gender" value="male" id="id_gender_0"> <?php echo $this->translate('Male');?></label></li>
+							<li><label for="id_gender_1"><input <?php echo ($this->user_data['gender'] == 'female' ? 'checked="checked"' : '');?> type="radio" name="gender" value="female" id="id_gender_1"> <?php echo $this->translate('Female');?></label></li>
+							<li><label for="id_gender_2"><input <?php echo ($this->user_data['gender'] == 'unspecified' ? 'checked="checked"' : '');?> type="radio" name="gender" value="unspecified" id="id_gender_2"> <?php echo $this->translate('Unspecified');?></label></li>
+						</ul>
+                        
+                    </div>
+                </li>
+
+                <!-- About -->
+                <li>
+                    <label for="id_about"><?php echo $this->translate('About');?></label>
+                    <div class="Right">
+                        <textarea name="description" cols="54" rows="3" id="id_about"><?php echo $this->user_data['description'];?></textarea>
+                        <div id="aboutCount" class="CharacterCount"></div>
+                        
+                    </div>
+                </li>
+
        
+            
     <div id="create-board" class="Form StaticForm" style="padding-left:0px;" >
             <ul style="margin:0px;">
                 
@@ -94,24 +128,23 @@
                         <input type='hidden' id='user_typeId' name='type_user' value = '<?php echo $this->type_user;?>'/>
 
                     </div>
-                </li>
+                </li>  
                 
                 <!-- Deportes -->
-                
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
                     <div class="Right" id='catList'>
-                        <a id="moresports" onclick="deportes()"  class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
+                        <a id="moresports" href="<?php echo $this->deportes;?>" class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
                         <br/><br/>
-                        <div id="divSports" name="divSports" >
+                        <div id="divSports">
                         	<?php foreach($this->user_sports as $user_sport) {  ?>
                                 <?php  echo trim($user_sport); ?><br/>
                                 <?php     } ?>
-                            
+                                
                             <input id="sports" class="sports" name="sports" type="hidden" value="<?php foreach($this->user_sports as $user_sport) {  echo trim($user_sport); break; } ?>" />
                         </div>
                     </div>
-                    <span class="addtext" style="float:right"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>                    
+                    <span class="help_text"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>
                 </li>
                 
                 <!--li style="border:0px">
@@ -135,7 +168,6 @@
                                                 <a data-id='<?php echo 1; ?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo "Todo"; ?></a>
                                                 <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
                                                 <?php } ?>
-
                         			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo $category['title']?></a>
                         			<?php if($category['subcategories']){?>
                         				<ul class='subcats hidden'>
@@ -149,11 +181,10 @@
                         		</li>
                         	<?php }?>
                         </ul>
-                        
+                        <span class="help_text"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>
                         <input type='hidden' id='catId1' name='sport_category_1' value = '<?php echo $this->sport_category_1;?>'/>
                       
                     </div>
-                    <span class="addtext" style="float:right"><?php echo $this->translate('Elegir por lo menos un deporte o categoría');?></span>
                 </li>
 
                 <li style="border:0px">
@@ -177,7 +208,7 @@
                                                 <a data-id='<?php echo 1; ?>' href="" class='cats-category2' style='color:#AAA;' ><?php echo "Todo"; ?></a>
                                                 <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
                                                 <?php } ?>
-
+                                           
                         			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category2' style='color:#AAA;' ><?php echo $category['title']?></a>
                         			<?php if($category['subcategories']){?>
                         				<ul class='subcats hidden'>
@@ -212,7 +243,6 @@
                          </a>
                          
                          <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category3' style='display:none;overflow-x: hidden;width: 370px;'>
-                         
                         	<?php $i=0; foreach($this->categories as $category) { ?>
                         		<li  class = 'master cat3' style='border:none !important' >
                                                 <?php if ($i==0) { $i=1; ?>
@@ -231,8 +261,7 @@
                         			<?php }?>
                         		</li>
                         	<?php }?>
-                        </ul>
-                        
+                         </ul>
                         <input type='hidden' id='catId3' name='sport_category_3' value = '<?php echo $this->sport_category_3;?>'/>
                       
                     </div>
@@ -240,94 +269,425 @@
 
             </ul>
         </div>  
-        <!--br/><br/><br/--><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
-        <!--  Location -->
-		<p class="input">
-			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
-			<span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
-                        <span class="addtext"><?php echo $this->translate('Campo obligatorio para los usuario profesional (Otros)');?></span>
-                        <br/><br/><br/><br/><br/><br/><br/>
+        <!--br/><br/><br/><br/--><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+                <!-- Location -->
+                <li>
+                    <label for="id_location"><?php echo $this->translate('Location');?></label>
+                    <div class="Right">
+                        <input type="text" id="searchTextField" value="<?php echo $this->user_data['location'];?>" name="location">
+                        <span class="help_text"><?php echo $this->translate('Campo obligatorio para usuario profesional (Otros)');?></span>
+                    </div>
                             <input type="hidden" name="lat" class="lat" id="lat" />
                             <input type="hidden" name="len" class="len" id="len" />
-                        </p>
-                        <div id="map-canvas" style="display:none !important"></div>
-                <!-- More Location -->
-                <p class="input">
-                    <input type='hidden' id="locationcounter" name="locationcounter"  class="locationcounter" value="<?php echo $this->locationcounter; ?>"/>
-                    <label><?php echo $this->translate('Añadir ubicación');?>&nbsp;<a id="morelocations" href="" class="Button RedButton morelocations" style="margin-top:0px;" ><?php echo $this->translate('Añadir');?></a></label>
                     
-                    <span class="field"><input type="text" id="searchTextField2" value="" name="locationAux" class="locationAux"></span>
-                    <span class="addtext" style="float:left"><?php echo $this->translate('Pulsa añadir después de buscar la ubicación');?></span>  
-                    <br/><br/><br/><br/><br/><br/><br/>        
+                </li>
+    <div id="map-canvas" style="display:none !important"></div>
+                <!-- More Location -->
+                <li>
+                    <input type='hidden' id="locationcounter" name="locationcounter"  class="locationcounter" value="<?php echo $this->locationcounter; ?>"/>
+                    <label><?php echo $this->translate('Añadir ubicación');?></label>
+                    <div class="Right">
+                        <input type="text" id="searchTextField2" value="" name="location2">
+                        <a id="morelocations" href="" class="Button RedButton morelocations " style="margin-top:0px;" ><?php echo $this->translate('Añadir');?></a>
+                        <span class="help_text"><?php echo $this->translate('Pulsa añadir después de buscar la ubicación');?></span>
+                    </div>
                     <input type="hidden" name="latAux" class="latAux" id="latAux" />
                     <input type="hidden" name="lenAux" class="lenAux" id="lenAux" />
-                    
-                </p>
-
-                    <span class="locations ">
+                    <div class="locations Right">
                         <?php $i=0; foreach($this->user_location as $users_location) { ?>
                         <?php $i++; ?>
-                            <p class="input"><label></label><span class="field"><input type='text' value='<?php echo $users_location; ?>' name='<?php echo "location".$i; ?>'></span></p>
+                            <label></label><input type='text' value='<?php echo $users_location; ?>' name='<?php echo "location".$i; ?>'><br/>
                         <?php } ?>
-                    </span>
-    
-		<p class="input">
-			<label for="password"><?php echo $this->translate('Password');?> <br class="hide" /></label>
-			<span class="field"><input type="password" name="password" id="password" value="<?php echo $this->password;?>" /></span>
-		</p>
-		<p class="input">
-			<label for="password2"><?php echo $this->translate('Confirm password');?> <br class="hide" /></label>
-			<span class="field"><input type="password" name="password2" id="password2" value="<?php echo $this->password2;?>" /></span>
-		</p>
-		<div class="hr"></div>
-		
-			<label for="tc"><?php echo sprintf($this->translate('I agree with the %s terms and conditions %s'),"<a href='' class='tcLink'>","</a>");?> <br class="hide" /></label>
-			<span class="" style='text-align:left'><input type='checkbox' id='tc'></span>
-		
-		<div class="hr"></div>
-		<p class="submit"><input type="submit" value="<?php echo $this->translate('Save Profile');?>" name="register" /></p>
-	</form>
-</div>
+                        <?php $i=0; foreach($this->user_lat as $users_lat) { ?>
+                        <?php $i++; ?>
+                            <input type="hidden" name='<?php echo "lat".$i; ?>' class='<?php echo "lat".$i; ?>' id='<?php echo "lat".$i; ?>' value='<?php echo $users_lat; ?>'/>
+                        <?php } ?>
+                        <?php $i=0; foreach($this->user_len as $users_len) { ?>
+                        <?php $i++; ?>
+                            <input type="hidden" name='<?php echo "len".$i; ?>' class='<?php echo "len".$i; ?>' id='<?php echo "len".$i; ?>' value='<?php echo $users_len; ?>' />
+                        <?php } ?>
+                    </div>
+                </li>
+        
+                    <!-- Activate -->
+                    <li>
+                        <label for="id_activate"><?php echo $this->translate('Activate'); ?></label>
+                        <div id="activateOptions" class="">
+                            <label for="id_activate_0"><input <?php echo ($this->activate == '1' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="1" id="id_activate_0"> <?php echo $this->translate('Activate'); ?></label>
+                            <label for="vacio" style="width:120px;"></label>
+                            <label for="id_activate_1"><input <?php echo ($this->activate == '0' ? 'checked="checked"' : ''); ?> type="radio" name="activate" class="activate" value="0" id="id_activate_1"> <?php echo $this->translate('Deactivate'); ?></label>
+                        <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Edit');?></a>                            
+                        </div>
+                    </li>  
 
-<script type='text/javascript'>
-	$(document).ready(function(){
-		$('form').on('submit',function(event){
-			if(!$('#tc').is(':checked')){
-				event.preventDefault();
-				$("#tc").parent().append("<br/><p class='warn' style='color:red'><?php echo $this->translate('Please agree with terms and conditions')?></p>")
-			}
-		});	
+                <!-- Website -->
+                <li>
+                    <label for="id_website"><?php echo $this->translate('Website');?></label>
+                    <div class="Right">
+                        <input type="text" id="id_website" value="<?php echo $this->user_data['website'];?>" name="website">
+                        
+                    </div>
+                </li>
 
-		$("#tc").click(function(){
-			if($(this).is(':checked')){
-				$(".warn").remove();
-			}
-		});
-                $("#moresports").click(function(){
-                    var locationcounter = $('#locationcounter').val();
-                    var locations = '&locationcounter='+ $('#locationcounter').val();
-                    var k = 0;
-                    for(var i = 1; i <= locationcounter; i++)
-                    {
-                        if ($.trim($('#location' + i).val()) != "")
-                        {
-                            k++;
-                            locations += '&location'+ k + '='+ $('#location' + i).val();
-                        }
-                    }                    
-                    window.location.href = '<?php echo $this->deportes;?>?email=' + $('#email').val() + 
-                        '&firstname=' + $('#firstname').val() + '&username=' + $('#username').val() + 
-                        /*'&password=' + $('#password').val() + '&password2=' + $('#password2').val() + */
-                        '&location=' + $('.location').val() + '&type_user=' + $('#user_typeId').val() + 
-                        locations;
-                });
-	
-	});
-</script>
-    
+                <!-- Image -->
+                <li>
+                    <label for="id_img"><?php echo $this->translate('Image');?></label>
+                    <div class="Right">
+                        
+                        <div class="current_avatar_wrapper">
+                          <img src="data/images/ajax-loader.gif" class="spinner" alt="<?php echo $this->translate('Loading...');?>" style="display: none;">
+                          <img alt="Current profile picture" class="current_avatar floatLeft" src="<?php echo $this->user_data['avatar'];?>">
+                        </div>
 
+                        <div style="padding-left: 12px;" class="floatLeft NoInput">
+                            <a class="floatLeft Button WhiteButton Button18 change_avatar" href="#"><strong><?php echo $this->translate('Upload an Image');?></strong><span></span></a>
+                            
+                            <div class="clear"></div>
+                            <?php if($this->facebook_enable) { ?>
+                            <br />
+                            
+                            <a class="floatLeft Button WhiteButton Button18 link_account refresh_user_image <?php echo (!$this->user_data['facebook_connect'] ? 'hide' : '');?>"><strong> <?php echo $this->translate('Refresh from Facebook');?></strong><span></span></a>
+                            
+                            <div class="clear"></div>
+                            <?php } ?>
+                        </div>
+                    </div>
+                </li>
+				
+				<?php if($this->facebook_enable) { ?>
+                <!-- Facebook -->
+                <li class="NoInput">
+                <label><?php echo $this->translate('Facebook');?></label>
+                    <div class="Right NoInput">
+                        <label for="facebook_connect" class="large">
+                            <input type="checkbox" id="facebook_connect" <?php echo ($this->user_data['facebook_connect'] ? 'checked="checked"' : '');?> /> <?php echo $this->translate('Link to Facebook');?>
+                        </label>
+                        <div class="clear"></div>
+                        
+                            <label for="facebook_timeline" class="large <?php echo (!$this->user_data['facebook_connect'] ? 'hide' : '');?>">
+                                <input type="checkbox" id="facebook_timeline" <?php echo ($this->user_data['facebook_connect'] ? '' : 'disabled="disabled"');?> <?php echo ($this->user_data['facebook_connect'] && $this->user_data['facebook_timeline'] ? 'checked="checked"' : '');?> name="facebook_timeline" /> <?php echo $this->translate('Add to Facebook Timeline');?>
+                            </label>
+                            <p id="find_facebook_friends"><a class="Button WhiteButton Button18 link_account <?php echo (!$this->user_data['facebook_connect'] ? 'hide' : '');?>" href="<?php echo $this->invites_fb;?>"><strong><?php echo sprintf($this->translate('Find Facebook Friends on %s'), $this->site_name);?></strong><span></span></a></p>
+                        
+                    </div>
+                </li>
+                <?php } ?>
+
+				<?php if($this->twitteroauth_enable) { ?>
+                <!-- Twitter -->
+                <li class="NoInput">
+                  <label><?php echo $this->translate('Twitter');?></label>
+                    <div class="Right NoInput">
+                        <label for="twitter_connect" class="large">
+                            <input type="checkbox" id="twitter_connect" <?php echo ($this->user_data['twitter_connect'] ? 'checked="checked"' : '');?> /> <?php echo $this->translate('Link to Twitter');?>
+                        </label>
+			
+                    </div>
+                </li>
+				<?php } ?>
+
+				<?php if($this->instagram_enable) { ?>
+                <!-- Twitter -->
+                <li class="NoInput">
+                  <label><?php echo $this->translate('Instagram');?></label>
+                    <div class="Right NoInput">
+                        <label for="instagram_connect" class="large">
+                            <input type="checkbox" id="instagram_connect" <?php echo ($this->user_data['instagram_connect'] ? 'checked="checked"' : '');?> /> <?php echo $this->translate('Link to Instagram');?>
+                        </label>
+                        <div class="clear"></div>
+                        
+                        <p id="instagram_fetch"<?php if(!$this->user_data['instagram_connect']) { ?> class="hide"<?php } ?>><a class="Button WhiteButton Button18 link_account <?php echo (!$this->user_data['instagram_connect'] ? 'hide' : '');?>" href="<?php echo $this->instagram_fetch;?>"><strong><?php echo sprintf($this->translate('Fetch media from Instagram on %s'), $this->site_name);?></strong><span></span></a></p>
+                        
+                    </div>
+                </li>
+				<?php } ?>
+
+                <!-- Search Index -->
+                <li>
+                    <label for="id_dont_search_index"><?php echo $this->translate('Hide');?></label>
+                    <div class="Right NoInput">
+                        <label for="id_dont_search_index" class="large">
+                            <input type="checkbox" id="id_dont_search_index" name="dont_search_index" <?php echo ($this->user_data['dont_search_index'] ? 'checked="checked"' : '');?> /> <?php echo $this->translate('Hide your profile from search engines');?>
+                        </label>
+                    </div>
+                </li>
 
                 
+  
+
+
+                <!-- Delete -->
+                <li class="Delete">
+                <label><?php echo $this->translate('Delete');?></label>
+                    <div class="Right">
+                        
+                        <p class="pad"><a name="delete_user_account" class="Button WhiteButton Button18" id="delete_user_account" href="#"><strong><?php echo $this->translate('Delete Account');?></strong><span></span></a></p>
+                        <div id="DeleteForm">
+                          <?php echo $this->delete_account;?>
+							<br> 
+							<p><?php echo $this->translate('If you want to permanently delete your account, please click the checkbox below:');?></p>
+                          <div id="DeleteDecision">
+                              <input type="checkbox" id="enable_button"><label for="enable_button">
+                                  <?php echo $this->translate('Yes, I want to delete my boards and pins permanently.');?></label>
+                          </div>
+
+                          <a class="Button WhiteButton RedButton DeleteButton Button18 disabled" id="delete_user_account_confirm" href="<?php echo $this->delete_username;?>"><strong><?php echo $this->translate('Delete My Account');?></strong><span></span></a>
+                          <a id="ChangeOfHeart" href="#"><?php echo $this->translate('I\'ve changed my mind!');?></a>
+                        </div>
+                    </div>
+                </li>
+
+            </ul>
+
+            <!-- Button -->
+            <div class="Submit">
+                <a onclick="$('#profileEdit').submit(); return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit" href="#"><strong><?php echo $this->translate('Save Profile');?></strong></a>
+            </div>
+        </form>		
+
+    
+    </div>
+    
+    <div class="clear"></div>    
+</div>
+
+
+<?php ob_start();?>
+<script type="text/javascript"><!--
+$(document).ready(function(){
+
+	new AjaxUpload($('.StaticForm a.change_avatar'), {
+		action: '<?php echo $this->form_action;?>',
+		name: 'file',
+		autoSubmit: true,
+		responseType: 'json',
+		onSubmit: function(file, extension) {
+			$(".current_avatar_wrapper .spinner").show().css({opacity: 1});
+			$(".current_avatar_wrapper .current_avatar").hide();
+		},
+		onComplete: function(file, json) {
+			if (json.error) {
+				Pins.error(json.error);
+				$('.current_avatar_wrapper .current_avatar').show();
+				$(".current_avatar_wrapper .spinner").hide().css({opacity: 0});
+			} else if (json.success) {
+				var image = new Image();
+				image.src = json.success;
+				image.onload = function(){
+					$('.current_avatar_wrapper .current_avatar').attr('src', image.src).show();
+					$(".current_avatar_wrapper .spinner").hide().css({opacity: 0});
+				}
+				image.onerror = function(){
+					$('.current_avatar_wrapper .current_avatar').show();
+					$(".current_avatar_wrapper .spinner").hide().css({opacity: 0});
+				}
+			}
+		}
+	});
+
+	$('#id_dont_search_index').switcherSlider({
+		text: {
+			on: '<?php echo $this->translate('ON');?>',
+			off: '<?php echo $this->translate('OFF');?>'
+		}
+	});
+
+	
+
+	<?php if($this->twitteroauth_enable) { ?>
+	$('#twitter_connect').switcherSlider({
+		text: {
+			on: '<?php echo $this->translate('ON');?>',
+			off: '<?php echo $this->translate('OFF');?>'
+		},
+		onSwitch: twitter_connect
+	});
+
+	function twitter_connect(item) {
+		$.post('<?php echo $this->twitter_connect;?>', {twitter_connect: (item.checked?'on':'off')}, function(data){
+
+			if(data.connected) {
+				if(data.connected != (item.checked?'on':'off')) {
+					$('#twitter_connect').switcherSlider( data.connected ? 'on_without_callback' : 'off_without_callback' );
+				}
+
+				
+				if(data.connected == 'on') {
+					window.location.reload();
+				}
+			} else if(data.login) {
+				window.location = data.login;
+			} else if(data.error) {
+				Pins.error(data.error);
+			}
+		},'json');
+	}
+	<?php } ?>
+
+	<?php if($this->instagram_enable) { ?>
+	$('#instagram_connect').switcherSlider({
+		text: {
+			on: '<?php echo $this->translate('ON');?>',
+			off: '<?php echo $this->translate('OFF');?>'
+		},
+		onSwitch: instagram_connect
+	});
+
+	function instagram_connect(item) {
+		$.post('<?php echo $this->instagram_connect;?>', {instagram_connect: (item.checked?'on':'off')}, function(data){
+
+			if(data.connected) {
+				if(data.connected != (item.checked?'on':'off')) {
+					$('#instagram_connect').switcherSlider( data.connected ? 'on_without_callback' : 'off_without_callback' );
+				}
+
+				if(data.connected == 'on') {
+					$('#instagram_fetch').show();
+				} else {
+					$('#instagram_fetch').hide();
+				}
+			} else if(data.login) {
+				window.location = data.login;
+			} else if(data.error) {
+				Pins.error(data.error);
+			}
+		},'json');
+	}
+
+	/*$('#instagram_fetch a').click(function(){
+		var element = $(this);
+		$.get('<?php echo $this->instagram_fetch_cron;?>', function(){
+			window.location = element.attr('href');
+		});
+		return false;
+	});*/
+	<?php } ?>
+
+	<?php if($this->facebook_enable) { ?>
+	$('#facebook_connect').switcherSlider({
+			text: {
+				on: '<?php echo $this->translate('ON');?>',
+				off: '<?php echo $this->translate('OFF');?>'
+			},
+			onSwitch: facebook_connect
+	});
+
+	function facebook_connect(item) {
+		$.post('<?php echo $this->facebook_connect;?>', {facebook_connect: (item.checked?'on':'off')}, function(data){
+
+			if(data.connected) {
+				if(data.connected != (item.checked?'on':'off')) {
+					$('#facebook_connect').switcherSlider( data.connected ? 'on_without_callback' : 'off_without_callback' );
+				}
+
+				
+				if(data.connected == 'on') {
+					window.location.reload();
+				} else {
+					$('label[for=facebook_timeline], #find_facebook_friends, a.refresh_user_image').hide();
+				}
+			} else if(data.login) {
+				window.location = data.login;
+			} else if(data.error) {
+				Pins.error(data.error);
+			}
+		},'json');
+	}
+
+
+	$('#facebook_timeline').switcherSlider({
+		text: {
+			on: '<?php echo $this->translate('ON');?>',
+			off: '<?php echo $this->translate('OFF');?>'
+		},
+		onSwitch: function(item){
+			if(item.checked) {
+				Facebook.startFacebookConnect("<?php echo $this->facebook_connect2;?>","publish_actions", true, true, "<?php echo $this->facebook_connect2;?>");
+			} else {
+				$.post('<?php echo $this->facebook_connect2;?>');
+			}
+		}
+	});
+	
+	<?php } ?>
+
+	$('#delete_user_account').click(function(){
+		$('#DeleteForm').show();
+		$(this).hide();
+		return false;
+	});
+
+	$('#ChangeOfHeart').click(function(){
+		$('#delete_user_account').show();
+		$('#DeleteForm').hide();
+		return false;
+	});
+
+	$('#enable_button').change(function(){
+		if($(this).is(':checked')) {
+			$('.StaticForm .RedButton.DeleteButton').removeClass('disabled');
+		} else {
+			$('.StaticForm .RedButton.DeleteButton').addClass('disabled');
+		}
+	}).change();
+
+	$('#id_about').jqEasyCounter({
+		holder: '#aboutCount',
+		maxChars: 200,
+		maxCharsWarning: 170,
+		template: '{count}'
+	});
+
+	$('a.refresh_user_image').click(function(){
+		$(".current_avatar_wrapper .spinner").show().css({opacity: 1});
+		$(".current_avatar_wrapper .current_avatar").hide();
+		$.post('<?php echo $this->facebook_connect_avatar;?>', function(json){
+			if (json.error) {
+				Pins.error(json.error)
+			} else if (json.success) {
+				var image = new Image();
+				image.src = json.success;
+				image.onload = function(){
+					$('.current_avatar_wrapper .current_avatar').attr('src', image.src).show();
+					$(".current_avatar_wrapper .spinner").hide().css({opacity: 0});
+				}
+				image.onerror = function(a){
+					$('.current_avatar_wrapper .current_avatar').show();
+					$(".current_avatar_wrapper .spinner").hide().css({opacity: 0});
+				}
+			} else {
+				$('.current_avatar_wrapper .current_avatar').show();
+				$(".current_avatar_wrapper .spinner").hide().css({opacity: 0});
+			}
+		}, 'json');
+	});
+
+	<?php if($this->successfu_edite) { ?>
+	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');
+	<?php } ?>
+	<?php if($this->error) { ?>
+	Pins.error('<?php echo $this->error;?>');
+	<?php } ?>
+
+	$('#enable_button').click(function(){
+		if($(this).is(':checked')) {
+			$('#delete_user_account_confirm').removeClass('disabled').unbind('click');
+		} else {
+			$('#delete_user_account_confirm').addClass('disabled').unbind('click').click(function(){ return false; });
+		}
+	});
+	
+	$('#delete_user_account_confirm').unbind('click').click(function(){ return false; });
+
+	$('#id_username').checkAvailable({
+		'url' : '<?php echo $this->check_username;?>',
+		'holder': '.help_text.username_available'
+	});
+	
+});
+//--></script>
+<?php $this->placeholder('inhead', ob_get_clean());?>
+
 <script type="text/javascript">
 $(document).ready(function(){
 	$('#category_id-select<?php echo ($this->is_edit?'-edit':'');?>').selectBox({
@@ -528,253 +888,8 @@ $(document).ready(function(){
 
 		
 	});
-
-	$("#selectBox-Category1").bind('click',function(event){
-		$('ul.hidden').hide();
-		event.preventDefault();
-		$("#selectBox-Category1").hide();
-		$("#selectBox-dropdown-menu-Category1").show();
-
-		$(".master").unbind('click').bind('click',function(event){
-			event.preventDefault();
-
-			
-			var children  = $(this).find($('ul'));
-			if(children.hasClass('opened')){
-				children.hide().removeClass('opened');
-			
-				
-			}else{
-
-			$(".hidden").hide();
-			var self  = $(this);
-			children.addClass('opened');
-
-
-			if($(children).hasClass('hidden')){
-				try
-                                {
-                                    console.log("OK");
-                                }
-                                catch(e)
-                                {
-                                    if (window.console // check for window.console not console
-                                        && window.console.log)
-                                    {
-                                        window.console.log("OK");
-                                    }
-
-                                }
-				children.show();
-				children.find('li a').click(function(event){
-						event.preventDefault();
-						appendElementInMain($(this));
-						$(".hidden").hide();
-				});
-			}else{
-				
-				appendElementInMain(self.find($('a')));
-				
-			}
-
-			}
-		});
-	
-
-		function appendElementInMain(element){
-			$("#selectBox-dropdown-menu-Category1").hide();
-			$("#selectBox-Category1").show();
-			$("#selectBox-label-Category1").text(element.text());
-			$("#catId1").val(element.data("id"));
-			
-			}
-	});
-
-	$("#selectBox-Category2").bind('click',function(event){
-		$('ul.hidden').hide();
-		event.preventDefault();
-		$("#selectBox-Category2").hide();
-		$("#selectBox-dropdown-menu-Category2").show();
-
-		$(".master").unbind('click').bind('click',function(event){
-			event.preventDefault();
-
-			
-			var children  = $(this).find($('ul'));
-			if(children.hasClass('opened')){
-				children.hide().removeClass('opened');
-			
-				
-			}else{
-
-			$(".hidden").hide();
-			var self  = $(this);
-			children.addClass('opened');
-
-
-			if($(children).hasClass('hidden')){
-				try
-                                {
-                                    console.log("OK");
-                                }
-                                catch(e)
-                                {
-                                    if (window.console // check for window.console not console
-                                        && window.console.log)
-                                    {
-                                        window.console.log("OK");
-                                    }
-
-                                }
-				children.show();
-				children.find('li a').click(function(event){
-						event.preventDefault();
-						appendElementInMain($(this));
-						$(".hidden").hide();
-				});
-			}else{
-				
-				appendElementInMain(self.find($('a')));
-				
-			}
-
-			}
-		});
-	
-
-		function appendElementInMain(element){
-			$("#selectBox-dropdown-menu-Category2").hide();
-			$("#selectBox-Category2").show();
-			$("#selectBox-label-Category2").text(element.text());
-			$("#catId2").val(element.data("id"));
-			
-			}
-        });	
-        
-        $("#selectBox-Category3").bind('click',function(event){
-		$('ul.hidden').hide();
-		event.preventDefault();
-		$("#selectBox-Category3").hide();
-		$("#selectBox-dropdown-menu-Category3").show();
-
-		$(".master").unbind('click').bind('click',function(event){
-			event.preventDefault();
-
-			
-			var children  = $(this).find($('ul'));
-			if(children.hasClass('opened')){
-				children.hide().removeClass('opened');
-			
-				
-			}else{
-
-			$(".hidden").hide();
-			var self  = $(this);
-			children.addClass('opened');
-
-
-			if($(children).hasClass('hidden')){
-				try
-                                {
-                                    console.log("OK");
-                                }
-                                catch(e)
-                                {
-                                    if (window.console // check for window.console not console
-                                        && window.console.log)
-                                    {
-                                        window.console.log("OK");
-                                    }
-
-                                }
-				children.show();
-				children.find('li a').click(function(event){
-						event.preventDefault();
-						appendElementInMain($(this));
-						$(".hidden").hide();
-				});
-			}else{
-				
-				appendElementInMain(self.find($('a')));
-				
-			}
-
-			}
-		});
-	
-
-		function appendElementInMain(element){
-			$("#selectBox-dropdown-menu-Category3").hide();
-			$("#selectBox-Category3").show();
-			$("#selectBox-label-Category3").text(element.text());
-			$("#catId3").val(element.data("id"));
-			
-			}
-	});
-
-	$("#selectBox-TypeUser").bind('click',function(event){
-		$('ul.hidden').hide();
-		event.preventDefault();
-		$("#selectBox-TypeUser").hide();
-		$("#selectBox-TypeUser-dropdown-menu").show();
-
-		$(".master").unbind('click').bind('click',function(event){
-			event.preventDefault();
-
-			
-			var children  = $(this).find($('ul'));
-			if(children.hasClass('opened')){
-				children.hide().removeClass('opened');
-			
-				
-			}else{
-
-			$(".hidden").hide();
-			var self  = $(this);
-			children.addClass('opened');
-
-
-			if($(children).hasClass('hidden')){
-				try
-                                {
-                                    console.log("OK");
-                                }
-                                catch(e)
-                                {
-                                    if (window.console // check for window.console not console
-                                        && window.console.log)
-                                    {
-                                        window.console.log("OK");
-                                    }
-
-                                }
-				children.show();
-				children.find('li a').click(function(event){
-						event.preventDefault();
-						appendElementInMain($(this));
-						$(".hidden").hide();
-				});
-			}else{
-				
-				appendElementInMain(self.find($('a')));
-				
-			}
-
-			}
-		});
-	
-
-		function appendElementInMain(element){
-			$("#selectBox-TypeUser-dropdown-menu").hide();
-			$("#selectBox-TypeUser").show();
-			$("#selectBox-label-TypeUser").text(element.text());
-			$("#user_typeId").val(element.data("id"));
-			
-			}
-
-		
-	});
         */
+
 	$("#selectBox-dropdown-menu-Category1").bind('mouseleave',function(event){
         		$("#selectBox-Category1").show();
                 	$("#selectBox-dropdown-menu-Category1").hide();
@@ -1091,17 +1206,16 @@ $(document).ready(function(){
         		$("#selectBox-Category3").show();
                 	$("#selectBox-dropdown-menu-Category3").hide();
                     }
-                 
-                 /*
+                    
 		$(".cats-typeuser").bind('click',function(event){
                             event.preventDefault();
                             var self  = $(this);
                		appendElementInMain(self);
 		});
-                 */   
                     
-		$(".master").unbind('click').bind('click',function(event){
-                //$(".master.typeuser").bind('mouseenter',function(event){
+                    
+		//$(".master").unbind('click').bind('click',function(event){
+                $(".master.typeuser").bind('mouseenter',function(event){
 			event.preventDefault();
 
 			var children  = $(this).find($('ul'));
@@ -1143,7 +1257,7 @@ $(document).ready(function(){
 
 			}
 		});
-                
+  
 		function appendElementInMain(element){
 			$("#selectBox-TypeUser-dropdown-menu").hide();
 			$("#selectBox-TypeUser").show();
@@ -1156,24 +1270,20 @@ $(document).ready(function(){
 		
 	});
 
-          
-        
+	
         $(".morelocations").bind('click',function(event){
 		event.preventDefault();
-                if ($.trim($("#searchTextField2").val()) != "")
+                if ($("#latAux").val() != "")
                 {
-                    if ($("#latAux").val() != "")
-                    {
-                        var contador = $(".locationcounter").val();
-                        contador++;
-                        $(".locationcounter").val(contador) ;
-                        $(".locations").html($(".locations").html() + "<p class='input'><label></label><span class='field'><input type='text' value='" + $("#searchTextField2").val() + "' id='location" + contador + "' name='location" + contador + "'></span></p>");
-                        $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
-                        $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
-                        $("#searchTextField2").val("");
-                        $("#latAux").val("");
-                        $("#lenAux").val("");
-                    }
+                    var contador = $(".locationcounter").val();
+                    contador++;
+                    $(".locationcounter").val(contador) ;
+                    $(".locations").html($(".locations").html() + "<label></label><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'><br/>");
+                    $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
+                    $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
+                    $("#searchTextField2").val("");
+                    $("#latAux").val("");
+                    $("#lenAux").val("");
                 }
                 //initialize();
         });
@@ -1195,35 +1305,24 @@ $(document).ready(function(){
         });
 
         $("#searchTextField2").bind('focusout',function(event){
-            $('.morelocations').attr('disabled', true).addClass('disabled');
             GLoad();
-            //$('.morelocations').attr('disabled', false).removeClass('disabled');
         });
         
         $("#searchTextField2").change(function() {
-            $('.morelocations').attr('disabled', true).addClass('disabled');
             GLoad();
-            //$('.morelocations').attr('disabled', false).removeClass('disabled');            
         });
 
         $("#searchTextField2").blur(function() {
-            $('.morelocations').attr('disabled', true).addClass('disabled');
             GLoad();
-            //$('.morelocations').attr('disabled', false).removeClass('disabled');            
         });
-
-function cambiadisabled()
-{
-    $('.morelocations').attr('disabled', false).removeClass('disabled');            
-}
-
-$('#latAux').bind('myCustomEvent',function(){
-       alert('myCustomEvent');
-});
+        
+        
+        $(".deletelocations").bind('click',function(event){
+                event.preventDefault();
+                $( ".locations" ).remove();
+        });
         
 	return;
-	
-	
 });
 
 </script>
@@ -1258,6 +1357,28 @@ function initialize() {
   var marker = new google.maps.Marker({
     map: map
   });
+
+/*
+    var contador = $(".locationcounter").val();
+    alert(contador);
+    
+    for (var i=0; i <= contador; i++)
+    {
+        var locator = 'location' + i;
+        alert(locator + i);
+       input = /** @type {HTMLInputElement} *//*(document.getElementById(locator));
+       autocomplete = new google.maps.places.Autocomplete(input);
+
+      autocomplete.bindTo('bounds', map);
+
+      var infowindow = new google.maps.InfoWindow();
+      var marker = new google.maps.Marker({
+        map: map
+      });
+
+    }
+*/
+
 
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -1301,7 +1422,7 @@ function initialize() {
     infowindow.open(map, marker);
   });
 
-    GLoad();
+    GLoad(); 
   // Sets a listener on a radio button to change the filter type on Places
   // Autocomplete.
   function setupClickListener(id, types) {
@@ -1405,23 +1526,10 @@ var map;
                     }
                 }
 
-                cambiadisabled();
-                  //pausecomp(201);
-                  
+                  pausecomp(201);
               });
               
             });  
-
-function cambiadisabled()
-{
-
- $(document).ready(function(){                                                   
-
-    $('.morelocations').attr('disabled', false).removeClass('disabled');            
-
- }); 
- 
- }
             
 function pausecomp(ms) {
         ms += new Date().getTime();
@@ -1430,6 +1538,6 @@ function pausecomp(ms) {
             
 }
 
-    </script>    
+    </script>        
 
 <?php echo $this->footer_part; ?>

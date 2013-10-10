@@ -1,0 +1,22 @@
+<div class="ranking">
+
+    <div class='rankingPosition'>
+        <h3><span><?php echo $this->position; ?>º Puesto</span></h3>
+    </div>
+    <div class='rankingImageText'>        
+        <div class='rankingImageUser'>                
+            <!--a style="background-image: url(<?php echo $this->user['avatar']; ?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar']; ?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar']; ?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href']; ?>"></a-->
+            <a href="<?php echo $this->user['href']; ?>"><image src="<?php echo $this->user['avatar']; ?>" /></a>
+        </div>
+
+        <div class="rankingInfoUser">
+
+            <h4><a href="<?php echo $this->user['href']; ?>"><?php echo $this->user['fullname']; ?></a></h4>
+            <br/>
+            <div class="stats">
+                <h1><?php echo $this->user['likers']; ?> MeGusta</h1>
+            </div>
+
+        </div>
+    </div>        
+</div>

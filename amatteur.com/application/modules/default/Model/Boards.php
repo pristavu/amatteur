@@ -461,7 +461,11 @@ class Model_Boards {
 		if(isset($data['filter_id_in']) && $data['filter_id_in']) {
 			$query->where('board_id = ?', (string)$data['filter_id_in']);
 		}
-		
+
+		if(isset($data['filter_category_id']) && $data['filter_category_id']) {
+			$query->where('category_id = ?', (string)$data['filter_category_id']);
+		}
+                
 		if(isset($data['filter_title']) && $data['filter_title']) {
 			$query->where('boards.title LIKE ?', (string)$data['filter_title'] . '%');
 		}
