@@ -390,9 +390,9 @@ class UsersController extends JO_Action {
                 {
                     $this->view->has_messages = true;
                     foreach($messages AS $message) {
-						$avatar = Helper_Uploadimages::avatar( $message, '_A');
+                        $avatar = Helper_Uploadimages::avatar( $message, '_A');
                         $message['avatar'] = $avatar['image'];
-						$message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
+                        $message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' .  $message['user_id']);
                         $message['hrefDelete'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] .'&user_id=' . $user_data['user_id'] );
                         $message['hrefResponder'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=' . $message['message_id'] );
                         $this->view->message = $message;
@@ -427,11 +427,17 @@ class UsersController extends JO_Action {
                 $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
                 //$this->view->deportes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes');
 
+                $this->view->addMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=create');                
+		$this->view->stateMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=state');
+		$this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
+                
+                
                 $activate = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
 
                 if ($activate)
                 {
                     $this->view->userIsActivate = $activate["activate"];
+                    $this->view->userCanActivate = Model_Users::getUserTypeNotOthers($user_data['type_user']);
                 }
 
                 if(JO_Registry::get('isMobile'))

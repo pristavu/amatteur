@@ -44,6 +44,10 @@ class GiftsController extends JO_Action {
 		}
 		
 		$this->view->category = $category_info;
+                
+                $this->view->price_from = (int)$request->getRequest('price_from');
+		$this->view->price_to = (int)$request->getRequest('price_to');
+
 
                 
 		$this->view->pins = '';

@@ -810,7 +810,7 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-                error_log("Query". $query);
+//                error_log("Query". $query);
 //echo $query.'<hr />';
 		$results = $db->fetchAll($query);
 		$results_array = array();

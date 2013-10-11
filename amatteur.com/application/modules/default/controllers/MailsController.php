@@ -24,10 +24,16 @@ class MailsController extends JO_Action {
 	public function createAction() {
 		
 		$request = $this->getRequest();
+                
+                $this->view->user_activate = $request->getRequest('user_fullname');
+                
+                $this->view->user_id = $request->getRequest('user_id');
+                
 		$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=mails&action=create' );
 		$this->view->friends_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=mailfriends');
 		$this->view->popup_main_box = $this->view->render('popup_form','mails');
-		
+                
+
 		
 		if( $request->isPost() ) {
 			if( JO_Session::get('user[user_id]') ) {

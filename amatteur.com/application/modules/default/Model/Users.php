@@ -1311,7 +1311,8 @@ class Model_Users extends JO_Model {
 			$query->where('users.firstname LIKE ? OR CONCAT(firstname," ",lastname) LIKE ?', $data['filter_username'] . '%');
 		}
 		$query->group('users.user_id');
-//	    echo $query;
+                
+	    //echo "query " .$query;
 //	    exit;
 		return $db->fetchAll($query);
 	}
@@ -1754,7 +1755,15 @@ class Model_Users extends JO_Model {
 		$result = $db->fetchOne($sql);
 		return $result;
 	}
-	
+
+        function getUserTypeNotOthers($user_type_id){
+		$db = JO_Db::getDefaultAdapter();
+		$sql = "select user_type_id from user_type where user_type_id = {$user_type_id} AND parent_id = 2";
+		$result = $db->fetchOne($sql);
+		return $result;
+	}
+        
+        
 	public function getAge(){
 		$db  = JO_Db::getDefaultAdapter();
 		$query =  $db->select()->from('age',array('*'))->order('age.age_id ASC');

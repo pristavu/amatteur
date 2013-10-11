@@ -5,7 +5,6 @@
                 <li>
                     <label for="id_website"><?php echo $this->translate('Destinatario/s');?></label>
                     <div class="Right">
-                        
 					<div class="add_collaborators Right">
                         
         
@@ -56,7 +55,7 @@
             </div>
         </form>
 
-    
+    <input type="hidden" value='<?php echo $this->user_activate;?>' id="fullname" class="fullname" />
     </div>
     
     <div class="clear"></div>
@@ -64,10 +63,25 @@
 <script type="text/javascript">
 $(document).ready(function(){
 	
+        
 	$('input.collaborator_name').clearOnFocus();
 
+ 
+  	var cache = {};
+ 
+        if ($("#fullname").val() != "")
+        {
+            var val = $("#fullname").val();
+            $.post('<?php echo $this->friends_href;?>', {term: val}, function(data){
+                    cache[val] = data.users;
+                    autocompleteResults(data.users);
+                    $('.option_friends').trigger("click");
+            }, 'json');
+        }
+
+
 	
-	var cache = {};
+
 	$('.collaborator_name.ui-autocomplete-input').live('keyup', function(){
 		var val = this.value;
 		if(cache[val]) {
@@ -98,7 +112,6 @@ $(document).ready(function(){
 				if( $('#user_fr_'+item.value+'<?php echo ($this->is_edit?'-edit':'');?>').size() > 0 ) { return; }
 				$('input.collaborator_name').val('');
 				$('#invite_response<?php echo ($this->is_edit?'-edit':'');?>').append('<input id="hidden_user_fr_'+item.value+'<?php echo ($this->is_edit?'-edit':'');?>" type="hidden" name="friends['+item.value+']" value="'+item.value+'" />');
-
 				template = $('#friend-template<?php echo ($this->is_edit?'-edit':'');?>').html();
 				for(e in item) {
 					template = template.replace(new RegExp(RegExp.quote('{'+e+'}'), 'g'), item[e]);

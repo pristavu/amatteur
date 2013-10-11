@@ -43,7 +43,21 @@ class Model_Mails {
 		
 		return $db->fetchOne($query);
 	}
-	
+
+	public static function getTotalMailsSinLeer($data = array()) {
+		
+		$db = JO_Db::getDefaultAdapter();
+        
+			$query = $db
+					->select()
+					->from(array('m' => 'users_mails'), 'COUNT(m.mail_id)')
+					->joinLeft(array('t' => 'users_mails_to'), 'm.mail_id = t.mail_id')
+					->where('t.user_id = ?', (string)JO_Session::get('user[user_id]'));
+		
+		return $db->fetchOne($query);
+	}
+        
+        
 	public static function getMailConversation($mail_id) {
 		$db = JO_Db::getDefaultAdapter();
 		$query = $db

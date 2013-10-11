@@ -90,21 +90,22 @@
 		//Sacamos el total de mails sin leer del usuario
 		$totalmails=Model_Mails::getTotalMails(array('user_id' => JO_Session::get('user[user_id]')));
 	?>
-<div id="muestraMensajes" style="margin-top: 0px;margin-left: 0px;width: 100px;height: 0px;float: right;"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="18px" alt="<?php echo $this->translate('Mensajes'); ?>"/>&nbsp;<span style="color:#8C7E7E;font-weight: bold"><?php echo $this->translate('Mensajes'); ?></span></a></div>
+<div id="muestraMensajes" style="margin-top: 0px;margin-left: 0px;width: 100px;height: 0px;float: right;right:50px"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="18px" alt="<?php echo $this->translate('Mensajes'); ?>"/>&nbsp;<span style="color:#8C7E7E;font-weight: bold"><?php echo $this->translate('Mensajes'); ?></span></a></div>
     <?php
 		if ($totalmails>0)
 		{
-			echo '<div id="avisoMensajes">'.$totalmails.'</div>';
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:0px;left:24px;margin-top:0px;">'.$totalmails.'</div>';
 		}else
 		{
 			echo '<div id="avisoMensajes" style="display:none">0</div>';
 		}
-		echo '<div id="divMails" style="display:none">';
+		echo '<div id="divMails" style="display:none;top:95px;left:465px;height:120px;overflow:auto">';
 			echo '<div id="cabeceraCajaMails"></div>';
 			echo '<div id="divMailsHeader">';
 				echo '<a id="newMail" href="'.$this->addMail.'" class="silverbox" title="'.$this->translate('Nuevo mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
 			echo '</div>';
-		if ($totalmails>0)
+                $totalmailssinleer=Model_Mails::getTotalMailsSinLeer(array('user_id' => JO_Session::get('user[user_id]')));
+		if ($totalmailssinleer>0)
 		{
 			function cambiafyh_espanol($fechaH)
 			{
@@ -161,7 +162,7 @@
 										</div>
 									</div>
 									<div class="textoMails">
-										<div class="content fsm fwn fcg">
+										<div class="content fsm fwn fcg" style="margin-left:0px">
 											<div class="author">
 												<strong>'.$mail["fullname"].'</strong>
 											</div>
@@ -326,7 +327,8 @@
                                 </div>
                                 <div style='float:left;width:50%'> 
 
-                                                <?php if($this->enable_edit) { ?>
+                                                <?php if($this->enable_edit && !$this->userCanActivate) { ?>
+                                    
                                                       <?php if (!$this->userIsActivate) { ?>
                                                     <img src="data/images/activateNo.png">
                                                     <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
@@ -334,6 +336,7 @@
                                                     <img src="data/images/activateSi.png">
                                                     <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
                                                       <?php } ?>
+                                                    
                                     <div id="topwrappers" style="position:relative;margin-top:-33px;margin-left:80px;width: 290px important!">
 
 

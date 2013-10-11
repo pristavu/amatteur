@@ -799,7 +799,10 @@ class SearchController extends JO_Action
                                     $user["option8"] = $user_id["option8"];
                                     $user["comment"] = $user_id["comment"];
                                     $view->user = $user;
-                                    $this->view->pins .= $view->render('boxSearch', 'users');
+                                    $this->view->addMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=create');                                                                                        
+                                    $this->view->stateMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=state');
+                                    $this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
+                                    $this->view->pins .= $view->render('boxActivate', 'users');
                                 }
                             }
                             $users[0]["location"] = $user_id["location"];

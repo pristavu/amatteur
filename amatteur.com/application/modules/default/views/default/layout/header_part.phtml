@@ -196,7 +196,10 @@ if (!$this->show_header_line && $this->show_header_invate)
     <?php } ?>
             </ul>
 
-            <form action="<?php echo $this->search_action; ?>" method="get" class="search">
+            <p class="search">
+                <a  href="<?php echo $this->search_url; ?>"><img src="data/images/buscar2.png" alt="" /></a>            
+            </p>
+            <!--form action="<?php echo $this->search_action; ?>" method="get" class="search">
 
     <?php if ($this->show_hidden)
     { ?>
@@ -217,7 +220,7 @@ if (!$this->show_header_line && $this->show_header_invate)
             </form>
             <p style="right:430px;top:5px;position:absolute;color:black !important;font-size:16px;font-weight: bold;">
                 <a  href="<?php echo $this->search_url; ?>"><img  style="padding-bottom:10px" src="data/images/buscar.png" alt="" /></a>            
-            </p>
+            </p-->
 
             
             <!--form action="<?php echo $this->search_action_advanced; ?>" method="get" class="search">
@@ -368,7 +371,8 @@ if (!$this->is_loged)
 			echo '<div id="divMailsHeader">';
 				echo '<a id="newMail" href="'.$this->addMail.'" class="silverbox" title="'.$this->translate('Nuevo mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
 			echo '</div>';
-		if ($totalmails>0)
+                $totalmailssinleer=Model_Mails::getTotalMailsSinLeer(array('user_id' => JO_Session::get('user[user_id]')));
+		if ($totalmailssinleer>0)
 		{
 			function cambiafyh_espanol($fechaH)
 			{
