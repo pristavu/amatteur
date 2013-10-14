@@ -240,7 +240,7 @@
 
             </ul>
         </div>  
-        <!--br/><br/><br/--><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+        <!--br/><br/--><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
         <!--  Location -->
 		<p class="input">
 			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
@@ -1361,15 +1361,18 @@ var map;
                 }
                 else
                 {
-                    if (status == "OVER_QUERY_LIMIT")
+                    try
                     {
-            $(document).ready(function(){                                                   
-                        //setTimeout(function(){}, 201);
-            });                        
-                    }
-                    else
-                    { 
                         console.log('error: ' + status);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log('error: ' + status);
+                        }
+
                     }
                 }
 
@@ -1393,15 +1396,18 @@ var map;
                 }
                 else
                 {
-                    if (status == "OVER_QUERY_LIMIT")
+                    try
                     {
-            $(document).ready(function(){                                                   
-                        //setTimeout(function(){}, 201);
-            });                        
-                    }
-                    else
-                    { 
                         console.log('error: ' + status);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log('error: ' + status);
+                        }
+
                     }
                 }
 

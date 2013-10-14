@@ -87,14 +87,15 @@ if(!$og_recipe) {
 	
 	<body<?php echo (!JO_Session::get('user[user_id]')?' id="not-login"':'');?> class="<?php echo $request->getController();?>-body">
 <div id="boxes">
-<div style="top: 199.5px; left: 551.5px; display: none;font-size:20px;" id="dialog" class="window">
+<div style="position:absolute;top:57px;left: 2px; display: none;font-size:14px;height:63px;width:900px" id="dialog" class="window">
 <a href="#" class="close">Continuar >></a><br/><br/>
         amatteur utiliza cookies propias y de terceros para mejorar su experiencia de navegación y realizar tareas de analítica.
         <p>Si continúa navegando, entendemos que acepta nuestra <a href="http://www.amatteur.com/cookies">política de cookies</a>.</p>
 </div>
 
 <!-- Mask to cover the whole screen -->
-<div style="width: 1478px; height: 900px; display: none; opacity: 0.8;" id="mask"></div>
+<!--div style="width: 1478px; height: 100px; display: none; opacity: 0.8;" id="mask"></div-->
+<div style="width: 1478px; height: 100px; display: none; opacity: 0;" id="mask"></div>
 </div>
 	
 		<div id="fb-root"></div>
@@ -177,15 +178,19 @@ $(document).ready(function()
 		
 		//transition effect		
 		$('#mask').fadeIn(1000);	
-		$('#mask').fadeTo("slow",0.8);	
+		$('#mask').fadeTo("slow",0);	
 	
 		//Get the window height and width
 		var winH = $(window).height();
 		var winW = $(window).width();
-              
+             
+                winH = "58";
+                winW = "2";
 		//Set the popup window to center
-		$(id).css('top',  winH/2-$(id).height()/2);
-		$(id).css('left', winW/2-$(id).width()/2);
+		//$(id).css('top',  winH/2-$(id).height()/2);
+                //$(id).css('left', winW/2-$(id).width()/2);
+                $(id).css('top',  winH);
+		$(id).css('left', winW);
 	
 		//transition effect
 		$(id).fadeIn(2000); 	
