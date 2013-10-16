@@ -285,7 +285,7 @@
 			<span class="" style='text-align:left'><input type='checkbox' id='tc'></span>
 		
 		<div class="hr"></div>
-		<p class="submit"><input type="submit" value="<?php echo $this->translate('Save Profile');?>" name="register" /></p>
+		<p class="submit"><input type="submit" value="<?php echo $this->translate('Save Profile');?>" name="register" id="register" class="register" /></p>
 	</form>
 </div>
 
@@ -1179,18 +1179,22 @@ $(document).ready(function(){
         });
         
         $("#searchTextField").bind('focusout',function(event){
+            $('.register').attr('disabled', true).addClass('disabled');
             GLoad();
         });
         
         $("#searchTextField").change(function() {
+            $('.register').attr('disabled', true).addClass('disabled');  
             GLoad();
         });
         
         $(".pac-container").live('click',function(event){
+            $('.register').attr('disabled', true).addClass('disabled');   
             GLoad();
         });
 
         $("#searchTextField").blur(function() {
+            $('.register').attr('disabled', true).addClass('disabled');  
             GLoad();
         });
 
@@ -1214,12 +1218,11 @@ $(document).ready(function(){
 
 function cambiadisabled()
 {
-    $('.morelocations').attr('disabled', false).removeClass('disabled');            
+    $('.morelocations').attr('disabled', false).removeClass('disabled'); 
+    $('.register').attr('disabled', false).removeClass('disabled');  
 }
 
-$('#latAux').bind('myCustomEvent',function(){
-       alert('myCustomEvent');
-});
+
         
 	return;
 	
@@ -1423,7 +1426,9 @@ function cambiadisabled()
 
  $(document).ready(function(){                                                   
 
-    $('.morelocations').attr('disabled', false).removeClass('disabled');            
+    $('.morelocations').attr('disabled', false).removeClass('disabled');  
+    $('.register').attr('disabled', false).removeClass('disabled');
+    //$('.register input').removeAttr('disabled');
 
  }); 
  

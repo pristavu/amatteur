@@ -97,7 +97,7 @@
 			echo '<div id="avisoMensajes" style="right:-24px !important;top:0px;left:24px;margin-top:0px;">'.$totalmails.'</div>';
 		}else
 		{
-			echo '<div id="avisoMensajes" style="display:none">0</div>';
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:0px;left:24px;margin-top:0px;display:none">0</div>';
 		}
 		echo '<div id="divMails" style="display:none;top:95px;left:465px;height:120px;overflow:auto">';
 			echo '<div id="cabeceraCajaMails"></div>';
@@ -246,6 +246,12 @@
 						}
 						return false;
 					});
+                                       $(document).live("click", function() { 
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}                                           
+                                       });                                        
 				});
 	</script>
 
@@ -305,7 +311,9 @@
                                     <?php if  ($i > 2 || count($users_sports) == $i) { if  ($i > 2) {echo ", ..." ;} break; } else { echo ", " ;} ?>                                        
                                     <?php } ?>                                        
 
-                                    <?php } ?>
+                                    <?php } else { ?>
+                                        &nbsp;
+                                    <?php }  ?>    
                                     </span>                                        
 
                                     <?php /*if($this->userdata['sport_category_1']) { ?>
@@ -326,7 +334,6 @@
 
                                 </div>
                                 <div style='float:left;width:50%'> 
-
                                                 <?php if($this->enable_edit && !$this->userCanActivate) { ?>
                                     
                                                       <?php if (!$this->userIsActivate) { ?>

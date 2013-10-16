@@ -197,7 +197,7 @@ if (!$this->show_header_line && $this->show_header_invate)
             </ul>
 
             <p class="search">
-                <a  href="<?php echo $this->search_url; ?>"><img src="data/images/buscar2.png" alt="" /></a>            
+                <a  href="<?php echo $this->search_url; ?>"><img src="data/images/buscar3.png" alt="" /></a>            
             </p>
             <!--form action="<?php echo $this->search_action; ?>" method="get" class="search">
 
@@ -513,6 +513,12 @@ if (!$this->is_loged)
 						}
 						return false;
 					});
+                                       $(document).live("click", function() { 
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}                                           
+                                       });                                        
 				});
 	</script>
                                                 <div id="muestraBlog"><a href="http://blog.amatteur.com" class="ados" target="_blank"> <img width="20px" height="18px" src="data/images/blog_ico.png" />&nbsp;&nbsp;<?php echo $this->translate('Blog'); ?></a></div>

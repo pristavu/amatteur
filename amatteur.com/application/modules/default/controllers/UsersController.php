@@ -437,7 +437,10 @@ class UsersController extends JO_Action {
                 if ($activate)
                 {
                     $this->view->userIsActivate = $activate["activate"];
-                    $this->view->userCanActivate = Model_Users::getUserTypeNotOthers($user_data['type_user']);
+                    if ($user_data['type_user'])
+                    {
+                        $this->view->userCanActivate = Model_Users::getUserTypeNotOthers($user_data['type_user']);
+                    }
                 }
 
                 if(JO_Registry::get('isMobile'))
@@ -2282,10 +2285,13 @@ if ($this->view->successfu_edite || $this->view->error)
                 $users_sports = Model_Users::getUserSports(0);
                 $i=0;
                 foreach ($users_sports as $user_sports){
-                    if (!Model_Boards::isCategoryParent($user_sports['sport_category']))
+                    if ($user_sports['sport_category'] != 1)
                     {
-                        $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
-                        $i++;
+                        if (!Model_Boards::isCategoryParent($user_sports['sport_category']))
+                        {
+                            $this->view->user_sports[] = Model_Boards::getCategoryTitle($user_sports['sport_category']);
+                            $i++;
+                        }
                     }
                 }
                 //$this->view->sportcounter = $i;
@@ -2764,20 +2770,24 @@ if ($this->view->successfu_edite || $this->view->error)
 		}
 
 	}
+    
 	
 	public function mailfriendsAction(){
 		$request = $this->getRequest();
 		
 		$this->view->users = array();
 		
+                
 		if((int)JO_Session::get('user[user_id]') && $request->getPost('term')) {
 			
 			$friends = Model_Users::getUserMailFriends(array(
 				'start' => 0,
 				'limit' => 100,
-				'filter_username' => $request->getPost('term')
+				'filter_username' => $request->getPost('term'),
+                                'filter_activate' => $request->getPost('act')
 			));
 			
+
 			if($friends) {
 				$model_images = new Helper_Images();
 				foreach($friends AS $friend) {
@@ -2785,8 +2795,8 @@ if ($this->view->successfu_edite || $this->view->error)
 						continue;
 					}
 					$avatar = Helper_Uploadimages::avatar($friend, '_A');
-		
-					$this->view->users[] = array(
+
+                                        $this->view->users[] = array(
 						'image' => $avatar['image'],
 						'label' => $friend['fullname'],
 						'value' => $friend['user_id'],

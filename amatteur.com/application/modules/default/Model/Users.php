@@ -701,7 +701,10 @@ class Model_Users extends JO_Model {
 		}
                 		
 		if(isset($data['filter_location']) && $data['filter_location']) {
-			$query->where('users.location = ?', (string)$data['filter_location']);
+                    if ($data['filter_location'] != "Introduce una ubicación")
+                    {
+			$query->where('users.location LIKE ?', "%".str_replace(",", "%", (string)$data['filter_location'])."%");
+                    }
 		}
 
 		if(isset($data['filter_gender']) && $data['filter_gender']) {
@@ -747,6 +750,7 @@ class Model_Users extends JO_Model {
 		}
                 
 //		echo $query; exit;
+                //error_log("query" . $query);
 		$results = $db->fetchAll($query);
 
 		$result[$key] = array();
@@ -1273,12 +1277,19 @@ class Model_Users extends JO_Model {
 	public static function getUserMailFriends($data = array()) {
 		$db = JO_Db::getDefaultAdapter();
         
-		$query = $db->select()
+                if(isset($data['filter_activate']) && $data['filter_activate']) {                
+                    $query = $db->select()
+					->from('users', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"))
+					->joinLeft('users_activate', 'users.user_id = users_activate.user_id')
+					->where('users_activate.activate= 1');
+                }
+                else
+                {
+                    $query = $db->select()
 					->from('users_following_user', array())
 					->joinLeft('users', 'users.user_id = users_following_user.user_id', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"))
-					->joinLeft('users_activate', 'users.user_id = users_activate.user_id')
-					->where('users_following_user.following_id = ? OR users_activate.activate= 1', (string)JO_Session::get('user[user_id]'));
-		
+					->where('users_following_user.following_id = ?', (string)JO_Session::get('user[user_id]'));
+                }
 		if(isset($data['start']) && isset($data['limit'])) {
 			if($data['start'] < 0) {
 				$data['start'] = 0;
@@ -1312,7 +1323,7 @@ class Model_Users extends JO_Model {
 		}
 		$query->group('users.user_id');
                 
-	    //echo "query " .$query;
+	    //error_log("query " .$query);
 //	    exit;
 		return $db->fetchAll($query);
 	}
@@ -1757,9 +1768,12 @@ class Model_Users extends JO_Model {
 	}
 
         function getUserTypeNotOthers($user_type_id){
+            if ($user_type_id != "")
+            {
 		$db = JO_Db::getDefaultAdapter();
 		$sql = "select user_type_id from user_type where user_type_id = {$user_type_id} AND parent_id = 2";
 		$result = $db->fetchOne($sql);
+            }
 		return $result;
 	}
         
@@ -1900,7 +1914,10 @@ class Model_Users extends JO_Model {
 		}
 		
 		if(isset($data['filter_location']) && $data['filter_location']) {
-			$query->where('users_activate.location = ?', (string)$data['filter_location']);
+                    if ($data['filter_location'] != "Introduce una ubicación")
+                    {
+			$query->where('users_activate.location LIKE ?', "%".str_replace(",", "%", (string)$data['filter_location'])."%");
+                    }
 		}
                 
 		if(isset($data['filter_sport_category']) && $data['filter_sport_category']) {
@@ -1950,7 +1967,7 @@ class Model_Users extends JO_Model {
 */
                 $results  = array();
 
-//		echo $query; exit;
+		//error_log("query " . $query); 
 		$results = $db->fetchAll($query);
 
                 return $results;
@@ -2070,7 +2087,7 @@ class Model_Users extends JO_Model {
 
         public function getLocationUsers($location){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('users_location',array('user_id'))->where('location = ?',$location);
+		$query =  $db->select()->from('users_location',array('*'))->where('location LIKE ?',"%".str_replace(",", "%", $location)."%");
 		$result= $db->fetchAll($query);
 		return $result; 
 	}

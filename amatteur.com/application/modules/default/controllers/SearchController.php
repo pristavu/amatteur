@@ -811,6 +811,7 @@ class SearchController extends JO_Action
                             $usersTot[] = $users[0];
                         }
                         $this->view->users = $usersTot;
+                        $this->view->class_contaner = 'persons';
                     }
                 } 
                 else if ($id == "services")
@@ -843,20 +844,27 @@ class SearchController extends JO_Action
                     $users = Model_Users::getUsers($data);
                     if ($request->issetPost('location'))
                     {
-                        $users_id = Model_Users::getLocationUsers($request->getPost('location'));
-                        foreach ($users_id as $user_id)
+                        if ($request->getPost('location') != "")
                         {
-                            $dataUser = array(
-                                'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                                'limit' => JO_Registry::get('config_front_limit'),
-                                'filter_user_id' => $user_id["user_id"]
-                            );
-                            $userAux = Model_Users::getUsers($dataUser);
-                            //$users[] = Model_Users::getUsers($dataUser);
-                            if ($userAux)
+                            $users_id = Model_Users::getLocationUsers($request->getPost('location'));
+                            foreach ($users_id as $user_id)
                             {
-                                //array_push($users, $userAux);
-                                $users[] = $userAux[0];
+                                $dataUser = array(
+                                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                    'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_user_id' => $user_id["user_id"]
+                                );
+                                $userAux = Model_Users::getUsers($dataUser);
+                                //$users[] = Model_Users::getUsers($dataUser);
+                                if ($userAux)
+                                {
+                                    $userAux[0]["location"] = $user_id["location"];
+                                    $userAux[0]["lat"] = $user_id["lat"];
+                                    $userAux[0]["len"] = $user_id["len"];
+                                    //array_push($users, $userAux);
+                                    $users[] = $userAux[0];
+
+                                }
                             }
                         }
                     }

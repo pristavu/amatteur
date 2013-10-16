@@ -329,7 +329,7 @@
                     <!-- Ubicacion -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <label for="location"><?php echo $this->translate('Location'); ?> <br class="hide" /></label>
+                            <label for="location"><?php echo $this->translate('Location activate'); ?> <br class="hide" /></label>
                             <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
                         </div>
 
@@ -613,10 +613,17 @@
                 <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>
                 <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
                 <?php } ?>
-<?php } ?>
-                <div id="container" style="margin-left:0px">
-		<?php echo $this->pins;?>
+<?php } ?>                                                
+<?php if ($this->advancedActive == "activate") { ?>    
+                <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">                                    
+                    <?php echo $this->pins;?>
                 </div>
+                
+<?php } else { ?>
+                <div id="container" style="margin-left:0px">
+                    <?php echo $this->pins;?>
+                </div>
+<?php } ?>                                
             <?php } ?>                
               
 
@@ -648,7 +655,7 @@
     <!-- AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I -->
 <script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
       type="text/javascript"></script>
-      
+
 <!--script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script-->      
     <script type="text/javascript">
    
@@ -683,13 +690,17 @@ function GLoad() {
          var len = <?php echo count($this->users); ?>;
          
         <?php foreach($this->users as $user) { ?>
-            var location = '<?php echo ($this->location)?>';
+            //var location = '<?php echo ($this->location)?>';
+            var location = '<?php echo $user["location"];?>';
             //if (location != "")
             {
                 locations.push(location);
                 fullname.push('<?php echo $user["fullname"]; ?>');
                 <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
                 avatar.push('<?php echo $avatar['image']; ?>');
+                lat.push('<?php echo $user["lat"]; ?>');
+                lng.push('<?php echo $user["len"]; ?>');
+                
 
                 var geocoder = new google.maps.Geocoder();
                 geocoder.geocode({ 'address': locationPrincipal }, function (results, status) {
@@ -991,11 +1002,90 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
 
         var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
 
+      var gm = google.maps;
+      var iw = new gm.InfoWindow();
+	  
+      var oms = new OverlappingMarkerSpiderfier(map,
+        {markersWontMove: true, markersWontHide: true});
+      
+	  
+      var usualColor = 'F75850';
+      var spiderfiedColor = 'ffee22';
+      var iconWithColor = function(color) {
+        return 'http://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld=pin|+|' +
+          color + '|000000|ffff00';
+      }
+	  
+      var shadow = new gm.MarkerImage(
+        'https://www.google.com/intl/es_ALL/mapfiles/shadow50.png',
+        new gm.Size(37, 34), // size - for sprite clipping
+        new gm.Point(0, 0), // origin - ditto
+        new gm.Point(10, 34) // anchor - where to meet map location
+      );
+      
+      oms.addListener('click', function(marker) {
+        iw.setContent(marker.desc);
+        iw.open(map, marker);
+      });
+      oms.addListener('spiderfy', function(markers) {
+        for(var i = 0; i < markers.length; i ++) {
+          markers[i].setIcon(iconWithColor(spiderfiedColor));
+          markers[i].setShadow(null);
+        }
+        iw.close();
+      });
+      oms.addListener('unspiderfy', function(markers) {
+        for(var i = 0; i < markers.length; i ++) {
+          markers[i].setIcon(iconWithColor(usualColor));
+          markers[i].setShadow(shadow);
+        }
+      });
+      
+      var bounds = new gm.LatLngBounds();
+      for (var i = 0; i < locations.length; i ++) {
+          
+            var locationString = locations[i];
+            var fullnameString = fullname[i];
+            var avatarString = avatar[i];
+          
+          
+            var contentString = '<div id="contenido">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h2 id="firstHeading" class="firstHeading">' + 
+                fullnameString +
+                '</h2>'+
+                '<div id="bodyContent">'+ 
+                '<p><b></b>' + 
+                locationString + 
+                '</p>' +
+                '<p><img src="'+ avatarString + '">' +
+                '</a> '+
+                '</p>'+
+                '</div>'+
+                '</div>';
+          
+          
+        var loc = new gm.LatLng(lat[i],lng[i]);
+        bounds.extend(loc);
+        var marker = new gm.Marker({
+          position: loc,
+          title: fullnameString + ", " + locationString,
+          map: map,
+          icon: iconWithColor(usualColor),
+          shadow: shadow
+        });
+        marker.desc = contentString;
+        oms.addMarker(marker);
+      }
+      map.fitBounds(bounds)
+/*
+
 //console.log("TOTAL " + locations.length);
         for (i = 0; i < locations.length; i++) 
         {             
 
-//console.log("i " + i + " usuario " + fullname[i] + " location " + locations[i] );
+console.log("i " + i + " usuario " + fullname[i] + " location " + locations[i] + lat[i] + " " + lng[i]);
             var locationString = locations[i];
             var fullnameString = fullname[i];
             var avatarString = avatar[i];
@@ -1038,9 +1128,7 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
                 });
                 infowindow.open(map,marker);
             });
-*/
-
- 
+*//*
 
                 google.maps.event.addListener(marker, 'click', (function(marker, contentString, infowindow) {
                   return function() {
@@ -1053,7 +1141,7 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
                 })(marker, contentString, infowindow));
 
         }
-
+*/
 
     }
     

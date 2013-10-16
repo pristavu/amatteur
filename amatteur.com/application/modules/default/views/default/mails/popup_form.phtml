@@ -72,7 +72,8 @@ $(document).ready(function(){
         if ($("#fullname").val() != "")
         {
             var val = $("#fullname").val();
-            $.post('<?php echo $this->friends_href;?>', {term: val}, function(data){
+            var act = 1;
+            $.post('<?php echo $this->friends_href;?>', {term: val, act: act}, function(data){
                     cache[val] = data.users;
                     autocompleteResults(data.users);
                     $('.option_friends').trigger("click");
