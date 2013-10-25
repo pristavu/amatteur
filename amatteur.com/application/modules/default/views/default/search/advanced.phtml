@@ -612,6 +612,8 @@
                 <?php if ($this->users) { ?>
                 <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>
                 <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                <br/>
+                <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                 <?php } ?>
 <?php } ?>                                                
 <?php if ($this->advancedActive == "activate") { ?>    
@@ -681,6 +683,7 @@ function GLoad() {
         var locations = [];
         var fullname = [];
         var avatar = [];
+        var href = [];
 
 
     <?php if ($this->location) { ?>
@@ -700,6 +703,7 @@ function GLoad() {
                 avatar.push('<?php echo $avatar['image']; ?>');
                 lat.push('<?php echo $user["lat"]; ?>');
                 lng.push('<?php echo $user["len"]; ?>');
+                href.push('<?php echo $user["href"]; ?>');
                 
 
                 var geocoder = new google.maps.Geocoder();
@@ -857,6 +861,7 @@ function GLoad() {
 
                         lat.push('<?php echo $user_location["lat"]; ?>');
                         lng.push('<?php echo $user_location["len"]; ?>');
+                        href.push('<?php echo $user["href"]; ?>');
                 
 /*  
                 var otherLocation = '<?php echo $user_location['location']; ?>';
@@ -915,6 +920,7 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
                     avatar.push('<?php echo $avatar['image']; ?>');
                     lat.push('<?php echo $user["lat"]; ?>');
                     lng.push('<?php echo $user["len"]; ?>');
+                    href.push('<?php echo $user["href"]; ?>');
                 }
 
                 /*
@@ -1047,7 +1053,7 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
             var locationString = locations[i];
             var fullnameString = fullname[i];
             var avatarString = avatar[i];
-          
+            var hrefString = href[i];
           
             var contentString = '<div id="contenido">'+
                 '<div id="siteNotice">'+
@@ -1059,8 +1065,9 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
                 '<p><b></b>' + 
                 locationString + 
                 '</p>' +
+                '<a href="' + hrefString + '">'+
                 '<p><img src="'+ avatarString + '">' +
-                '</a> '+
+                '</a> ' +
                 '</p>'+
                 '</div>'+
                 '</div>';

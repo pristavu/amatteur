@@ -611,8 +611,8 @@ class Model_Users extends JO_Model {
 		$db = JO_Db::getDefaultAdapter();
         
 		$query = $db
-					->select()
-					->from('users', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"));
+                    ->select()
+                    ->from('users', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"));
 	
 		if(isset($data['start']) && isset($data['limit'])) {
 			if($data['start'] < 0) {

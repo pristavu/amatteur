@@ -1,0 +1,210 @@
+<?php //if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 
+{
+    echo $this->header_part; 
+}    
+?>
+<link type='text/css' rel='stylesheet' href='data/css/mainZip.css?<?php echo rand(1,9999); ?>'></link>
+    <?php if (!$this->enable_edit)
+    { 
+		//Sacamos el total de mails sin leer del usuario
+		$totalmails=Model_Mails::getTotalMails(array('user_id' => JO_Session::get('user[user_id]')));
+	?>
+<div id="muestraMensajes" style="margin-top: 10px;margin-left: 20px;width: 100px;height: 0px;float: left;right:0px"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="18px" alt="<?php echo $this->translate('Mensajes'); ?>"/>&nbsp;<span style="color:#8C7E7E;font-weight: bold;font-size: 1.6em;""><?php echo $this->translate('Mensajes'); ?></span></a></div>
+    <?php
+		if ($totalmails>0)
+		{
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:12px;left:-95px;margin-top:0px;">'.$totalmails.'</div>';
+		}else
+		{
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:12px;left:-95px;margin-top:0px;display:none">0</div>';
+		}
+		echo '<div id="divMails" style="display:none;top:95px;left:0px;">';
+			echo '<div id="cabeceraCajaMails"></div>';
+			echo '<div id="divMailsHeader">';
+				echo '<a id="newMail" href="'.$this->addMail.'" class="silverbox" title="'.$this->translate('Nuevo mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
+			echo '</div>';
+                $totalmailssinleer=Model_Mails::getTotalMailsSinLeer(array('user_id' => JO_Session::get('user[user_id]')));
+		if ($totalmailssinleer>0)
+		{
+			function cambiafyh_espanol($fechaH)
+			{
+				$traducir_fecha = explode("-",$fechaH);
+				$separaHoras=explode(" ",$traducir_fecha[2]);
+				$fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+				return $fecha_espana;
+			}
+				echo '<div id="divMailsScroll">';
+					//Vamos a sacar el total de mails del usuario
+					$mails=Model_Mails::getMails(array('user_id' => JO_Session::get('user[user_id]')));
+					echo '<ul>';
+					foreach($mails AS $mail) {
+						if ($mail["store"]=="amazons3")
+						{
+							$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
+							$sufijo="_A.";
+						}else
+						{
+							$host="/uploads";
+							$sufijo=".";
+						}
+						if($mail["avatar"]=="")
+						{
+							$imageUser="uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+						}else
+						{
+							//cogemos la extensión del fichero
+							$extension= substr(strrchr($mail["avatar"], '.'), 1);
+							//ahora la quitamos
+							$nombreSextension=substr($mail["avatar"], 0,strlen($mail["avatar"])-strlen($extension)-1);
+							$imageUser=$host.$nombreSextension.$sufijo.$extension;
+						}
+						$textLeido="";
+						$textToolTip=$this->translate('Marcar la conversación como no leída');
+						if ($mail["read_mail"]==0)
+						{
+							$textLeido="NOleido";
+							$textToolTip=$this->translate('Marcar la conversación como leída');
+						}
+						if ($mail["parent_mail_id"]==0)
+						{
+							$id=$mail["mail_id"];
+						}else
+						{
+							$id=$mail["parent_mail_id"];
+						}
+						echo '<li>
+								<a class="silverbox messagesContent '.$textLeido.'" href="'.$this->viewMail.'?id='.$id.'" role="button" id="mail'.$mail["mail_id"].'" title="'.$this->translate('Mensajería').'">
+								<div class="clearfix">
+									<div class="imagenMails">
+										<div class="_55lt" style="width:50px;height:50px;" size="50" data-reactid=".r[33odf]">
+											<img class="img" src="'.$imageUser.'" width="50" height="50" data-reactid=".r[33odf].[0]">
+										</div>
+									</div>
+									<div class="textoMails">
+										<div class="content fsm fwn fcg" style="margin-left:0px">
+											<div class="author">
+												<strong>'.$mail["fullname"].'</strong>
+											</div>
+											<div class="prwText">
+												<span>'.str_replace("<br/>"," ",$mail["text_mail"]).'</span>
+											</div>
+											<div class="time">
+												<abbr title="" class="timestamp">'.cambiafyh_espanol($mail["date_mail"]).'</abbr>
+											</div>
+										</div>
+									</div>
+									<div class="x_div"><div class="_5c9q '.$textLeido.'" id="'.$mail["mail_id"].'" title="'.$textToolTip.'"></div></div>
+								</div>
+								</a>
+							</li>';
+					}
+					echo '</ul>';
+				echo '</div>';
+				echo '<div id="divMailsFooter">';
+				echo '</div>';
+			
+		}
+		echo '</div>';
+	}
+	?>
+<script type='text/javascript' src='data/js/js_full.min.js'></script>
+    <script type="text/javascript">
+			$(document).ready(function() 
+				{
+$('#wrapper').css({'margin-top': '0px'})
+$('body').css({'height': '220px'})
+
+
+					$("#newMail").click(function (){
+                                                $('#muestraMensajes').focus();
+                                                $('html, body').animate({
+                                                    scrollTop: '0px'
+                                                },
+                                                1500);
+						$("#divMails").fadeOut();
+					});
+					$(".messagesContent").click(function (){
+                                                $('#muestraMensajes').focus();
+                                                $('html, body').animate({
+                                                    scrollTop: '0px'
+                                                },
+                                                1500);
+						$("#divMails").fadeOut();
+					});
+					$("._5c9q").click(function (){
+						if ($(this).hasClass("NOleido"))
+						{
+							$.post('<?php echo $this->stateMail;?>', {id:$(this).attr("id"),read:1}, function(data){
+								if (data.data.unread==0)
+								{
+									$("#avisoMensajes").hide();
+								}else
+								{
+									$("#avisoMensajes").html(data.data.unread);
+									$("#avisoMensajes").show();
+								}
+							}, 'json');
+							$("#mail" + $(this).attr("id")).removeClass("NOleido");
+							$(this).removeClass("NOleido");
+							$(this).attr("title","<?php echo $this->translate('Marcar la conversación como no leída'); ?>");
+						}else
+						{
+							$.post('<?php echo $this->stateMail;?>', {id:$(this).attr("id"),read:0}, function(data){
+								$("#avisoMensajes").html(data.data.unread);
+								$("#avisoMensajes").show();
+							}, 'json');
+							$("#mail" + $(this).attr("id")).addClass("NOleido");
+							$(this).addClass("NOleido");	
+							$(this).attr("title","<?php echo $this->translate('Marcar la conversación como leída'); ?>");
+											
+						}
+                                                $('#muestraMensajes').focus();
+                                                $('html, body').animate({
+                                                    scrollTop: '0px'
+                                                },
+                                                1500);
+						return false;
+					});
+					$("#muestraMensajes .ados").click(function (){
+                                                $('#muestraMensajes').focus();
+                                                $('html, body').animate({
+                                                    scrollTop: '0px'
+                                                },
+                                                1500);
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}else
+						{
+							$("#divMails").fadeIn();
+						}
+						return false;
+					});
+					$("#avisoMensajes").click(function (){
+                                                $('#muestraMensajes').focus();
+                                                $('html, body').animate({
+                                                    scrollTop: '0px'
+                                                },
+                                                1500);
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}else
+						{
+							$("#divMails").fadeIn();
+						}
+						return false;
+					});
+                                       $(document).live("click", function() { 
+                                                $('#muestraMensajes').focus();                                           
+                                                $('html, body').animate({
+                                                    scrollTop: '0px'
+                                                },
+                                                1500);
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}   
+                                       });                                        
+				});
+	</script>

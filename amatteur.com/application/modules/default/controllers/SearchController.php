@@ -6,6 +6,7 @@ class SearchController extends JO_Action
     private function searchMenu($query)
     {
         $request = $this->getRequest();
+
         return array(
             array(
                 'title' => $this->translate('Amatteur'),
@@ -387,7 +388,6 @@ class SearchController extends JO_Action
             $this->view->option10 = '';
         }
 
-        //$this->view->advanced_url = "www.google.es";
         $this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
         //controlador
         $id = $request->getRequest('id');
@@ -764,6 +764,7 @@ class SearchController extends JO_Action
                             $users = Model_Users::getUsers($data);
                             if ($users)
                             {
+                                $href = "";
                                 $this->view->follow_user = true;
                                 $view = JO_View::getInstance();
                                 $view->loged = JO_Session::get('user[user_id]');
@@ -783,6 +784,7 @@ class SearchController extends JO_Action
                                     }
 
                                     $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
+                                    $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
                                     $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
 
                                     $view->key = $key % 2 == 0;
@@ -804,11 +806,12 @@ class SearchController extends JO_Action
                                     $this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
                                     $this->view->pins .= $view->render('boxActivate', 'users');
                                 }
+                                $users[0]["location"] = $user_id["location"];
+                                $users[0]["lat"] = $user_id["lat"];
+                                $users[0]["len"] = $user_id["len"];
+                                $users[0]["href"] = $href;
+                                $usersTot[] = $users[0];
                             }
-                            $users[0]["location"] = $user_id["location"];
-                            $users[0]["lat"] = $user_id["lat"];
-                            $users[0]["len"] = $user_id["len"];
-                            $usersTot[] = $users[0];
                         }
                         $this->view->users = $usersTot;
                         $this->view->class_contaner = 'persons';
@@ -887,6 +890,8 @@ class SearchController extends JO_Action
                     }
                     if ($users)
                     {
+                        $href = "";
+                        $i = 0;
                         $this->view->follow_user = true;
                         $view = JO_View::getInstance();
                         $view->loged = JO_Session::get('user[user_id]');
@@ -906,11 +911,14 @@ class SearchController extends JO_Action
                             }
 
                             $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
+                            $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
                             $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
 
                             $view->key = $key % 2 == 0;
                             $view->user = $user;
                             $this->view->pins .= $view->render('boxSearch', 'users');
+                            $users[$i]["href"] = $href;
+                            $i++;
                         }
                         $this->view->users = $users;                        
                     }

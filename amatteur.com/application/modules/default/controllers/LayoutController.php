@@ -158,6 +158,7 @@ class LayoutController extends JO_Action {
 			
 			
 			$this->view->self_profile = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $this->view->is_loged );
+                        $this->view->mails = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=mails');
 			$this->view->self_firstname = JO_Session::get('user[firstname]');
 			$this->view->logout = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=logout' );
 			

@@ -1,0 +1,267 @@
+<?php //var_dump($this);exit;?>
+<div id="reply-mail">
+		<form name="ReplyMail" method="post" action="<?php echo $this->form_action;?>" class="StaticForm" id="ReplyMail">
+            <ul>
+            	<?php
+					function cambiafyh_espanol($fechaH)
+					{
+						$traducir_fecha = explode("-",$fechaH);
+						$separaHoras=explode(" ",$traducir_fecha[2]);
+						$fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+						return $fecha_espana;
+					}
+					$mails=Model_Mails::getMailConversation($_GET["id"]);
+					$user_replies="";
+					$mails_ids_showed="";
+					foreach($mails AS $mail) {
+						$pos = strpos($mails_ids_showed, $mail['mail_id'].",");
+						if ($pos===false)
+						{
+								$mails_ids_showed.=$mail['mail_id'].",";
+						
+						///Marcamos como leído
+						Model_Mails::updateMail(array('read_mail' => 1,'mail_id' => $mail["mail_id"]));
+						if ($mail["store"]=="amazons3")
+						{
+							$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
+							$sufijo="_A.";
+						}else
+						{
+							$host="/uploads";
+							$sufijo=".";
+						}
+						if($mail["avatar"]=="")
+						{
+							$imageUser="uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+						}else
+						{
+							//cogemos la extensión del fichero
+							$extension= substr(strrchr($mail["avatar"], '.'), 1);
+							//ahora la quitamos
+							$nombreSextension=substr($mail["avatar"], 0,strlen($mail["avatar"])-strlen($extension)-1);
+							$imageUser=$host.$nombreSextension.$sufijo.$extension;
+						}
+						$linkProfile=WM_Router::create( $this->base_url . '?controller=users&action=profile&user_id=' . $mail['from_user_id'] );
+						if ($mail['from_user_id']!=JO_Session::get('user[user_id]'))
+						{
+							$pos = strpos($user_replies, $mail['from_user_id'].",");
+							if ($pos===false)
+							{
+								$user_replies.=$mail['from_user_id'].",";
+							}
+						}
+				?>
+                <li class="mensajeConversacion clearfix">
+                	<div class="clearfix">
+                    	<div class="imagenMails conversacion">
+                        	<a href="<?php echo $linkProfile; ?>" title="<?php echo $this->translate('Ver perfil');?>">
+                            	<img src="<?php echo $imageUser; ?>" alt="<?php echo $mail["fullname"]; ?>" width="35" height="35" />
+                            </a>
+                        </div>
+                        <div class="textoMails">
+                        	<div style="float:right">
+                            	<span></span>
+                                    <abbr title="18 de mayo de 2010" data-utime="1274190476" class="_35 timestamp"><?php echo cambiafyh_espanol($mail["date_mail"]); ?></abbr>
+                            </div>
+                            <div>
+                            	<strong class="_36">
+                                	<a href="<?php echo $linkProfile; ?>">
+                                    	<?php echo $mail["fullname"]; ?>
+                                    </a>
+                                </strong>
+                            	<div class="_37">
+                                	<?php echo $mail["text_mail"]; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <?php } 
+				}//end for ?>
+       
+                
+				<li>
+                	<label for="id_website"><?php echo $this->translate('Respuesta');?></label>
+                    <div class="Right">
+                    	<input type="hidden" value="<?php echo $_GET["id"]; ?>" name="parent" id="parent" />
+                        <input type="hidden" value="<?php echo $user_replies; ?>" name="replies" id="replies" />
+                		<textarea style="width: 400px; height: 100px;" title="<?php echo $this->translate('Please enter a code');?>" class="inputbox required" name="text" id="text"></textarea>
+                    </div>
+                </li>
+
+            </ul>
+
+            <!-- Button -->
+            <div class="Submit">
+                <a class="Button WhiteButton RedButton create-board" href="javascript:void(0);" onclick="saveMailData();">
+                	<strong><?php echo $this->translate('Responder');?></strong>
+                	<span></span>
+                </a>
+            </div>
+        </form>
+
+    
+    </div>
+    
+    <div class="clear"></div>
+<script type='text/javascript' src='data/js/js_full.min.js'></script>    
+<script type="text/javascript">
+$(document).ready(function(){
+	
+	$('input.collaborator_name').clearOnFocus();
+
+	
+	var cache = {};
+	$('.collaborator_name.ui-autocomplete-input').live('keyup', function(){
+		var val = this.value;
+		if(cache[val]) {
+			autocompleteResults(cache[val]);
+		} else {
+			$.post('<?php echo $this->friends_href;?>', {term: val}, function(data){
+				cache[val] = data.users;
+				autocompleteResults(data.users);
+			}, 'json');
+		}
+	}).after('<div class="menu_friends" style="position: absolute; display: none;z-index:2147483647;">');
+	
+	function autocompleteResults(data) {
+
+		var holder = $('.menu_friends').empty();
+		if($(data).objectSize() < 1) {
+			holder.hide();
+			return;
+		}
+		holder.show(function(){
+			$(document).unbind('.joauto').bind('click.joauto',function(e){
+				holder.hide();
+			});
+		});
+		$(data).each(function(i, item){
+			user = $('<div class="option_friends"><img alt="'+item.label+'" src="'+item.image+'"><span>'+item.label+'</span></div>').click(function(){
+				holder.hide();
+				if( $('#user_fr_'+item.value+'<?php echo ($this->is_edit?'-edit':'');?>').size() > 0 ) { return; }
+				$('input.collaborator_name').val('');
+				$('#invite_response<?php echo ($this->is_edit?'-edit':'');?>').append('<input id="hidden_user_fr_'+item.value+'<?php echo ($this->is_edit?'-edit':'');?>" type="hidden" name="friends['+item.value+']" value="'+item.value+'" />');
+
+				template = $('#friend-template<?php echo ($this->is_edit?'-edit':'');?>').html();
+				for(e in item) {
+					template = template.replace(new RegExp(RegExp.quote('{'+e+'}'), 'g'), item[e]);
+				}
+				
+				$('#CurrentCollaborators<?php echo ($this->is_edit?'-edit':'');?>').append(template);
+			}).css({'cursor': 'pointer'});
+			
+			holder.append(user);
+		});
+	}
+
+	RegExp.quote = function(str) {
+	    return (str+'').replace(/([.?*+^$[\]\\(){}|-])/g, "\\$1");
+	};
+		
+	
+});
+
+function saveMailData() {
+	if ($("#text").val()=="")
+	{
+		alert("<?php echo $this->translate('Debe indicar un texto para el mensaje');?>");
+		$("#text").focus();
+		return false;
+	}
+	$.post('<?php echo $this->form_action;?>', $('#ReplyMail').serialize(), function(data){
+		if(data.error) {
+			Pins.error(data.error);
+		} else if(data.data) {
+			$("#fancybox-close").click();
+		}
+	}, 'json');
+	return false;
+}
+
+function deleteFriend(id) {
+	$('#user_fr_'+id+'<?php echo ($this->is_edit?'-edit':'');?>').remove();
+	$('#hidden_user_fr_'+id+'<?php echo ($this->is_edit?'-edit':'');?>').remove();
+}
+
+
+$(document).ready(function(){
+	$(".selectBox.selectBox-dropdown").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$(".selectBox.selectBox-dropdown").hide();
+		$(".selectBox-dropdown-menu.selectBox-options").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$(".selectBox-dropdown-menu.selectBox-options").hide();
+			$(".selectBox.selectBox-dropdown").show();
+			$(".selectBox-label").text(element.text());
+			$("#catId").val(element.data("id"));
+			
+			}
+
+		
+	});
+
+	return;
+	
+	
+});
+
+</script>
+
+<script type="text/template" id="friend-template<?php echo ($this->is_edit?'-edit':'');?>">
+<li class="collaborator invite" id="user_fr_{value}<?php echo ($this->is_edit?'-edit':'');?>">
+	<a href="{href}">
+		<img alt="<?php echo $this->translate('Collaborator Photo');?>" src="{image}" class="collaborator_image">
+	</a>
+	<a href="{href}" class="collaborator_name">{label}</a>
+	<a class="delete_collaborator invite" href="javascript:void(0);" onclick="deleteFriend('{value}');"><?php echo $this->translate('Remove');?></a>
+</li>
+</script>

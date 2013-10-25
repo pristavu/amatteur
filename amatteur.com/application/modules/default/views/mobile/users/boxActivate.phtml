@@ -1,5 +1,6 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="width:460px;height: 308px">
-    <a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
+<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" >
+    <img src="<?php echo $this->user['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->user['fullname'] ?>">
+    <!--a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
 					<img style="height:110px;width:110px;" data-original="<?php echo $this->user['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->user['fullname'];?>" />

@@ -134,7 +134,7 @@
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
                     <div class="Right" id='catList'>
-                        <a id="moresports" href="<?php echo $this->deportes;?>" class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
+                        <a id="moresports" onclick="deportes()" class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
                         <br/><br/>
                         <div id="divSports">
                         	<?php foreach($this->user_sports as $user_sport) {  ?>
@@ -455,6 +455,15 @@
 <?php ob_start();?>
 <script type="text/javascript"><!--
 $(document).ready(function(){
+    
+                $("#moresports").click(function(){
+                  
+                    window.location.href = '<?php echo $this->deportes;?>?email=' + $('#id_email').val() + 
+                        '&firstname=' + $('#id_first_name').val() + '&username=' + $('#id_username').val() + 
+                        /*'&password=' + $('#password').val() + '&password2=' + $('#password2').val() + */
+                        '&info=' + $('#id_about').val() + '&type_user=' + $('#user_typeId').val();
+                });    
+    
 
 	new AjaxUpload($('.StaticForm a.change_avatar'), {
 		action: '<?php echo $this->form_action;?>',

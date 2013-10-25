@@ -1,6 +1,6 @@
 <?php
 
-class Model_Users extends JO_Model {
+class Model_Events extends JO_Model {
 	
 	private static $thumb_sizes = array(
 		'50x50' => '_A',
@@ -422,22 +422,12 @@ class Model_Users extends JO_Model {
 		return true;
 	}
 	
-	public static function isExistUsername($username, $old_username=FALSE) {
-	    if($username==$old_username) {
-			return false;
-	    }
-	    
-	    $disabled_names = WM_Modules::getControllers();
-		$disabled_names[] = 'admin';
-		$disabled_names[] = 'default';
-		if( in_array( strtolower($username), $disabled_names ) ) {
-			return 1;
-		}
+	public static function isExistEventname($eventname) {
 	        
 		$db = JO_Db::getDefaultAdapter();
-        $query = $db->select()
-					->from('users', new JO_Db_Expr('COUNT(user_id)'))
-					->where('username = ?', $username);
+                $query = $db->select()
+					->from('events', new JO_Db_Expr('COUNT(event_id)'))
+					->where('eventname = ?', $eventname);
 		
 		return $db->fetchOne($query)>0 ? true : false;
 	}
@@ -601,7 +591,7 @@ class Model_Users extends JO_Model {
 		}
 	}
 	
-	public static function getUsers($data = array()) {
+	public static function getEvent($data = array()) {
 		
 		$key = md5(serialize($data));
 		
@@ -612,7 +602,7 @@ class Model_Users extends JO_Model {
         
 		$query = $db
 					->select()
-					->from('users', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"));
+					->from('events', array('events.*'));
 	
 		if(isset($data['start']) && isset($data['limit'])) {
 			if($data['start'] < 0) {
@@ -628,11 +618,11 @@ class Model_Users extends JO_Model {
 		}
 		
 		$allow_sort = array(
-			'users.user_id',
-			'users.username',
-			'users.firstname',
-			'users.status',
-                        'users.likers'
+			'events.user_id',
+			'events.eventname',
+			'events.organiza',
+			'events.date_event',
+                        'events.sport_category'
 		);
 		if(isset($data['filter_like_pin_id'])) {
 			$allow_sort[] = 'pins_likes.like_id';
@@ -641,129 +631,123 @@ class Model_Users extends JO_Model {
 		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
 			$query->order($data['order'] . $sort);
 		} else {
-			$query->order('firstname' . $sort);
+			$query->order('eventname' . $sort);
 		}
 		
 		////////////filter
-		
-		/*if(isset($data['filter_welcome']) && is_array($data['filter_welcome'])) {
-			$query->joinLeft('boards', 'boards.user_id = users.user_id', array())
-			->where('boards.category_id IN (?)', new JO_Db_Expr(implode(',',$data['filter_welcome'])))
-			->group('users.user_id');
-		}*/
-		
-		if(isset($data['filter_welcome']) && is_array($data['filter_welcome'])) {
-			$query->where('users.user_id IN (SELECT user_id FROM boards WHERE category_id IN (?) OR category_id IN (SELECT category_id FROM category WHERE parent_id IN (?))) ', new JO_Db_Expr(implode(',',$data['filter_welcome'])));
-		}
-		
-		
-		if(isset($data['filter_followers_user_id']) && $data['filter_followers_user_id']) {
-			$query->joinLeft('users_following_user', 'users.user_id = users_following_user.following_id', array())
-			->where('users_following_user.user_id = ?', (string)$data['filter_followers_user_id']);
-		}
-		
-		if(isset($data['filter_following_user_id']) && $data['filter_following_user_id']) {
-			$query->joinLeft('users_following_user', 'users.user_id = users_following_user.user_id', array())
-			->where('users_following_user.following_id = ?', (string)$data['filter_following_user_id']);
-		}
-		
-		if(isset($data['filter_likers_user_id']) && $data['filter_likers_user_id']) {
-			$query->joinLeft('users_likes', 'users.user_id = users_likes.user_like_id', array())
-			->where('users_likes.user_id = ?', (string)$data['filter_likers_user_id']);
-		}
-		
-		if(isset($data['filter_liking_user_id']) && $data['filter_liking_user_id']) {
-			$query->joinLeft('users_likes', 'users.user_id = users_likes.user_id', array())
-			->where('users_likes.user_like_id = ?', (string)$data['filter_liking_user_id']);
+		if(isset($data['filter_event_id']) && $data['filter_event_id']) {
+			$query->where('events.event_id = ?', (string)$data['filter_event_id']);
 		}
                 
-                if(isset($data['filter_profile_top_10']) && !is_null($data['filter_profile_top_10'])) {
-			$query->where('users.likers > 0 ');
-			//$ignore_in = true;
-		}
-
-                if(isset($data['filter_profile_top_10_7']) && !is_null($data['filter_profile_top_10_7'])) {
-			$query->where('users.likers > 0 AND DATEDIFF(curdate(), last_action_datetime) < ? ', (int)$data['filter_profile_top_10_7']);
-			//$ignore_in = true;
-		}
-                
-		if(isset($data['filter_like_pin_id']) && $data['filter_like_pin_id']) {
-			$query->joinLeft('pins_likes', 'users.user_id = pins_likes.user_id')
-			->where('pins_likes.pin_id = ?', (string)$data['filter_like_pin_id']);
-		}
-		
 		if(isset($data['filter_user_id']) && $data['filter_user_id']) {
-			$query->where('users.user_id = ?', (string)$data['filter_user_id']);
+			$query->where('events.user_id = ?', (string)$data['filter_user_id']);
 		}
 
-		if(isset($data['filter_firstname']) && $data['filter_firstname']) {
-			$query->where('users.firstname = ?', (string)$data['filter_firstname']);
+		if(isset($data['filter_eventname']) && $data['filter_eventname']) {
+			$query->where('events.eventname = ?', (string)$data['filter_eventname']);
 		}
                 		
 		if(isset($data['filter_location']) && $data['filter_location']) {
-			$query->where('users.location = ?', (string)$data['filter_location']);
+			$query->where('events.location = ?', (string)$data['filter_location']);
 		}
 
-		if(isset($data['filter_gender']) && $data['filter_gender']) {
-			$query->where('users.gender = ?', (string)$data['filter_gender']);
-		}
                 
                 if(isset($data['filter_sport_category']) && $data['filter_sport_category']) {
-			$query->where('(users.sport_category_1 = ? OR users.sport_category_2 = ? OR users.sport_category_3 = ?)', $data['filter_sport_category']);
+			$query->where('(events.sport_category = ?', $data['filter_sport_category']);
 		}
 
-                if(isset($data['filter_sport_category_1']) && $data['filter_sport_category_1'] ) {
-			$query->where('users.sport_category_1 = ? ', $data['filter_sport_category_1']);
-		}
+//  error_log (" QUERY $query");
+		$results = $db->fetchRow($query);
 
-                if(isset($data['filter_sport_category_2']) && $data['filter_sport_category_2']) {
-			$query->where('users.sport_category_2 = ? ', $data['filter_sport_category_2']);
-		}
-
-                if(isset($data['filter_sport_category_3']) && $data['filter_sport_category_3']) {
-			$query->where('users.sport_category_3 = ? ', $data['filter_sport_category_3']);
-		}
-
-                
-                if(isset($data['filter_typeuser']) && $data['filter_typeuser']) {
-                        $datos = 0;
-                        foreach($data['filter_typeuser'] as $type_user) {
-                            if ($type_user != "")
-                            {
-                                $query->where('users.type_user = ?', (string)$type_user);
-                                $datos = 1;
-                            }
-                        }
-                        if ($datos == 0)
-                        {
-                            if(isset($data['filter_typeuser_profesional']) && $data['filter_typeuser_profesional']) {
-                                          $query->where('users.type_user in (2, 3, 4, 6, 7, 8, 9, 10, 11)');
-                            }
-                        }
-		}
-
-		if(isset($data['filter_username']) && $data['filter_username']) {
-			$query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
-		}
-                
-//		echo $query; exit;
-		$results = $db->fetchAll($query);
-
-		$result[$key] = array();
-		if($results) {
-			foreach($results AS $data) {
-				$data['pins_array'] = array();
-				if(trim($data['latest_pins'])) {
-					$data['pins_array'] = $db->fetchAll($db->select()->from('pins')->where("pin_id IN ('?')", new JO_Db_Expr(implode("','", explode(',',$data['latest_pins']))))->order('pin_id DESC')->limit(15));
-				}
-				
-				$result[$key][] = $data;
-			}
-		}
 		
-		return $result[$key];
+		return $results;
 	}
 	
+	public static function getEvents($data = array()) {
+		
+		$key = md5(serialize($data));
+		
+		static $result = array();
+		if(isset($result[$key])) { return $result[$key]; }
+		
+		$db = JO_Db::getDefaultAdapter();
+        
+		$query = $db
+					->select()
+					->from('events', array('events.*'));
+	
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		if(isset($data['sort']) && strtolower($data['sort']) == 'desc') {
+			$sort = ' DESC';
+		} else {
+			$sort = ' ASC';
+		}
+		
+		$allow_sort = array(
+			'events.user_id',
+			'events.eventname',
+			'events.organiza',
+			'events.date_event',
+                        'events.sport_category'
+		);
+		if(isset($data['filter_like_pin_id'])) {
+			$allow_sort[] = 'pins_likes.like_id';
+		}
+		
+		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
+			$query->order($data['order'] . $sort);
+		} else {
+			$query->order('eventname' . $sort);
+		}
+		
+		////////////filter
+		if(isset($data['filter_event_id']) && $data['filter_event_id']) {
+			$query->where('events.event_id = ?', (string)$data['filter_event_id']);
+		}
+                
+		if(isset($data['filter_user_id']) && $data['filter_user_id']) {
+			$query->where('events.user_id = ?', (string)$data['filter_user_id']);
+		}
+
+		if(isset($data['filter_eventname']) && $data['filter_eventname']) {
+			$query->where('events.eventname LIKE ?', '%' . str_replace(' ', '%', $data['filter_eventname']) . '%');
+		}
+                		
+		if(isset($data['filter_location']) && $data['filter_location']) {
+			$query->where('events.location = ?', '%' . str_replace(' ', '%', $data['filter_location']) . '%');
+		}
+
+                
+                if(isset($data['filter_sport_category']) && $data['filter_sport_category']) {
+			$query->where('events.sport_category = ?', $data['filter_sport_category']);
+		}
+
+                if(isset($data['filter_event_date1']) && $data['filter_event_date1']) {
+			$query->where('events.date_event >= ?', $data['filter_event_date1']);
+		}
+
+                if(isset($data['filter_event_date2']) && $data['filter_event_date2']) {
+			$query->where('events.date_event <= ?', $data['filter_event_date2']);
+		}
+                
+		if(isset($data['filter_compartir']) && $data['filter_compartir']) {
+			$query->where('events.compartir = ?', (string)$data['filter_compartir']);
+		}
+                
+                
+                
+error_log (" QUERY $query");
+		$results = $db->fetchAll($query);
+
+		
+		return $results;
+	}        
 	public static function getTotalUsers($data = array()) {
 		$db = JO_Db::getDefaultAdapter();
 		
@@ -1737,11 +1721,12 @@ class Model_Users extends JO_Model {
 		return $result; 
 	}	
         
-        public function getActivateUser($user_id){
+        public function getEventUser($user_id, $event_id){
 		$db  = JO_Db::getDefaultAdapter();
 		//$sql = "select * from users_activate where user_id = {$user_id}";
 		//$result = $db->fetchOne($sql);
-		$query =  $db->select()->from('users_activate',array('*'))->where('user_id = ?',$user_id);
+		$query =  $db->select()->from('events',array('*'))->where('user_id = ?',$user_id)->where('event_id = ?',$event_id);
+                error_log($query);
                 $result= $db->fetchRow($query);
 		return $result; 
 	}
@@ -1908,30 +1893,43 @@ class Model_Users extends JO_Model {
 	}
 
         
-        public static function createActivate($user_id, $data) {
+        public static function createEvent($user_id, $event_id, $data) {
 		$db = JO_Db::getDefaultAdapter();
 		
-		$rows = self::describeTable('users_activate');
+		$rows = self::describeTable('events');
 		
 		//$user_info_get = self::getUser($user_id);
 		
 		//$created = WM_Date::format($user_info_get['created'], 'yy-mm-dd H:i:s');
                 
 		$update = array();
+		$avatar = '';
 		foreach($rows AS $row) {
 			if( array_key_exists($row, $data) ) {
-                            $update[$row] = $data[$row];
+				
+				if($row == 'avatar') {
+					if($data[$row]) {
+						JO_Session::clear('upload_avatar');
+						$avatar = $data[$row];
+					} else {
+						//$update[$row] = $data[$row];
+					}
+				} else {
+					$update[$row] = $data[$row];
+				}
 			}
 		}
 		
 		if(!$update) {
+			if(!$avatar) {
 				return false;
+			}
 		}
 		
-                $user_data = Model_Users::getActivateUser( JO_Session::get('user[user_id]') );
+                $user_data = Model_Events::getEventUser( JO_Session::get('user[user_id]'), $event_id );
                 if (!$user_data)
                 {
-                    $db->insert('users_activate', $update);
+                    $db->insert('events', $update);
 		
                     $user_id = $db->lastInsertId();
 		
@@ -1942,7 +1940,11 @@ class Model_Users extends JO_Model {
                 }
                 else
                 {
-                    $result = $db->update('users_activate', $update, array('user_id = ?' => (string)$user_id));
+                    //error_log ($db->update('events', $update, 
+                    //        array('user_id = ' . (string)$user_id . ' AND event_id = ' .(string)$event_id)));
+                    
+                    $result = $db->update('events', $update, 
+                            array('user_id = ' . (string)$user_id . ' AND event_id = ' .(string)$event_id));
 
                     if (!$result)
                     {
@@ -1951,7 +1953,44 @@ class Model_Users extends JO_Model {
 
                 }
 		
-		
+		if($avatar) {
+			
+			///// upload images
+			//error_log("Vamos a subir la imagen");
+			$front = JO_Front::getInstance();
+			$request = JO_Request::getInstance();
+			$upload_model = Helper_Pin::formatUploadModule(JO_Registry::get('default_upload_method'));
+			$upload_model_file = $front->getModuleDirectoryWithDefault($request->getModule()) . '/' . $front->classToFilename($upload_model);
+			if(!file_exists($upload_model_file)) {
+				$upload_model = Helper_Pin::formatUploadModule('locale');
+				$upload_model_file = $front->getModuleDirectoryWithDefault($request->getModule()) . '/' . $front->classToFilename($upload_model);
+			}
+				
+			$image = false;
+			if(file_exists($upload_model_file)) {
+				//error_log("EXISTE FILE");
+				$image = call_user_func(array($upload_model, 'uploadEventImage'), $avatar, $event_id );
+			}
+			
+			if($image) {
+				//error_log("EXISTE FILE");
+				$result = $db->update('events', array(
+					'avatar' => $image['image'],
+					'store' => $image['store'],
+					'height' => $image['height'],
+					'width' => $image['width'],
+					'last_action_datetime' => new JO_Db_Expr('NOW()')
+				), array('user_id = ' . (string)$user_id . ' AND event_id = ' .(string)$event_id));
+			
+				if($user_data && $user_data['avatar']) {
+					if($user_data['avatar'] != $image['image']) {
+						call_user_func(array(Helper_Pin::formatUploadModule($user_data['store']), 'deleteEventImage'), $user_data );
+					}
+				}
+			}
+		}
+
+                
 		return true;
 	}
         
@@ -2081,6 +2120,14 @@ class Model_Users extends JO_Model {
                 return $result; 
 	}
         
+        public function getEventsLatLen($lat, $len){
+		$db  = JO_Db::getDefaultAdapter();
+		//$sql = "select * from users_activate where user_id = {$user_id}";
+		//$result = $db->fetchOne($sql);
+		$query =  $db->select()->from('events',array('*'))->where('lat = ?',$lat)->where('len = ?',$len);
+                $result= $db->fetchRow($query);
+		return $result; 
+	}
 
 }
 

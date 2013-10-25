@@ -61,13 +61,13 @@
                  <div class="dropdown" id="search_dropdown">
                             <div class="container">
                                 <ul id="search_explore" class="contents">
-                                    <li class="search">
+                                    <!--li class="search">
                                         <form action="search" method="get">
                                             <input id="query" name="q" type="text" action='<?php echo $base_url?>search' placeholder="<?php echo $this->translate("Search"); ?>">
                                         </form>
-                                    </li>
+                                    </li-->
                                     <li class="search">
-                                        <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Advanced Search'); ?></a>            
+                                        <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Búsqueda Avanzada'); ?></a>            
                                     </li>
                                     
                                     <?php if($this->is_loged !== 0): ?>
@@ -139,6 +139,8 @@
     							<a href="" class='uploadButtonLink'><li><?php echo  $this->translate('Upload Pin') ?></li></a>
     							
         						<a href="<?php echo $this->self_profile; ?>"><li><?php echo  $this->translate('Profile') ?></li></a>
+                                                        
+                                                        <a href="<?php echo $this->mails; ?>"><li><?php echo  $this->translate('Mensajes') ?></li></a>
         
        							<!--  <a href="?full_version" id="switch_to_full"><li ontouchstart=""><?php echo  $this->translate('Full Site'); ?></li></a>-->
        							<a href="<?php echo WM_Router::create($base_url."?controller=users&action=logout");?>" id="logout_button"><li ontouchstart=""><?php echo  $this->translate('Log Out'); ?></li></a>

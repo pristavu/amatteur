@@ -334,8 +334,8 @@
 
                                 </div>
                                 <div style='float:left;width:50%'> 
+
                                                 <?php if($this->enable_edit && !$this->userCanActivate) { ?>
-                                    
                                                       <?php if (!$this->userIsActivate) { ?>
                                                     <img src="data/images/activateNo.png">
                                                     <a id="activate" href="<?php echo $this->popup_activate;?>" class="Button RedButton  " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
@@ -498,9 +498,13 @@
     <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">
 <?php } ?>            
 
+                    <?php if($this->active == 'pins' || $this->active == 'likes' || $this->active == 'activity' || $this->active == 'likers' || $this->active == 'liking' || $this->active == 'following' || $this->active == 'followers') { ?>        
+                        <!-- no muestra agenda -->
+                    <?php } else { ?>          
         <div id="ProfileHeader">
                 <div class="FixedContainer row clearfix">
-                        <div class="infoBody">    
+                        <div class="infoBody">                               
+
                         	<div class="tituloCaja">
                             	<h3><?php echo $this->translate('Diary & News');?></h3>
                                 <div id="btnCreaMensaje">    
@@ -535,6 +539,7 @@
                         </div>
                 </div>
         </div>
+                    <?php } ?>                                                
 </div>                    
 <?php if($this->follow_user) { ?>
 <script type="text/javascript">

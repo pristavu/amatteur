@@ -239,7 +239,7 @@ class Apiv1Controller extends JO_Action
                 }
             } else
             {
-                $return = array('error' => 4, 'description' => $validate->_get_error_messages());
+                $return = array('error' => 4, 'description' => str_replace("<br />", ". ", $validate->_get_error_messages()));
             }
         }
 
@@ -2099,10 +2099,10 @@ class Apiv1Controller extends JO_Action
         }
 
         $this->view->error = false;
-        $session = $request->getPost('facebook_id');
-        
         if ($request->isPost())
         {
+        $session = $request->getPost('facebook_id');
+error_log("facebook id " . $session . " " .  $request->getPost('username') . " " . $request->getPost('firstname')." ".  $request->getPost('lastname'));
 
             $validate = new Helper_Validate();
             $validate->_set_rules($request->getPost('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
@@ -2117,16 +2117,19 @@ class Apiv1Controller extends JO_Action
                 if( md5($request->getPost('password')) != md5($request->getPost('password2')) ) {
                         $validate->_set_form_errors( $this->translate('Password and Confirm Password should be the same') );
                         $validate->_set_valid_form(false);
+error_log("ERROR PASSS ". $request->getPost('password') . " " . $request->getPost('password2') );                        
                 }
                 if (Model_Users::isExistEmail($request->getPost('email')))
                 {
                     $validate->_set_form_errors($this->translate('This e-mail address is already used'));
                     $validate->_set_valid_form(false);
+error_log("ERROR MAIL ". $request->getPost('email'));
                 }
                 if (Model_Users::isExistUsername($request->getPost('username')))
                 {
                     $validate->_set_form_errors($this->translate('This username is already used'));
                     $validate->_set_valid_form(false);
+error_log("ERROR USER ". $request->getPost('username'));
                 }
             }
 
@@ -2146,8 +2149,8 @@ class Apiv1Controller extends JO_Action
                             'username' => $request->getPost('username'),
                             //'firstname' => isset($request->getPost('first_name')) ? $request->getPost('first_name') : '',
                             //'lastname' => isset($request->getPost('last_name')) ? $request->getPost('last_name') : '',
-                            'firstname' => $request->getPost('first_name'),
-                            'lastname' => $request->getPost('last_name') ,
+                            'firstname' => $request->getPost('firstname'),
+                            'lastname' => $request->getPost('lastname') ,
                             'email' => $request->getPost('email'),
                             'password' => $request->getPost('password'),
                             //'delete_email' => isset($request->getPost('email')) ? $request->getPost('email') : '',
@@ -2167,14 +2170,17 @@ class Apiv1Controller extends JO_Action
                         //self::loginInit($result);
                     };
                     $return = array('id' => $result); //['user_id']); 
+error_log("SIN ERROR ". $result);
                 } 
                 else
                 {
                     $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
+error_log("ERROR 3 ");
                 }
             } else
             {
-                $return = array('error' => 4, 'description' => $validate->_get_error_messages());
+                $return = array('error' => 4, 'description' => str_replace("<br />", ". ", $validate->_get_error_messages()));
+error_log("ERROR 4 " . str_replace("<br />", ". ", $validate->_get_error_messages()));
             }
         }
 
@@ -2233,6 +2239,7 @@ class Apiv1Controller extends JO_Action
             $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
             $response->addHeader('Content-type: application/json; charset=utf-8');
             $return = JO_Json::encode($return);
+error_log("2RETURN " . $return);                        
         }
 
         $response->appendBody($return);
@@ -2260,13 +2267,17 @@ class Apiv1Controller extends JO_Action
 
         $return = array();
 
+
         if (isset($_POST['facebook_id']))
         {
+            
             $id = $_POST['facebook_id'];
+error_log("facebook ID ".$id);
 
             $user_data = WM_Users::checkLoginFacebookTwitter($id, 'facebook');
             if ($user_data)
             {
+error_log("USER ". $user_data['user_id'] . " " . $user_data['username']);
                 JO_Session::set(array('user' => $user_data));
                 JO_Session::clear('fb_login');
 
@@ -2286,19 +2297,32 @@ class Apiv1Controller extends JO_Action
             } 
             else
             {
-                $return = array('error' => 13, 'description' => $this->translate("Error en el login de facebook"));
+                $return = array('error' => 13,
+                    'description' => $this->translate('Error en el login de facebook'));
+                /*
+                $return = array('id' => 1516813219,
+                    'username' => 'salva.morata',
+                    'token' => 8897,
+                    'firstname' => 'slva',
+                    'lastname' => 'mor',
+                    'avatar' => '');
+                */
+                
+error_log("ERROR 13 ");                
             }
         }
 
         if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
+error_log("1RETURN " . $return);                        
         } else
         {
             $response->addHeader('Cache-Control: no-cache, must-revalidate');
             $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
             $response->addHeader('Content-type: application/json; charset=utf-8');
             $return = JO_Json::encode($return);
+error_log("2RETURN " . $return);            
         }
 
         $response->appendBody($return);

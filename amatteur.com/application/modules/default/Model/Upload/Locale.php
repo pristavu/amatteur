@@ -205,6 +205,99 @@ class Model_Upload_Locale extends Model_Upload_Abstract {
 		return false;
 
 	}
+        
+	/////////// user avatar
+	
+	public static function uploadEventImage($avatar, $user_id = 0) {
+		try {
+			$added_date = time();
+			if( is_array($user_info = Model_Users::getUser($user_id)) ) {
+				$added_date = $user_info['date_added'];
+			}
+			
+			$date_added = WM_Date::format($added_date, 'yy-mm-dd H:i:s');
+			if( ( $imageinfo = @getimagesize($avatar) ) !== false ) {
+				$ext = JO_File_Ext::getExtFromMime($imageinfo['mime']);
+				$ext = '.'.$ext;
+				$name = $user_id . $ext;
+			
+				$image_path = '/users/' . WM_Date::format($added_date, 'yy/mm/');
+				//$name = self::rename_if_exists($image_path, $name);
+			
+				if(!file_exists( BASE_PATH . '/uploads' . $image_path ) || !is_dir(BASE_PATH . '/uploads' . $image_path)) {
+					@mkdir(BASE_PATH . '/uploads' . $image_path, 0777, true);
+				}
+			
+				if(@copy($avatar, BASE_PATH . '/uploads' . $image_path . $name )) {
+					if( file_exists( BASE_PATH . '/uploads' . $image_path . $name ) ) {
+						return array(
+								'store' 	=> 'locale',
+								'image' => $image_path . $name,
+								'width'	=> 0,
+								'height' => 0
+						);
+					} else {
+						return false;
+					}
+				} else {
+					return false;
+				}
+			} else {
+				return false;
+			}
+		} catch (JO_Exception $e) {
+			return false;
+		}
+		return false;
+	}
+	
+	public static function deleteEventImage($user_info) {
+		$model_image = new Helper_Images();
+		$model_image->deleteImages($user_info['avatar'], true);
+	}
+
+	public static function getEventImage($user, $prefix = null) {
+		$sizes = self::userThumbSizes();
+		$format_size = false;
+		if($sizes) {
+			foreach($sizes AS $val => $key) {
+				if($key == $prefix) {
+					$format_size = $val;
+					break;
+				}
+			}
+		}
+		if(!$format_size) {
+			return false;
+		}
+		
+		$model_images = new Helper_Images();
+		
+		$sizes = explode('x', $format_size);
+		$width = (int)isset($sizes[0])?$sizes[0]:0;
+		$height = (int)isset($sizes[1])?$sizes[1]:0;
+		
+		if($width && $height) {
+			$img = $model_images->resize($user['avatar'], $width, $height, true);
+		} else if($width && !$height) {
+			$img = $model_images->resizeWidth($user['avatar'], $width);
+		} else if($height && !$width) {
+			$img = $model_images->resizeHeight($user['avatar'], $height);
+		}
+		
+		if( $img ) {
+			return array(
+					'image' => $img,
+					'original' => $model_images->original($user['avatar']),
+					'width' => $model_images->getSizes('width'),
+					'height' => $model_images->getSizes('height'),
+					'mime' => JO_File_Ext::getMimeFromFile($img)
+			);
+		}
+		
+		return false;
+
+	}        
 	
 }
 

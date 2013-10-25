@@ -66,10 +66,10 @@
                                                 
                                                 
     <!--div id="create-board" class="Form " style="padding-left:0px;" -->
-            <!--ul style="margin:0px;"-->
+            <ul style="margin:0px;">
                 
                 <!-- Tipo Usuario -->
-                <!--li style="border:0px"-->
+                <li style="border:0px">
                       	<div id='other_details' style="border-bottom: solid 1px #E2E2E2;padding-left:5%">                
                     <div class="Right" id='catList'>
                          
@@ -103,8 +103,8 @@
                         <input type='hidden' id='user_typeId' name='type_user' value = '<?php echo $this->type_user;?>'/>
 
                     </div>
-                <!--/li-->
-                
+                </li>
+            </ul>
                 <!-- Deportes -->
                 
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
@@ -821,16 +821,17 @@ $(document).ready(function(){
         		$("#selectBox-Category3").show();
                 	$("#selectBox-dropdown-menu-Category3").hide();
                     }
-                    
+                 
+                 /*
 		$(".cats-typeuser").bind('click',function(event){
                             event.preventDefault();
                             var self  = $(this);
                		appendElementInMain(self);
 		});
+                 */   
                     
-                    
-		//$(".master").unbind('click').bind('click',function(event){
-                $(".master.typeuser").bind('mouseenter',function(event){
+		$(".master").unbind('click').bind('click',function(event){
+                //$(".master.typeuser").bind('mouseenter',function(event){
 			event.preventDefault();
 
 			var children  = $(this).find($('ul'));
@@ -884,7 +885,6 @@ $(document).ready(function(){
 
 		
 	});
-
           
         
         $(".morelocations").bind('click',function(event){

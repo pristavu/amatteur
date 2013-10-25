@@ -90,6 +90,7 @@
                                                 <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGustaAz.png"> en mis imagenes </p>
                                                 <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGustaAz.png"> en mi perfil </p>
                                         </div>
+            
             <div style='float:right;'>
                 
                                                 <?php if($this->like_user) { ?>      
@@ -105,6 +106,183 @@
                                                       <?php }  ?>   
                                                 <?php }  ?>  
             </div>
+
+            
+    <?php /* if ($this->enable_edit)
+    { 
+		//Sacamos el total de mails sin leer del usuario
+		$totalmails=Model_Mails::getTotalMails(array('user_id' => JO_Session::get('user[user_id]')));
+	?>
+<div id="muestraMensajes" style="margin-top: 0px;margin-left: 0px;width: 100px;height: 0px;float: right;right:50px"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="18px" alt="<?php echo $this->translate('Mensajes'); ?>"/>&nbsp;<span style="color:#8C7E7E;font-weight: bold"><?php echo $this->translate('Mensajes'); ?></span></a></div>
+    <?php
+		if ($totalmails>0)
+		{
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:0px;left:24px;margin-top:0px;">'.$totalmails.'</div>';
+		}else
+		{
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:0px;left:24px;margin-top:0px;display:none">0</div>';
+		}
+		echo '<div id="divMails" style="display:none;top:95px;left:65px;height:120px;overflow:auto">';
+			echo '<div id="cabeceraCajaMails"></div>';
+			echo '<div id="divMailsHeader">';
+				echo '<a id="newMail" href="'.$this->addMail.'" class="silverbox" title="'.$this->translate('Nuevo mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
+			echo '</div>';
+                $totalmailssinleer=Model_Mails::getTotalMailsSinLeer(array('user_id' => JO_Session::get('user[user_id]')));
+		if ($totalmailssinleer>0)
+		{
+			function cambiafyh_espanol($fechaH)
+			{
+				$traducir_fecha = explode("-",$fechaH);
+				$separaHoras=explode(" ",$traducir_fecha[2]);
+				$fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+				return $fecha_espana;
+			}
+				echo '<div id="divMailsScroll">';
+					//Vamos a sacar el total de mails del usuario
+					$mails=Model_Mails::getMails(array('user_id' => JO_Session::get('user[user_id]')));
+					echo '<ul>';
+					foreach($mails AS $mail) {
+						if ($mail["store"]=="amazons3")
+						{
+							$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/';
+							$sufijo="_A.";
+						}else
+						{
+							$host="/uploads";
+							$sufijo=".";
+						}
+						if($mail["avatar"]=="")
+						{
+							$imageUser="uploads/cache/data/amatteur/amatteur_azul-50x50-crop.jpg";
+						}else
+						{
+							//cogemos la extensión del fichero
+							$extension= substr(strrchr($mail["avatar"], '.'), 1);
+							//ahora la quitamos
+							$nombreSextension=substr($mail["avatar"], 0,strlen($mail["avatar"])-strlen($extension)-1);
+							$imageUser=$host.$nombreSextension.$sufijo.$extension;
+						}
+						$textLeido="";
+						$textToolTip=$this->translate('Marcar la conversación como no leída');
+						if ($mail["read_mail"]==0)
+						{
+							$textLeido="NOleido";
+							$textToolTip=$this->translate('Marcar la conversación como leída');
+						}
+						if ($mail["parent_mail_id"]==0)
+						{
+							$id=$mail["mail_id"];
+						}else
+						{
+							$id=$mail["parent_mail_id"];
+						}
+						echo '<li>
+								<a class="silverbox messagesContent '.$textLeido.'" href="'.$this->viewMail.'?id='.$id.'" role="button" id="mail'.$mail["mail_id"].'" title="'.$this->translate('Mensajería').'">
+								<div class="clearfix">
+									<div class="imagenMails">
+										<div class="_55lt" style="width:50px;height:50px;" size="50" data-reactid=".r[33odf]">
+											<img class="img" src="'.$imageUser.'" width="50" height="50" data-reactid=".r[33odf].[0]">
+										</div>
+									</div>
+									<div class="textoMails">
+										<div class="content fsm fwn fcg" style="margin-left:0px">
+											<div class="author">
+												<strong>'.$mail["fullname"].'</strong>
+											</div>
+											<div class="prwText">
+												<span>'.str_replace("<br/>"," ",$mail["text_mail"]).'</span>
+											</div>
+											<div class="time">
+												<abbr title="" class="timestamp">'.cambiafyh_espanol($mail["date_mail"]).'</abbr>
+											</div>
+										</div>
+									</div>
+									<div class="x_div"><div class="_5c9q '.$textLeido.'" id="'.$mail["mail_id"].'" title="'.$textToolTip.'"></div></div>
+								</div>
+								</a>
+							</li>';
+					}
+					echo '</ul>';
+				echo '</div>';
+				echo '<div id="divMailsFooter">';
+				echo '</div>';
+			
+		}
+		echo '</div>';
+	}
+*/	?>
+    <!--script type="text/javascript">
+			$(document).ready(function() 
+				{
+					$("#newMail").click(function (){
+						$("#divMails").fadeOut();
+					});
+					$(".messagesContent").click(function (){
+						$("#divMails").fadeOut();
+					});
+					$("._5c9q").click(function (){
+						if ($(this).hasClass("NOleido"))
+						{
+							$.post('<?php echo $this->stateMail;?>', {id:$(this).attr("id"),read:1}, function(data){
+								if (data.data.unread==0)
+								{
+									$("#avisoMensajes").hide();
+								}else
+								{
+									$("#avisoMensajes").html(data.data.unread);
+									$("#avisoMensajes").show();
+								}
+							}, 'json');
+							$("#mail" + $(this).attr("id")).removeClass("NOleido");
+							$(this).removeClass("NOleido");
+							$(this).attr("title","<?php echo $this->translate('Marcar la conversación como no leída'); ?>");
+						}else
+						{
+							$.post('<?php echo $this->stateMail;?>', {id:$(this).attr("id"),read:0}, function(data){
+								$("#avisoMensajes").html(data.data.unread);
+								$("#avisoMensajes").show();
+							}, 'json');
+							$("#mail" + $(this).attr("id")).addClass("NOleido");
+							$(this).addClass("NOleido");	
+							$(this).attr("title","<?php echo $this->translate('Marcar la conversación como leída'); ?>");
+											
+						}
+						return false;
+					});
+					$("#muestraMensajes .ados").click(function (){
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}else
+						{
+							$("#divMails").fadeIn();
+						}
+						return false;
+					});
+					$("#avisoMensajes").click(function (){
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}else
+						{
+							$("#divMails").fadeIn();
+						}
+						return false;
+					});
+                                        
+                                       $(document).live("click", function() { 
+						if ($("#divMails").is(":visible"))
+						{
+							$("#divMails").fadeOut();
+						}                                           
+                                       });
+                                     
+				});
+	</script-->
+
+            
+            
+            
                                     <br>
                                 <div style='width:100%;clear:none;overflow:none'>
 
@@ -115,9 +293,27 @@
 
                                   <div style='float:left;width:100%;'>
 
-                                    <?php if($this->userdata['sport_category_1']) { ?>
+                                    <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;">
+                                     <?php  $users_sports = Model_Users::getUserSports($this->userdata['user_id']); ?>
+                                    <?php if  ($users_sports) { ?>
+
+                                        <?php  $i = 0; ?>
+                                     <?php  foreach ($users_sports as $user_sports){ $i++; ?>
+                                    <?php if (!Model_Boards::isCategoryParent($user_sports['sport_category'])) ?>
+                                    <?php   { ?>
+                                    <?php       echo Model_Boards::getCategoryTitle($user_sports['sport_category']);?>
+                                    <?php    } ?>
+                                    <?php if  ($i > 2 || count($users_sports) == $i) { break; } else { echo ", " ;} ?>                                        
+                                    <?php } ?>                                        
+
+                                    <?php } else { ?>
+                                        &nbsp;
+                                    <?php }  ?>    
+                                    </span>                                        
+
+                                    <?php /*if($this->userdata['sport_category_1']) { ?>
                                     <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;"><?php echo $this->translate("Sports: "). " " . Model_Boards::getCategoryTitle($this->userdata['sport_category_1']). ", ". Model_Boards::getCategoryTitle($this->userdata['sport_category_2']) . ", ". Model_Boards::getCategoryTitle($this->userdata['sport_category_3']);?></span>
-                                    <?php } ?>
+                                    <?php } */ ?>
                                     </div>
                                     </div>                                    
 
@@ -126,7 +322,7 @@
                                   <div style='float:left;width:100%;'>
                                     
                                     <?php if($this->userdata['type_user']) { ?>
-                                    <span style="padding-bottom:5px;color: #8C7E7E;font-weight: 600;"><?php echo $this->translate("Profile type: "). " " . Model_Users::getUserTypeTitle($this->userdata['type_user']);?></span>
+                                    <span style="padding-bottom:5px;color: #8C7E7E;font-weight: 600;"><?php echo  Model_Users::getUserTypeTitle($this->userdata['type_user']);?></span>
                                     <?php } ?>
                                     </div>
                                     </div>                                    
@@ -142,15 +338,6 @@
                                                     <img src="data_mobile/images/activateSi.png">
                                                     <a id="activate" href="<?php echo $this->popup_activate;?>" class="red mbtn " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
                                                       <?php } ?>
-                                    <div id="topwrappers" style="position:relative;margin-top:-33px;margin-left:100px;width: 290px important!">
-
-
-                                                    <form onsubmit="window.location.replace('<?php echo $this->search_url; ?>'); return false" method="get" class="search" style="height: 28px;    position: absolute;    left: 10px;    top: 8px;    height: 28px;    position: absolute;    top: 0px;    right: 0px;    background-color: rgb(255, 255, 255);    box-shadow: 0px 1px rgb(255, 255, 255), 0px 1px rgba(34, 25, 25, 0.1) inset;">
-                                                        <p class="submit">
-                                                            <input type="submit" value="<?php echo $this->translate('Search'); ?>" style="background-image: url('data/images/search.png');background-repeat: no-repeat;text-indent: -5000px;overflow: hidden;height: 28px;width: 60px;border-style: none;cursor: pointer;-moz-border-bottom-colors: none;border-image: none;-moz-border-left-colors: none;-moz-border-right-colors: none;-moz-border-top-colors: none;background-color: transparent;background-position: center center;float: left;margin-left: -1px;min-height: 17px;padding: 7px 7px 2px;" value="<?php echo $this->keywords; ?>"/>
-                                                        </p>
-                                                    </form>
-                                        </div>  
 
                                                 <?php } ?>
                                                     

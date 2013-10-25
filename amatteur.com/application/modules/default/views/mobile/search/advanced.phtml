@@ -29,21 +29,25 @@
 			<div class="box2">
 				<p>
                                 <label> <?php echo sprintf($this->translate('Buscar en:')); ?> </label>
+                                <p>
                                 <?php if ($this->advancedActive == "amatteur") { ?>
                                 <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
                                 <?php } else { ?>
                                 <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="background-color:gray; margin-top:0px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
-                                <?php } ?>                                
+                                <?php } ?>  
+                                </p><p>
                                 <?php if ($this->advancedActive == "activate") { ?>                    
                                 <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
                                 <?php } else { ?> 
                                 <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
-                                <?php } ?>                    
+                                <?php } ?>
+                                </p><p>
                                 <?php  if ($this->advancedActive == "services") { ?>                    
                                 <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
                                 <?php } else { ?>      
                                 <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
                                 <?php } ?>
+                                </p>
 	        	</p>
         	</div>
 
@@ -84,7 +88,7 @@
                                 </div><div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Articles')); ?> </span>
                                 </div><div style="display:table-row">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('All')); ?> </span>
+                                    <!--span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('All')); ?> </span-->
                                 </div><div style="display:table-row">
                                     <!--span class="" style='text-align:left'><input type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span-->
                                 </div>
@@ -107,14 +111,14 @@
                 </div>                        
                 </p>
 		<p class="input">
-			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words; ?>" id="registration_box" placeholder="<?php echo $this->translate('Palabras Clave') ?>" style='width: 250px !important' autocomplete='off'/></span>
+			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words; ?>" id="registration_box" placeholder="<?php echo $this->translate('Palabras Clave o Nombre') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
                 
-		<p class="input">
+		<!--p class="input">
 			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname; ?>" id="registration_box" placeholder="<?php echo $this->translate('First name') ?>" style='width: 250px !important' autocomplete='off'/></span>
 		</p>
                 
-                    <!-- Gender -->
+                    <!-- Gender --
 		<p class="input" style="padding-top: 0px">
                         <span class="field">
                         
@@ -126,7 +130,7 @@
                         </span>    
                 </p>
 
-                    <!--  Location -->
+                    <!--  Location --
 		<p class="input">
 			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>"  id="registration_box" placeholder="<?php echo $this->translate('Location') ?>" style='width: 250px !important' autocomplete='off'/></span>
                         <input type="hidden" size="1" name="zoom" id="zoom" value=15 />
@@ -141,7 +145,7 @@
             <ul style="margin:0px;">
                 
                 
-                <!-- Deportes -->
+                <!-- Deportes --
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Sports');?></label>
                     <div class="Right" id='catList'>
@@ -266,7 +270,7 @@
                 </li>
 
             </ul>
-        </div>  
+        </div-->  
         
 		
 		<div class="hr"></div>
@@ -599,9 +603,11 @@
         </div>
 		</div>
             <?php if ($this->pins) { ?>
+<?php if ($this->advancedActive != "amatteur") { ?>                                     
                 <?php if ($this->users) { ?>
-                <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>            
+                <div id="mapa" style="width: 500px; height: 400px;margin-top:70px;margin-left:0px"></div>            
                 <?php } ?>
+<?php } ?>                                
                 <div id="container" style="margin-left:0px">
 		<?php echo $this->pins;?>
                 </div>

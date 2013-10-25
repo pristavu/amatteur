@@ -25,6 +25,28 @@ class MailsController extends JO_Action {
 		
 		$request = $this->getRequest();
                 
+        //error_log("antes de APP");
+        //para las APP's
+        if (isset($_SESSION['token']))
+        {
+            //error_log("dentro de app");
+            if (isset($_SESSION['userid']))
+            {
+                $result = Model_Users::checkLoginAPP($_SESSION['userid']);
+                if ($result)
+                {
+                    if ($result['status'])
+                    {
+                        @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                        JO_Session::set(array('user' => $result));
+
+                        //error_log("fin de app");
+                    }
+                }
+            }
+        }   
+        error_log(" user_id " . JO_Session::get('user[user_id]'));
+                
                 $this->view->user_activate = $request->getRequest('user_fullname');
                 
                 $this->view->user_id = $request->getRequest('user_id');
@@ -68,7 +90,27 @@ class MailsController extends JO_Action {
 		
 		$request = $this->getRequest();
 		
-		
+        //error_log("antes de APP");
+        //para las APP's
+        if (isset($_SESSION['token']))
+        {
+            //error_log("dentro de app");
+            if (isset($_SESSION['userid']))
+            {
+                $result = Model_Users::checkLoginAPP($_SESSION['userid']);
+                if ($result)
+                {
+                    if ($result['status'])
+                    {
+                        @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                        JO_Session::set(array('user' => $result));
+
+                        //error_log("fin de app");
+                    }
+                }
+            }
+        }		
+                
 		if( $request->isPost() ) {
 			if( JO_Session::get('user[user_id]') ) {
 						$data = Model_Mails::updateMail(array(
@@ -89,6 +131,27 @@ class MailsController extends JO_Action {
 		
 		$request = $this->getRequest();
 		
+        //error_log("antes de APP");
+        //para las APP's
+        if (isset($_SESSION['token']))
+        {
+            //error_log("dentro de app");
+            if (isset($_SESSION['userid']))
+            {
+                $result = Model_Users::checkLoginAPP($_SESSION['userid']);
+                if ($result)
+                {
+                    if ($result['status'])
+                    {
+                        @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                        JO_Session::set(array('user' => $result));
+
+                        //error_log("fin de app");
+                    }
+                }
+            }
+        }
+        
 		$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=mails&action=reply' );
 		$this->view->base_url = $request->getBaseUrl();
 		$this->view->popup_main_box = $this->view->render('popup_mail','mails');
@@ -113,7 +176,27 @@ class MailsController extends JO_Action {
 		
 		$request = $this->getRequest();
 		
-		
+        //error_log("antes de APP");
+        //para las APP's
+        if (isset($_SESSION['token']))
+        {
+            //error_log("dentro de app");
+            if (isset($_SESSION['userid']))
+            {
+                $result = Model_Users::checkLoginAPP($_SESSION['userid']);
+                if ($result)
+                {
+                    if ($result['status'])
+                    {
+                        @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                        JO_Session::set(array('user' => $result));
+
+                        //error_log("fin de app");
+                    }
+                }
+            }
+        }
+                
 		if( $request->isPost() ) {
 			if( JO_Session::get('user[user_id]') ) {
 						$data = Model_Mails::replyMail(array(

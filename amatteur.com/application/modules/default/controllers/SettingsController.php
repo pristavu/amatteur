@@ -205,65 +205,70 @@ class SettingsController extends JO_Action {
                                                 );
 						
 					}
-                                	if(Model_Users::createActivate( JO_Session::get('user[user_id]'), $data )) {
-                                            
+                                        if (!Model_Users::getUserTypeNotOthers($user_data['type_user']))
+                                        {
+                                            $data['activate'] = 0;
+                                            //borrar activate
+                                            if(Model_Users::createActivate( JO_Session::get('user[user_id]'), $data )) {
+
+                                            }
                                         }
                                         
                                         if (Model_Users::deleteUsersLocation(JO_Session::get('user[user_id]')))
                                         {
-                                                            for($i = 0; $i <= $request->getPost('locationcounter'); $i++)
+                                            for($i = 0; $i <= $request->getPost('locationcounter'); $i++)
+                                            {
+                                                $location = 'location'.$i;
+                                                $lat = 'lat'.$i;
+                                                $len = 'len'.$i;
+                                                if ($request->issetPost($location))
+                                                {
+                                                    if ($request->getPost($location) != "")
+                                                    {
+                                                        $lat = $request->getPost($lat);
+                                                        $len = $request->getPost($len);
+
+                                                        while(Model_Users::getLocationUsersLatLen($lat,$len))
+                                                        {
+                                                            $posLat = strpos($lat, ".");
+                                                            $longLat = strlen(substr((string)$lat, $posLat));
+                                                            $cantLat = 0;
+                                                            for ($i = 0; $i < ($longLat - 4); $i++)
                                                             {
-                                                                $location = 'location'.$i;
-                                                                $lat = 'lat'.$i;
-                                                                $len = 'len'.$i;
-                                                                if ($request->issetPost($location))
+                                                                if ($i == 0)
                                                                 {
-                                                                    if ($request->getPost($location) != "")
-                                                                    {
-                                                                        $lat = $request->getPost($lat);
-                                                                        $len = $request->getPost($len);
-
-                                                                        while(Model_Users::getLocationUsersLatLen($lat,$len))
-                                                                        {
-                                                                            $posLat = strpos($lat, ".");
-                                                                            $longLat = strlen(substr((string)$lat, $posLat));
-                                                                            $cantLat = 0;
-                                                                            for ($i = 0; $i < ($longLat - 4); $i++)
-                                                                            {
-                                                                                if ($i == 0)
-                                                                                {
-                                                                                    $cantLat .= ".0";
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    $cantLat .= "0";
-                                                                                }
-                                                                            }
-                                                                            $cantLat .= "1";
-                                                                            $lat = $lat + $cantLat;
-
-                                                                            $posLen = strpos($len, ".");
-                                                                            $longLen = strlen(substr((string)$len, $posLen));
-                                                                            $cantLen = 0;
-                                                                            for ($i = 0; $i < ($longLen - 4); $i++)
-                                                                            {
-                                                                                if ($i == 0)
-                                                                                {
-                                                                                    $cantLen .= ".0";
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    $cantLen .= "0";
-                                                                                }
-                                                                            }
-                                                                            $cantLen .= "1";
-                                                                            $len = $len + $cantLen;
-                                                                        }
-                                                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location), $lat, $len))
-                                                                        {}
-                                                                    }
+                                                                    $cantLat .= ".0";
+                                                                }
+                                                                else
+                                                                {
+                                                                    $cantLat .= "0";
                                                                 }
                                                             }
+                                                            $cantLat .= "1";
+                                                            $lat = $lat + $cantLat;
+
+                                                            $posLen = strpos($len, ".");
+                                                            $longLen = strlen(substr((string)$len, $posLen));
+                                                            $cantLen = 0;
+                                                            for ($i = 0; $i < ($longLen - 4); $i++)
+                                                            {
+                                                                if ($i == 0)
+                                                                {
+                                                                    $cantLen .= ".0";
+                                                                }
+                                                                else
+                                                                {
+                                                                    $cantLen .= "0";
+                                                                }
+                                                            }
+                                                            $cantLen .= "1";
+                                                            $len = $len + $cantLen;
+                                                        }
+                                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location), $lat, $len))
+                                                        {}
+                                                    }
+                                                }
+                                            }
                                         }
 
 					
@@ -481,6 +486,70 @@ class SettingsController extends JO_Action {
 			}
 		}
 		
+                // si llama a los deportes
+                if (isset($_SESSION["email"]))
+                {
+                    $this->view->email = $_SESSION["email"];
+                    $_SESSION["email"] = null;
+                }
+                if (isset($_SESSION["firstname"]))
+                {
+                    $this->view->firstname = $_SESSION["firstname"];
+                    $_SESSION["firstname"] = null;
+                }
+                if (isset($_SESSION["username"]))
+                {
+                    $this->view->username = $_SESSION["username"];
+                    $_SESSION["username"] = null;
+                }
+                if (isset($_SESSION["password"]))
+                {
+                    $this->view->password = $_SESSION["password"];
+                    $_SESSION["password"] = null;
+                }
+                if (isset($_SESSION["password2"]))
+                {
+                    $this->view->password2 = $_SESSION["password2"];
+                    $_SESSION["password2"] = null;
+                }
+                if (isset($_SESSION["info"]))
+                {
+                    $this->view->info = $_SESSION["info"];
+                    $_SESSION["info"] = null;
+                }
+                if (isset($_SESSION["location"]))
+                {
+                    $this->view->location = $_SESSION["location"];
+                    $_SESSION["location"] = null;
+                }
+                if (isset($_SESSION["type_user"]))
+                {
+                    if ($_SESSION["type_user"] != "")
+                    {
+                        $this->view->type_user = $_SESSION["type_user"];
+                        $this->view->usertype_title = Model_Users::getUserTypeTitle($_SESSION["type_user"]);
+                    }
+                    $_SESSION["type_user"] = null;
+                }
+                if (isset($_SESSION["location1"]))
+                {
+                    $user_location = array();
+                    for($i = 1; $i <= $_SESSION['locationcounter']; $i++)
+                    {
+                        $location = 'location'.$i;
+                        if (isset($_SESSION[$location])){
+                            if ($_SESSION[$location] != "")
+                            {
+                                 $user_location[] = $_SESSION[$location];
+                                 $_SESSION[$location] = null;
+                            }
+                        }
+                    }
+                    $this->view->user_location = $user_location;
+                    $this->view->locationcounter = $_SESSION['locationcounter'];
+                    $_SESSION['locationcounter'] = null;
+                }                
+                
 		$this->view->children = array(
         	'header_part' 	=> 'layout/header_part',
         	'footer_part' 	=> 'layout/footer_part'

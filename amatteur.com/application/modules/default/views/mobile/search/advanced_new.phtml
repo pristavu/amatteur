@@ -1,0 +1,2009 @@
+<?php echo $this->header_part; ?>
+<body onLoad="GLoad();" >
+    <!--div id="container"> 
+	
+		<div id="ContextBarqSearch" class="box">
+			<div class="box2">
+				<p>
+                                <label> <?php echo sprintf($this->translate('Buscar en:')); ?> </label>
+                                <?php if ($this->advancedActive == "amatteur") { ?>
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="margin-top:0px; padding-bottom: 1px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
+                                <?php } else { ?>
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="background-color:gray; margin-top:0px; padding-bottom: 1px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
+                                <?php } ?>                                
+                                <?php if ($this->advancedActive == "activate") { ?>                    
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="margin-top:0px; padding-bottom: 1px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
+                                <?php } else { ?> 
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="background-color:gray;margin-top:0px; padding-bottom: 1px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
+                                <?php } ?>                    
+                                <?php  if ($this->advancedActive == "services") { ?>                    
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="margin-top:0px; padding-bottom: 1px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
+                                <?php } else { ?>      
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="background-color:gray;margin-top:0px; padding-bottom: 1px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
+                                <?php } ?>
+                                </p>
+                        </div>
+                </div-->
+	<div id="container1" style="width:1173px !important;margin-bottom:50px;padding-top:85px;margin-left:auto;padding-bottom:12px;margin-right:auto;">
+		<div id="ContextBarqSearch">
+			<div class="box2">
+				<p>
+                                <label> <?php echo sprintf($this->translate('Buscar en:')); ?> </label>
+                                <?php if ($this->advancedActive == "amatteur") { ?>
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
+                                <?php } else { ?>
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=amatteur" class="red mbtn morelocations " style="background-color:gray; margin-top:0px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Amatteur');?></a></span>
+                                <?php } ?>                                
+                                <?php if ($this->advancedActive == "activate") { ?>                    
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
+                                <?php } else { ?> 
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
+                                <?php } ?>                    
+                                <?php  if ($this->advancedActive == "services") { ?>                    
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
+                                <?php } else { ?>      
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
+                                <?php } ?>
+	        	</p>
+        	</div>
+
+                    
+       <?php if (!$this->pins) { ?>
+	<div id="" style="padding-top: 0px ! important;width:1025px ! important">    
+            
+            <!----------------------- AMATTEUR ------------------------------->            
+            <?php if ($this->advancedActive == "amatteur") { ?>
+            
+            <div id="panel" style="padding-top: 5px !important">
+	<form action="<?php echo $this->search_action; ?>?id=amatteur" method="post" class="edit search ">
+                        <label for="amatteur"><?php echo sprintf($this->translate('¿En qué parte de Amatteur quieres buscar?')); ?> <br class="hide" /></label>	
+		<p class="input">
+    <div  class="Form StaticForm" style="padding-left:0px;" >                                            
+                        <ul><li>
+                        <div style="display:table">
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option1 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option1' name='option1' class='option1' value="1" ><?php echo " ". sprintf($this->translate('Boards')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option2 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option2' name='option2' class='option2' value="1"><?php echo " ". sprintf($this->translate('Users')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Pins')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option4 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option4' name='option4' class='option4' value="1"><?php echo " ". sprintf($this->translate('Videos')); ?> </span>
+                                </div>
+                            </div>
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Gifts')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Articles')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <!--span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('All')); ?> </span-->
+                                </div><div style="display:table-row">
+                                    <!--span class="" style='text-align:left'><input type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span-->
+                                </div>
+                            </div>
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+                            
+                            <div style="display:table-cell">
+                                <div style="display:table-row">&nbsp;</div>                                
+                                <div style="display:table-row">
+                                    <label for="amatteur"><?php echo sprintf($this->translate('Debes de seleccionar al menos una opción')); ?> <br class="hide" /></label>	                                                                    
+                                </div>
+                            </div>
+                        </div>
+                        </li>
+                        </ul>
+                </div>                        
+                </p>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		<p class="input">
+			<label for="palabrasclave"><?php echo $this->translate('Palabras Clave o Nombre');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words; ?>" /></span>
+		</p>
+                
+		<!--p class="input">
+			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname; ?>" /></span>
+		</p-->
+                
+                    <!-- Gender -->
+		<!--p class="input" style="padding-top: 0px">
+                        <span class="field">
+                        
+                        <div id="genderOptions" class="Right">
+                                <label for="id_gender_0"><?php echo $this->translate('Gender'); ?><br class="hide" /></label>                                                        
+                                <label for="id_gender_0"><input <?php echo ($this->gender == 'male' ? 'checked="checked"' : ''); ?> type="radio" name="gender" class="gender" value="male" id="id_gender_male"> <?php echo $this->translate('Male'); ?></label>
+                                <label for="id_gender_1"><input <?php echo ($this->gender == 'female' ? 'checked="checked"' : ''); ?> type="radio" name="gender" class="gender" value="female" id="id_gender_female"> <?php echo $this->translate('Female'); ?></label>
+                        </div>
+                        </span>    
+                </p>
+<br/-->
+                    <!--  Location -->
+		<!--p class="input">
+			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
+                        <input type="hidden" size="1" name="zoom" id="zoom" value=15 />
+
+		</p>
+
+                 <div id="map-canvas"></div-->
+                
+
+       
+    <div id="create-board" class="Form StaticForm" style="padding-left:0px;" >
+            <ul style="margin:0px;">
+                
+                
+                <!-- Deportes -->
+                <li style="border:0px">
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Deporte');?></label>
+                    <div class="Right" id='catList'>
+                         
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category1' style='width: 352px; display: inline-block;'>
+                         	<?php if(!$this->cat_title1){?>
+                         		 <span class='selectBox-label' id='selectBox-label-Category1' style="width: 352px;"><?php echo  $this->translate('Please choose sport');?></span>
+                         	<?php }else{?>
+                         		<span class='selectBox-label' id='selectBox-label-Category1' style="width: 352px;"><?php echo  $this->cat_title1;?></span>
+                         	<?php }?>
+                         	 <span class="selectBox-arrow" style=""></span>
+                         </a>
+                         
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category1' style='display:none;overflow-x: hidden;width: 370px;'>
+                         
+                        	<?php $i=0; foreach($this->categories as $category) { ?>
+                        		<li  class = 'master cat1' style='border:none !important' >
+                                                <?php if ($i==0) { $i=1; ?>
+                                                <a data-id='<?php echo 1; ?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo "Todo"; ?></a>
+                                                <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
+                                                <?php } ?>
+
+                        			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo $category['title']?></a>
+                        			<?php if($category['subcategories']){?>
+                        				<ul class='subcats hidden'>
+                        					<?php foreach($category['subcategories'] as $subcat){?>
+	                        					<li style='border:none !important;padding-left:0px'>
+	                        						<a data-id='<?php echo $subcat['category_id']; ?>' class='' href=""><?php echo $subcat['title']?></a>
+	                        					</li>
+                        					<?php }?>
+                        				</ul>
+                        			<?php }?>
+                        		</li>
+                        	<?php }?>
+                        </ul>
+                        
+                        <input type='hidden' id='catId1' name='sport_category_1' value = '<?php echo $this->sport_category_1;?>'/>
+                      
+                    </div>
+                </li>
+
+                <!--li style="border:0px">
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('');?></label>
+                    <div class="Right" id='catList'>
+                         
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category2' style='width: 352px; display: inline-block;'>
+                         	<?php if(!$this->cat_title2){?>
+                         		 <span class='selectBox-label' id='selectBox-label-Category2' style="width: 345px;"><?php echo  $this->translate('Please choose sport');?></span>
+                         	<?php }else{?>
+                         		<span class='selectBox-label' id='selectBox-label-Category2' style="width: 345px;"><?php echo  $this->cat_title2;?></span>
+                         	<?php }?>
+                         	 <span class="selectBox-arrow" style=""></span>
+                         </a>
+                         
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category2' style='display:none;overflow-x: hidden;width: 370px;'>
+                         
+                        	<?php $i=0; foreach($this->categories as $category) { ?>
+                        		<li  class = 'master cat2' style='border:none !important' >
+                                                <?php if ($i==0) { $i=1; ?>
+                                                <a data-id='<?php echo 1; ?>' href="" class='cats-category2' style='color:#AAA;' ><?php echo "Todo"; ?></a>
+                                                <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
+                                                <?php } ?>
+
+                        			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category2' style='color:#AAA;' ><?php echo $category['title']?></a>
+                        			<?php if($category['subcategories']){?>
+                        				<ul class='subcats hidden'>
+                        					<?php foreach($category['subcategories'] as $subcat){?>
+	                        					<li style='border:none !important;padding-left:0px'>
+	                        						<a data-id='<?php echo $subcat['category_id']; ?>' class='' href=""><?php echo $subcat['title']?></a>
+	                        					</li>
+                        					<?php }?>
+                        				</ul>
+                        			<?php }?>
+                        		</li>
+                        	<?php }?>
+                        </ul>
+                        
+                        <input type='hidden' id='catId2' name='sport_category_2' value = '<?php echo $this->sport_category_2;?>'/>
+                      
+                    </div>
+                </li>
+
+                                
+                <li style="border:0px">
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('');?></label>
+                    <div class="Right" id='catList'>
+                         
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category3' style='width: 352px; display: inline-block;'>
+                         	<?php if(!$this->cat_title3){?>
+                         		 <span class='selectBox-label' id='selectBox-label-Category3' style="width: 345px;"><?php echo  $this->translate('Please choose sport');?></span>
+                         	<?php }else{?>
+                         		<span class='selectBox-label' id='selectBox-label-Category3' style="width: 345px;"><?php echo  $this->cat_title3;?></span>
+                         	<?php } ?>
+                         	 <span class="selectBox-arrow" style=""></span>
+                         </a>
+                         
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category3' style='display:none;overflow-x: hidden;width: 370px;'>
+                         
+                        	<?php $i=0; foreach($this->categories as $category) { ?>
+                        		<li  class = 'master cat3' style='border:none !important' >
+                                                <?php if ($i==0) { $i=1; ?>
+                                                <a data-id='<?php echo 1; ?>' href="" class='cats-category3' style='color:#AAA;' ><?php echo "Todo"; ?></a>
+                                                <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
+                                                <?php } ?>
+                        			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category3' style='color:#AAA;' ><?php echo $category['title']?></a>
+                        			<?php if($category['subcategories']){?>
+                        				<ul class='subcats hidden'>
+                        					<?php foreach($category['subcategories'] as $subcat){?>
+	                        					<li style='border:none !important;padding-left:0px'>
+	                        						<a data-id='<?php echo $subcat['category_id']; ?>' class='' href=""><?php echo $subcat['title']?></a>
+	                        					</li>
+                        					<?php }?>
+                        				</ul>
+                        			<?php }?>
+                        		</li>
+                        	<?php }?>
+                        </ul>
+                        
+                        <input type='hidden' id='catId3' name='sport_category_3' value = '<?php echo $this->sport_category_3;?>'/>
+                      
+                    </div>
+                </li-->
+
+            </ul>
+        </div>  
+        <br/><br/>
+		
+		<div class="hr"></div>
+                <input type="hidden" size="1" name="zoom" value=15 />
+		<p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
+	</form>
+</div>    
+            
+            
+            
+            
+            <!----------------------- ACTIVATE ------------------------------->
+            <?php } else if ($this->advancedActive == "activate") { ?>
+            <div id="panel" style="padding-top: 5px !important">
+	<form action="<?php echo $this->search_action; ?>?id=activate" method="post" class="edit search StaticForm">
+                <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Deportistas Activados')); ?> <br class="hide" /></label>            
+	<input type="hidden" name="words" id="words" value="ok" />
+                <ul>
+                    <!-- Gender -->
+                    <li>
+                        <label for="id_gender_0"><?php echo $this->translate('Gender'); ?></label>
+                        <div id="genderOptions" class="Right">
+                                <label for="id_gender_0"><input <?php echo ($this->gender == 'male' ? 'checked="checked"' : ''); ?> type="radio" name="gender" class="gender" value="male" id="id_gender_male"> <?php echo $this->translate('Male'); ?></label>
+                                <label for="id_gender_1"><input <?php echo ($this->gender == 'female' ? 'checked="checked"' : ''); ?> type="radio" name="gender" class="gender" value="female" id="id_gender_female"> <?php echo $this->translate('Female'); ?></label>
+                        </div>
+                    </li>
+                    <!-- Edad -->
+                    <li>
+                        <label for="type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Age'); ?></label>
+                        <div class="Right" id='catList'>
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Age' style='width: 352px; display: inline-block;'>
+                                <?php if (!$this->age_title)
+                                { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Age' style="width: 345px;"><?php echo $this->translate('Please choose age'); ?></span>
+                                <?php } else
+                                { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Age' style="width: 345px;"><?php echo $this->age_title; ?></span>
+                                <?php } ?>
+                                <span class="selectBox-arrow" style=""></span>
+                            </a>
+
+                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Age' style='display:none;overflow-x: hidden;width: 370px;'>
+
+                            <?php foreach ($this->ages as $age)
+                            { ?>
+                                    <li  class = 'master' style='border:none !important' >
+                                        <a data-id='<?php echo $age['age_id']; ?>' href="" class='' style='color:#AAA;' ><?php echo $age['age_title'] ?></a>
+                                    </li>
+                            <?php } ?>
+                            </ul>
+
+                            <input type='hidden' id='ageId' name='age' class='age' value = '<?php echo $this->age; ?>'/>
+
+                        </div>
+                    </li>
+                    <!-- Ubicacion -->
+                    <li>
+                        <div class="input" style="padding-top: 0px">
+                            <label for="location"><?php echo $this->translate('Location activate'); ?> <br class="hide" /></label>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
+                        </div>
+
+                        <div id="map-canvas"></div>
+                        
+                    </li>
+                    <!-- Deporte -->
+                    <li>
+                        <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Deporte'); ?></label>
+                        <div class="Right" id='catList'>
+
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
+                                <?php if (!$this->cat_title)
+                                { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->translate('Please choose sport'); ?></span>
+                                <?php } else
+                                { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->cat_title; ?></span>
+                                <?php } ?>
+                                <span class="selectBox-arrow" style=""></span>
+                            </a>
+
+                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 370px;'>
+
+                                        <?php foreach ($this->categories as $category)
+                                        { ?>
+                                    <li  class = 'master' style='border:none !important' >
+                                        <a data-id='<?php echo $category['category_id']; ?>' href="" class='' style='color:#AAA;' ><?php echo $category['title'] ?></a>
+                                            <?php if ($category['subcategories'])
+                                            { ?>
+                                            <ul class='subcats hidden'>
+                                        <?php foreach ($category['subcategories'] as $subcat)
+                                        { ?>
+                                                    <li style='border:none !important;padding-left:0px'>
+                                                        <a data-id='<?php echo $subcat['category_id']; ?>' class='' href=""><?php echo $subcat['title'] ?></a>
+                                                    </li>
+                                        <?php } ?>
+                                            </ul>
+                                    <?php } ?>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+
+                            <input type='hidden' id='catId' name='sport_category' class='sport_category' value = '<?php echo $this->sport_category; ?>'/>
+                        </div>
+                    </li>
+
+                    <!-- Nivel -->
+                    <li>
+                        <label for="type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Level'); ?></label>
+                        <div class="Right" id='catList'>
+
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Level' style='width: 352px; display: inline-block;'>
+                            <?php if (!$this->level_title)
+                            { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Level' style="width: 345px;"><?php echo $this->translate('Please choose level'); ?></span>
+                            <?php } else
+                            { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Level' style="width: 345px;"><?php echo $this->level_title; ?></span>
+                                <?php } ?>
+                                <span class="selectBox-arrow" style=""></span>
+                            </a>
+
+                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Level' style='display:none;overflow-x: hidden;width: 370px;'>
+
+                            <?php foreach ($this->levels as $level)
+                            { ?>
+                                    <li  class = 'master' style='border:none !important' >
+                                        <a data-id='<?php echo $level['level_id']; ?>' href="" class='' style='color:#AAA;' ><?php echo $level['level_title'] ?></a>
+                                    </li>
+                            <?php } ?>
+                            </ul>
+
+                            <input type='hidden' id='levelId' name='level' class='level' value = '<?php echo $this->level; ?>'/>
+                        </div>
+                    </li>
+                    <!-- Opciones -->
+                    <li>
+                        <label for="tc"><?php echo sprintf($this->translate('Activate Options')); ?> <br class="hide" /></label>
+                        <span class="field">
+                        <div style="display:table">
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option1 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option1' name='option1' class='option1' value="1" ><?php echo " ". sprintf($this->translate('Practice sports together')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option2 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option2' name='option2' class='option2' value="1"><?php echo " ". sprintf($this->translate('Organize match / tournament')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Team look for sportman')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option4 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option4' name='option4' class='option4' value="1"><?php echo " ". sprintf($this->translate('Sportman look for team')); ?> </span>
+                                </div>
+                            </div>
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Look for sponsor')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Volunteer helps paraolimpics')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('Trainee look for tutor')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option8 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span>
+                                </div>
+                            </div>
+                        </div>
+                        </span>
+                    </li>
+                <!-- Grabar -->
+                    <li>
+                        <div class="left w335px">
+                            <div class="submit" style="padding-top: 0px">
+                                
+                            &nbsp;&nbsp;<input class="Button Whitered mbtn Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<!--input class="Button Whitered mbtn Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
+                            </div>
+                        </div>
+                    </li>				
+                </ul>
+
+		<!--p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p-->
+	</form>
+</div>     
+            
+            
+            
+            
+            
+            <!----------------------------------------------- SERVICIOS Y NEGOCIOS ----------------------------------------------------------------->            
+            <?php } else if ($this->advancedActive == "services") { ?>
+            <div id="panel" style="padding-top: 5px !important">
+	<form action="<?php echo $this->search_action; ?>?id=services" method="post" class="edit search ">
+                <label for="servicios" style="width:300px"><?php echo sprintf($this->translate('Buscar en Servicios y Negocios')); ?> <br class="hide" /></label>
+
+		<p class="input">
+                        <!--label for="tc"><?php echo sprintf($this->translate('Activate Options')); ?> <br class="hide" /></label-->
+    <div  class="Form StaticForm" style="padding-left:0px;" >                                                                
+                        <ul><li>                            
+                        <div style="display:table">
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option1 == '3' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option1' name='option1' class='option1' value="3" ><?php echo " ". sprintf($this->translate('Entrenador / Escuela')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option2 == '4' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option2' name='option2' class='option2' value="4"><?php echo " ". sprintf($this->translate('Gimnasio')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <!--span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Club / Equipo')); ?> </span-->
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option4 == '6' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option4' name='option4' class='option4' value="6"><?php echo " ". sprintf($this->translate('Medicina Deportiva / Salud')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option5 == '7' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option5' name='option5' class='option5' value="7"><?php echo " ". sprintf($this->translate('Tienda / Negocio')); ?> </span>
+                                </div>
+                            </div>
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    &nbsp;&nbsp;&nbsp;
+                                </div>
+                            </div>
+
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option6 == '8' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="8"><?php echo " ". sprintf($this->translate('Instalaciones')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option7 == '9' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="9"><?php echo " ". sprintf($this->translate('Empresa de Aventura')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option8 == '10' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option8' name='option8' class='option8' value="10"><?php echo " ". sprintf($this->translate('Organismo Oficial')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option9 == '11' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option9' name='option9' class='option9' value="11"><?php echo " ". sprintf($this->translate('Medios de Comunicacion')); ?> </span>
+                                </div><div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option10 == '2' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option10' name='option10' class='option10' value="2"><?php echo " ". sprintf($this->translate('All')); ?> </span>
+                                </div>
+                            </div>
+                        </div>
+                        </ul></li>                            
+        </div>        
+                
+                </p>
+                <br/><br/><br/><br/><br/><br/><br/><br/><br/><br/><br/>
+		<p class="input">
+			<label for="palabrasclave"><?php echo $this->translate('Palabras Clave');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="words" id="words" value="<?php echo $this->words;?>" /></span>
+		</p>
+
+		<p class="input">
+			<label for="firstname"><?php echo $this->translate('First name');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="firstname" id="firstname" value="<?php echo $this->firstname;?>" /></span>
+		</p>
+                
+                
+
+       
+    <div id="create-board" class="Form StaticForm" style="padding-left:0px;" >
+            <ul style="margin:0px;">
+                
+                
+                <!-- Deportes -->
+                <li style="border:0px">
+                    <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Deporte');?></label>
+                    <div class="Right" id='catList'>
+                         
+                         <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category1' style='width: 352px; display: inline-block;'>
+                         	<?php if(!$this->cat_title1){?>
+                         		 <span class='selectBox-label' id='selectBox-label-Category1' style="width: 352px;"><?php echo  $this->translate('Please choose sport');?></span>
+                         	<?php }else{?>
+                         		<span class='selectBox-label' id='selectBox-label-Category1' style="width: 352px;"><?php echo  $this->cat_title1;?></span>
+                         	<?php }?>
+                         	 <span class="selectBox-arrow" style=""></span>
+                         </a>
+                         
+                         <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category1' style='display:none;overflow-x: hidden;width: 370px;'>
+                         
+                        	<?php $i=0; foreach($this->categories as $category) { ?>
+                        		<li  class = 'master cat1' style='border:none !important' >
+                                                <?php if ($i==0) { $i=1; ?>
+                                                <a data-id='<?php echo 1; ?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo "Todo"; ?></a>
+                                                <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
+                                                <?php } ?>
+
+                        			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo $category['title']?></a>
+                        			<?php if($category['subcategories']){?>
+                        				<ul class='subcats hidden'>
+                        					<?php foreach($category['subcategories'] as $subcat){?>
+	                        					<li style='border:none !important;padding-left:0px'>
+	                        						<a data-id='<?php echo $subcat['category_id']; ?>' class='' href=""><?php echo $subcat['title']?></a>
+	                        					</li>
+                        					<?php }?>
+                        				</ul>
+                        			<?php }?>
+                        		</li>
+                        	<?php }?>
+                        </ul>
+                        
+                        <input type='hidden' id='catId1' name='sport_category_1' value = '<?php echo $this->sport_category_1;?>'/>
+                      
+                    </div>
+                </li>
+
+
+
+            </ul>
+        </div>  
+
+        <!--  Location -->
+		<p class="input">
+			<label for="ubication"><?php echo $this->translate('Location');?> <br class="hide" /></label>
+			<span class="field"><input type="text" name="location" id="searchTextField" value="<?php echo $this->location;?>" /></span>
+		</p>
+
+                <div id="map-canvas"></div>
+                
+    <br/>
+                <!-- Grabar -->
+                    <!--li>
+                        <div class="left w335px">
+                            <p class="submit">
+                                
+                            &nbsp;&nbsp;<input class="Button Whitered mbtn Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<input class="Button Whitered mbtn Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
+                            </p>
+                        </div>
+                    </li-->				
+
+    
+		<div class="hr"></div>
+                <input type="hidden" size="1" name="zoom" value=15 />
+		<p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
+
+	</form>
+</div>                
+					<?php } ?>            
+            <?php } ?>            
+        </div>
+		</div>
+
+            <?php if ($this->pins) { ?>
+<?php if ($this->advancedActive != "amatteur") { ?>                         
+                <?php if ($this->users) { ?>
+                <div id="mapa" style="width: 500px; height: 400px;margin-top:70px;margin-left:0px"></div>
+                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                <?php } ?>
+<?php } ?>                                                
+<?php if ($this->advancedActive == "activate") { ?>    
+                <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">                                    
+                    <?php echo $this->pins;?>
+                </div>
+                
+<?php } else { ?>
+                <div id="container" style="margin-left:0px">
+                    <?php echo $this->pins;?>
+                </div>
+<?php } ?>                                
+            <?php } ?>                
+              
+
+		
+		<div class="clear"></div>
+	</div>
+	
+</body>
+    
+    
+	<?php if($this->follow_user) { ?>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		Pins.initFollow('#container .box.user .follow a');
+	});
+	</script>
+	<?php } ?>
+	<script type="text/javascript">
+	$(document).ready(function(){
+                <?php if ($this->pins) { ?>
+                        $("#container").focus();
+                <?php } else { ?>                        
+                        $("#container1").focus();
+                <?php }  ?>
+	});
+	</script>
+        
+
+    <!-- AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I -->
+<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
+      type="text/javascript"></script>
+
+<!--script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script-->      
+    <script type="text/javascript">
+   
+   /*     
+    var locations = [
+      ['madriles', 40.4284034, -3.7149525, 1]
+    ];      
+      */
+
+
+var geocoder;
+var map;
+
+function GLoad() {
+    
+<?php if ($this->advancedActive != "amatteur") { ?> 
+        
+        
+<?php if($this->users) { ?>;
+        
+        var lat = [];
+        var lng = [];
+        var locations = [];
+        var fullname = [];
+        var avatar = [];
+
+
+    <?php if ($this->location) { ?>
+        
+         var locationPrincipal = '<?php echo ($this->location)?>';
+         var i = 1;       
+         var len = <?php echo count($this->users); ?>;
+         
+        <?php foreach($this->users as $user) { ?>
+            //var location = '<?php echo ($this->location)?>';
+            var location = '<?php echo $user["location"];?>';
+            //if (location != "")
+            {
+                locations.push(location);
+                fullname.push('<?php echo $user["fullname"]; ?>');
+                <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                avatar.push('<?php echo $avatar['image']; ?>');
+                lat.push('<?php echo $user["lat"]; ?>');
+                lng.push('<?php echo $user["len"]; ?>');
+                
+
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': locationPrincipal }, function (results, status) {
+                    if (status == google.maps.GeocoderStatus.OK) 
+                    {
+                        var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
+                        var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
+
+                          var obj =latAux;
+                          lat.push(obj);
+                          var obj2 =lngAux;
+                          lng.push(obj2);
+
+                    }
+                    else
+                    {
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
+
+                        }
+                    }
+
+                    if (i == len)
+                    {
+                        colocar();
+                    }
+                    i++;
+                    pausecomp(201);
+              });
+          }
+          
+        <?php } ?>          
+
+
+    //}
+    <?php } else { ?>    
+ 
+         var i = 1;
+         var len = <?php echo count($this->users); ?>;
+        
+        /*
+        var locationsAux = [];
+        var fullnameAux = [];
+        var avatarAux = [];
+        var userAux = [];
+
+         
+        <?php /*foreach($this->users as $user) { ?>
+            
+                <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
+                    foreach ($users_location as $user_location)
+                    {
+                       ?> 
+                        userAux.push('<?php echo $user["user_id"]; ?>');
+                        locationsAux.push('<?php echo $user_location["location"]; ?>');
+                        fullnameAux.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatarAux.push('<?php echo $avatar['image']; ?>');
+                               
+                <?php } ?> 
+                        userAux.push('<?php echo $user["user_id"]; ?>');                    
+                        locationsAux.push('<?php echo $user["location"]; ?>');
+                        fullnameAux.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatarAux.push('<?php echo $avatar['image']; ?>');
+
+        <?php } */ ?> 
+         
+        console.log("user " + userAux.length)
+        for (i = 0; i < userAux.length; i++) 
+        {             
+                  console.log('i: ' + i + " len: " + userAux.length +  " usuario " + fullnameAux[i] + " location " + locationsAux[i]);         
+                var locationStr = locationsAux[i];
+                var fullnameStr = fullnameAux[i];
+                var avatarStr = avatarAux[i];
+                
+                if (locationStr != "")
+                {
+                
+                    var geocoder = new google.maps.Geocoder();
+                    geocoder.geocode({ 'address': locationStr }, function (results, status, locationStr) {
+
+        console.log("DENTRO  i " + i + " usuario " + fullnameStr + " location " + locationStr);
+                    if (status == google.maps.GeocoderStatus.OK) 
+                    {
+                        if (locationStr != "")
+                        {
+                            locations.push(locationStr);
+                            fullname.push(fullnameStr);
+                            avatar.push(avatarStr);
+
+
+
+                            var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
+                            var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
+
+                            var obj =latAux;
+                            lat.push(obj);
+                            var obj2 =lngAux;
+                            lng.push(obj2);
+                        }
+                      }
+                      else
+                      {
+
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
+
+                          }
+                      }
+
+
+                        if (i == (userAux.length - 1))
+                        {
+                            colocar();
+                        }
+                        i++;
+                        pausecomp(201);
+                    });
+                }
+                pausecomp(201);
+        }
+        */
+        <?php foreach($this->users as $user) { ?>
+            
+            <?php if ($this->advancedActive != "activate") { ?> 
+                <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
+                    foreach ($users_location as $user_location)
+                    {
+                       ?> 
+
+                        locations.push('<?php echo $user_location["location"]; ?>');
+                        fullname.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatar.push('<?php echo $avatar['image']; ?>');
+
+                        lat.push('<?php echo $user_location["lat"]; ?>');
+                        lng.push('<?php echo $user_location["len"]; ?>');
+                
+/*  
+                var otherLocation = '<?php echo $user_location['location']; ?>';
+                var geocoderOther = new google.maps.Geocoder();
+                geocoderOther.geocode({ 'address': otherLocation }, function (results, status, location) {
+
+                if (status == google.maps.GeocoderStatus.OK) 
+                {
+                    if (location != "")
+                    {
+                        locations.push('<?php echo $user_location["location"]; ?>');
+                        fullname.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatar.push('<?php echo $avatar['image']; ?>');
+
+                        var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
+                        var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
+
+                        var obj =latAux;
+                        lat.push(obj);
+                        var obj2 =lngAux;
+                        lng.push(obj2);
+                    }
+                  }
+                  else
+                  {
+                      
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
+
+                        }
+                  }
+console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname"]; ?>'+ " Otra location " + locations[locations.length-1]);
+
+                pausecomp(201);
+                });
+*/                  
+                <?php }  ?>                  
+            <?php }  ?>                  
+            
+                var latAux = '<?php echo $user["lat"]; ?>';
+                if (latAux != "")
+                {
+                    locations.push('<?php echo $user["location"]; ?>');
+                    fullname.push('<?php echo $user["fullname"]; ?>');
+                    <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                    avatar.push('<?php echo $avatar['image']; ?>');
+                    lat.push('<?php echo $user["lat"]; ?>');
+                    lng.push('<?php echo $user["len"]; ?>');
+                }
+
+                /*
+                var location = '<?php echo $user["location"]; ?>';
+                var geocoder = new google.maps.Geocoder();
+                geocoder.geocode({ 'address': location }, function (results, status, location) {
+
+                if (status == google.maps.GeocoderStatus.OK) 
+                {
+                    if (location != "")
+                    {
+                        locations.push('<?php echo $user["location"]; ?>');
+                        fullname.push('<?php echo $user["fullname"]; ?>');
+                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
+                        avatar.push('<?php echo $avatar['image']; ?>');
+
+console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname"]; ?>'+ " la buena location " + locations[locations.length-1]);
+
+                        var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
+                        var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
+
+                        var obj =latAux;
+                        lat.push(obj);
+                        var obj2 =lngAux;
+                        lng.push(obj2);
+                    }
+                  }
+                  else
+                  {
+                      
+                        try
+                        {
+                            console.log('error: ' + status);
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.log('error: ' + status);
+                            }
+
+                        }
+                  }
+                  
+                  console.log('i: ' + i + " len: " + len);
+                    if (i == len)
+                    {
+                        colocar();
+                    }
+                    i++;
+                pausecomp(201);
+                });
+                */
+
+
+
+
+        <?php } ?>
+            colocar();
+    <?php } ?>
+
+    function pausecomp(ms) {
+        ms += new Date().getTime();
+        while (new Date() < ms){}
+    } 
+
+    function colocar()
+    {
+
+        if (lat.length == 0)
+        {
+            $(document).ready(function(){ 
+                $('#mapa').remove();
+            });
+        }
+
+        var myLatlngCenter = new google.maps.LatLng(lat[0],lng[0]);
+
+        var mapOptions = {
+          zoom: 5,
+          center: myLatlngCenter,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        }
+
+        var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
+
+      var gm = google.maps;
+      var iw = new gm.InfoWindow();
+	  
+      var oms = new OverlappingMarkerSpiderfier(map,
+        {markersWontMove: true, markersWontHide: true});
+      
+	  
+      var usualColor = 'F75850';
+      var spiderfiedColor = 'ffee22';
+      var iconWithColor = function(color) {
+        return 'http://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld=pin|+|' +
+          color + '|000000|ffff00';
+      }
+	  
+      var shadow = new gm.MarkerImage(
+        'https://www.google.com/intl/es_ALL/mapfiles/shadow50.png',
+        new gm.Size(37, 34), // size - for sprite clipping
+        new gm.Point(0, 0), // origin - ditto
+        new gm.Point(10, 34) // anchor - where to meet map location
+      );
+      
+      oms.addListener('click', function(marker) {
+        iw.setContent(marker.desc);
+        iw.open(map, marker);
+      });
+      oms.addListener('spiderfy', function(markers) {
+        for(var i = 0; i < markers.length; i ++) {
+          markers[i].setIcon(iconWithColor(spiderfiedColor));
+          markers[i].setShadow(null);
+        }
+        iw.close();
+      });
+      oms.addListener('unspiderfy', function(markers) {
+        for(var i = 0; i < markers.length; i ++) {
+          markers[i].setIcon(iconWithColor(usualColor));
+          markers[i].setShadow(shadow);
+        }
+      });
+      
+      var bounds = new gm.LatLngBounds();
+      for (var i = 0; i < locations.length; i ++) {
+          
+            var locationString = locations[i];
+            var fullnameString = fullname[i];
+            var avatarString = avatar[i];
+          
+          
+            var contentString = '<div id="contenido">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h2 id="firstHeading" class="firstHeading">' + 
+                fullnameString +
+                '</h2>'+
+                '<div id="bodyContent">'+ 
+                '<p><b></b>' + 
+                locationString + 
+                '</p>' +
+                '<p><img src="'+ avatarString + '">' +
+                '</a> '+
+                '</p>'+
+                '</div>'+
+                '</div>';
+          
+          
+        var loc = new gm.LatLng(lat[i],lng[i]);
+        bounds.extend(loc);
+        var marker = new gm.Marker({
+          position: loc,
+          title: fullnameString + ", " + locationString,
+          map: map,
+          icon: iconWithColor(usualColor),
+          shadow: shadow
+        });
+        marker.desc = contentString;
+        oms.addMarker(marker);
+      }
+      map.fitBounds(bounds)
+/*
+
+//console.log("TOTAL " + locations.length);
+        for (i = 0; i < locations.length; i++) 
+        {             
+
+console.log("i " + i + " usuario " + fullname[i] + " location " + locations[i] + lat[i] + " " + lng[i]);
+            var locationString = locations[i];
+            var fullnameString = fullname[i];
+            var avatarString = avatar[i];
+            
+//console.log("MAPA " + locationString);
+
+            var contentString = '<div id="contenido">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<h2 id="firstHeading" class="firstHeading">' + 
+                fullnameString +
+                '</h2>'+
+                '<div id="bodyContent">'+ 
+                '<p><b></b>' + 
+                locationString + 
+                '</p>' +
+                '<p><img src="'+ avatarString + '">' +
+                '</a> '+
+                '</p>'+
+                '</div>'+
+                '</div>';
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            var myLatlng = new google.maps.LatLng(lat[i],lng[i]);
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: fullnameString + ", " + locationString
+            });
+  
+  // mete todos los click en el mismo sitio
+/*
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setOptions({
+                    content: contentString
+                });
+                infowindow.open(map,marker);
+            });
+*//*
+
+                google.maps.event.addListener(marker, 'click', (function(marker, contentString, infowindow) {
+                  return function() {
+                    infowindow.setContent(contentString);
+                    infowindow.setOptions({
+                        content: contentString
+                    });
+                    infowindow.open(map, marker);
+                  }
+                })(marker, contentString, infowindow));
+
+        }
+*/
+
+    }
+    
+    <?php } ?>
+
+<?php } ?> 
+
+}
+
+</script>        
+        
+<script type="text/javascript">
+
+$(document).ready(function(){
+$(".option1").change(function() {
+    if(this.checked) 
+    {
+        $(".option2").attr("disabled", true);        
+        $(".option3").attr("disabled", true);
+        $(".option4").attr("disabled", true);        
+        $(".option5").attr("disabled", true);
+        $(".option6").attr("disabled", true);        
+    }
+    else
+    {
+        $(".option2").removeAttr("disabled");        
+        $(".option3").removeAttr("disabled");
+        $(".option4").removeAttr("disabled");  
+        $(".option5").removeAttr("disabled");
+        $(".option6").removeAttr("disabled");        
+    }
+            
+});
+$(".option2").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option3").attr("disabled", true);
+        $(".option4").attr("disabled", true);        
+        $(".option5").attr("disabled", true);
+        $(".option6").attr("disabled", true);        
+    }
+    else
+    {
+        $(".option1").removeAttr("disabled");
+        $(".option3").removeAttr("disabled");
+        $(".option4").removeAttr("disabled");  
+        $(".option5").removeAttr("disabled");
+        $(".option6").removeAttr("disabled");        
+    }
+            
+});
+$(".option3").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+$(".option4").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option3").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+$(".option5").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option4").is(":checked") && !$(".option3").is(":checked") && !$(".option6").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+$(".option6").change(function() {
+    if(this.checked) 
+    {
+        $(".option1").attr("disabled", true);
+        $(".option2").attr("disabled", true);        
+    }
+    else
+    {
+        if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option3").is(":checked"))
+        {
+            $(".option1").removeAttr("disabled");
+            $(".option2").removeAttr("disabled");  
+        }
+    }
+        
+});
+
+
+	<?php if($this->successfu_edite) { ?>
+	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');
+	<?php } ?>
+	<?php if($this->error) { ?>
+	Pins.error('<?php echo $this->error;?>');
+	<?php } ?>
+
+
+		$('form').on('submit',function(event){
+                    //showAddress(this.searchTextField.value, this.zoom.value=parseFloat(this.zoom.value));
+    //$form = $(this);
+    //alert('the action is: ' + $form.attr('action')); 
+    
+
+                    });
+
+	$("#selectBox-dropdown-menu-Category1").bind('mouseleave',function(event){
+        		$("#selectBox-Category1").show();
+                	$("#selectBox-dropdown-menu-Category1").hide();
+
+        });
+
+
+	$("#selectBox-Category1").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-Category1").hide();
+		$("#selectBox-dropdown-menu-Category1").show();
+                
+                if (!$("#selectBox-Category2").is(":visible"))  
+                    {
+        		$("#selectBox-Category2").show();
+                	$("#selectBox-dropdown-menu-Category2").hide();
+                    }
+                if (!$("#selectBox-Category3").is(":visible"))  
+                    {
+        		$("#selectBox-Category3").show();
+                	$("#selectBox-dropdown-menu-Category3").hide();
+                    }
+                if (!$("#selectBox-TypeUser").is(":visible"))  
+                    {
+                        $("#selectBox-TypeUser").show();
+                        $("#selectBox-TypeUser-dropdown-menu").hide();
+                    }
+                
+                /*
+		$(".master").bind('click',function(event){
+                    
+                            event.preventDefault();
+                            var self  = $(this);
+            		appendElementInMain(self.find($('a')));
+				
+		});
+*/
+		$(".cats-category1").bind('click',function(event){
+                            event.preventDefault();
+                            var self  = $(this);
+               		appendElementInMain(self);
+		});
+
+                
+		//$(".master").unbind('click').bind('click',function(event){
+                $(".master.cat1").bind('mouseenter',function(event){
+                    
+                    //setInterval(function(){},1000);
+
+                        event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$("#selectBox-dropdown-menu-Category1").hide();
+			$("#selectBox-Category1").show();
+			$("#selectBox-label-Category1").text(element.text());
+			$("#catId1").val(element.data("id"));
+			
+			}
+	});
+        
+	$("#selectBox-dropdown-menu-Category2").bind('mouseleave',function(event){
+        		$("#selectBox-Category2").show();
+                	$("#selectBox-dropdown-menu-Category2").hide();
+
+        });
+       
+
+	$("#selectBox-Category2").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-Category2").hide();
+		$("#selectBox-dropdown-menu-Category2").show();
+                
+                if (!$("#selectBox-Category1").is(":visible"))  
+                    {
+        		$("#selectBox-Category1").show();
+                	$("#selectBox-dropdown-menu-Category1").hide();
+                    }
+                if (!$("#selectBox-Category3").is(":visible"))  
+                    {
+        		$("#selectBox-Category3").show();
+                	$("#selectBox-dropdown-menu-Category3").hide();
+                    }
+                if (!$("#selectBox-TypeUser").is(":visible"))  
+                    {
+                        $("#selectBox-TypeUser").show();
+                        $("#selectBox-TypeUser-dropdown-menu").hide();
+                    }
+
+		$(".cats-category2").bind('click',function(event){
+                            event.preventDefault();
+                            var self  = $(this);
+               		appendElementInMain(self);
+		});
+
+		//$(".master").unbind('click').bind('click',function(event){
+                $(".master.cat2").bind('mouseenter',function(event){
+
+			event.preventDefault();
+
+			
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			
+				
+			}else{
+
+			$(".hidden").hide();
+			var self  = $(this);
+			children.addClass('opened');
+
+
+			if($(children).hasClass('hidden')){
+				try
+                                {
+                                    console.log("OK");
+                                }
+                                catch(e)
+                                {
+                                    if (window.console // check for window.console not console
+                                        && window.console.log)
+                                    {
+                                        window.console.log("OK");
+                                    }
+
+                                }
+				children.show();
+				children.find('li a').click(function(event){
+						event.preventDefault();
+						appendElementInMain($(this));
+						$(".hidden").hide();
+				});
+			}else{
+				
+				appendElementInMain(self.find($('a')));
+				
+			}
+
+			}
+		});
+	
+
+		function appendElementInMain(element){
+			$("#selectBox-dropdown-menu-Category2").hide();
+			$("#selectBox-Category2").show();
+			$("#selectBox-label-Category2").text(element.text());
+			$("#catId2").val(element.data("id"));
+			
+			}
+        });	
+        
+        
+	$("#selectBox-dropdown-menu-Category3").bind('mouseleave',function(event){
+        		$("#selectBox-Category3").show();
+                	$("#selectBox-dropdown-menu-Category3").hide();
+
+        });
+        
+        
+        $("#selectBox-Category3").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-Category3").hide();
+		$("#selectBox-dropdown-menu-Category3").show();
+                
+                if (!$("#selectBox-Category2").is(":visible"))  
+                    {
+        		$("#selectBox-Category2").show();
+                	$("#selectBox-dropdown-menu-Category2").hide();
+                    }
+                if (!$("#selectBox-Category1").is(":visible"))  
+                    {
+        		$("#selectBox-Category1").show();
+                	$("#selectBox-dropdown-menu-Category1").hide();
+                    }
+                
+                if (!$("#selectBox-TypeUser").is(":visible"))  
+                    {
+                        $("#selectBox-TypeUser").show();
+                        $("#selectBox-TypeUser-dropdown-menu").hide();
+                    }
+                    
+                
+		$(".cats-category3").bind('click',function(event){
+                            event.preventDefault();
+                            var self  = $(this);
+               		appendElementInMain(self);
+		});
+
+		//$(".master").unbind('click').bind('click',function(event){
+                $(".master.cat3").bind('mouseenter',function(event){
+
+			event.preventDefault();
+                        
+
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+				
+			}else{
+                            
+                            
+
+                            $(".hidden").hide();
+                            var self  = $(this);
+                            children.addClass('opened');
+
+                            if($(children).hasClass('hidden')){
+                                    try
+                                    {
+                                        console.log("Tiene hidden");
+                                    }
+                                    catch(e)
+                                    {
+                                        if (window.console // check for window.console not console
+                                            && window.console.log)
+                                        {
+                                            window.console.log("Tiene hidden2");
+                                        }
+
+                                    }
+                                    children.show();
+                                    children.find('li a').click(function(event){
+                                                    event.preventDefault();
+                                                    appendElementInMain($(this));
+                                                    $(".hidden").hide();
+                                    });
+                            }else{
+
+                                    appendElementInMain(self.find($('a')));
+//                                    console.log("ADD");
+
+                            }
+
+			}
+		});
+
+		function appendElementInMain(element){
+			$("#selectBox-dropdown-menu-Category3").hide();
+			$("#selectBox-Category3").show();
+			$("#selectBox-label-Category3").text(element.text());
+			$("#catId3").val(element.data("id"));
+			
+			}
+	});
+
+	$("#selectBox-TypeUser-dropdown-menu").bind('mouseleave',function(event){
+                        $("#selectBox-TypeUser").show();
+                        $("#selectBox-TypeUser-dropdown-menu").hide();
+
+        });
+
+	$("#selectBox-TypeUser").bind('click',function(event){
+		$('ul.hidden').hide();
+		event.preventDefault();
+		$("#selectBox-TypeUser").hide();
+		$("#selectBox-TypeUser-dropdown-menu").show();
+
+                if (!$("#selectBox-Category1").is(":visible"))  
+                    {
+        		$("#selectBox-Category1").show();
+                	$("#selectBox-dropdown-menu-Category1").hide();
+                    }
+                if (!$("#selectBox-Category2").is(":visible"))  
+                    {
+        		$("#selectBox-Category2").show();
+                	$("#selectBox-dropdown-menu-Category2").hide();
+                    }
+                if (!$("#selectBox-Category3").is(":visible"))  
+                    {
+        		$("#selectBox-Category3").show();
+                	$("#selectBox-dropdown-menu-Category3").hide();
+                    }
+                    
+		$(".cats-typeuser").bind('click',function(event){
+                            event.preventDefault();
+                            var self  = $(this);
+               		appendElementInMain(self);
+		});
+                    
+                    
+		//$(".master").unbind('click').bind('click',function(event){
+                $(".master.typeuser").bind('mouseenter',function(event){
+			event.preventDefault();
+
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+                            
+				children.hide().removeClass('opened');
+				
+			}else{
+
+                            $(".hidden").hide();
+                            var self  = $(this);
+                            children.addClass('opened');
+
+                            if($(children).hasClass('hidden')){
+                                    try
+                                    {
+                                        console.log("OK");
+                                    }
+                                    catch(e)
+                                    {
+                                        if (window.console // check for window.console not console
+                                            && window.console.log)
+                                        {
+                                            window.console.log("OK");
+                                        }
+
+                                    }
+                                    children.show();
+                                    children.find('li a').click(function(event){
+                                                    event.preventDefault();
+                                                    appendElementInMain($(this));
+                                                    $(".hidden").hide();
+                                    });
+                            }else{
+        //console.log("ADD");
+                                    appendElementInMain(self.find($('a')));
+
+                            }
+
+			}
+		});
+                
+		function appendElementInMain(element){
+			$("#selectBox-TypeUser-dropdown-menu").hide();
+			$("#selectBox-TypeUser").show();
+			$("#selectBox-label-TypeUser").text(element.text());
+			$("#user_typeId").val(element.data("id"));
+			
+			}
+
+
+		
+	});
+
+	$("#selectBox-dropdown-menu-Level").bind('mouseleave',function(event){
+                        $("#selectBox-Level").show();
+                        $("#selectBox-dropdown-menu-Level").hide();
+
+        });
+          
+        
+        $("#selectBox-Level").bind('click',function(event){
+            $('ul.hidden').hide();
+            event.preventDefault();
+            $("#selectBox-Level").hide();
+            $("#selectBox-dropdown-menu-Level").show();
+            
+                if (!$("#selectBox-Age").is(":visible"))  
+                    {
+        		$("#selectBox-Age").show();
+                	$("#selectBox-dropdown-menu-Age").hide();
+                    }
+                if (!$("#selectBox-Category").is(":visible"))  
+                    {
+        		$("#selectBox-Category").show();
+                	$("#selectBox-dropdown-menu-Category").hide();
+                    }
+
+            $(".master").unbind('click').bind('click',function(event){
+                event.preventDefault();
+
+			
+                var children  = $(this).find($('ul'));
+                if(children.hasClass('opened')){
+                    children.hide().removeClass('opened');
+			
+				
+                }else{
+
+                    $(".hidden").hide();
+                    var self  = $(this);
+                    children.addClass('opened');
+
+
+                    if($(children).hasClass('hidden')){
+                        try
+                        {
+                            console.log("OK");
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.console.log("OK");
+                            }
+
+                        }
+                        children.show();
+                        children.find('li a').click(function(event){
+                            event.preventDefault();
+                            appendElementInMain($(this));
+                            $(".hidden").hide();
+                        });
+                    }else{
+				
+                        appendElementInMain(self.find($('a')));
+				
+                    }
+
+                }
+            });
+	
+
+            function appendElementInMain(element){
+                $("#selectBox-dropdown-menu-Level").hide();
+                $("#selectBox-Level").show();
+                $("#selectBox-label-Level").text(element.text());
+                $("#levelId").val(element.data("id"));
+			
+            }
+        });
+        
+	$("#selectBox-dropdown-menu-Category").bind('mouseleave',function(event){
+                        $("#selectBox-Category").show();
+                        $("#selectBox-dropdown-menu-Category").hide();
+
+        });
+        
+
+        $("#selectBox-Category").bind('click',function(event){
+            $('ul.hidden').hide();
+            event.preventDefault();
+            $("#selectBox-Category").hide();
+            $("#selectBox-dropdown-menu-Category").show();
+
+                if (!$("#selectBox-Age").is(":visible"))  
+                    {
+        		$("#selectBox-Age").show();
+                	$("#selectBox-dropdown-menu-Age").hide();
+                    }
+                if (!$("#selectBox-Level").is(":visible"))  
+                    {
+        		$("#selectBox-Level").show();
+                	$("#selectBox-dropdown-menu-Level").hide();
+                    }
+
+            $(".master").unbind('click').bind('click',function(event){
+                event.preventDefault();
+
+			
+                var children  = $(this).find($('ul'));
+                if(children.hasClass('opened')){
+                    children.hide().removeClass('opened');
+			
+				
+                }else{
+
+                    $(".hidden").hide();
+                    var self  = $(this);
+                    children.addClass('opened');
+
+
+                    if($(children).hasClass('hidden')){
+                        try
+                        {
+                            console.log("OK");
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.console.log("OK");
+                            }
+
+                        }
+                        children.show();
+                        children.find('li a').click(function(event){
+                            event.preventDefault();
+                            appendElementInMain($(this));
+                            $(".hidden").hide();
+                        });
+                    }else{
+				
+                        appendElementInMain(self.find($('a')));
+				
+                    }
+
+                }
+            });
+	
+
+            function appendElementInMain(element){
+                $("#selectBox-dropdown-menu-Category").hide();
+                $("#selectBox-Category").show();
+                $("#selectBox-label-Category").text(element.text());
+                $("#catId").val(element.data("id"));
+			
+            }
+        });	
+        
+	$("#selectBox-dropdown-menu-Age").bind('mouseleave',function(event){
+                        $("#selectBox-Age").show();
+                        $("#selectBox-dropdown-menu-Age").hide();
+
+        });
+        
+        $("#selectBox-Age").bind('click',function(event){
+            $('ul.hidden').hide();
+            event.preventDefault();
+            $("#selectBox-Age").hide();
+            $("#selectBox-dropdown-menu-Age").show();
+
+                if (!$("#selectBox-Level").is(":visible"))  
+                    {
+        		$("#selectBox-Level").show();
+                	$("#selectBox-dropdown-menu-Level").hide();
+                    }
+                if (!$("#selectBox-Category").is(":visible"))  
+                    {
+        		$("#selectBox-Category").show();
+                	$("#selectBox-dropdown-menu-Category").hide();
+                    }
+
+            $(".master").unbind('click').bind('click',function(event){
+                event.preventDefault();
+
+			
+                var children  = $(this).find($('ul'));
+                if(children.hasClass('opened')){
+                    children.hide().removeClass('opened');
+			
+				
+                }else{
+
+                    $(".hidden").hide();
+                    var self  = $(this);
+                    children.addClass('opened');
+
+
+                    if($(children).hasClass('hidden')){
+                        try
+                        {
+                            console.log("OK");
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.console.log("OK");
+                            }
+
+                        }
+                        children.show();
+                        children.find('li a').click(function(event){
+                            event.preventDefault();
+                            appendElementInMain($(this));
+                            $(".hidden").hide();
+                        });
+                    }else{
+				
+                        appendElementInMain(self.find($('a')));
+				
+                    }
+
+                }
+            });
+	
+
+            function appendElementInMain(element){
+                $("#selectBox-dropdown-menu-Age").hide();
+                $("#selectBox-Age").show();
+                $("#selectBox-label-Age").text(element.text());
+                $("#ageId").val(element.data("id"));
+			
+            }
+        });        
+        
+	return;
+	
+	
+});
+
+</script>
+    <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&libraries=places&language=es"></script>    
+    <script>
+function initialize() {
+  var mapOptions = {
+    center: new google.maps.LatLng(-33.8688, 151.2195),
+    zoom: 13,
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  var map = new google.maps.Map(document.getElementById('map-canvas'),
+    mapOptions);
+
+  var input = /** @type {HTMLInputElement} */(document.getElementById('searchTextField'));
+  var autocomplete = new google.maps.places.Autocomplete(input);
+
+  autocomplete.bindTo('bounds', map);
+
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map
+  });
+    //showAddress(this.input.value, parseFloat(15)); 
+    
+   input = /** @type {HTMLInputElement} */(document.getElementById('searchTextField2'));
+   autocomplete = new google.maps.places.Autocomplete(input);
+
+  autocomplete.bindTo('bounds', map);
+
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map
+  });
+
+   input = /** @type {HTMLInputElement} */(document.getElementById('searchTextField3'));
+   autocomplete = new google.maps.places.Autocomplete(input);
+
+  autocomplete.bindTo('bounds', map);
+
+  var infowindow = new google.maps.InfoWindow();
+  var marker = new google.maps.Marker({
+    map: map
+  });
+
+
+    
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+    infowindow.close();
+    marker.setVisible(false);
+    input.className = '';
+    var place = autocomplete.getPlace();
+    if (!place.geometry) {
+      // Inform the user that the place was not found and return.
+      input.className = 'notfound';
+      return;
+    }
+
+    // If the place has a geometry, then present it on a map.
+    if (place.geometry.viewport) {
+      map.fitBounds(place.geometry.viewport);
+    } else {
+      map.setCenter(place.geometry.location);
+      map.setZoom(17);  // Why 17? Because it looks good.
+    }
+    marker.setIcon(/** @type {google.maps.Icon} */({
+      url: place.icon,
+      size: new google.maps.Size(71, 71),
+      origin: new google.maps.Point(0, 0),
+      anchor: new google.maps.Point(17, 34),
+      scaledSize: new google.maps.Size(35, 35)
+    }));
+    marker.setPosition(place.geometry.location);
+    marker.setVisible(true);
+
+    var address = '';
+    if (place.address_components) {
+      address = [
+        (place.address_components[0] && place.address_components[0].short_name || ''),
+        (place.address_components[1] && place.address_components[1].short_name || ''),
+        (place.address_components[2] && place.address_components[2].short_name || '')
+      ].join(' ');
+    }
+
+    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
+    infowindow.open(map, marker);
+    
+
+  });
+
+  // Sets a listener on a radio button to change the filter type on Places
+  // Autocomplete.
+  function setupClickListener(id, types) {
+    var radioButton = document.getElementById(id);
+    google.maps.event.addDomListener(radioButton, 'click', function() {
+      autocomplete.setTypes(types);
+    });
+  }
+
+  setupClickListener('changetype-all', []);
+  setupClickListener('changetype-establishment', ['establishment']);
+  setupClickListener('changetype-geocode', ['geocode']);
+}
+
+google.maps.event.addDomListener(window, 'load', initialize);
+
+    </script>
+        
+
+<?php echo $this->footer_part; ?>
