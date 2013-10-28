@@ -265,7 +265,8 @@
                             </div>
 
                         <?php if($this->userdata['website'] || $this->userdata['twitter_username'] || $this->userdata['facebook_id'] || $this->userdata['location']) { ?>
-						<ul class="icons" id="ProfileLinks" style="bottom:48px">
+                                            <div>&nbsp;</div>
+                                            <ul class="icons" id="ProfileLinks" style="bottom:48px">
 							<?php if($this->userdata['website']) { ?>
 							<li>
 								<a onclick="target='_blank'" class="icon website" href="<?php echo $this->userdata['website'];?>"></a>

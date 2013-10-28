@@ -40,13 +40,13 @@ float:left;">
 				</p>
 				<div class="left">
 					<h3>
-						<a href="<?php echo $this->author['profile'];?>"><?php echo $this->author['fullname'];?></a>
-						<?php if($this->replin_info) { ?>
+						<!--a href="<?php // echo $this->author['profile'];?>"><?php echo $this->author['fullname'];?></a-->
+						<?php /*if($this->replin_info) { ?>
 						<?php echo $this->translate('via');?> 
 						<a onclick="target='_blank'" href="<?php echo $this->replin_info['profile'];?>"><?php echo $this->replin_info['fullname'];?></a>
-						<?php } ?>
+						<?php }*/ ?>
 					</h3>
-					<?php if($this->source) { ?>
+					<?php /*if($this->source) { ?>
 					<?php if(!$this->popup) { ?>
 					<?php if($this->pin['pinmarklet']) { ?>
 					<p class="time"><?php echo sprintf($this->translate('Pinned %d %s ago via'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?> <a <?php echo ($this->target_repin?'onclick="target=\'_blank\'"':'');?> href="<?php echo $this->pin['pinmarklet_href'];?>"><strong><?php echo $this->translate('pinmarklet');?></strong></a></p>
@@ -58,10 +58,10 @@ float:left;">
 					<?php } ?>
 					<?php } else { ?>
 					<p class="time"><?php echo sprintf($this->translate('Uploaded %d %s ago'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?></p>
-					<?php } ?>
+					<?php }*/ ?>
 				</div>
 				
-				<?php if($this->loged && !$this->pin['userFollowIgnore']) { ?>
+				<?php /* if($this->loged && !$this->pin['userFollowIgnore']) { ?>
 				<p class="follow">
 					<?php if($this->pin['userIsFollow']) { ?>
 					<a class="gray" href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Unfollow');?></a>
@@ -69,7 +69,7 @@ float:left;">
 					<a href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Follow');?></a>
 					<?php } ?>
 				</p>
-				<?php } ?>
+				<?php } */ ?>
 			</div>
 			
 			<div class="view">
@@ -86,7 +86,7 @@ float:left;">
 				</div>
 				<?php } */?>
 			
-				<?php $isNotPopup = ""; ?>
+				<?php /*$isNotPopup = ""; ?>
 				<?php if(!$this->popup) { ?>
              <!--  <div class="iconsStatic">
                     <div class="source">
@@ -130,9 +130,9 @@ float:left;">
 					</li>
 					
 				</ul>
-                <?php $isNotPopup = 1; } ?>
+                <?php $isNotPopup = 1; }*/ ?>
                 <div class="photo">
-					<?php if($isNotPopup != 1) { ?>
+					<?php /*if($isNotPopup != 1) { ?>
                   <!--  <p class="icons">
 						<a href="<?php echo $this->pin['url_repin'];?>" class="repin<?php echo (!$this->loged ? ' login' : ' silverbox');?>" title="<?php echo $this->translate('Repin');?>"><span><?php echo $this->translate('Repin');?></span></a> 
 						<?php if($this->pin['edit']) { ?>
@@ -167,20 +167,39 @@ float:left;">
 					</li>
 				
 				</ul>
-                    <?php } ?>
+                    <?php }*/ ?>
 					<p>
-						<?php if($this->pin['from']) { ?>
-							<a onclick="target='_blank'" href="<?php echo $this->pin['from'];?>">
-								<img width="<?php echo $this->pin['popup_width'];?>" height="<?php echo $this->pin['popup_height'];?>" data-original="<?php echo $this->pin['popup'];?>" src="<?php echo $this->pin['thumb'];?>" alt="Image" />
+						<?php if($this->event['from']) { ?>
+							<a onclick="target='_blank'" href="<?php echo $this->event['from'];?>">
+								<img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
 							</a>
 						<?php } else { ?>
-							<img width="<?php echo $this->pin['popup_width'];?>" height="<?php echo $this->pin['popup_height'];?>" data-original="<?php echo $this->pin['popup'];?>" src="<?php echo $this->pin['thumb'];?>" alt="Image" />
+							<img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
 						<?php } ?>
 					</p>
 				</div>
 				
 				
 				<p class="desc"><?php echo Helper_Pin::descriptionFix($this->pin['description']);?></p>
+                                    <p class="location colorless"><?php echo $this->translate('Descripción del evento:');?> </div>
+                                    <?php echo $this->event['eventname'];?></p>
+                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> </div>
+                                    <?php echo $this->event['sport_category'];?></p>
+                                    <p class="location colorless"><?php echo $this->translate('Organiza:');?> </div>
+                                    <?php echo $this->event['organiza'];?></p>
+                                    <p class="location colorless"><?php echo $this->translate('Ubicación');?> </div>
+                                    <?php echo $this->event['location'];?></p>
+                                    <p class="location colorless"><?php echo $this->translate('Fecha');?> </div>
+                                    <?php echo $this->event['date_event'];?></p>
+                                    <p class="location colorless"><?php echo $this->translate('Página web del evento');?> </div>
+                                     <?php echo $this->event['website'];?></p> 
+                                    <p class="location colorless"><?php echo $this->translate('Detalles');?> </div>
+                                     <?php echo $this->event['description'];?></p> 
+                                    <p class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> </div>
+                                    &nbsp;<img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
+                                <?php echo $this->event['fullname'];?>
+                                <?php echo $this->event['description'];?>
+                                
 				<div class="commentslist">
 					<form action="<?php echo $this->pin['href'];?>" method="post" id="pin_commentt_form">
 						<p class="hide">
@@ -237,7 +256,7 @@ float:left;">
 				</div>	
 			</div>
 			
-			<?php if($this->pin['onto_board']) { ?>
+			<?php /* if($this->pin['onto_board']) { ?>
 			<div class="pinned">
 				<div class="titlebar">
 					<?php if($this->loged && $this->enable_follow) { ?>
@@ -250,7 +269,7 @@ float:left;">
 					</p>
 					<?php } ?>
 					<h4><?php echo $this->translate('Pinned onto the board');?></h4>
-					<h3><a href="<?php echo $this->pin['onto_board'][0]['href'];?>"><?php echo $this->pin['onto_board'][0]['board']['title'];?></a></h3>
+					<!--h3><a href="<?php //echo $this->pin['onto_board'][0]['href'];?>"><?php //echo $this->pin['onto_board'][0]['board']['title'];?></a></h3-->
 				</div>
 				<ul class="members">
 					<?php foreach($this->pin['onto_board'] AS $key => $pin) { ?>
@@ -261,10 +280,10 @@ float:left;">
 				</ul>
 				<div class="clear"></div>
 			</div>
-			<?php } ?>
+			<?php } */ ?>
 			
 			<div class="columns">
-				<?php if($this->pin['originally_pinned']) { ?>
+				<?php /*if($this->pin['originally_pinned']) { ?>
 				<div class="pinned left">
 					<div class="titlebar">
 						<?php if($this->follow_user_via && $this->loged && !$this->pin['userViaFollowIgnore']) { ?>
@@ -280,7 +299,7 @@ float:left;">
 						<?php } ?>
 				
 						<h4><?php echo $this->translate('Originally pinned by');?></h4>
-						<h3><a href="<?php echo $this->pin['originally_pinned'][0]['href'];?>"><?php echo $this->pin['originally_pinned'][0]['user']['fullname'];?></a></h3>
+						<!--h3><a href="<?php //echo $this->pin['originally_pinned'][0]['href'];?>"><?php //echo $this->pin['originally_pinned'][0]['user']['fullname'];?></a></h3-->
 					</div>
 					<ul class="members">
 						<?php foreach($this->pin['originally_pinned'] AS $key => $pin) { ?>
@@ -296,7 +315,7 @@ float:left;">
 				<div class="pinned">
 					<div class="titlebar">
 						<h4><?php echo sprintf($this->translate('Pinned via %s from'), $this->site_name);?></h4>
-						<h3 class="source-pins-title"><a href="<?php echo $this->pin['source_pins'][0]['href'];?>"><?php echo $this->source['source'];?><span></span></a></h3>
+						<!--h3 class="source-pins-title"><a href="<?php // echo $this->pin['source_pins'][0]['href'];?>"><?php // echo $this->source['source'];?><span></span></a></h3-->
 					</div>
 					<ul class="members">
 						<?php foreach($this->pin['source_pins'] AS $key => $pin) { ?>
@@ -307,11 +326,11 @@ float:left;">
 					</ul>
 					<div class="clear"></div>
 				</div>
-				<?php } ?>
+				<?php }*/ ?>
 				<div class="clear"></div>
 			</div>
 			
-			<?php if($this->pin['likes']) { ?>
+			<?php /*if($this->pin['likes']) { ?>
 			<div class="likes">
 				<h3><?php echo $this->translate('Likes');?></h3>
 				<ul class="members">
@@ -349,11 +368,8 @@ float:left;">
 					
 				</ul>
 				<div class="clear"></div>
-				<?php /* ?>
-				<p class="stats">+83 more likes</p>
-				<?php */ ?>
 			</div>	
-			<?php } ?>	
+			<?php } */ ?>	
 		</div>
 		
 		<?php if($this->popup) { ?>

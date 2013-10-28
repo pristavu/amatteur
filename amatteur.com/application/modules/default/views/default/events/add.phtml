@@ -236,13 +236,7 @@ $(document).ready(function(){
         });
 
 
-        $("#moresports").click(function(){
-
-            window.location.href = '<?php echo $this->deportes;?>?email=' + $('#id_email').val() + 
-                '&firstname=' + $('#id_first_name').val() + '&username=' + $('#id_username').val() + 
-                /*'&password=' + $('#password').val() + '&password2=' + $('#password2').val() + */
-                '&info=' + $('#id_about').val() + '&type_user=' + $('#user_typeId').val();
-        });    
+  
     
 
         $("#id_eventname").bind('focusout',function(event){
@@ -1084,62 +1078,27 @@ $(document).ready(function(){
 	});
 
 	
-        $(".morelocations").bind('click',function(event){
-		event.preventDefault();
-                if ($.trim($("#searchTextField2").val()) != "")
-                {
-                    if ($("#latAux").val() != "")
-                    {
-                        var contador = $(".locationcounter").val();
-                        contador++;
-                        $(".locationcounter").val(contador) ;
-                        $(".locations").html($(".locations").html() + "<label></label><input type='text' value='" + $("#searchTextField2").val() + "' name='location" + contador + "'><br/>");
-                        $(".locations").html($(".locations").html() + "<input type='hidden' name='lat" + contador + "' class='lat" + contador + "' id='lat" + contador + "' value='" + $("#latAux").val() + "' />");
-                        $(".locations").html($(".locations").html() + "<input type='hidden' name='len" + contador + "' class='len" + contador + "' id='len" + contador + "' value='" + $("#lenAux").val() + "' />");
-                        $("#searchTextField2").val("");
-                        $("#latAux").val("");
-                        $("#lenAux").val("");
-                    }
-                }
-                //initialize();
-        });
         
         $("#searchTextField").bind('focusout',function(event){
+            $('.editpage_submit').attr('disabled', true).addClass('disabled');        
             GLoad();
         });
         
         $("#searchTextField").change(function() {
+            $('.editpage_submit').attr('disabled', true).addClass('disabled');            
             GLoad();
         });
         
         $(".pac-container").live('click',function(event){
+            $('.editpage_submit').attr('disabled', true).addClass('disabled');            
             GLoad();
         });
 
         $("#searchTextField").blur(function() {
+            $('.editpage_submit').attr('disabled', true).addClass('disabled');            
             GLoad();
         });
 
-        $("#searchTextField2").bind('focusout',function(event){
-            $('.morelocations').attr('disabled', true).addClass('disabled');
-            GLoad();
-        });
-        
-        $("#searchTextField2").change(function() {
-            $('.morelocations').attr('disabled', true).addClass('disabled');
-            GLoad();
-        });
-
-        $("#searchTextField2").blur(function() {
-            $('.morelocations').attr('disabled', true).addClass('disabled');
-            GLoad();
-        });
-        
-        
-        $(".deletelocations").bind('click',function(event){
-                event.preventDefault();
-                $( ".locations" ).remove();
-        });
         
 	return;
 });
@@ -1166,38 +1125,6 @@ function initialize() {
   var marker = new google.maps.Marker({
     map: map
   });
-
-   input = /** @type {HTMLInputElement} */(document.getElementById('searchTextField2'));
-   autocomplete = new google.maps.places.Autocomplete(input);
-
-  autocomplete.bindTo('bounds', map);
-
-  var infowindow = new google.maps.InfoWindow();
-  var marker = new google.maps.Marker({
-    map: map
-  });
-
-/*
-    var contador = $(".locationcounter").val();
-    alert(contador);
-    
-    for (var i=0; i <= contador; i++)
-    {
-        var locator = 'location' + i;
-        alert(locator + i);
-       input = /** @type {HTMLInputElement} *//*(document.getElementById(locator));
-       autocomplete = new google.maps.places.Autocomplete(input);
-
-      autocomplete.bindTo('bounds', map);
-
-      var infowindow = new google.maps.InfoWindow();
-      var marker = new google.maps.Marker({
-        map: map
-      });
-
-    }
-*/
-
 
 
   google.maps.event.addListener(autocomplete, 'place_changed', function() {
@@ -1283,7 +1210,9 @@ function GLoad() {
 var geocoder;
 var map;
 
-                    $(document).ready(function(){                                                   
+                    $(document).ready(function(){ 
+                        
+                                              
                 var locationPrincipal =$('#searchTextField').val();
 
          
@@ -1301,69 +1230,39 @@ var map;
                 }
                 else
                 {
-                    if (status == "OVER_QUERY_LIMIT")
+                    try
                     {
-            $(document).ready(function(){                                                   
-                        //setTimeout(function(){}, 201);
-            });                        
-                    }
-                    else
-                    { 
                         console.log('error: ' + status);
+                    }
+                    catch(e)
+                    {
+                        if (window.console // check for window.console not console
+                            && window.console.log)
+                        {
+                            window.console.log('error: ' + status);
+                        }
+
                     }
                 }
 
-                  pausecomp(201);
+                cambiadisabled();
               });
               
-                var locationPrincipal =$('#searchTextField2').val();
-
-         
-
-
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': locationPrincipal }, function (results, status) {
-                if (status == google.maps.GeocoderStatus.OK) 
-                {
-                    var lat = results[0].geometry.location.lat().toString().substr(0, 12);
-                    var len = results[0].geometry.location.lng().toString().substr(0, 12);
-                    $('#latAux').val(lat);
-                    $('#lenAux').val(len);
-
-                }
-                else
-                {
-                    if (status == "OVER_QUERY_LIMIT")
-                    {
-            $(document).ready(function(){                                                   
-                        //setTimeout(function(){}, 201);
-            });                        
-                    }
-                    else
-                    { 
-                        console.log('error: ' + status);
-                    }
-                }
-
-                  pausecomp(201);
-                  cambiadisabled();
-                  
-              });
               
             });  
-            
 
 function cambiadisabled()
 {
 
  $(document).ready(function(){                                                   
 
-    $('.morelocations').attr('disabled', false).removeClass('disabled');            
+    $('.morelocations').attr('disabled', false).removeClass('disabled');  
+    $('.register').attr('disabled', false).removeClass('disabled');
+    //$('.register input').removeAttr('disabled');
 
  }); 
  
  }
-            
             
 function pausecomp(ms) {
         ms += new Date().getTime();
@@ -1372,6 +1271,8 @@ function pausecomp(ms) {
             
 }
 
-    </script>        
+    </script>    
+
+
 
 <?php echo $this->footer_part; ?>
