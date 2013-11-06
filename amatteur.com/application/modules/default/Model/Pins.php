@@ -449,6 +449,13 @@ class Model_Pins {
 			
 			$ignore_in = true;
 		}
+                
+		if(isset($data['filter_is_image']) && !is_null($data['filter_is_image'])) {
+			$query->where('pins.is_video = 0');
+                        $query->where('pins.is_article = 0');
+                        $query->where('pins.price = 0');
+			$ignore_in = true;
+		}
 		
 		if(isset($data['filter_is_video']) && !is_null($data['filter_is_video'])) {
 			$query->where('pins.is_video = ?', (int)$data['filter_is_video']);
@@ -773,9 +780,9 @@ class Model_Pins {
 					->from('pins', array('pins.*', 'gift' => new JO_Db_Expr('pins.price > 0.0000')));
 		}
 		
-		if(isset($data['filter_category_id']) && $data['filter_category_id']) {
-			$query->where('category_id = ?', (string)$data['filter_category_id']);
-		}
+		/*if(isset($data['filter_category_id']) && $data['filter_category_id']) {
+			$query->where('category_id IN (?)', (string)$data['filter_category_id']);
+		}*/
                 
 		$query = self::FilterBuilder($query, $data);
 
@@ -810,7 +817,7 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-//                error_log("Query". $query);
+                error_log("Query". $query);
 //echo $query.'<hr />';
 		$results = $db->fetchAll($query);
 		$results_array = array();

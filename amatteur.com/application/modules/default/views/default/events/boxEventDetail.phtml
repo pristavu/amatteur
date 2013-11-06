@@ -7,7 +7,8 @@ color:#0061A5;
 float:left;"> 
                     <image src="data/images/event_calendar.png" >&nbsp;<strong><?php echo $this->translate('Evento Deportivo ');?> </strong></label>		
 <br><br><br><br><br><br>
-    
+
+    <img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
     <a style="background-image: url(<?php echo $this->event['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->event['href'];?>"></a>
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->event['href'];?>">

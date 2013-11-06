@@ -591,7 +591,7 @@ class SearchController extends JO_Action
                                 $this->view->users = $users;
                             }
                         }
-                        //pins
+                        //imagenes
                         if ($request->getPost('option3') == "1")
                         {
                             if ($query != "")
@@ -599,6 +599,7 @@ class SearchController extends JO_Action
                                 $data = array(
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_is_image' => 1,
                                     'filter_description' => $query,
                                     'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
                                 );
@@ -608,6 +609,7 @@ class SearchController extends JO_Action
                                 $data = array(
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
+                                    'filter_is_image' => 1,
                                     'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
                                 );
                             }

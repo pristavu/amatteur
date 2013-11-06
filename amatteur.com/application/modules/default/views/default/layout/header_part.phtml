@@ -163,6 +163,19 @@ if (!$this->show_header_line && $this->show_header_invate)
     { ?>
                                     <li<?php echo ($menu['class'] ? ' class="' . $menu['class'] . '"' : ''); ?>><a href="<?php echo $menu['href']; ?>"><?php echo $menu['title']; ?></a></li>
     <?php } ?>
+    <?php if (!$this->is_loged)
+    { ?>
+                    <li>
+                        <a href="bienvenido" class="ados">Bienvenid@</a>
+                    </li>
+                    <li>    
+                        <a id='videoTrigger' class="ados" href=''><?php echo $this->translate('Know us'); ?></a>
+                    </li>
+    <?php } ?>
+                    <li>
+                        <a href="http://blog.amatteur.com" class="ados" target="_blank"><?php echo $this->translate('Blog'); ?></a>
+                    </li>
+                                    
                             </ul>
                             <div class="clear"></div>
                         </div>
@@ -171,9 +184,11 @@ if (!$this->show_header_line && $this->show_header_invate)
 <?php if (!$this->is_loged)
 { ?>
                     <li>
-                        <a href="<?php echo $this->login; ?>"><img width="16px" height="17px" src="data/images/ico_entrar.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Login'); ?></a></li>
+                        <a href="<?php echo $this->login; ?>"><img width="16px" height="17px" src="data/images/ico_entrar.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Login'); ?></a>
+                    </li>
                     <li>
-                        <a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Register'); ?></a></li>
+                        <a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Register'); ?></a>
+                    </li>
                 <?php } ?>
                 <?php if ($this->is_loged)
                 { ?>
@@ -346,12 +361,11 @@ if (!$this->is_loged)
         <div id="menu" class="<?php echo $this->is_loged ? "loged" : ""; ?> <?php echo in_array(JO_Request::getInstance()->getController(), array('settings', 'prefs', 'password')) ? "menuNoSlider" : ""; ?>"<?php if (!$enable_slider)
     { ?> style="top:50px;"<?php } ?>>
             <div id="menuwrapper">
-                    <div class="menubienvenido">                
-    <?php if (!$this->is_loged)
-    { ?>
-                        <div id="muestraBienvenida"><a href="bienvenido" class="ados">Bienvenid@</a></div>
-                        <div id="conocenos"><a id='videoTrigger' class="ados" href=''><img width="20px" height="18px" src="data/images/ico_conocenos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Know us'); ?></a></div>
-    <?php } ?>
+    <?php if ($this->is_loged) { ?>
+                    <div class="menubienvenido" style="margin-left:-50px"> 
+    <?php } else { ?>
+                    <div class="menubienvenido" >                         
+    <?php }  ?>                        
     <?php if ($this->is_loged)
     { 
 		//Sacamos el total de mails sin leer del usuario
@@ -521,28 +535,33 @@ if (!$this->is_loged)
                                        });                                        
 				});
 	</script>
-                                                <div id="muestraBlog"><a href="http://blog.amatteur.com" class="ados" target="_blank"> <img width="20px" height="18px" src="data/images/blog_ico.png" />&nbsp;&nbsp;<?php echo $this->translate('Blog'); ?></a></div>
-                                                <div id="eventtos"><a id='eventoTrigger' class="ados" href='eventos-deportivos'><img width="75px" height="30px" src="data/images/eventtoslogo.png" alt="" /></a></div>
 
-
-                    </div>
-                        
-                <div class="menumenus">
-                    <ul class="links">
-                        <!--
-    <?php if ($this->is_loged)
-    { ?>
-                            <li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow'); ?></a></li>
-    <?php } ?>
-                        -->
-    <?php if ($this->is_loged)
-    { ?>
-                            <li><a href="<?php echo $this->invites; ?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends'); ?></a></li>	
-    <?php } ?>
                         <!--li><a href="articles"><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;Ranking</a></li-->
-                        <li><a href="<?php echo $this->article_url; ?>"><img width="20px" height="18px" src="data/images/ico_Articulos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Articles'); ?></a></li>
+                        <a class="ados" style="margin-right:5px" href="<?php echo $this->article_url; ?>"><img width="20px" height="18px" src="data/images/ico_Articulos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Articles'); ?></a>
+                        
+                        <a class="ados" href="<?php echo $this->video_url; ?>"><img width="20px" height="18px" src="data/images/ico_videos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Videos'); ?></a>
+    <?php if ($this->is_loged)
+    { ?>
+                        <ul class="links" style="width:260px;left:223px;top:3px">
+    <?php  } else  { ?>
+                        <ul class="links" style="width:231px;left:160px;top:3px">
+    <?php  }  ?>                            
                         <li>
-                            <a href="#" class="arrow"><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Ranking'); ?></a>
+                            <a href="<?php echo $this->gifts; ?>" class="arrow ados" ><img width="20px" height="18px" src="data/images/ico_enventa.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Gifts'); ?></a>
+                            <div class="dropdown columns-1">
+                                <ul>
+                                    <li><a href="<?php echo $this->gifts1; ?>"><?php echo $this->translate('$1-20'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts2; ?>"><?php echo $this->translate('$20-50'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts3; ?>"><?php echo $this->translate('$50-100'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts4; ?>"><?php echo $this->translate('$100-200'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts5; ?>"><?php echo $this->translate('$200-500'); ?></a></li>
+                                    <li><a href="<?php echo $this->gifts6; ?>"><?php echo $this->translate('$500+'); ?></a></li>
+                                </ul>
+                                <div class="clear"></div>
+                            </div>
+                        </li>
+                        <li style="left:6px">
+                            <a href="#" class="arrow ados" ><img width="20px" height="18px" src="data/images/ico_Rank.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Ranking'); ?></a>
                             <div class="dropdown columns-1 categoriesMenu">
                                 <ul>
                                     <li class="first"><a href="#"><?php echo $this->translate('Fotos con más MeGusta'); ?></a>
@@ -563,26 +582,41 @@ if (!$this->is_loged)
                                 <div class="clear"></div>
                             </div>
                         </li>
+                    </ul>
 
-                        <li><a href="<?php echo $this->video_url; ?>"><img width="20px" height="18px" src="data/images/ico_videos.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Videos'); ?></a></li>
-                        <li><a href="<?php echo $this->popular_url; ?>"><img width="20px" height="18px" src="data/images/ico_popularV2.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular'); ?></a></li>
+                    </div>
+                        
+                    <div class="menubienvenido" >                                                 
+                <!--div class="menumenus"-->
+                    <ul class="links" style="right:0px;top:2px;width: 710px">
+                        <!--
+    <?php if ($this->is_loged)
+    { ?>
+                            <li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow'); ?></a></li>
+    <?php } ?>
+                        -->
+    <?php if ($this->is_loged)
+    { ?>
                         <li>
-                            <a href="<?php echo $this->gifts; ?>" class="arrow"><img width="20px" height="18px" src="data/images/ico_enventa.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Gifts'); ?></a>
-                            <div class="dropdown columns-1">
-                                <ul>
-                                    <li><a href="<?php echo $this->gifts1; ?>"><?php echo $this->translate('$1-20'); ?></a></li>
-                                    <li><a href="<?php echo $this->gifts2; ?>"><?php echo $this->translate('$20-50'); ?></a></li>
-                                    <li><a href="<?php echo $this->gifts3; ?>"><?php echo $this->translate('$50-100'); ?></a></li>
-                                    <li><a href="<?php echo $this->gifts4; ?>"><?php echo $this->translate('$100-200'); ?></a></li>
-                                    <li><a href="<?php echo $this->gifts5; ?>"><?php echo $this->translate('$200-500'); ?></a></li>
-                                    <li><a href="<?php echo $this->gifts6; ?>"><?php echo $this->translate('$500+'); ?></a></li>
-                                </ul>
-                                <div class="clear"></div>
-                            </div>
+                            <a class="ados" href="<?php echo $this->invites; ?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends'); ?></a>
                         </li>
+    <?php } ?>
+                        
+                        <li>
+                            <a class="ados" href="volunttarios"><img width="20px" height="18px" src="data/images/icono_voluntarios16x16.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Volunttari@s'); ?></a>
+                        </li>
+                        
+                        <li>
+                            <a class="ados" href="<?php echo $this->popular_url; ?>"><img width="20px" height="18px" src="data/images/ico_popularV2.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular'); ?></a>
+                        </li>                        
+                        <li>
+                             <div id="eventtos"><a id='eventoTrigger' class="ados" style="padding-top:0px" href='eventos-deportivos'><img width="75px" height="30px" src="data/images/eventtoslogo.png" alt="" /></a></div>
+                        </li>
+
+                        
         <?php if ($this->categories)
         { ?>
-                            <li class="last">
+                            <li class="last" style="float:left;">
                                 <a class="arrow" href="<?php echo $this->all_url; ?>"><img width="20px" height="18px" src="data/images/ico_todo.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Everything'); ?><?php if ($this->category_active)
         { ?>: <?php echo $this->category_active; ?><?php } ?></a>
                                 <div class="dropdown columns-2 categoriesMenu">
@@ -627,7 +661,7 @@ if (!$this->is_loged)
                     </ul>
                 </div>
                 <!--AQUI IBA INVITAR-->
-            </div>
+            </div>            
         </div>
 <?php } ?>
 

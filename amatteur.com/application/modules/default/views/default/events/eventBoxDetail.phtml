@@ -1,11 +1,3 @@
-                <label style="font-size: 2.8em;
-font-weight: 300;
-line-height: 1em;
-color:#0061A5;
-float:left;"> 
-                    <image src="data/images/event_calendar.png" >&nbsp;<strong><?php echo $this->translate('Evento Deportivo ');?> </strong></label>		
-
-
 <?php if($this->popup) { ?>
 
 <div class="buttonswrapper">
@@ -35,9 +27,15 @@ float:left;">
 		
 		<div class="info">
 			<div class="title">
-				<p class="avatar">
-					<img src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['fullname'];?>" />
-				</p>
+                            <p>
+                                                <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:left;"> 
+                    <image src="data/images/event_calendar.png" >&nbsp;<strong><?php echo $this->translate('Evento Deportivo ');?> </strong></label>		
+                            
+
+                            </p>
+				<!--p class="avatar">
+					<img src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['eventname'];?>" />
+				</p-->
 				<div class="left">
 					<h3>
 						<!--a href="<?php // echo $this->author['profile'];?>"><?php echo $this->author['fullname'];?></a-->
@@ -169,39 +167,41 @@ float:left;">
 				</ul>
                     <?php }*/ ?>
 					<p>
-						<?php if($this->event['from']) { ?>
+						<?php /*if($this->event['from']) { ?>
 							<a onclick="target='_blank'" href="<?php echo $this->event['from'];?>">
 								<img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
 							</a>
-						<?php } else { ?>
+						<?php } else*/ { ?>
 							<img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
 						<?php } ?>
 					</p>
 				</div>
 				
-				
-				<p class="desc"><?php echo Helper_Pin::descriptionFix($this->pin['description']);?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Descripción del evento:');?> </div>
-                                    <?php echo $this->event['eventname'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> </div>
+                            <p><p></p>
+                            <div id="panel">
+				<p class="desc"><?php //echo Helper_Events::descriptionFix($this->event['description']);?></p>
+                                    <p class="location colorless"><label for="email"><?php echo $this->translate('Descripción del evento: ');?>  <br class="hide" /></label>
+                                    <span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:right;"><?php echo $this->event['eventname'];?></span>
+                                    </p>
+                                    <p class="location colorless"><?php echo $this->translate('Deporte: ');?> 
                                     <?php echo $this->event['sport_category'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Organiza:');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Organiza: ');?> 
                                     <?php echo $this->event['organiza'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Ubicación');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Ubicación: ');?> 
                                     <?php echo $this->event['location'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Fecha');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Fecha: ');?> 
                                     <?php echo $this->event['date_event'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Página web del evento');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Página web del evento: ');?> 
                                      <?php echo $this->event['website'];?></p> 
-                                    <p class="location colorless"><?php echo $this->translate('Detalles');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Detalles: ');?> 
                                      <?php echo $this->event['description'];?></p> 
-                                    <p class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> 
                                     &nbsp;<img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
                                 <?php echo $this->event['fullname'];?>
                                 <?php echo $this->event['description'];?>
-                                
-				<div class="commentslist">
-					<form action="<?php echo $this->pin['href'];?>" method="post" id="pin_commentt_form">
+
+                                    <div class="commentslist">
+					<form action="<?php echo $this->event['href'];?>" method="post" id="pin_commentt_form">
 						<p class="hide">
 							<input name="av2" />
 						</p>
@@ -255,7 +255,7 @@ float:left;">
 					</form>
 				</div>	
 			</div>
-			
+                </div>			
 			<?php /* if($this->pin['onto_board']) { ?>
 			<div class="pinned">
 				<div class="titlebar">
@@ -381,7 +381,12 @@ float:left;">
 
 $(document).ready(function(){
 
+
+
 	<?php if($this->popup) { ?>
+                
+        //$("#fancybox-wrap").wrap('<div class="pin-overlay" />');
+
 	$('#pin .prev_next a').click(function(){
 		$.fancybox.close();
 		var element = this;

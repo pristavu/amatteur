@@ -105,6 +105,12 @@ class UsersController extends JO_Action
             $user_data['twitter_id'] = 0;
         }
 
+        if ($user_data['location'] == 'Introduce una ubicación')
+        {
+            $user_data['location'] = '';
+        }
+        
+        
         JO_Registry::set('rss_feed', array(
             'title' => $user_data['fullname'] . ' (' . $user_data['username'] . ') ' . sprintf($this->translate('on %s'), JO_Registry::get('site_name')),
             'href' => WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user_data['user_id'] . '&feed')

@@ -150,7 +150,7 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 							}
 						}
 			
-						$model_images->deleteImages('/cache_pins/' . $image_path . $name);
+						//$model_images->deleteImages('/cache_pins/' . $image_path . $name);
 						if($temp_width) {
 							return array(
 									'store' 	=> 'amazons3',
@@ -251,7 +251,7 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 							}
 						}
 			
-						$model_images->deleteImages('/cache_avatars/' . $image_path . $name);
+						//$model_images->deleteImages('/cache_avatars/' . $image_path . $name);
 						if($temp_width) {
 							return array(
 									'store' 	=> 'amazons3',
@@ -418,14 +418,13 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 								$thumb_a1 = explode('/uploads/', $thumb_a);
 								if($thumb_a1 && isset($thumb_a1[1])) {
 									if( !self::uploatToServer(BASE_PATH . '/uploads/' . $thumb_a1[1], $image_path . $name_pref )) {
-                error_log("error al subir imagen al servidor");
 										return false;
 									}
 								}
 							}
 						}
 			
-						$model_images->deleteImages('/cache_events/' . $image_path . $name);
+						//$model_images->deleteImages('/cache_events/' . $image_path . $name);
 						if($temp_width) {
 							return array(
 									'store' => 'amazons3',
@@ -510,7 +509,7 @@ class Model_Upload_Amazons3 extends Model_Upload_Abstract {
 							}
 						}
 			
-						$model_images->deleteImages('/cache_events/' . $image_path . $name);
+						//$model_images->deleteImages('/cache_events/' . $image_path . $name);
 						if($temp_width) {
 							return array(
 									'store' 	=> 'amazons3',

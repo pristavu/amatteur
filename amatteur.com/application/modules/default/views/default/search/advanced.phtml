@@ -163,10 +163,10 @@
                          
                         	<?php $i=0; foreach($this->categories as $category) { ?>
                         		<li  class = 'master cat1' style='border:none !important' >
-                                                <?php if ($i==0) { $i=1; ?>
+                                                <?php /* if ($i==0) { $i=1; ?>
                                                 <a data-id='<?php echo 1; ?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo "Todo"; ?></a>
                                                 <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
-                                                <?php } ?>
+                                                <?php } */?>
 
                         			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo $category['title']?></a>
                         			<?php if($category['subcategories']){?>
@@ -546,10 +546,10 @@
                          
                         	<?php $i=0; foreach($this->categories as $category) { ?>
                         		<li  class = 'master cat1' style='border:none !important' >
-                                                <?php if ($i==0) { $i=1; ?>
+                                                <?php /* if ($i==0) { $i=1; ?>
                                                 <a data-id='<?php echo 1; ?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo "Todo"; ?></a>
                                                 <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
-                                                <?php } ?>
+                                                <?php } */ ?>
 
                         			<a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo $category['title']?></a>
                         			<?php if($category['subcategories']){?>

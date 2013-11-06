@@ -406,13 +406,13 @@ class Model_Events extends JO_Model {
 		if($rebuild) {
 			$total = $db->update('pins', array(
 					'date_modified' => WM_Date::format(time(), 'yy-mm-dd H:i:s')
-			), array('user_id = ? OR (pin_id IN (SELECT DISTINCT pin_id FROM pins_comments WHERE user_id = ?))' => (string)$user_id));
+			), array('user_id = ? OR (event_id IN (SELECT DISTINCT event_id FROM events_comments WHERE user_id = ?))' => (string)$user_id));
 		} 
 		
 		$db->update('users', array(
-			'pins' => new JO_Db_Expr('(SELECT COUNT(DISTINCT pin_id) FROM pins WHERE user_id = users.user_id)'),
+			'pins' => new JO_Db_Expr('(SELECT COUNT(DISTINCT event_id) FROM pins WHERE user_id = users.user_id)'),
 			'boards' => new JO_Db_Expr('(SELECT COUNT(DISTINCT board_id) FROM boards WHERE user_id = users.user_id)'),
-			'likes' => new JO_Db_Expr('(SELECT COUNT(DISTINCT pin_id) FROM pins_likes WHERE user_id = users.user_id)'),
+			'likes' => new JO_Db_Expr('(SELECT COUNT(DISTINCT event_id) FROM pins_likes WHERE user_id = users.user_id)'),
 			'following' => new JO_Db_Expr('(SELECT COUNT(DISTINCT following_id) FROM users_following_user WHERE user_id = users.user_id AND following_id != users.user_id)'),
 			'followers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_following_user WHERE following_id = users.user_id AND user_id != users.user_id)'),
 			'liking' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_like_id) FROM users_likes WHERE user_id = users.user_id AND user_like_id != users.user_id)'),
@@ -545,13 +545,13 @@ class Model_Events extends JO_Model {
 	}
         
 	
-//	public static function updateLatestPins($pin_id) {
+//	public static function updateLatestPins($event_id) {
 //		$db = JO_Db::getDefaultAdapter();
 //		$board_info = self::getUser( JO_Session::get('user[user_id]') );
 //		
 //		if($board_info) {
 //			$latest = explode(',',$board_info['latest_pins']);
-//			$latest_add = array($pin_id);
+//			$latest_add = array($event_id);
 //			for($i=0; $i<min(15, count($latest)); $i++) {
 //				if(isset($latest[$i]) && $latest[$i]) {
 //					$latest_add[] = $latest[$i];
@@ -565,7 +565,7 @@ class Model_Events extends JO_Model {
 //		}
 //	}
 	
-	public static function updateLatestPins($pin_id = 0) {
+	public static function updateLatestPins($event_id = 0) {
 		$db = JO_Db::getDefaultAdapter();
 		$board_info = self::getUser( JO_Session::get('user[user_id]') );
 		
@@ -573,19 +573,19 @@ class Model_Events extends JO_Model {
 			$pins = Model_Pins::getPins(array(
 				'filter_user_id' => (string)JO_Session::get('user[user_id]'),
 				'sort' => 'DESC',
-				'order' => 'pins.pin_id',
+				'order' => 'pins.event_id',
 				'start' => 0,
 				'limit' => 15
 			));
 			$latest_add = array();
 			if($pins) {
 				foreach($pins AS $p) {
-					$latest_add[] = $p['pin_id'];
+					$latest_add[] = $p['event_id'];
 				}
 			}
 			$db->update('users', array(
 				'latest_pins' => implode(',',$latest_add),
-				'pins' => new JO_Db_Expr("(SELECT COUNT(pin_id) FROM pins WHERE user_id = '".(string)JO_Session::get('user[user_id]')."')")
+				'pins' => new JO_Db_Expr("(SELECT COUNT(event_id) FROM pins WHERE user_id = '".(string)JO_Session::get('user[user_id]')."')")
 			), array('user_id = ?' => (string)JO_Session::get('user[user_id]')));
 			
 		}
@@ -624,7 +624,7 @@ class Model_Events extends JO_Model {
 			'events.date_event',
                         'events.sport_category'
 		);
-		if(isset($data['filter_like_pin_id'])) {
+		if(isset($data['filter_like_event_id'])) {
 			$allow_sort[] = 'pins_likes.like_id';
 		}
 		
@@ -696,7 +696,7 @@ class Model_Events extends JO_Model {
 			'events.date_event',
                         'events.sport_category'
 		);
-		if(isset($data['filter_like_pin_id'])) {
+		if(isset($data['filter_like_event_id'])) {
 			$allow_sort[] = 'pins_likes.like_id';
 		}
 		
@@ -777,9 +777,9 @@ error_log (" QUERY $query");
 			->where('users_likes.user_like_id = ?', (string)$data['filter_liking_user_id']);
 		}
                 
-		if(isset($data['filter_like_pin_id']) && $data['filter_like_pin_id']) {
+		if(isset($data['filter_like_event_id']) && $data['filter_like_event_id']) {
 			$query->joinLeft('pins_likes', 'users.user_id = pins_likes.user_id')
-			->where('pins_likes.pin_id = ?', (string)$data['filter_like_pin_id']);
+			->where('pins_likes.event_id = ?', (string)$data['filter_like_event_id']);
 		}
 		
 		if(isset($data['filter_user_id']) && $data['filter_user_id']) {
@@ -1766,7 +1766,7 @@ error_log (" QUERY $query");
 			'users.status',
                         'users.likers'
 		);
-		if(isset($data['filter_like_pin_id'])) {
+		if(isset($data['filter_like_event_id'])) {
 			$allow_sort[] = 'pins_likes.like_id';
 		}
 		
@@ -1806,9 +1806,9 @@ error_log (" QUERY $query");
 			->where('users_likes.user_like_id = ?', (string)$data['filter_liking_user_id']);
 		}
                 
-		if(isset($data['filter_like_pin_id']) && $data['filter_like_pin_id']) {
+		if(isset($data['filter_like_event_id']) && $data['filter_like_event_id']) {
 			$query->joinLeft('pins_likes', 'users.user_id = pins_likes.user_id')
-			->where('pins_likes.pin_id = ?', (string)$data['filter_like_pin_id']);
+			->where('pins_likes.event_id = ?', (string)$data['filter_like_event_id']);
 		}
 */		
 		if(isset($data['filter_gender']) && $data['filter_gender']) {
@@ -1880,7 +1880,7 @@ error_log (" QUERY $query");
 			foreach($results AS $data) {
 				$data['pins_array'] = array();
 				if(trim($data['latest_pins'])) {
-					$data['pins_array'] = $db->fetchAll($db->select()->from('pins')->where("pin_id IN ('?')", new JO_Db_Expr(implode("','", explode(',',$data['latest_pins']))))->order('pin_id DESC')->limit(15));
+					$data['pins_array'] = $db->fetchAll($db->select()->from('pins')->where("event_id IN ('?')", new JO_Db_Expr(implode("','", explode(',',$data['latest_pins']))))->order('event_id DESC')->limit(15));
 				}
 				
 				$result[$key][] = $data;
@@ -2129,6 +2129,144 @@ error_log (" QUERY $query");
 		return $result; 
 	}
 
+	public static function getEventReportCategories() {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('pins_reports_categories', array('prc_id', 'title'))
+					->order('sort_order ASC');
+		return $db->fetchPairs($query);
+	}
+	
+	public static function getCommentReportCategories() {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('pins_comment_reports_categories', array('prc_id', 'title'))
+					->order('sort_order ASC');
+		return $db->fetchPairs($query);
+	}
+
+        
+	public static function reportComment($comment_id, $prc_id, $message = '') {
+		if(self::commentIsReported($comment_id)) {
+			return false;
+		}
+		$db = JO_Db::getDefaultAdapter();
+		
+		$db->insert('events_reports_comments', array(
+			'prc_id' => (string)$prc_id,
+			'user_id' => (string)JO_Session::get('user[user_id]'),
+			'date_added' => new JO_Db_Expr('NOW()'),
+			'comment_id' => (string)$comment_id,
+			'user_ip' => JO_Request_Server::encode_ip(JO_Request::getInstance()->getClientIp()),
+			'message' => (string)$message
+		));
+		
+		return $db->lastInsertId();
+	}        
+        
+        public static function commentIsReported($comment_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('events_reports_comments', 'COUNT(pr_id)')
+					->where('comment_id = ?', (string)$comment_id)
+					->where('checked = 0')
+					->limit(1);
+
+		if((string)JO_Session::get('user[user_id]')) {
+			$query->where("user_id = '" . (string)JO_Session::get('user[user_id]') . "' OR user_ip = '" . JO_Request_Server::encode_ip(JO_Request::getInstance()->getClientIp()) . "'");
+		} else {
+			$query->where("user_ip = ?", JO_Request_Server::encode_ip(JO_Request::getInstance()->getClientIp()));
+		}
+		
+		return $db->fetchOne($query);
+	}
+
+	public static function addComment($data, $latest_comments, $fields = array('*')) {
+		$db = JO_Db::getDefaultAdapter();
+		$db->insert('events_comments', array(
+			'event_id' => (string)$data['event_id'],
+			'user_id' => (string)JO_Session::get('user[user_id]'),
+			'comment' => $data['write_comment'],
+			'date_added' => new JO_Db_Expr('NOW()')
+		));
+		
+		$com_id = $db->lastInsertId();
+		if(!$com_id) {
+			return false;
+		}
+		
+		$query = $db->select()
+					->from('events_comments')
+					->where('comment_id = ?', $com_id)
+					->limit('1');
+		$result = $db->fetchRow($query);
+		if(!$result) {
+			return false;
+		}
+
+		
+		$db->update('pins', array(
+			'comments' => new JO_Db_Expr("(SELECT COUNT(comment_id) FROM events_comments WHERE event_id = '".(string)$data['event_id']."')"),
+			'latest_comments' => new JO_Db_Expr("(SELECT GROUP_CONCAT(comment_id ORDER BY comment_id ASC) FROM (SELECT comment_id FROM events_comments WHERE event_id = '" . (string)$data['event_id'] . "' ORDER BY comment_id ASC LIMIT 4) AS tmp)")
+		), array('event_id = ?' => (string)$data['event_id']));
+		
+		$userdata = Model_Users::getUser(JO_Session::get('user[user_id]'), false, $fields);
+		if(!$userdata) {
+			$userdata = array('fullname' => '', 'avatar' => '');
+		}
+		
+		self::rebuildCache($data['event_id']);
+		
+		$result['user'] = $userdata;
+		return $result;
+	}        
+        
+	public static function getComment($com_id) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$query = $db->select()
+					->from('events_comments')
+					->where('comment_id = ?', $com_id)
+					->limit('1');
+		return $db->fetchRow($query);
+	}
+	
+	public static function deleteComment($com_id) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$info = self::getComment($com_id);
+		$results = false;
+		if($info) {
+			$results = $db->delete('events_comments', array('comment_id = ?' => $com_id));
+			$db->delete('events_reports_comments', array('comment_id = ?' => $com_id));
+			
+			/*$comments = Model_Comments::getComments(array(
+				'filter_pin_id' => (string)$info['pin_id'],
+				'start' => 0,
+				'limit' => 4,
+				'sort' => 'ASC',
+				'order' => 'events_comments.comment_id'
+			));
+			
+			$fcm = array();
+			if($comments) {
+				foreach($comments AS $c) {
+					if((string)$c['comment_id']) {
+						$fcm[] = (string)$c['comment_id'];
+					}
+				}
+			} */
+			$db->update('event', array(
+				'comments' => new JO_Db_Expr("(SELECT COUNT(comment_id) FROM events_comments WHERE pin_id = '".(string)$info['event_id']."')"),
+//				'latest_comments' => (string)implode(',',$fcm)
+				'latest_comments' => new JO_Db_Expr("(SELECT GROUP_CONCAT(comment_id ORDER BY comment_id ASC) FROM (SELECT comment_id FROM events_comments WHERE pin_id = '" . (string)$info['event_id'] . "' ORDER BY comment_id ASC LIMIT 4) AS tmp)")
+			), array('pin_id = ?' => (string)$info['pin_id']));
+			
+			//self::rebuildCache($info['pin_id']);
+			
+		}
+		return $results;
+	}        
 }
 
 ?>
