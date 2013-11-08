@@ -307,7 +307,128 @@ class LayoutController extends JO_Action {
 				if(in_array($request->getAction(), array('index', 'page', 'view'))) {
 					$this->view->full_url_js = WM_Router::create($request->getBaseUrl() . '?controller=search&q=' . $request->getRequest('q'));
 				} else {
-					$this->view->full_url_js = WM_Router::create($request->getBaseUrl() . '?controller=search&action='.$request->getAction().'&q=' . $request->getRequest('q'));
+                                    $parametros = "";
+
+        if ($request->issetPost('firstname'))
+        {
+            $parametros .= "&firstname=". $request->getPost('firstname');
+        } 
+
+        if ($request->issetPost('words'))
+        {
+            $parametros .= "&words=". $request->getPost('words');
+        } 
+        if ($request->issetPost('location'))
+        {
+            $parametros .= "&location=". $request->getPost('location');
+        } 
+        if ($request->issetPost('sport_category_1'))
+        {
+            $parametros .= "&sport_category_1=". $request->getPost('sport_category_1');
+        }         
+        if ($request->issetPost('sport_category_2'))
+        {
+            $parametros .= "&sport_category_2=". $request->getPost('sport_category_2');
+        }
+        if ($request->issetPost('sport_category_3'))
+        {
+            $parametros .= "&sport_category_3=". $request->getPost('sport_category_3');
+        } 
+        if ($request->issetPost('type_user'))
+        {
+            $parametros .= "&type_user=". $request->getPost('type_user');
+        } 
+        //gender
+        if ($request->issetPost('gender'))
+        {
+            $parametros .= "&gender=". $request->getRequest('gender');
+        } 
+
+        //location		
+        if ($request->issetPost('location'))
+        {
+            $parametros .= "&location=". $request->getPost('location');
+        } 
+
+        //sport category
+        if ($request->issetPost('sport_category'))
+        {
+            $parametros .= "&sport_category=". $request->getPost('sport_category');
+        } 
+
+        //age
+        if ($request->issetPost('age'))
+        {
+            $parametros .= "&age=". $request->getPost('age');
+        } 
+
+        //level
+        if ($request->issetPost('level'))
+        {
+            $parametros .= "&level=". $request->getPost('level');
+        } 
+
+        //option1		
+        if ($request->issetPost('option1'))
+        {
+            $parametros .= "&option1=". $request->getPost('option1');
+        } 
+
+        //option2		
+        if ($request->issetPost('option2'))
+        {
+            $parametros .= "&option2=". $request->getPost('option2');
+        } 
+
+        //option3
+        if ($request->issetPost('option3'))
+        {
+            $parametros .= "&option3=". $request->getPost('option3');
+        } 
+
+        //option4		
+        if ($request->issetPost('option4'))
+        {
+            $parametros .= "&option4=". $request->getPost('option4');
+        } 
+
+        //option5		
+        if ($request->issetPost('option5'))
+        {
+            $parametros .= "&option5=". $request->getPost('option5');
+        } 
+
+        //option6		
+        if ($request->issetPost('option6'))
+        {
+            $parametros .= "&option6=". $request->getPost('option6');
+        } 
+            
+        //option7		
+        if ($request->issetPost('option7'))
+        {
+            $parametros .= "&option7=". $request->getPost('option7');
+        } 
+
+        //option8		
+        if ($request->issetPost('option8'))
+        {
+            $parametros .= "&option8=". $request->getPost('option8');
+        } 
+
+        //option9		
+        if ($request->issetPost('option9'))
+        {
+            $parametros .= "&option9=". $request->getPost('option9');
+        } 
+
+        //option10		
+        if ($request->issetPost('option10'))
+        {
+            $parametros .= "&option10=". $request->getPost('option10');
+        }       
+                                    
+					$this->view->full_url_js = WM_Router::create($request->getBaseUrl() . '?controller=search&action='.$request->getAction().'&q=' . $request->getRequest('q').'&id=' . $request->getRequest('id').$parametros);
 				}
 			break;
 			case 'all' == $request->getController():

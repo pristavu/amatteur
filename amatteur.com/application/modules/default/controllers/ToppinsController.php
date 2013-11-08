@@ -73,7 +73,7 @@ class ToppinsController extends JO_Action {
 //		}
                 $category_id = $request->getRequest('category_id');
 		$category_info = Model_Categories::getCategory($category_id);
-		
+		/*
 		if($category_info && !$category_info['parent_id']){
 			$subCats = Model_Categories::getSubcategories($category_id);
 			if($subCats){
@@ -87,7 +87,7 @@ class ToppinsController extends JO_Action {
 			}
 			
 		}
-		
+		*/
 		if(!$category_info) {
 			$category_info["title"]="Todo";
 		}

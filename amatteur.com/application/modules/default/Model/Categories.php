@@ -54,7 +54,20 @@ class Model_Categories {
 		return $db->fetchRow($query);
 		
 	}
-	
+
+	public static function getCategoryFromTitle($title) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$query = $db->select()
+					->from('category')
+					->where('category.title = ? ', (string)$title)
+					->limit(1);
+		
+		return $db->fetchRow($query);
+		
+	}
+        
+        
 	public static function getSubcategories($category_id){
 		
 		$db = JO_Db::getDefaultAdapter();

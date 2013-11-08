@@ -1,0 +1,41 @@
+<?php echo $this->header_part; ?>
+
+<div id="detail" class="pindetail">
+	<?php if($this->show_buttonswrapper) { ?>
+	<div class="buttonswrapper">
+		<div id="buttons" class="buttons-absolute">
+			<ul>
+				<li class="fb-like-button"></li>
+				<li><a href="<?php echo $this->pin_url;?>" class="tweet" title="<?php echo $this->translate('Tweet');?>"><span><?php echo $this->translate('Tweet');?></span></a></li>
+				<li><a href="<?php echo $this->url_embed;?>" class="embed" title="<?php echo $this->translate('Embed');?>"><span><?php echo $this->translate('Embed');?></span></a></li>
+				<?php if(!$this->pin['pinIsReported']) { ?>
+				<li><a href="<?php echo $this->url_report;?>" class="report" title="<?php echo $this->translate('Report Pin');?>"><span><?php echo $this->translate('Report Pin');?></span></a></li>
+				<?php } ?>
+				<?php if($this->loged) { ?>
+				<li><a href="<?php echo $this->url_email;?>" class="email" title="<?php echo $this->translate('Email');?>"><span><?php echo $this->translate('Email');?></span></a></li>
+				<?php } ?>
+			</ul>
+		</div>
+	</div>
+	<?php } ?>
+
+	<?php echo $this->left_part;?>		
+
+	<div class="pin">
+		<div class="box boxlarge-2">
+			<div class="left-corner">
+				<div class="bottom-corner">
+					<div class="right-corner">
+						
+						<?php 
+						echo $this->events_details;?>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="clear"></div>	
+</div>
+
+<?php echo $this->footer_part; ?>

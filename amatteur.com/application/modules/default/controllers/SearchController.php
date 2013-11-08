@@ -424,25 +424,25 @@ class SearchController extends JO_Action
                 //$this->view->menuSearch = $this->searchMenu($query);
 
                 $this->view->pins = '';
-
+                
                 if ($id == "amatteur")
                 {
                     $validate = new Helper_Validate();
 
-                    if($request->getPost('option1') == "" && $request->getPost('option2') == "" && $request->getPost('option3') == "" && $request->getPost('option4') == "" && $request->getPost('option5') == "" && $request->getPost('option6') == "" && $request->getPost('option7') == "") {
-                        $validate->_set_rules($request->getPost('option1'), $this->translate('Opción de búsqueda amatteur'), 'not_empty;min_length[3];max_length[100]');
+                    if($request->getRequest('option1') == "" && $request->getRequest('option2') == "" && $request->getRequest('option3') == "" && $request->getRequest('option4') == "" && $request->getRequest('option5') == "" && $request->getRequest('option6') == "" && $request->getRequest('option7') == "") {
+                        $validate->_set_rules($request->getRequest('option1'), $this->translate('Opción de búsqueda amatteur'), 'not_empty;min_length[3];max_length[100]');
 
                     }
                     if($validate->_valid_form()) 
                     {
                         //boards
-                        if ($request->getPost('option1') == "1")
+                        if ($request->getRequest('option1') == "1")
                         {
                             $data = array(
                                 'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                 'limit' => JO_Registry::get('config_front_limit'),
                                 'filter_title' => $query,
-                                'filter_category_id' => $request->getPost('sport_category_1')
+                                'filter_category_id' => $request->getRequest('sport_category_1')
                             );
 
 
@@ -508,25 +508,25 @@ class SearchController extends JO_Action
                             }
                         }
                         //users
-                        if ($request->getPost('option2') == "1")
+                        if ($request->getRequest('option2') == "1")
                         {
                             $data = array(
                                 'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                 'limit' => JO_Registry::get('config_front_limit'),
                                 'filter_username' => $query,
-                                'filter_firstname' => $request->getPost('firstname'),
-                                'filter_location' => $request->getPost('location'),
-                                'filter_gender' => $request->getPost('gender'),
-                                'filter_sport_category_1' => $request->getPost('sport_category_1'),
-                                'filter_sport_category_2' => $request->getPost('sport_category_2'),
-                                'filter_sport_category_3' => $request->getPost('sport_category_3')
+                                'filter_firstname' => $request->getRequest('firstname'),
+                                'filter_location' => $request->getRequest('location'),
+                                'filter_gender' => $request->getRequest('gender'),
+                                'filter_sport_category_1' => $request->getRequest('sport_category_1'),
+                                'filter_sport_category_2' => $request->getRequest('sport_category_2'),
+                                'filter_sport_category_3' => $request->getRequest('sport_category_3')
                             );
 
 
                             $users = Model_Users::getUsers($data);
                             if ($request->issetPost('location'))
                             {
-                                $users_id = Model_Users::getLocationUsers($request->getPost('location'));
+                                $users_id = Model_Users::getLocationUsers($request->getRequest('location'));
                                 foreach ($users_id as $user_id)
                                 {
                                     $dataUser = array(
@@ -545,7 +545,7 @@ class SearchController extends JO_Action
                             }
                             if ($request->issetPost('sport_category_1'))
                             {
-                                $users_id = Model_Users::getUserIdSportsUser($request->getPost('sport_category_1'));
+                                $users_id = Model_Users::getUserIdSportsUser($request->getRequest('sport_category_1'));
                                 foreach ($users_id as $user_id)
                                 {
                                     $dataUser = array(
@@ -592,7 +592,7 @@ class SearchController extends JO_Action
                             }
                         }
                         //imagenes
-                        if ($request->getPost('option3') == "1")
+                        if ($request->getRequest('option3') == "1")
                         {
                             if ($query != "")
                             {
@@ -601,7 +601,7 @@ class SearchController extends JO_Action
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_image' => 1,
                                     'filter_description' => $query,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
                             else
@@ -610,7 +610,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_image' => 1,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
                                 
@@ -626,7 +626,7 @@ class SearchController extends JO_Action
                             }
                         }
                         //videos
-                        if ($request->getPost('option4') == "1")
+                        if ($request->getRequest('option4') == "1")
                         {
                             if ($query != "")
                             {
@@ -635,7 +635,7 @@ class SearchController extends JO_Action
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_video' => 1,
                                     'filter_description' => $query,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
                             else
@@ -644,7 +644,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_video' => 1,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
 
@@ -659,7 +659,7 @@ class SearchController extends JO_Action
                             }
                         }
                         //gifts
-                        if ($request->getPost('option5') == "1")
+                        if ($request->getRequest('option5') == "1")
                         {
                             if ($query != "")
                             {
@@ -668,7 +668,7 @@ class SearchController extends JO_Action
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'allow_gifts' => true,
                                     'filter_description' => $query,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
                             else
@@ -677,7 +677,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'allow_gifts' => true,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
 
@@ -692,7 +692,7 @@ class SearchController extends JO_Action
                             }
                         }
                         //articles
-                        if ($request->getPost('option6') == "1")
+                        if ($request->getRequest('option6') == "1")
                         {
                             if ($query != "")
                             {
@@ -701,7 +701,7 @@ class SearchController extends JO_Action
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_article' => 1,
                                     'filter_description' => $query,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
                             else
@@ -710,7 +710,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_article' => 1,
-                                    'filter_category_id' => $request->getPost('sport_category_1') != "" ? $request->getPost('sport_category_1') : null
+                                    'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
 
                             }
@@ -735,19 +735,19 @@ class SearchController extends JO_Action
                     $dataActivate = array(
                         'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                         'limit' => JO_Registry::get('config_front_limit'),
-                        'filter_gender' => $request->getPost('gender'),
-                        'filter_age' => $request->getPost('age'),
-                        'filter_location' => $request->getPost('location'),
-                        'filter_sport_category' => $request->getPost('sport_category'),
-                        'filter_level' => $request->getPost('level'),
-                        'filter_option1' => $request->getPost('option1'),
-                        'filter_option2' => $request->getPost('option2'),
-                        'filter_option3' => $request->getPost('option3'),
-                        'filter_option4' => $request->getPost('option4'),
-                        'filter_option5' => $request->getPost('option5'),
-                        'filter_option6' => $request->getPost('option6'),
-                        'filter_option7' => $request->getPost('option7'),
-                        'filter_option8' => $request->getPost('option8')
+                        'filter_gender' => $request->getRequest('gender'),
+                        'filter_age' => $request->getRequest('age'),
+                        'filter_location' => $request->getRequest('location'),
+                        'filter_sport_category' => $request->getRequest('sport_category'),
+                        'filter_level' => $request->getRequest('level'),
+                        'filter_option1' => $request->getRequest('option1'),
+                        'filter_option2' => $request->getRequest('option2'),
+                        'filter_option3' => $request->getRequest('option3'),
+                        'filter_option4' => $request->getRequest('option4'),
+                        'filter_option5' => $request->getRequest('option5'),
+                        'filter_option6' => $request->getRequest('option6'),
+                        'filter_option7' => $request->getRequest('option7'),
+                        'filter_option8' => $request->getRequest('option8')
                     );
 
                     $activate = Model_Users::getUsersActivate($dataActivate);
@@ -822,36 +822,36 @@ class SearchController extends JO_Action
                 else if ($id == "services")
                 {
                     $type_user = array(
-                        'filter_option1' => $request->getPost('option1'),
-                        'filter_option2' => $request->getPost('option2'),
-                        //'filter_option3' => $request->getPost('option3'),
-                        'filter_option4' => $request->getPost('option4'),
-                        'filter_option5' => $request->getPost('option5'),
-                        'filter_option6' => $request->getPost('option6'),
-                        'filter_option7' => $request->getPost('option7'),
-                        'filter_option8' => $request->getPost('option8'),
-                        'filter_option9' => $request->getPost('option9'),
-                        'filter_option10' => $request->getPost('option10')
+                        'filter_option1' => $request->getRequest('option1'),
+                        'filter_option2' => $request->getRequest('option2'),
+                        //'filter_option3' => $request->getRequest('option3'),
+                        'filter_option4' => $request->getRequest('option4'),
+                        'filter_option5' => $request->getRequest('option5'),
+                        'filter_option6' => $request->getRequest('option6'),
+                        'filter_option7' => $request->getRequest('option7'),
+                        'filter_option8' => $request->getRequest('option8'),
+                        'filter_option9' => $request->getRequest('option9'),
+                        'filter_option10' => $request->getRequest('option10')
                     );
 
                     $data = array(
                         'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                         'limit' => JO_Registry::get('config_front_limit'),
-                        'filter_username' => $request->getPost('words'),
-                        'filter_sport_category' => $request->getPost('sport_category_1'),
-                        'filter_firstname' => $request->getPost('firstname'),
+                        'filter_username' => $request->getRequest('words'),
+                        'filter_sport_category' => $request->getRequest('sport_category_1'),
+                        'filter_firstname' => $request->getRequest('firstname'),
                         'filter_typeuser' => $type_user,
                         'filter_typeuser_profesional' => 1,
-                        'filter_location' => $request->getPost('location')
+                        'filter_location' => $request->getRequest('location')
                     );
 
 
                     $users = Model_Users::getUsers($data);
                     if ($request->issetPost('location'))
                     {
-                        if ($request->getPost('location') != "")
+                        if ($request->getRequest('location') != "")
                         {
-                            $users_id = Model_Users::getLocationUsers($request->getPost('location'));
+                            $users_id = Model_Users::getLocationUsers($request->getRequest('location'));
                             foreach ($users_id as $user_id)
                             {
                                 $dataUser = array(
@@ -875,7 +875,7 @@ class SearchController extends JO_Action
                     }
                     if ($request->issetPost('sport_category_1'))
                     {
-                        $users_id = Model_Users::getUserIdSportsUser($request->getPost('sport_category_1'));
+                        $users_id = Model_Users::getUserIdSportsUser($request->getRequest('sport_category_1'));
                         foreach ($users_id as $user_id)
                         {
                             $dataUser = array(

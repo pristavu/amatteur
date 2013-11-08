@@ -12,6 +12,7 @@ class CategoryController extends JO_Action {
                 
 		$category_info = Model_Categories::getCategory($category_id);
 		
+                /*
 		if($category_info && !$category_info['parent_id']){
 			$subCats = Model_Categories::getSubcategories($category_id);
 			if($subCats){
@@ -25,7 +26,8 @@ class CategoryController extends JO_Action {
 			}
 			
 		}
-		
+		*/ 
+                
 		if(!$category_info) {
 			$this->forward('error', 'error404');
 		}

@@ -463,11 +463,32 @@ class Model_Boards {
 		}
 
 		if(isset($data['filter_category_id']) && $data['filter_category_id']) {
-			$query->where('category_id = ?', (string)$data['filter_category_id']);
+			//$query->where('category_id = ?', (string)$data['filter_category_id']);
+                        if(!isset($data['filter_description'])) {
+                            $query->where('category_id in (select category_id FROM category where parent_id IN (?) or category.category_id IN (?))', new JO_Db_Expr($data['filter_category_id']));
+                        }
+                        else
+                        {
+                            $query->where('category_id in (select category_id FROM category where parent_id IN (?) or category.category_id IN (?) or category.title = "'. (string)$data['filter_title'] .'")', new JO_Db_Expr($data['filter_category_id']));
+                        }
+                        
 		}
                 
 		if(isset($data['filter_title']) && $data['filter_title']) {
+                        if(is_null($data['filter_category_id'])) {
+                            if (Model_Categories::getCategoryFromTitle($data['filter_title']))
+                            {
+                                    $query->where('pins.category_id in (select category_id FROM category where category.title = "'. (string)$data['filter_title'] .'")');
+                            }
+                        }
+                        else 
+                        {
+                            if (!Model_Categories::getCategoryFromTitle($data['filter_title']))
+                            {
+                    
 			$query->where('boards.title LIKE ?', (string)$data['filter_title'] . '%');
+                            }
+                        }
 		}
 		
 //		if(isset($data['friendly']) && $data['friendly']) {
@@ -520,6 +541,8 @@ class Model_Boards {
 			$query->order('boards.board_id' . $sort);
 		}
 
+                error_log($query);
+                
 		$results = $db->fetchAll($query);
 		$result[$key] = array();
 		if($results) {

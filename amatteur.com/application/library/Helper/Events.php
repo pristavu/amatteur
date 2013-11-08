@@ -86,7 +86,7 @@ class Helper_Events {
 		$event_description = self::descriptionFix($event['description']);
 		$event['real_description'] = self::descriptionFix($event['description']);
 		$event['description'] = self::descriptionFix($event['description']);
-		$event['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=event&event_id=' . $event['event_id'] );
+		$event['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id'] );
 	
 
                 $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
@@ -142,7 +142,7 @@ class Helper_Events {
                 //comentarios
                 
 		$view->comments = array();
-                
+
 		if($event['latest_comments']) {
 			foreach($event['latest_comments'] AS $key => $comment) {
 				
@@ -157,7 +157,7 @@ class Helper_Events {
 				$comment['user']['profile'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $comment['user_id'] );
 				
 				$comment['delete'] = '';
-				if(!Model_Pins::commentIsReported($comment['comment_id'])) {
+				if(!Model_Events::commentIsReported($comment['comment_id'])) {
 					$comment['report'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=reportComment&comment_id=' . $comment['comment_id'] );
 				} else {
 					$comment['report'] = '';
@@ -165,8 +165,8 @@ class Helper_Events {
 				
 				if( JO_Session::get('user[user_id]') ) {
 					
-					if( JO_Session::get('user[is_admin]') || JO_Session::get('user[user_id]') == $comment['user_id'] || JO_Session::get('user[user_id]') == $event['board_data']['user_id'] ) {
-						$comment['delete'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=deleteComment&comment_id=' . $comment['comment_id'] );
+					if( JO_Session::get('user[is_admin]') || JO_Session::get('user[user_id]') == $comment['user_id']  ) {
+						$comment['delete'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=deleteComment&comment_id=' . $comment['comment_id'] );
 					}
 				}
 				
@@ -276,11 +276,11 @@ class Helper_Events {
 		}
 		*/
 		if(JO_Session::get('user[user_id]')) {
-			$event['url_like'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=like&event_id=' . $event['event_id'] );
-			$event['url_repin'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=repin&event_id=' . $event['event_id'] );
-			$event['url_comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=comment&event_id=' . $event['event_id'] );
-                        $event['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=comment&event_id=' . $event['event_id'] );
-			$event['edit'] = JO_Session::get('user[user_id]') == $event['user_id'] ? WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=edit&event_id=' . $event['event_id'] ) : false;
+			$event['url_like'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event['event_id'] );
+			$event['url_repin'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=repin&event_id=' . $event['event_id'] );
+			$event['url_comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event['event_id'] );
+                        $event['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event['event_id'] );
+			$event['edit'] = JO_Session::get('user[user_id]') == $event['user_id'] ? WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=events&event_id=' . $event['event_id'] ) : false;
 		} else {
 			$event['url_like'] = $event['url_repin'] = $event['url_comment'] = $event['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=landing' );
 			$event['edit'] = false;
@@ -355,7 +355,7 @@ class Helper_Events {
 			}
 		}
 		*/
-		$view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&event_id=' . $event['event_id'] );
+		$view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
 		
 		$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
 		

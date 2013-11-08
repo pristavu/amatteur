@@ -181,7 +181,7 @@
                             <div id="panel">
 				<p class="desc"><?php //echo Helper_Events::descriptionFix($this->event['description']);?></p>
                                     <p class="location colorless"><label for="email"><?php echo $this->translate('Descripción del evento: ');?>  <br class="hide" /></label>
-                                    <span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:right;"><?php echo $this->event['eventname'];?></span>
+                                    <span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['eventname'];?></span>
                                     </p>
                                     <p class="location colorless"><?php echo $this->translate('Deporte: ');?> 
                                     <?php echo $this->event['sport_category'];?></p>
@@ -199,7 +199,7 @@
                                     &nbsp;<img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
                                 <?php echo $this->event['fullname'];?>
                                 <?php echo $this->event['description'];?>
-
+			</div>
                                     <div class="commentslist">
 					<form action="<?php echo $this->event['href'];?>" method="post" id="pin_commentt_form">
 						<p class="hide">
@@ -254,7 +254,7 @@
 						<div class="clear"></div>
 					</form>
 				</div>	
-			</div>
+
                 </div>			
 			<?php /* if($this->pin['onto_board']) { ?>
 			<div class="pinned">

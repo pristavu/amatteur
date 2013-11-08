@@ -445,7 +445,14 @@ class Model_Pins {
 		}
                 
 		if(isset($data['filter_category_id']) && !is_null($data['filter_category_id'])) {
-			$query->where('pins.category_id in (?)', new JO_Db_Expr($data['filter_category_id']));
+			//$query->where('pins.category_id in (?)', new JO_Db_Expr($data['filter_category_id']));
+                        if(!isset($data['filter_description'])) {
+                            $query->where('pins.category_id in (select category_id FROM category where parent_id IN (?) or category.category_id IN (?))', new JO_Db_Expr($data['filter_category_id']));
+                        }
+                        else
+                        {
+                            $query->where('pins.category_id in (select category_id FROM category where parent_id IN (?) or category.category_id IN (?) or category.title = "'. (string)$data['filter_description'] .'")', new JO_Db_Expr($data['filter_category_id']));
+                        }
 			
 			$ignore_in = true;
 		}
@@ -493,6 +500,17 @@ class Model_Pins {
 		}
 		
 		if(isset($data['filter_description'])) {
+                        if(is_null($data['filter_category_id'])) {
+                            if (Model_Categories::getCategoryFromTitle($data['filter_description']))
+                            {
+                                    $query->where('pins.category_id in (select category_id FROM category where category.title = "'. (string)$data['filter_description'] .'")');
+                            }
+                        }
+                        else 
+                        {
+                            if (!Model_Categories::getCategoryFromTitle($data['filter_description']))
+                            {
+                            
 			$words = JO_Utf8::str_word_split( mb_strtolower($data['filter_description'], 'utf-8') , self::$searchWordLenght);
 			if( count($words) > 0 ) {
 				/*$sub = "SELECT `i`.`pin_id` FROM `pins_invert` `i`, `pins_dictionary` `d` WHERE `i`.`dic_id` = `d`.`dic_id` AND ( ";
@@ -561,6 +579,8 @@ class Model_Pins {
 			} else {
 				$query->where('pins.pin_id = 0');
 			}
+                            }
+                    }                        
 		}
 		
 		if(isset($data['following_users_from_user_id']) && (string)$data['following_users_from_user_id']) {

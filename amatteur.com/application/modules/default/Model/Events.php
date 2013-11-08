@@ -591,6 +591,19 @@ class Model_Events extends JO_Model {
 		}
 	}
 	
+	public static function getEventSolo($event_id) {
+		$db = JO_Db::getDefaultAdapter();
+        
+		$query = $db
+					->select()
+					->from('events')
+					->where('event_id = ?', $event_id)
+					->limit(1);
+		
+		return $db->fetchRow($query);
+		
+	}
+        
 	public static function getEvent($data = array()) {
 		
 		$key = md5(serialize($data));
@@ -657,10 +670,26 @@ class Model_Events extends JO_Model {
 		}
 
 //  error_log (" QUERY $query");
-		$results = $db->fetchRow($query);
+		$result = $db->fetchRow($query);
 
+                $userinfo = Model_Users::getUser($result['user_id'], false, array('*'));
 		
-		return $results;
+		if(!$userinfo) {
+			return false;
+		}
+		
+		//$result['user_via'] = Model_Users::getUser($result['via'], false, $fields);
+		//$result['source'] = Model_Source::getSource($result['source_id']);
+		$result['user'] = $userinfo;
+		//$result['board'] = Model_Boards::getBoardTitle($result['board_id']);
+		//$result['board_data'] = Model_Boards::getBoard($result['board_id']);
+		$result['latest_comments'] = $result['comments'] ? self::getComments(array(
+			'filter_event_id' => $result['event_id']
+		)) : 0;
+		//$result['liked'] = $result['likes'] ? self::pinIsLiked($result['pin_id']) : 0;
+		
+                
+		return $result;
 	}
 	
 	public static function getEvents($data = array()) {
@@ -2205,7 +2234,7 @@ error_log (" QUERY $query");
 		}
 
 		
-		$db->update('pins', array(
+		$db->update('events', array(
 			'comments' => new JO_Db_Expr("(SELECT COUNT(comment_id) FROM events_comments WHERE event_id = '".(string)$data['event_id']."')"),
 			'latest_comments' => new JO_Db_Expr("(SELECT GROUP_CONCAT(comment_id ORDER BY comment_id ASC) FROM (SELECT comment_id FROM events_comments WHERE event_id = '" . (string)$data['event_id'] . "' ORDER BY comment_id ASC LIMIT 4) AS tmp)")
 		), array('event_id = ?' => (string)$data['event_id']));
@@ -2215,7 +2244,7 @@ error_log (" QUERY $query");
 			$userdata = array('fullname' => '', 'avatar' => '');
 		}
 		
-		self::rebuildCache($data['event_id']);
+		//self::rebuildCache($data['event_id']);
 		
 		$result['user'] = $userdata;
 		return $result;
@@ -2266,7 +2295,94 @@ error_log (" QUERY $query");
 			
 		}
 		return $results;
-	}        
+	}
+        
+	public static function getComments($data) {
+
+		$db = JO_Db::getDefaultAdapter();	
+		$query = $db
+							->select()
+							->from('events_comments');
+							
+		if(isset($data['filter_event_id'])) {
+			$query->where('events_comments.event_id = ?', (string)$data['filter_event_id']);
+		}
+		
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		if(isset($data['sort']) && strtolower($data['sort']) == 'desc') {
+			$sort = ' DESC';
+		} else {
+			$sort = ' ASC';
+		}
+		
+		$allow_sort = array(
+			'events_comments.comment_id'
+		);
+		
+		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
+			$query->order($data['order'] . $sort);
+		} else {
+			$query->order('events_comments.comment_id' . $sort);
+		}
+							
+		$results = $db->fetchAll($query);
+		$response = array();
+		if($results) {
+			foreach($results AS $result) {
+				$userdata = Model_Users::getUser($result['user_id'], false, Model_Users::$allowed_fields);
+				if(!$userdata) {
+					$userdata = array('fullname' => '', 'avatar' => '', 'store' => 'local');
+				}
+				$result['user'] = $userdata;
+				$response[] = $result;
+			}
+		}
+		return $response;
+
+	}
+
+	public static function reportEvent($event_id, $prc_id, $message = '') {
+		if(self::eventIsReported($event_id)) {
+			return false;
+		}
+		$db = JO_Db::getDefaultAdapter();
+		
+		$db->insert('events_reports', array(
+			'prc_id' => (string)$prc_id,
+			'user_id' => (string)JO_Session::get('user[user_id]'),
+			'date_added' => new JO_Db_Expr('NOW()'),
+			'event_id' => (string)$event_id,
+			'user_ip' => JO_Request_Server::encode_ip(JO_Request::getInstance()->getClientIp()),
+			'message' => (string)$message
+		));
+		
+		return $db->lastInsertId();
+	}
+
+        
+        public static function eventIsReported($event_id) {
+		$db = JO_Db::getDefaultAdapter();
+		$query = $db->select()
+					->from('events_reports', 'COUNT(pr_id)')
+					->where('event_id = ?', (string)$event_id)
+					->where('checked = 0')
+					->limit(1);
+
+		if((string)JO_Session::get('user[user_id]')) {
+			$query->where("user_id = '" . (string)JO_Session::get('user[user_id]') . "' OR user_ip = '" . JO_Request_Server::encode_ip(JO_Request::getInstance()->getClientIp()) . "'");
+		} else {
+			$query->where("user_ip = ?", JO_Request_Server::encode_ip(JO_Request::getInstance()->getClientIp()));
+		}
+		
+		return $db->fetchOne($query);
+	}
+
 }
 
 ?>
