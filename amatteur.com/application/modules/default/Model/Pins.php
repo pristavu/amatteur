@@ -844,23 +844,42 @@ class Model_Pins {
 		if($results) {
 			$usuarioOld=0;
 			$cuentaSameUser=0;
+			$pinto=true;
 			foreach($results AS $result) {
 				if(!JO_Session::get('user[user_id]')) 
 				{
-					if($usuarioOld==$result['user_id'])
+					//Y que no sea un artículo en venta
+					if($result['price']>0)
 					{
-						$cuentaSameUser=$cuentaSameUser+1;
-					}else
-					{
-						$cuentaSameUser=0;
+						if (!isset($data['allow_gifts']))
+						{
+							//No pinto este
+							$pinto=false;
+						}else
+						{
+							if ($data['allow_gifts']==false){
+								$pinto=false;
+							}
+						}
 					}
-					if ($cuentaSameUser>3)
+					if ($pinto==true)
 					{
-						//No pinto este
-						$pinto=false;
-					}else
-					{
-						$pinto=true;
+						//Es anónimo, controlo que no sque más de tres pines seguidos del mismo usuario
+						if($usuarioOld==$result['user_id'])
+						{
+							$cuentaSameUser=$cuentaSameUser+1;
+						}else
+						{
+							$cuentaSameUser=0;
+						}
+						if ($cuentaSameUser>3)
+						{
+							//No pinto este
+							$pinto=false;
+						}else
+						{
+							$pinto=true;
+						}
 					}
 				}else
 				{
