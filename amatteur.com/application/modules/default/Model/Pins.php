@@ -842,16 +842,43 @@ class Model_Pins {
 		$results = $db->fetchAll($query);
 		$results_array = array();
 		if($results) {
+			$usuarioOld=0;
+			$cuentaSameUser=0;
 			foreach($results AS $result) {
-				$userinfo = Model_Users::getUser($result['user_id'], false, Model_Users::$allowed_fields);
-				if($userinfo) {
-					$result['user_via'] = $result['via']?Model_Users::getUser($result['via'], false, Model_Users::$allowed_fields):false;
-					$result['user'] = $userinfo;
-					$result['board'] = Model_Boards::getBoardTitle($result['board_id']);
-					$result['latest_comments'] = $result['comments'] ? Model_Comments::getLatestComments($result['latest_comments']) : array();
-					$result['liked'] = $result['likes'] ? self::pinIsLiked($result['pin_id']) : 0;
-					$results_array[] = $result;
-//					array_push($pin_ids, $result['pin_id']);
+				if(!JO_Session::get('user[user_id]')) 
+				{
+					if($usuarioOld==$result['user_id'])
+					{
+						$cuentaSameUser=$cuentaSameUser+1;
+					}else
+					{
+						$cuentaSameUser=0;
+					}
+					if ($cuentaSameUser>3)
+					{
+						//No pinto este
+						$pinto=false;
+					}else
+					{
+						$pinto=true;
+					}
+				}else
+				{
+					$pinto=true;
+				}
+				if ($pinto==true)
+				{
+					$usuarioOld=$result['user_id'];
+					$userinfo = Model_Users::getUser($result['user_id'], false, Model_Users::$allowed_fields);
+					if($userinfo) {
+						$result['user_via'] = $result['via']?Model_Users::getUser($result['via'], false, Model_Users::$allowed_fields):false;
+						$result['user'] = $userinfo;
+						$result['board'] = Model_Boards::getBoardTitle($result['board_id']);
+						$result['latest_comments'] = $result['comments'] ? Model_Comments::getLatestComments($result['latest_comments']) : array();
+						$result['liked'] = $result['likes'] ? self::pinIsLiked($result['pin_id']) : 0;
+						$results_array[] = $result;
+	//					array_push($pin_ids, $result['pin_id']);
+					}
 				}
 			}
 		}
