@@ -116,7 +116,7 @@ class Helper_Events {
                     $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
                 }
                         
-                        
+
 		
 		$event['pinmarklet_href'] = WM_Router::create( $request->getBaseUrl() . '?controller=pages&action=read&page_id=' . JO_Registry::get('page_pinmarklet') );
 		
@@ -358,6 +358,14 @@ class Helper_Events {
 		$view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
 		
 		$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
+                
+                $view->share_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=search' );
+                $view->editEvent_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=add?event_id=' . $event['event_id']  );
+                
+                error_log($view->follow_event);
+                $view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event['event_id'] . '&user_id=' . JO_Session::get('user[user_id]')); 
+                $view->eventIsFollow = Model_Events::isFollowEvent($event['event_id'], JO_Session::get('user[user_id]'));
+
 		
 		//Model_Pins::updateViewed($event['event_id']);
 		/*

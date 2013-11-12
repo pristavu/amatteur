@@ -26,6 +26,10 @@ class Model_History extends JO_Model {
         
 	const MESSAGEUSER = 14;
 	const UNMESSAGEUSER = 15;        
+        
+	const FOLLOW_EVENT = 16;
+	const UNFOLLOW_EVENT = 17;
+        
 	
 	public static function getType($type) {
 		
@@ -47,7 +51,9 @@ class Model_History extends JO_Model {
 			self::UNLIKEUSER => self::translate('Unlike your user'),
 			self::COMMENTUSER => self::translate('Comment his board'),                    
 			self::MESSAGEUSER => self::translate('Message in his board'),
-			self::UNMESSAGEUSER => self::translate('Delete message in his board'),                    
+			self::UNMESSAGEUSER => self::translate('Delete message in his board'),
+			self::FOLLOW_EVENT => self::translate('is now following the event'),
+			self::UNFOLLOW_EVENT => self::translate('has unfollow the event'),
 		);
 		
 		if(isset($array[$type])) {
@@ -137,6 +143,7 @@ class Model_History extends JO_Model {
 			$query->order('history_id' . $sort);
 		}
 
+//                error_log($query);
 		$results = $db->fetchAll($query); 
 		$data = array();
 		if($results) {

@@ -475,18 +475,22 @@ class Model_Boards {
 		}
                 
 		if(isset($data['filter_title']) && $data['filter_title']) {
-                        if(is_null($data['filter_category_id'])) {
+                        if(isset($data['filter_category_id']) && $data['filter_category_id']) {
                             if (Model_Categories::getCategoryFromTitle($data['filter_title']))
                             {
-                                    $query->where('pins.category_id in (select category_id FROM category where category.title = "'. (string)$data['filter_title'] .'")');
+                                    $query->where('category_id in (select category_id FROM category where category.title = "'. (string)$data['filter_title'] .'")');
                             }
                         }
                         else 
                         {
                             if (!Model_Categories::getCategoryFromTitle($data['filter_title']))
                             {
-                    
-			$query->where('boards.title LIKE ?', (string)$data['filter_title'] . '%');
+                                $query->where('boards.title LIKE "%'. (string)$data['filter_title'] . '%"');
+                            }
+                            else
+                            {
+                                $query->where('category_id in (select category_id FROM category where category.title = "'. (string)$data['filter_title'] .'")');
+                                //$query->where('boards.title LIKE "%'. (string)$data['filter_title'] . '%"');
                             }
                         }
 		}
@@ -541,7 +545,7 @@ class Model_Boards {
 			$query->order('boards.board_id' . $sort);
 		}
 
-                error_log($query);
+                //error_log($query);
                 
 		$results = $db->fetchAll($query);
 		$result[$key] = array();

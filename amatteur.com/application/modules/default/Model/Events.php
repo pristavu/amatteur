@@ -771,7 +771,7 @@ class Model_Events extends JO_Model {
                 
                 
                 
-error_log (" QUERY $query");
+//error_log (" QUERY $query");
 		$results = $db->fetchAll($query);
 
 		
@@ -927,23 +927,22 @@ error_log (" QUERY $query");
 	
         
         
-	public static function FollowBoard($user_id, $board_id) {
+	public static function FollowEvent($event_id, $user_id) {
 		if(!(string)JO_Session::get('user[user_id]')) {
 			return false;
 		}
 		$db = JO_Db::getDefaultAdapter();
 		
 		$uf_id = true;
-		if(!Model_Users::isFollowUser($user_id)) {
-			$db->insert('users_following', array(
-				'user_id' => (string)JO_Session::get('user[user_id]'),
-				'following_id' => (string)$user_id,
-				'board_id' => (string)$board_id
+		if(!Model_Events::isFollowEvent("", $user_id)) {
+			$db->insert('events_following', array(
+				'user_following_id' => (string)JO_Session::get('user[user_id]'),
+				'event_id' => (string)$event_id
 			));
 			
 			$uf_id = $db->lastInsertId();
 		}
-		
+		/*
 		if($uf_id) {
 			$db->update('boards', array(
 				'followers' => new JO_Db_Expr('followers+1')
@@ -956,19 +955,20 @@ error_log (" QUERY $query");
 			));
 			
 		}
-		
+		*/
 		return $uf_id;
 	}
 	
-	public static function UnFollowBoard($user_id, $board_id) {
+	public static function UnFollowEvent($event_id, $user_id) {
 		if(!(string)JO_Session::get('user[user_id]')) {
 			return false;
 		}
 		$db = JO_Db::getDefaultAdapter();
-		$row = $db->delete('users_following', array(
-			'user_id = ?' => (string)JO_Session::get('user[user_id]'),
-			'board_id = ?' => (string)$board_id
+		$row = $db->delete('events_following', array(
+			'user_following_id = ?' => (string)JO_Session::get('user[user_id]'),
+			'event_id = ?' => (string)$event_id
 		));
+                /*
 		$flw = false;
 		if($row || $flw = Model_Users::isFollowUser($user_id)) {
 			$db->update('boards', array(
@@ -984,32 +984,46 @@ error_log (" QUERY $query");
 				$row = $db->lastInsertId();
 			}
 		}
-		
+		*/
 		return $row;
 	}
 	
-	public static function isFollowUser($user_id, $user_id2 = null) {
+	public static function isFollowEvent($event_id, $user_id) {
+            /*
 		if($user_id2 === null) {
 			if(!(string)JO_Session::get('user[user_id]') || (string)JO_Session::get('user[user_id]') == $user_id) {
 				return false;
 			}
 			$user_id2 = JO_Session::get('user[user_id]');
 		}
+             * 
+             */
 		$db = JO_Db::getDefaultAdapter();
-		$query = $db->select()
-					->from('users_following_user', 'COUNT(ufu_id)')
-					->where('user_id = ?', (string)$user_id2)
-					->where('following_id = ?', (string)$user_id)
+                if ($event_id != "")
+                {
+                	$query = $db->select()
+					->from('events_following', 'COUNT(event_following_id)')
+					->where('event_id = ?', (string)$event_id)
+					->where('user_following_id = ?', (string)$user_id)
 					->limit(1);
-		
+                }
+                else
+                {
+        		$query = $db->select()
+					->from('events_following', 'COUNT(event_following_id)')
+					->where('user_following_id = ?', (string)$user_id)
+					->limit(1);
+                    
+                }
+		error_log($query);
 		return $db->fetchOne($query);
 	}
 
-        public static function followingUsers($user_id) {
+        public static function followingEvents($event_id) {
 		$db = JO_Db::getDefaultAdapter();
 		$query = $db->select()
-					->from('users_following_user', 'users_following_user.following_id AS user_id')
-					->where('user_id = ?', (string)$user_id);
+					->from('events_following', '*')
+					->where('event_id = ?', (string)$event_id);
 		return $db->fetchAll($query);
 	}
 
@@ -1111,64 +1125,7 @@ error_log (" QUERY $query");
 		return $row;
 	}
 
-	public static function FollowUserAPP($user_id, $follower_Id) {
-		if($follower_Id == $user_id) {
-			return false;
-		}
-		$db = JO_Db::getDefaultAdapter();
-		$db->insert('users_following_user', array(
-			'user_id' => $user_id,
-			'following_id' => $follower_Id
-		));
-		
-		$uf_id = $db->lastInsertId();
-		
-		if($uf_id) {
-			$db->update('users', array(
-				'following' => new JO_Db_Expr('(SELECT COUNT(DISTINCT following_id) FROM users_following_user WHERE user_id = users.user_id AND following_id != users.user_id)')
-			), array('user_id = ?' => $follower_Id));
-			$db->update('users', array(
-				'followers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_following_user WHERE following_id = users.user_id AND user_id != users.user_id)')
-			), array('user_id = ?' => $follower_Id));
-			$db->delete('users_following_ignore', array(
-				'user_id = ?' => $user_id,
-				'following_id = ?' => $follower_Id
-			));
-		}
-		
-		return $uf_id;
-	}
-	
-	public static function UnFollowUserAPP($user_id, $follower_Id) {
-		if($follower_Id == $user_id) {
-			return false;
-		}
-		$db = JO_Db::getDefaultAdapter();
-		$row = $db->delete('users_following_user', array(
-			'user_id = ?' => $user_id,
-			'following_id = ?' => $follower_Id
-		));
-		
-		if($row) {
-			$db->delete('users_following_ignore', array(
-				'user_id = ?' => $user_id,
-				'following_id = ?' => $follower_Id
-			));
-			$db->delete('users_following', array(
-				'user_id = ?' => $user_id,
-				'following_id = ?' => $follower_Id
-			));
-			$db->update('users', array(
-					'following' => new JO_Db_Expr('(SELECT COUNT(DISTINCT following_id) FROM users_following_user WHERE user_id = users.user_id AND following_id != users.user_id)')
-			), array('user_id = ?' => $follower_Id));
-			$db->update('users', array(
-					'followers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_following_user WHERE following_id = users.user_id AND user_id != users.user_id)')
-			), array('user_id = ?' => $follower_Id));
-		}
-		
-		return $row;
-	}
-        
+
         
         public static function LikeUser($user_id) {
 		if(!(string)JO_Session::get('user[user_id]') || (string)JO_Session::get('user[user_id]') == $user_id) {
@@ -1755,7 +1712,7 @@ error_log (" QUERY $query");
 		//$sql = "select * from users_activate where user_id = {$user_id}";
 		//$result = $db->fetchOne($sql);
 		$query =  $db->select()->from('events',array('*'))->where('user_id = ?',$user_id)->where('event_id = ?',$event_id);
-                error_log($query);
+                
                 $result= $db->fetchRow($query);
 		return $result; 
 	}

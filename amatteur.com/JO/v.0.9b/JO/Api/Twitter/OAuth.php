@@ -16,7 +16,7 @@ class JO_Api_Twitter_OAuth {
 	/* Contains the last API call. */
 	public $url;
 	/* Set up the API root URL. */
-	public $host = "https://api.twitter.com/1/";
+	public $host = "https://api.twitter.com/1.1/";
 	/* Set timeout default. */
 	public $timeout = 30;
 	/* Set connect timeout. */

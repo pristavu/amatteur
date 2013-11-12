@@ -3024,6 +3024,191 @@ class UsersController extends JO_Action
             );
         }
     }
+    
+    public function eventsAction()
+    {
+        $request = $this->getRequest();
+
+        $user_data = $this->profileHelp();
+
+        $this->setViewChange('profile');
+
+        $this->view->active = 'events';
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $this->view->boards = '';
+
+        $data = array(
+            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+            'limit' => JO_Registry::get('config_front_limit'),
+            'sort' => 'DESC',
+            'order' => 'history_id'
+        );
+
+
+        $history = Model_History::getHistory($data, 'from_user_id', $user_data['user_id']);
+
+        if ($history)
+        {
+            $view = JO_View::getInstance();
+            $view->loged = JO_Session::get('user[user_id]');
+            $model_images = new Helper_Images();
+            foreach ($history AS $key => $data)
+            {
+
+                    $data['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['to_user_id']);
+
+                    $event = Model_Events::getEventSolo($data['pin_id']);
+                    $avatar = Helper_Uploadimages::event($event, '_B');
+                    $data['thumb'] = $avatar['image'];
+                    $data['thumb_width'] = $avatar['width'];
+                    $data['thumb_height'] = $avatar['height'];
+
+
+                    if (!@getimagesize($data['thumb']))
+                    {
+                        $data['thumb'] = $model_images->resize(JO_Registry::get('no_avatar'), 180, 180);
+                        $data['thumb_width'] = $model_images->getSizes('width');
+                        $data['thumb_height'] = $model_images->getSizes('height');
+                    }
+
+
+                    $view->history = $data;
+
+                    if ($data['history_action'] == Model_History::FOLLOW_EVENT)
+                    {
+                        $view->history['eventIsFollow'] = Model_Events::isFollowEvent("", $view->history['to_user_id']);
+                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&user_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['fullname'] = $data['user']['fullname'];
+                        $view->history['avatar'] = $avatar['image'];
+                        $this->view->boards .= $view->render('history/follow_event', 'users');
+                    } elseif ($data['history_action'] == Model_History::UNFOLLOW_EVENT)
+                    {
+                        $view->history['eventIsFollow'] = Model_Events::isFollowEvent("", $view->history['to_user_id']);
+                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&user_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['fullname'] = $data['user']['fullname'];
+                        $view->history['avatar'] = $avatar['image'];
+                        $this->view->boards .= $view->render('history/unfollow_event', 'users');
+                    }
+                
+            }
+        }
+
+        $agendas = Model_Users::getUserAgenda(array(
+                    'filter_user_id' => $user_data['user_id']
+                ));
+        $this->view->has_agendas = false;
+        $this->view->agendas_users = "";
+        if ($agendas)
+        {
+            $this->view->has_agendas = true;
+            foreach ($agendas AS $agenda)
+            {
+                $agenda['hrefDelete'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] . '&user_id=' . $user_data['user_id']);
+                $this->view->agenda = $agenda;
+                $this->view->agendas_users .= $this->view->render('agenda', 'users');
+            }
+        }
+        $session_user = JO_Session::get('user[user_id]');
+        $this->view->popup_agenda = WM_Router::create($request->getBaseUrl() . '?controller=users&action=agendaPopup&user_id=' . $user_data['user_id']);
+
+        //no mover de esta ubicación
+
+        $messages = Model_Users::getUserMessages(array(
+                    'start' => 0,
+                    'limit' => 100,
+                    'filter_user_id' => $user_data['user_id'],
+                    'idPadre' => 0
+                ));
+
+
+        $this->view->has_messages = false;
+        $this->view->messages_users = "";
+        if ($messages)
+        {
+            $this->view->has_messages = true;
+            foreach ($messages AS $message)
+            {
+                $avatar = Helper_Uploadimages::avatar($message, '_A');
+                $message['avatar'] = $avatar['image'];
+                $message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $message['user_id']);
+                $message['hrefDelete'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] . '&user_id=' . $user_data['user_id']);
+                $message['hrefResponder'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'] . '&board_user=' . $user_data['user_id'] . '&message_from_id=' . $message['message_id']);
+                $this->view->message = $message;
+                $this->view->messages_users .= $this->view->render('message', 'users');
+                //ahora vamos a consultar las respuestas a este:
+                $messagesHijos = Model_Users::getUserMessages(array(
+                            'start' => 0,
+                            'limit' => 100,
+                            'filter_user_id' => $user_data['user_id'],
+                            'idPadre' => $message['message_id']
+                        ));
+                if ($messagesHijos)
+                {
+                    foreach ($messagesHijos AS $messageHijo)
+                    {
+                        $avatar = Helper_Uploadimages::avatar($messageHijo, '_A');
+                        $messageHijo['avatar'] = $avatar['image'];
+                        $messageHijo['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $messageHijo['user_id']);
+                        $messageHijo['hrefDelete'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] . '&user_id=' . $user_data['user_id']);
+                        $messageHijo['hrefResponder'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'] . '&board_user=' . $user_data['user_id'] . '&message_from_id=' . $messageHijo['message_id']);
+                        $this->view->message = $messageHijo;
+                        $this->view->messages_users .= $this->view->render('message', 'users');
+                    }
+                }
+            }
+        }
+
+        $session_user = JO_Session::get('user[user_id]');
+        $this->view->popup_messages = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'] . '&board_user=' . $user_data['user_id'] . '&message_from_id=0');
+        //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+        //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activateDetail'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+        $_SESSION["activate_url"] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+        $this->view->popup_activate = WM_Router::create($request->getBaseUrl() . '?controller=users&action=activate');
+        $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
+        //$this->view->deportes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes');
+
+        $this->view->addMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=create');
+        $this->view->stateMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=state');
+        $this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
+
+
+        $activate = Model_Users::getActivateUser(JO_Session::get('user[user_id]'));
+
+        if ($activate)
+        {
+            $this->view->userIsActivate = $activate["activate"];
+        }
+
+        if ($user_data['type_user'])
+        {
+            $this->view->userCanActivate = Model_Users::getUserTypeNotOthers($user_data['type_user']);
+        }
+
+        if (JO_Registry::get('isMobile'))
+        {
+            $this->view->urlagenda = WM_Router::create($request->getBaseUrl() . '?controller=users&action=agenda&user_id=' . $user_data['user_id']);
+            $this->view->urlmensajes = WM_Router::create($request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $user_data['user_id']);
+        }
+        
+        
+        if ($request->isXmlHttpRequest())
+        {
+            echo $this->view->boards;
+            $this->noViewRenderer(true);
+        } else
+        {
+            $this->view->children = array(
+                'header_part' => 'layout/header_part',
+                'footer_part' => 'layout/footer_part'
+            );
+        }
+    }    
 
     public function pinsAction()
     {

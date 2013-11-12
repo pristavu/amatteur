@@ -742,6 +742,7 @@ class EventsController extends JO_Action {
                     //foreach ($events AS $key => $event)
                     {
                         $event_id = $events['event_id'];
+                        $user_id = $events['user_id'];
                         
                         $href = "";
                         $view = JO_View::getInstance();
@@ -860,6 +861,30 @@ class EventsController extends JO_Action {
 		}
 		
 		
+		if(!$request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
+			$history = Model_History::getHistory(array(
+				'start' => 0,
+				'limit' => 10,
+				'sort' => 'DESC',
+				'order' => 'history_id',
+                                'filter_history_action' => Model_History::FOLLOW_EVENT
+			));
+			$model_images = new Helper_Images();
+			foreach($history AS $key => $data) {
+				if(!isset($data['user']['store'])) {
+					continue;
+				}
+				$avatar = Helper_Uploadimages::avatar($data['user'], '_A');
+				$history[$key]['user']['avatar'] = $avatar['image'];
+
+				//if($data['history_action'] == Model_History::REPIN) 
+                                $history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['from_user_id']);
+			}
+			$this->view->history = $history;
+		}
+		
+                
+                
 		$this->view->show_buttonswrapper = true;
 		
 		$this->view->url_like = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event_id );
@@ -868,6 +893,13 @@ class EventsController extends JO_Action {
 		$this->view->url_report = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=report&event_id=' . $event_id );
 		$this->view->url_email = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=email&event_id=' . $event_id );
 		$this->view->url_comment = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
+                /*
+                $this->view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event_id . '&user_id=' . $user_id);                
+                $this->view->eventIsFollow = Model_Events::isFollowEvent($event_id, $user_id);
+                 * */
+
+
+                
 		
 		$banners = Model_Banners::getBanners(
 			new JO_Db_Expr("`controller` = '".$request->getController()."'")
@@ -1601,6 +1633,84 @@ class EventsController extends JO_Action {
 	        );
 		}
 	}
+        
+    public function followAction()
+    {
+
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+
+        if ((int) JO_Session::get('user[user_id]'))
+        {
+
+            $user_id = $request->getRequest('user_id');
+            $event_id = $request->getRequest('event_id');
+
+
+                if ($user_id)
+                {
+                    if (Model_Events::isFollowEvent($event_id, $user_id))
+                    {
+                        $result = Model_Events::UnFollowEvent($event_id, $user_id);
+                        if ($result)
+                        {
+                            $this->view->ok = $this->translate('Follow');
+                            $this->view->classs = 'add';
+
+                            Model_History::addHistory($user_id, Model_History::UNFOLLOW_EVENT, $event_id);
+                        } else
+                        {
+                            $this->view->error = true;
+                        }
+                    } 
+                    else
+                    {
+                        $result = Model_Events::FollowEvent($event_id, $user_id);
+                        if ($result)
+                        {
+                            $this->view->ok = $this->translate('Unfollow');
+                            $this->view->classs = 'remove';
+
+                            Model_History::addHistory($user_id, Model_History::FOLLOW_EVENT, $event_id);
+
+                            /*
+                            if ($board_info['email_interval'] == 1 && $board_info['follows_email'])
+                            {
+                                $this->view->user_info = $board_info;
+                                $this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+                                $this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
+                                $this->view->text_email = $this->translate('now follow you');
+
+                                Model_Email::send(
+                                        $board_info['email'], JO_Registry::get('noreply_mail'), JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('follow your'), $this->view->render('follow_user', 'mail')
+                                );
+                            }
+                             * 
+                             */
+                        } else
+                        {
+                            $this->view->error = true;
+                        }
+                    }
+                } else
+                {
+                    $this->view->error = true;
+                }
+        } else
+        {
+            $this->view->location = WM_Router::create($request->getBaseUrl() . '?controller=landing');
+        }
+
+        if ($request->isXmlHttpRequest())
+        {
+            echo $this->renderScript('json');
+        } else
+        {
+            $this->redirect($request->getServer('HTTP_REFERER'));
+        }
+    }
+        
 }
 
 ?>

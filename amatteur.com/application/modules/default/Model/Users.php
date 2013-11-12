@@ -716,18 +716,10 @@ class Model_Users extends JO_Model {
 		}
 
                 if(isset($data['filter_sport_category_1']) && $data['filter_sport_category_1'] ) {
-			$query->where('users.sport_category_1 = ? ', $data['filter_sport_category_1']);
+			//$query->where('users.sport_category_1 = ? ', $data['filter_sport_category_1']);
+                        $query->where('users.sport_category_1 in (select category_id FROM category where parent_id IN (?) or category.category_id IN (?))', new JO_Db_Expr($data['filter_sport_category_1']));
 		}
 
-                if(isset($data['filter_sport_category_2']) && $data['filter_sport_category_2']) {
-			$query->where('users.sport_category_2 = ? ', $data['filter_sport_category_2']);
-		}
-
-                if(isset($data['filter_sport_category_3']) && $data['filter_sport_category_3']) {
-			$query->where('users.sport_category_3 = ? ', $data['filter_sport_category_3']);
-		}
-
-                
                 if(isset($data['filter_typeuser']) && $data['filter_typeuser']) {
                         $datos = 0;
                         foreach($data['filter_typeuser'] as $type_user) {
@@ -746,10 +738,28 @@ class Model_Users extends JO_Model {
 		}
 
 		if(isset($data['filter_username']) && $data['filter_username']) {
-			$query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
+                        if(isset($data['filter_sport_category_1']) && $data['filter_sport_category_1']) {
+                            if (Model_Categories::getCategoryFromTitle($data['filter_username']))
+                            {
+                                    $query->where('sport_category_1 in (select category_id FROM category where category.title = "'. (string)$data['filter_username'] .'")');
+                            }
+                        }
+                        else 
+                        {
+                            if (!Model_Categories::getCategoryFromTitle($data['filter_username']))
+                            {
+                                $query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
+                            }
+                            else
+                            {
+                                $query->where('sport_category_1 in (select category_id FROM category where category.title = "'. (string)$data['filter_username'] .'")');
+                                //$query->where('CONCAT(users.firstname,users.lastname) LIKE ? OR users.firstname LIKE ? OR users.lastname LIKE ? OR users.username LIKE ?', '%' . str_replace(' ', '%', $data['filter_username']) . '%');
+                            }
+                        }
+                    
+			
 		}
                 
-//		echo $query; exit;
                 //error_log("query" . $query);
 		$results = $db->fetchAll($query);
 

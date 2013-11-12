@@ -517,9 +517,7 @@ class SearchController extends JO_Action
                                 'filter_firstname' => $request->getRequest('firstname'),
                                 'filter_location' => $request->getRequest('location'),
                                 'filter_gender' => $request->getRequest('gender'),
-                                'filter_sport_category_1' => $request->getRequest('sport_category_1'),
-                                'filter_sport_category_2' => $request->getRequest('sport_category_2'),
-                                'filter_sport_category_3' => $request->getRequest('sport_category_3')
+                                'filter_sport_category_1' => $request->getRequest('sport_category_1')
                             );
 
 

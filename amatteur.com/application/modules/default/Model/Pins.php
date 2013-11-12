@@ -600,7 +600,7 @@ class Model_Pins {
 			$sql = "SELECT p.pin_id FROM `users_following` a, pins p WHERE a.following_id NOT IN(" . $sql1 . ") AND a.`board_id` = p.`board_id`";
 			$query->where("((pins.pin_id IN (" . $sql . ") OR pins.user_id IN (" . $sql1 . ")) AND (`board_id` NOT IN (SELECT board_id FROM `users_following_ignore` WHERE following_id IN(" . $sql1 . ") AND user_id = ?))) OR pins.user_id = ?", (string)JO_Session::get('user[user_id]'));
 //			$query->where("pins.board_id IN (SELECT board_id FROM users_following WHERE user_id = '" . (string)$data['following_users_from_user_id'] . "')");
-//echo $query; exit;
+
  			
 			/*$sql = "SELECT board_id FROM users_boards WHERE (
 					  user_id IN (
@@ -633,7 +633,7 @@ class Model_Pins {
 //				}
 //			}
 		}
-//		echo $query; exit;
+
 		return $query;
 	} 
 	
@@ -837,8 +837,8 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-                error_log("Query". $query);
-//echo $query.'<hr />';
+                //error_log("Query". $query);
+
 		$results = $db->fetchAll($query);
 		$results_array = array();
 		if($results) {

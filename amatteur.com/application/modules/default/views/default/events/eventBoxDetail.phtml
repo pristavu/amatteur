@@ -33,6 +33,16 @@
                             
 
                             </p>
+
+                            			
+                            <div class="box2" style="margin-left:80%">
+                                <?php if ($this->loged) { ?>                    
+                                <span class="selected"><a id="editEvent" href="<?php echo $this->editEvent_url ?>" class="Button RedButton addEvent " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Editar');?></a></span>
+                                <span class="selected"><a id="share" href="<?php echo $this->share_url ?>" class="Button RedButton search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Compartir');?></a></span>
+                                <?php } ?>                    
+                            </div>
+
+                            
 				<!--p class="avatar">
 					<img src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['eventname'];?>" />
 				</p-->
@@ -44,6 +54,11 @@
 						<a onclick="target='_blank'" href="<?php echo $this->replin_info['profile'];?>"><?php echo $this->replin_info['fullname'];?></a>
 						<?php }*/ ?>
 					</h3>
+ 		<div class="action">
+			<a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong><span></span>
+                        </a>
+                </div>
+                                    
 					<?php /*if($this->source) { ?>
 					<?php if(!$this->popup) { ?>
 					<?php if($this->pin['pinmarklet']) { ?>
@@ -58,13 +73,12 @@
 					<p class="time"><?php echo sprintf($this->translate('Uploaded %d %s ago'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?></p>
 					<?php }*/ ?>
 				</div>
-				
 				<?php /* if($this->loged && !$this->pin['userFollowIgnore']) { ?>
 				<p class="follow">
 					<?php if($this->pin['userIsFollow']) { ?>
-					<a class="gray" href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Unfollow');?></a>
+					<a class="gray" href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Ya no me apunto');?></a>
 					<?php } else { ?>
-					<a href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Follow');?></a>
+					<a href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Me apunto!');?></a>
 					<?php } ?>
 				</p>
 				<?php } */ ?>
@@ -178,27 +192,48 @@
 				</div>
 				
                             <p><p></p>
-                            <div id="panel">
-				<p class="desc"><?php //echo Helper_Events::descriptionFix($this->event['description']);?></p>
-                                    <p class="location colorless"><label for="email"><?php echo $this->translate('Descripción del evento: ');?>  <br class="hide" /></label>
-                                    <span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['eventname'];?></span>
-                                    </p>
-                                    <p class="location colorless"><?php echo $this->translate('Deporte: ');?> 
-                                    <?php echo $this->event['sport_category'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Organiza: ');?> 
-                                    <?php echo $this->event['organiza'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Ubicación: ');?> 
-                                    <?php echo $this->event['location'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Fecha: ');?> 
-                                    <?php echo $this->event['date_event'];?></p>
-                                    <p class="location colorless"><?php echo $this->translate('Página web del evento: ');?> 
-                                     <?php echo $this->event['website'];?></p> 
-                                    <p class="location colorless"><?php echo $this->translate('Detalles: ');?> 
-                                     <?php echo $this->event['description'];?></p> 
-                                    <p class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> 
-                                    &nbsp;<img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
-                                <?php echo $this->event['fullname'];?>
-                                <?php echo $this->event['description'];?>
+                            
+                            <div id="panel" style="width: 540px">
+                                <div style="display:table;padding: 0px">
+				<span class="desc"><?php //echo Helper_Events::descriptionFix($this->event['description']);?></p>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><label for="email"><span class="location colorless"><?php echo $this->translate('Descripción del evento: ');?>  <br class="hide" /></label></span></div>
+                                    <div style="display:table-cell;padding: 15px"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['eventname'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Deporte: ');?></span> </div>
+                                    <div style="display:table-cell;padding: 15px"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['sport_category'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Organiza: ');?> </span></div>
+                                    <div style="display:table-cell;padding: 15px"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['organiza'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Ubicación: ');?> </span></div>
+                                    <div style="display:table-cell;padding: 15px"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['location'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Fecha: ');?> </span></div>
+                                    <div style="display:table-cell;padding: 15px"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['date_event'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                     <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Página web del evento: ');?></span></div>
+                                     <div style="display:table-cell;padding: 15px"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;"><?php echo $this->event['website'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Detalles: ');?></span> </div>
+                                    <div style="display:table-cell;padding: 15px" id="divComentarios"><span class="field" style="font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5"><?php echo $this->event['description'];?></span></div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> </span> </div>
+                                    <div style="display:table-cell;padding: 15px"><img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
+                                        <div style="display:table-cell;padding: 0px">
+                                        <?php echo $this->event['fullname'];?>
+                                    </div>
+                                </div>
+                                <div style="display:table-row;padding: 0px">
+                                    
+                                </div>
 			</div>
                                     <div class="commentslist">
 					<form action="<?php echo $this->event['href'];?>" method="post" id="pin_commentt_form">
@@ -262,9 +297,9 @@
 					<?php if($this->loged && $this->enable_follow) { ?>
 					<p class="follow">
 						<?php if($this->pin['boardIsFollow']) { ?>
-						<a class="boardF gray" href="<?php echo $this->follow;?>"><?php echo $this->translate('Unfollow');?></a>
+						<a class="boardF gray" href="<?php echo $this->follow;?>"><?php echo $this->translate('Ya no me apunto');?></a>
 						<?php } else { ?>
-						<a class="boardF" href="<?php echo $this->follow;?>"><?php echo $this->translate('Follow');?></a>
+						<a class="boardF" href="<?php echo $this->follow;?>"><?php echo $this->translate('Me apunto!');?></a>
 						<?php } ?>
 					</p>
 					<?php } ?>
@@ -290,9 +325,9 @@
 						<?php if($this->follow_user_via != $this->follow_user) { ?>
 						<p class="follow">
 							<?php if($this->pin['userViaIsFollow']) { ?>
-							<a class="gray" href="<?php echo $this->follow_user_via;?>"><?php echo $this->translate('Unfollow');?></a>
+							<a class="gray" href="<?php echo $this->follow_user_via;?>"><?php echo $this->translate('Ya no me apunto');?></a>
 							<?php } else { ?>
-							<a href="<?php echo $this->follow_user_via;?>"><?php echo $this->translate('Follow');?></a>
+							<a href="<?php echo $this->follow_user_via;?>"><?php echo $this->translate('Me apunto!');?></a>
 							<?php } ?>
 						</p>
 						<?php } ?>
@@ -385,7 +420,7 @@ $(document).ready(function(){
 
 	<?php if($this->popup) { ?>
                 
-        //$("#fancybox-wrap").wrap('<div class="pin-overlay" />');
+        $("#fancybox-wrap").wrap('<div class="pin-overlay" />');
 
 	$('#pin .prev_next a').click(function(){
 		$.fancybox.close();
@@ -409,20 +444,20 @@ $(document).ready(function(){
 		if(!$(element).hasClass('gray')) {
 			if(!$(element).hasClass('boardF')) {
 				if($(element).attr('href') == $('.box .info .title .follow a').attr('href')) {
-					$('.box .info .pinned .titlebar .follow a.boardF').removeClass('gray').html('<?php echo $this->translate('Follow');?>');
-					$('.box .info .title .follow a').removeClass('gray').html('<?php echo $this->translate('Follow');?>');
+					$('.box .info .pinned .titlebar .follow a.boardF').removeClass('gray').html('<?php echo $this->translate('Me apunto!');?>');
+					$('.box .info .title .follow a').removeClass('gray').html('<?php echo $this->translate('Me apunto!');?>');
 				}
 			} else {
-				$('.box .info .pinned .titlebar .follow a.boardF').removeClass('gray').html('<?php echo $this->translate('Follow');?>');
+				$('.box .info .pinned .titlebar .follow a.boardF').removeClass('gray').html('<?php echo $this->translate('Me apunto!');?>');
 			}
 		} else {
 			if(!$(element).hasClass('boardF')) {
 				if($(element).attr('href') == $('.box .info .title .follow a').attr('href')) {
-					$('.box .info .pinned .titlebar .follow a.boardF').addClass('gray').html('<?php echo $this->translate('Unfollow');?>');
-					$('.box .info .title .follow a').addClass('gray').html('<?php echo $this->translate('Unfollow');?>');
+					$('.box .info .pinned .titlebar .follow a.boardF').addClass('gray').html('<?php echo $this->translate('Ya no me apunto');?>');
+					$('.box .info .title .follow a').addClass('gray').html('<?php echo $this->translate('Ya no me apunto');?>');
 				}
 			} else {
-				$('.box .info .pinned .titlebar .follow a.boardF').addClass('gray').html('<?php echo $this->translate('Unfollow');?>');
+				$('.box .info .pinned .titlebar .follow a.boardF').addClass('gray').html('<?php echo $this->translate('Ya no me apunto');?>');
 			}
 		}
 	});
@@ -431,14 +466,14 @@ $(document).ready(function(){
 	<?php } ?>
 	Pins.initFollow('.box .info .title .follow a', function(element){
 		if(!$(element).hasClass('gray')) {
-			$('.box .info .pinned .titlebar .follow a.boardF').removeClass('gray').html('<?php echo $this->translate('Follow');?>');
+			$('.box .info .pinned .titlebar .follow a.boardF').removeClass('gray').html('<?php echo $this->translate('Me apunto!');?>');
 			if($(element).attr('href') == $('.box .info .pinned .titlebar .follow a:not(.boardF)').attr('href')) {
-				$('.box .info .pinned .titlebar .follow a').removeClass('gray').html('<?php echo $this->translate('Follow');?>');
+				$('.box .info .pinned .titlebar .follow a').removeClass('gray').html('<?php echo $this->translate('Me apunto!');?>');
 			}
 		} else {
-			$('.box .info .pinned .titlebar .follow a.boardF').addClass('gray').html('<?php echo $this->translate('Unfollow');?>');
+			$('.box .info .pinned .titlebar .follow a.boardF').addClass('gray').html('<?php echo $this->translate('Ya no me apunto');?>');
 			if($(element).attr('href') == $('.box .info .pinned .titlebar .follow a:not(.boardF)').attr('href')) {
-				$('.box .info .pinned .titlebar .follow a').addClass('gray').html('<?php echo $this->translate('Unfollow');?>');
+				$('.box .info .pinned .titlebar .follow a').addClass('gray').html('<?php echo $this->translate('Ya no me apunto');?>');
 			}
 		}
 	});

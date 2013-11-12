@@ -1,11 +1,46 @@
 <?php echo $this->header_part; ?>
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+    <script type="text/javascript">
+      window.___gcfg = {
+        lang: 'es-ES'
+      };
+
+      (function() {
+        var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+        po.src = 'https://apis.google.com/js/plusone.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+      })();
+    </script>
+
+
 <div id="detail" class="pindetail">
 	<?php if($this->show_buttonswrapper) { ?>
 	<div class="buttonswrapper">
 		<div id="buttons" class="buttons-absolute">
 			<ul>
-				<li class="fb-like-button"></li>
+				<li >
+
+<div class="fb-like" data-href="http://www.amatteur.com" data-layout="button-count" data-action="like" data-show-faces="true" data-share="false"></div>
+                                </li>
+                                <li>
+<div class="fb-share-button" data-href="<?php echo $this->pin_url;?>" data-type="button_count"></div>                                    
+                                </li>
+                                
+                                <li>
+                                        <div class="g-plusone" data-size="tall" data-annotation="none" ></div>
+
+
+                                </li>
 				<li><a href="<?php echo $this->pin_url;?>" class="tweet" title="<?php echo $this->translate('Tweet');?>"><span><?php echo $this->translate('Tweet');?></span></a></li>
 				<li><a href="<?php echo $this->url_embed;?>" class="embed" title="<?php echo $this->translate('Embed');?>"><span><?php echo $this->translate('Embed');?></span></a></li>
 				<?php if(!$this->pin['pinIsReported']) { ?>
@@ -14,8 +49,51 @@
 				<?php if($this->loged) { ?>
 				<li><a href="<?php echo $this->url_email;?>" class="email" title="<?php echo $this->translate('Email');?>"><span><?php echo $this->translate('Email');?></span></a></li>
 				<?php } ?>
-			</ul>
+
+                    <li>
+                        
+                            <?php /*if($this->follow_event) { ?>
+		<div class="action">
+			<a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong>
+                        </a>
+                </div>
+                <?php } */?>
+
+
+                        <div id="container" style="top:-100px">                            
+		<?php if($this->history) { ?>
+		<div class="feed box">
+			<div class="left-corner">
+				<div class="bottom-corner">
+					<div class="right-corner">
+						<div class="preview">
+                            
+							<h2><?php echo $this->translate('Recent Activity');?></h2>
+							
+							<?php foreach($this->history AS $history) { ?>
+							<a href="<?php echo $history['href'];?>" class="story">
+						        <span class="profile">
+						        	<img src="<?php echo $history['user']['avatar'];?>" alt="<?php echo $history['user']['fullname'];?>">
+						        </span>
+								<strong><?php echo $history['user']['fullname'];?></strong> <?php echo $history['text_type'];?>
+								<span class="colorlight" title="<?php echo $history['date_added'];?>">
+									<?php echo sprintf($this->translate('%d %s ago'), $history['date_dif']['value'], $this->translate($history['date_dif']['key']));?>
+								</span>
+							</a>
+							<?php } ?>
+						</div>
+					</div>
+				</div>
+			</div>
 		</div>
+		<?php } ?>
+
+                    </div>                       
+                </li>
+			</ul>                
+                    
+		</div>
+
 	</div>
 	<?php } ?>
 
@@ -26,7 +104,7 @@
 			<div class="left-corner">
 				<div class="bottom-corner">
 					<div class="right-corner">
-						
+					
 						<?php 
 						echo $this->events_details;?>
 						
