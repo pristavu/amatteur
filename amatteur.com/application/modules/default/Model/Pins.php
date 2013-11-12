@@ -837,7 +837,7 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-        error_log("Query". $query);
+        //error_log("Query". $query);
 //echo $query.'<hr />';
 		$results = $db->fetchAll($query);
 		$results_array = array();
@@ -847,7 +847,6 @@ class Model_Pins {
 			foreach($results AS $result) {
 				if(!JO_Session::get('user[user_id]')) 
 				{
-					error_log("ANNO");
 					if($usuarioOld==$result['user_id'])
 					{
 						$cuentaSameUser=$cuentaSameUser+1;
@@ -859,14 +858,12 @@ class Model_Pins {
 					{
 						//No pinto este
 						$pinto=false;
-						error_log("No pinto este");
 					}else
 					{
 						$pinto=true;
 					}
 				}else
 				{
-					error_log("LOGED");
 					$pinto=true;
 				}
 				if ($pinto==true)
