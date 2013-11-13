@@ -844,8 +844,8 @@ class Model_Pins {
 		if($results) {
 			$usuarioOld=0;
 			$cuentaSameUser=0;
-			$pinto=true;
 			foreach($results AS $result) {
+				$pinto=true;
 				if(!JO_Session::get('user[user_id]')) 
 				{
 					//Y que no sea un artículo en venta
@@ -876,14 +876,8 @@ class Model_Pins {
 						{
 							//No pinto este
 							$pinto=false;
-						}else
-						{
-							$pinto=true;
 						}
 					}
-				}else
-				{
-					$pinto=true;
 				}
 				if ($pinto==true)
 				{

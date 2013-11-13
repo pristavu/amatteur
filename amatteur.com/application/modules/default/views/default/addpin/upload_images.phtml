@@ -99,11 +99,12 @@ $(document).ready(function(){
 
 		if($('#newBoardCreate<?php echo $key;?>').size() > 0) return;
 		
-		newbord = $('<p><input name="newboard" value="<?php echo $this->translate('Create New Board')?>" class="newboardcreator" id="newboardcreator<?php echo $key;?>" /></p>').unbind('keydown').bind('keydown', function(e){
+		newbord = $('<p><input name="newboard" value="<?php echo $this->translate('Create New Board')?>" class="newboardcreator" id="newboardcreator<?php echo $key;?>" /><input name="category_id" value="" style="display:none;" id="category_id" /></p>').unbind('keydown').bind('keydown', function(e){
 			if (e.keyCode == 13) { // enter key
                 return false
             }
 		});
+		newbordCat = $('<p><div class="StaticForm"><a href="" id="setCategory" class="selectBox selectBox-dropdown" style="width: 300px; display: inline-block;min-width:300px !important"><span id="setCategoryLabel" class="selectBox-label" style="width: 293px;min-width:293px !important"><?php echo  $this->translate('Please choose category....');?></span><span class="selectBox-arrow" style=""></span></a><ul id="setCategoryMenu" class="selectBox-dropdown-menu2 selectBox-options2" style="display:none;overflow-x: hidden;width: 300px;min-width:300px !important;"><?php foreach($this->categories as $category) { ?><li  class = "master" style="border:none !important" ><a data-id="<?php echo $category['category_id'];?>" href="" class="" style="color:#AAA;" ><?php echo $category['title']?></a><?php if($category['subcategories']){?><ul class="subcats hidden"><?php foreach($category['subcategories'] as $subcat){?><li style="border:none !important;padding-left:0px"><a data-id="<?php echo $subcat['category_id']; ?>" class="" href=""><?php echo $subcat['title']?></a></li><?php }?></ul><?php }?></li><?php }?></ul></div></p>');
 		button = $('<input type="button" class="newboardcreator2">').attr('id','newboardcreator2<?php echo $key;?>').val('<?php echo $this->translate('Create')?>').unbind('click').bind('click',function(){
 			$.post('<?php echo $this->createBoard;?>', $('#newBoardCreate<?php echo $key;?>').serialize(),function(data){
 				if(data.data) {
@@ -126,8 +127,8 @@ $(document).ready(function(){
 			}, 'json');
 			return false;
 		});
-		newsubmit = $('<p>').addClass('submit').append(button)
-		bform = $('<form action="" method="post" id="newBoardCreate<?php echo $key;?>">').append(newbord).append(newsubmit);
+		newsubmit = $('<p>').addClass('submit').append(button);
+		bform = $('<form action="" method="post" id="newBoardCreate<?php echo $key;?>">').append(newbordCat).append(newbord).append(newsubmit);
 		new_board = $('<li>').addClass('createBoard').append(bform).append('<div class="clear"></div>');
 		$('.selectBox-dropdown-menu.selectBox-options').append(new_board).find('#newboardcreator<?php echo $key;?>').clearOnFocus();
 		$('#newBoardCreate<?php echo $key;?>').submit(function(){ return false; });
@@ -167,14 +168,46 @@ $(document).ready(function(){
 	image.src = '<?php echo $this->full_path;?>';
 	$(image).load(function(){
 		$('#content-holder .imageholder img').replaceWith( $(image).addClass('thumbShow') );
-		//$('#content-holder .imageholder').height( $(image).outerHeight(true) );
 	});
 
 	regExPrice.addExpresionLine($('#message').html(), true);
 	$('#message').bind("keydown keyup keypress focus paste",function() {
 		regExPrice.addExpresionLine(this.value);
 	});
-	
+	$("#setCategory").live('click',function(event){
+		//$('ul.hidden').hide();
+		event.preventDefault();
+		$("#setCategory").hide();
+		$("#setCategoryMenu").show();
+
+		$(".master").unbind('click').bind('click',function(event){
+			event.preventDefault();
+			var children  = $(this).find($('ul'));
+			if(children.hasClass('opened')){
+				children.hide().removeClass('opened');
+			}else{
+				$(".hidden").hide();
+				var self  = $(this);
+				children.addClass('opened');
+				if($(children).hasClass('hidden')){
+					children.show();
+					children.find('li a').click(function(event){
+							event.preventDefault();
+							appendElementInMain($(this));
+							$(".hidden").hide();
+					});
+				}else{
+					appendElementInMain(self.find($('a')));	
+				}
+			}
+		});
+		function appendElementInMain(element){
+			$("#setCategoryMenu").hide();
+			$("#setCategory").show();
+			$("#setCategoryLabel").text(element.text());
+			$("#category_id").val(element.data("id"));
+		}
+	});
 });
 </script>
 
@@ -185,8 +218,6 @@ $(document).ready(function(){
 	$File = $('<input type="text" id="file-holder" readonly="readonly" value="<?php echo $this->file;?>" />');
 	$Button = $('<a class="ajax-upload" />').html('<?php echo $this->translate('Browse...');?>');
 	$('#emailpin .ntp input[type=file]').replaceWith($Div.append($File).append($Button).append('<br class="clear" />'));
-	//$('#emailpin .submit').html('');
-
 	new AjaxUpload($('.button-option'), {
 		action: '<?php echo $this->form_action;?>',
 		name: 'file',

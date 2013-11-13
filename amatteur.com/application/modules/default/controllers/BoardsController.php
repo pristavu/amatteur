@@ -294,33 +294,37 @@ class BoardsController extends JO_Action {
 			
 				if( trim($request->getPost('newboard')) ) {
 					if( trim($request->getPost('newboard')) != $this->translate('Create New Board') ) {
-						$data = Model_Boards::createBoard(array(
-							'title' => trim($request->getPost('newboard')),
-							'category_id' => $request->getPost('category_id'),
-							'friends' => $request->getPost('friends')
-						));
-						if($data) {
-						    if(is_array($request->getPost('friends'))) {
-						        foreach($request->getPost('friends') as $fr) {
-						            $this->view->uinfo = Model_Users::getUser($fr);
-						            $this->view->board_href = $data['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . JO_Session::get('user[user_id]') . '&board_id=' . $data['board_id'] );
-						            $this->view->board_name = trim($request->getPost('newboard'));
-						            $this->view->author_href = $data['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') );
-						            $this->view->author_name = JO_Session::get('firstname') .' '.JO_Session::get('lastname');
-	//                                print_R(JO_Session::getAll());
-						            $result = Model_Email::send(
-	                    	        	$this->view->uinfo['email'],
-	                    	        	JO_Registry::get('noreply_mail'),
-	                    	        	$this->translate('You have been invited to pin on '.trim($request->getPost('newboard'))),
-	                    	        	$this->view->render('board_invite', 'mail')
-	                    	        );
-						        }
-						    }
-							Model_History::addHistory(0, Model_History::ADDBOARD, 0, $data['board_id']);
-							$data['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . JO_Session::get('user[user_id]') . '&board_id=' . $data['board_id'] );
-							$this->view->data = $data;
+						if( trim($request->getPost('category_id')) ) {
+							$data = Model_Boards::createBoard(array(
+								'title' => trim($request->getPost('newboard')),
+								'category_id' => $request->getPost('category_id'),
+								'friends' => $request->getPost('friends')
+							));
+							if($data) {
+								if(is_array($request->getPost('friends'))) {
+									foreach($request->getPost('friends') as $fr) {
+										$this->view->uinfo = Model_Users::getUser($fr);
+										$this->view->board_href = $data['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . JO_Session::get('user[user_id]') . '&board_id=' . $data['board_id'] );
+										$this->view->board_name = trim($request->getPost('newboard'));
+										$this->view->author_href = $data['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]') );
+										$this->view->author_name = JO_Session::get('firstname') .' '.JO_Session::get('lastname');
+		//                                print_R(JO_Session::getAll());
+										$result = Model_Email::send(
+											$this->view->uinfo['email'],
+											JO_Registry::get('noreply_mail'),
+											$this->translate('You have been invited to pin on '.trim($request->getPost('newboard'))),
+											$this->view->render('board_invite', 'mail')
+										);
+									}
+								}
+								Model_History::addHistory(0, Model_History::ADDBOARD, 0, $data['board_id']);
+								$data['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . JO_Session::get('user[user_id]') . '&board_id=' . $data['board_id'] );
+								$this->view->data = $data;
+							} else {
+								$this->view->error = $this->translate('There was a problem with the record. Please try again!');
+							}
 						} else {
-							$this->view->error = $this->translate('There was a problem with the record. Please try again!');
+							$this->view->error = $this->translate('Debe seleccionar una categoría para la carpeta');
 						}
 					} else {
 						$this->view->error = $this->translate('Board name must not be empty!');

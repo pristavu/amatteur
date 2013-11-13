@@ -92,6 +92,7 @@ class AddpinController extends JO_Action {
 					}
 				}
 				
+				
 				$this->view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $result );
 				$this->view->popup_main_box = $this->view->render('success','addpin');
 			}
@@ -167,7 +168,7 @@ class AddpinController extends JO_Action {
 					'sort' => 'ASC',
 					'friendly' => JO_Session::get('user[user_id]')
 				));
-				
+
 				$this->view->boards = array();
 				if($boards) {
 					foreach($boards AS $board) {
@@ -262,7 +263,7 @@ class AddpinController extends JO_Action {
 					'sort' => 'ASC',
 					'friendly' => JO_Session::get('user[user_id]')
 				));
-				
+
 				$this->view->boards = array();
 				if($boards) {
 					foreach($boards AS $board) {
@@ -272,7 +273,17 @@ class AddpinController extends JO_Action {
 						);
 					}
 				}
-			
+				
+				//////////// Categories ////////////
+				$this->view->categories =  array();
+				$categories = Model_Categories::getCategories(array(
+					'filter_status' => 1
+				));
+				foreach ($categories as $category){
+					$category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+					$this->view->categories[] = $category;
+				}
+				
 				$this->view->is_video = 'false';
 				$help_video = new Helper_AutoEmbed();
 				if($help_video->parseUrl($video_url)) {
@@ -403,7 +414,6 @@ class AddpinController extends JO_Action {
 	
 		
 		$this->view->popup_main_box = $this->view->render('fromfile','addpin');
-		
 		
 		if( $request->isPost() ) {
 			
@@ -557,7 +567,15 @@ class AddpinController extends JO_Action {
 					);
 				}
 			}
-			
+			//////////// Categories ////////////
+			$this->view->categories =  array();
+			$categories = Model_Categories::getCategories(array(
+				'filter_status' => 1
+			));
+			foreach ($categories as $category){
+				$category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+				$this->view->categories[] = $category;
+			}
 			
 			$this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=upload_images' );
 			
