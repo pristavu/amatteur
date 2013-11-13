@@ -791,7 +791,15 @@ class PinController extends JO_Action {
 				);
 			}
 		}
-		
+		//////////// Categories ////////////
+				$this->view->categories =  array();
+				$categories = Model_Categories::getCategories(array(
+					'filter_status' => 1
+				));
+				foreach ($categories as $category){
+					$category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+					$this->view->categories[] = $category;
+				}
 		$this->view->popup_main_box = $this->view->render('repin','pin');
                 
                 $this->view->is_article = $pin_info['is_article'] ? 'true' : 'false';
