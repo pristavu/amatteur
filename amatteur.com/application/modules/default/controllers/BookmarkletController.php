@@ -29,7 +29,16 @@ class BookmarkletController extends JO_Action {
 			}
 		}
 		
-		
+		//////////// Categories ////////////
+			$this->view->categories =  array();
+			$categories = Model_Categories::getCategories(array(
+				'filter_status' => 1
+			));
+			
+			foreach ($categories as $category){
+				$category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+				$this->view->categories[] = $category;
+			}
 		$this->view->title = JO_Utf8::convertToUtf8( $request->getQuery('title') );
 		$this->view->url = JO_Utf8::convertToUtf8( urldecode($request->getQuery('url')) );
 		$this->view->media = JO_Utf8::convertToUtf8( $request->getQuery('media') );
