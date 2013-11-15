@@ -293,7 +293,7 @@ class BoardsController extends JO_Action {
 			if( JO_Session::get('user[user_id]') ) {
 			
 				if( trim($request->getPost('newboard')) ) {
-					if( trim($request->getPost('newboard')) != $this->translate('Nombre de la carpeta') ) {
+					if(( trim($request->getPost('newboard')) != $this->translate('Nombre de la carpeta') ) && ( trim($request->getPost('newboard')) != $this->translate('Create New Board') )) {
 						if( trim($request->getPost('category_id')) ) {
 							$data = Model_Boards::createBoard(array(
 								'title' => trim($request->getPost('newboard')),
