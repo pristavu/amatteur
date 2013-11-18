@@ -145,6 +145,7 @@ class UsersController extends JO_Action
         $this->view->user_pins_likes = WM_Router::create($request->getBaseUrl() . '?controller=users&action=pins&user_id=' . $user_data['user_id'] . '&filter=likes');
         $this->view->settings = WM_Router::create($request->getBaseUrl() . '?controller=settings');
         $this->view->user_activity = WM_Router::create($request->getBaseUrl() . '?controller=users&action=activity&user_id=' . $user_data['user_id']);
+        $this->view->user_events = WM_Router::create($request->getBaseUrl() . '?controller=users&action=events&user_id=' . $user_data['user_id']);
         $this->view->user_followers = WM_Router::create($request->getBaseUrl() . '?controller=users&action=followers&user_id=' . $user_data['user_id']);
         $this->view->user_following = WM_Router::create($request->getBaseUrl() . '?controller=users&action=following&user_id=' . $user_data['user_id']);
         $this->view->user_likers = WM_Router::create($request->getBaseUrl() . '?controller=users&action=likers&user_id=' . $user_data['user_id']);
@@ -3043,6 +3044,202 @@ class UsersController extends JO_Action
 
         $this->view->boards = '';
 
+        $dataFollowingEvents = array(
+            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+            'limit' => JO_Registry::get('config_front_limit'),
+            'filter_user_id' => $user_data['user_id']
+        );
+
+        $events = Model_Events::getFollowingEvents($dataFollowingEvents);
+
+        if ($events)
+        {
+            $month = "";
+            $year = "";
+            $this->view->boards .= "<div>";
+            foreach ($events AS $key => $event)
+            {
+                if ($year <> $event['year'])
+                {
+                    $this->view->boards .= "</div>";
+                    $year = $event['year'];
+                    $month = $event['month'];
+                    setlocale(LC_TIME,"es_ES@euro","es_ES","esp");
+                    $this->view->boards .= "<div>";                    
+                    $this->view->boards .= "<div style='padding-bottom:15px'><span style='font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;padding-bottom:15px'><h2>" . ucfirst(strftime("%B", strtotime($event['date_event']))) . " " . $year . ":</h2></span></div>";
+                }
+                
+                if ($month <> $event['month'])
+                {
+                    $month = $event['month'];
+                    setlocale(LC_TIME,"es_ES@euro","es_ES","esp");
+                    $this->view->boards .= "<div>";                    
+                    $this->view->boards .= "<div style='padding-bottom:15px'><span style='font-size: 1.8em;font-weight: 300;line-height: 1em;color:#0061A5;'><h2>" . ucfirst(strftime("%B", strtotime($event['date_event']))) . " " . $year . ":</h2></span></div>";
+                }
+                
+                $href = "";
+                $view = JO_View::getInstance();
+                $view->loged = JO_Session::get('user[user_id]');
+                $model_images = new Helper_Images();
+
+                $avatar = Helper_Uploadimages::avatar($event, '_B');
+                $event['avatar'] = $avatar['image'];
+
+                $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
+
+                $data = array(
+                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                    'limit' => JO_Registry::get('config_front_limit'),
+                    'filter_user_id' => $event["user_id"]
+                );
+
+                $users = Model_Users::getUsers($data);
+                if ($users)
+                {
+                    $event['fullname'] = $users[0]["fullname"];
+                    $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                    $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                }
+
+                //$view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=boxeventdetail&event_id=' . $event['event_id']);
+                $view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
+
+                $view->event = $event;
+                $this->view->boards .= $view->render('boxEvent', 'events');
+
+            }
+            $this->view->boards .= "</div>";            
+        }
+
+        $agendas = Model_Users::getUserAgenda(array(
+            'filter_user_id' => $user_data['user_id']
+        ));
+        $this->view->has_agendas = false;
+        $this->view->agendas_users = "";
+        if ($agendas)
+        {
+            $this->view->has_agendas = true;
+            foreach ($agendas AS $agenda)
+            {
+                $agenda['hrefDelete'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=agendaPopupDelete&agenda_id=' . $agenda['agenda_id'] . '&user_id=' . $user_data['user_id']);
+                $this->view->agenda = $agenda;
+                $this->view->agendas_users .= $this->view->render('agenda', 'users');
+            }
+        }
+        $session_user = JO_Session::get('user[user_id]');
+        $this->view->popup_agenda = WM_Router::create($request->getBaseUrl() . '?controller=users&action=agendaPopup&user_id=' . $user_data['user_id']);
+
+        //no mover de esta ubicación
+
+        $messages = Model_Users::getUserMessages(array(
+                    'start' => 0,
+                    'limit' => 100,
+                    'filter_user_id' => $user_data['user_id'],
+                    'idPadre' => 0
+                ));
+
+
+        $this->view->has_messages = false;
+        $this->view->messages_users = "";
+        if ($messages)
+        {
+            $this->view->has_messages = true;
+            foreach ($messages AS $message)
+            {
+                $avatar = Helper_Uploadimages::avatar($message, '_A');
+                $message['avatar'] = $avatar['image'];
+                $message['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $message['user_id']);
+                $message['hrefDelete'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $message['message_id'] . '&user_id=' . $user_data['user_id']);
+                $message['hrefResponder'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'] . '&board_user=' . $user_data['user_id'] . '&message_from_id=' . $message['message_id']);
+                $this->view->message = $message;
+                $this->view->messages_users .= $this->view->render('message', 'users');
+                //ahora vamos a consultar las respuestas a este:
+                $messagesHijos = Model_Users::getUserMessages(array(
+                            'start' => 0,
+                            'limit' => 100,
+                            'filter_user_id' => $user_data['user_id'],
+                            'idPadre' => $message['message_id']
+                        ));
+                if ($messagesHijos)
+                {
+                    foreach ($messagesHijos AS $messageHijo)
+                    {
+                        $avatar = Helper_Uploadimages::avatar($messageHijo, '_A');
+                        $messageHijo['avatar'] = $avatar['image'];
+                        $messageHijo['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $messageHijo['user_id']);
+                        $messageHijo['hrefDelete'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopupDelete&message_id=' . $messageHijo['message_id'] . '&user_id=' . $user_data['user_id']);
+                        $messageHijo['hrefResponder'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'] . '&board_user=' . $user_data['user_id'] . '&message_from_id=' . $messageHijo['message_id']);
+                        $this->view->message = $messageHijo;
+                        $this->view->messages_users .= $this->view->render('message', 'users');
+                    }
+                }
+            }
+        }
+
+        $session_user = JO_Session::get('user[user_id]');
+        $this->view->popup_messages = WM_Router::create($request->getBaseUrl() . '?controller=users&action=messagePopup&user_from=' . $session_user . '&user_to=' . $user_data['user_id'] . '&board_user=' . $user_data['user_id'] . '&message_from_id=0');
+        //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activatePopup'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+        //$this->view->popup_activate = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activateDetail'); //&user_from=' . $session_user . '&user_to=' . $user_data['user_id'].'&board_user=' . $user_data['user_id'] .'&message_from_id=0'  );
+        $_SESSION["activate_url"] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+        $this->view->popup_activate = WM_Router::create($request->getBaseUrl() . '?controller=users&action=activate');
+        $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
+        //$this->view->deportes = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=deportes');
+
+        $this->view->addMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=create');
+        $this->view->stateMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=state');
+        $this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
+
+
+        $activate = Model_Users::getActivateUser(JO_Session::get('user[user_id]'));
+
+        if ($activate)
+        {
+            $this->view->userIsActivate = $activate["activate"];
+        }
+
+        if ($user_data['type_user'])
+        {
+            $this->view->userCanActivate = Model_Users::getUserTypeNotOthers($user_data['type_user']);
+        }
+
+        if (JO_Registry::get('isMobile'))
+        {
+            $this->view->urlagenda = WM_Router::create($request->getBaseUrl() . '?controller=users&action=agenda&user_id=' . $user_data['user_id']);
+            $this->view->urlmensajes = WM_Router::create($request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $user_data['user_id']);
+        }
+        
+        
+        if ($request->isXmlHttpRequest())
+        {
+            echo $this->view->boards;
+            $this->noViewRenderer(true);
+        } else
+        {
+            $this->view->children = array(
+                'header_part' => 'layout/header_part',
+                'footer_part' => 'layout/footer_part'
+            );
+        }
+    }        
+    
+    public function eventsHistoryAction()
+    {
+        $request = $this->getRequest();
+
+        $user_data = $this->profileHelp();
+
+        $this->setViewChange('profile');
+
+        $this->view->active = 'events';
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $this->view->boards = '';
+
         $data = array(
             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
             'limit' => JO_Registry::get('config_front_limit'),
@@ -3083,14 +3280,14 @@ class UsersController extends JO_Action
                     if ($data['history_action'] == Model_History::FOLLOW_EVENT)
                     {
                         $view->history['eventIsFollow'] = Model_Events::isFollowEvent("", $view->history['to_user_id']);
-                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&user_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $view->history['pin_id'] . '&userio_id=' . $view->history['to_user_id']);
                         $view->history['fullname'] = $data['user']['fullname'];
                         $view->history['avatar'] = $avatar['image'];
                         $this->view->boards .= $view->render('history/follow_event', 'users');
                     } elseif ($data['history_action'] == Model_History::UNFOLLOW_EVENT)
                     {
                         $view->history['eventIsFollow'] = Model_Events::isFollowEvent("", $view->history['to_user_id']);
-                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&user_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $view->history['pin_id'] . '&userio_id=' . $view->history['to_user_id']);
                         $view->history['fullname'] = $data['user']['fullname'];
                         $view->history['avatar'] = $avatar['image'];
                         $this->view->boards .= $view->render('history/unfollow_event', 'users');
@@ -3572,61 +3769,51 @@ class UsersController extends JO_Action
                         {
                             if ($request->getPost($location) != "")
                             {
-                                $location = 'location' . $i;
-                                $lat = 'lat' . $i;
-                                $len = 'len' . $i;
-                                if ($request->issetPost($location))
+                                $lat = $request->getPost($lat);
+                                $len = $request->getPost($len);
+
+                                while (Model_Users::getLocationUsersLatLen($lat, $len))
                                 {
-                                    if ($request->getPost($location) != "")
+                                    $posLat = strpos($lat, ".");
+                                    $longLat = strlen(substr((string) $lat, $posLat));
+                                    $cantLat = 0;
+                                    for ($x = 0; $x < ($longLat - 4); $x++)
                                     {
-                                        $lat = $request->getPost($lat);
-                                        $len = $request->getPost($len);
-
-                                        while (Model_Users::getLocationUsersLatLen($lat, $len))
+                                        if ($x == 0)
                                         {
-                                            $posLat = strpos($lat, ".");
-                                            $longLat = strlen(substr((string) $lat, $posLat));
-                                            $cantLat = 0;
-                                            for ($i = 0; $i < ($longLat - 4); $i++)
-                                            {
-                                                if ($i == 0)
-                                                {
-                                                    $cantLat .= ".0";
-                                                } else
-                                                {
-                                                    $cantLat .= "0";
-                                                }
-                                            }
-                                            $cantLat .= "1";
-                                            $lat = $lat + $cantLat;
-
-                                            $posLen = strpos($len, ".");
-                                            $longLen = strlen(substr((string) $len, $posLen));
-                                            $cantLen = 0;
-                                            for ($i = 0; $i < ($longLen - 4); $i++)
-                                            {
-                                                if ($i == 0)
-                                                {
-                                                    $cantLen .= ".0";
-                                                } else
-                                                {
-                                                    $cantLen .= "0";
-                                                }
-                                            }
-                                            $cantLen .= "1";
-                                            $len = $len + $cantLen;
-                                        }
-                                        if (Model_Users::createUsersLocation(JO_Session::get('user[user_id]'), $request->getPost($location), $lat, $len))
+                                            $cantLat .= ".0";
+                                        } else
                                         {
-                                            
+                                            $cantLat .= "0";
                                         }
                                     }
+                                    $cantLat .= "1";
+                                    $lat = $lat + $cantLat;
+
+                                    $posLen = strpos($len, ".");
+                                    $longLen = strlen(substr((string) $len, $posLen));
+                                    $cantLen = 0;
+                                    for ($y = 0; $y < ($longLen - 4); $y++)
+                                    {
+                                        if ($y == 0)
+                                        {
+                                            $cantLen .= ".0";
+                                        } else
+                                        {
+                                            $cantLen .= "0";
+                                        }
+                                    }
+                                    $cantLen .= "1";
+                                    $len = $len + $cantLen;
+                                }
+                                if (Model_Users::createUsersLocation($result, $request->getPost($location), $lat, $len))
+                                {
+
                                 }
                             }
                         }
                     }
                     if (Model_Users::editUserSports($result))
-                        ;
                     {
                         
                     }

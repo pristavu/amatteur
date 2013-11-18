@@ -30,6 +30,8 @@ class Model_History extends JO_Model {
 	const FOLLOW_EVENT = 16;
 	const UNFOLLOW_EVENT = 17;
         
+	const LIKE_EVENT = 18;
+	const UNLIKE_EVENT = 19;
 	
 	public static function getType($type) {
 		
@@ -54,7 +56,10 @@ class Model_History extends JO_Model {
 			self::UNMESSAGEUSER => self::translate('Delete message in his board'),
 			self::FOLLOW_EVENT => self::translate('is now following the event'),
 			self::UNFOLLOW_EVENT => self::translate('has unfollow the event'),
+			self::LIKE_EVENT => self::translate('like the event'),
+			self::UNLIKE_EVENT => self::translate('unlike the event'),
 		);
+                
 		
 		if(isset($array[$type])) {
 			$result[$type] = $array[$type];
@@ -171,7 +176,8 @@ class Model_History extends JO_Model {
 			'comments' => self::COMMENTPIN,
 			'follow' => self::FOLLOW_USER,
 			'like' => self::LIKEPIN,
-			'repin' => self::REPIN
+			'repin' => self::REPIN,
+                        'event' => self::FOLLOW_EVENT
 		);
 		
 		$sql = $db->select()

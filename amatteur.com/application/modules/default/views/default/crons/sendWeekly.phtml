@@ -296,7 +296,110 @@
                                         </table>
                                     </td>
                                 </tr>
-                                
+
+                                <?php if($this->events) { ?>
+                                <tr>
+                                    <td background="<?php echo $this->base_href;?>data/images/mail/double_rules_full22.gif"
+                                    align="center" class="header">
+                                        <table cellspacing="0" cellpadding="0" border="0" align="center">
+                                            <tbody>
+                                                <tr>
+                                                    <td background="<?php echo $this->base_href;?>data/images/mail/paper.jpg">
+                                                        <image src="<?php echo $this->base_href;?>data/images/event_calendar.png" >&nbsp;
+                                                        <h2 style="font-family:georgia,serif;font-weight:normal;font-size:21px;color:#211922 !important;text-shadow:0 1px 0 #FFFFFF;margin:0;padding:0 20px;"><?php echo $this->translate('Eventos deportivos que te podrían interesar');?></h2>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td style="padding:0 0 40px" id="events">
+                                        <table cellspacing="0" cellpadding="0" width="100%" border="0">
+                                            <tbody>
+                                            	<?php for( $k=0; $k < count($this->events) ; $k++) { ?>                                                
+                                                <tr>
+                                                    <?php echo $this->events[$k]; ?>
+                                                </tr>    
+                                                <?php } ?>
+                                            	<?php /* for( $r=$i=0; $i < ceil( count($this->event)/1 ) ; $i++) { ?>
+                                            	<tr>
+                                            	<?php for($j=0; $j<1; $j++, $r++) {?>
+	                                            	<?php if($r%1) { ?>
+	                                            	<td width="11" class="hide">&nbsp;</td>
+	                                            	<?php } ?>
+                                            		
+                                            		<td width="226" style="padding:30px 0 0" class="board">
+                                            			<?php if(isset($this->event[$r])) { ?>
+                                                        <table cellspacing="0" cellpadding="0" width="226" border="0">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td align="center">
+                                                                        <h4 style="font-family:georgia,serif;font-size:14px;line-height:13px;color:#524d4d !important;text-shadow:0 1px 0 #FFFFFF;margin:0;padding:0;"><?php echo $this->event[$r]['eventname'];?></h4>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>
+                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td style="width:1px;background-color:#eceaeb;"></td>
+                                                                                    <td style="border-top:1px solid #eae9e9;border-right:1px solid #d4d2d3;border-bottom:1px solid #b2b1b1;border-left:1px solid #d4d2d3;">
+                                                                                        <table cellspacing="0" cellpadding="0" border="0" bgcolor="#FFFFFF">
+                                                                                            <tbody>
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        <a target="_blank" title="<?php echo $this->translate('eventos');?>" href="<?php echo $this->event[$r]['href'];?>"> <img width="222" height="150" alt="<?php echo $this->event[$r]['eventname'];?>" style="vertical-align:top;outline:none;border:none;border-bottom:1px solid #FFFFFF;" src="<?php echo $this->event[$r]['thumbs'][0];?>"> </a>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                                <tr>
+                                                                                                    <td>
+                                                                                                        <table cellspacing="0" cellpadding="0" border="0">
+                                                                                                            <tbody>
+                                                                                                                <tr>
+                                                                                                                	<?php for($t=1; $t<5; $t++) { ?>
+                                                                                                                    <td>
+                                                                                                                        <a target="_blank" title="<?php echo $this->translate('event');?>" href="<?php echo $this->event[$r]['href'];?>"><img width="55" height="55" style="vertical-align:top;outline:none;border:none;border-right:1px solid #FFFFFF;" alt="1" src="<?php echo $this->event[$r]['thumbs'][$t];?>"></a>
+                                                                                                                    </td>
+                                                                                                                    <?php } ?>
+                                                                                                                </tr>
+                                                                                                            </tbody>
+                                                                                                        </table>
+                                                                                                    </td>
+                                                                                                </tr>
+                                                                                            </tbody>
+                                                                                        </table>
+                                                                                    </td>
+                                                                                    <td style="width:1px;background-color:#eceaeb;"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td width="1" style="background-color:#eceaeb"></td>
+                                                                                    <td height="1" style="background-color:#d5d3d4"></td>
+                                                                                    <td width="1" style="background-color:#eceaeb"></td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td width="1"></td>
+                                                                                    <td height="1" style="background-color:#e8e6e7"></td>
+                                                                                    <td width="1"></td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                        </table>
+                                                                    </td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                        <?php } ?>
+                                                    </td>
+                                            		
+                                            	<?php } ?>
+                                            	</tr>
+                                            	<?php }*/ ?>
+                                                
+                                            </tbody>
+                                        </table>
+                                    </td>
+                                </tr>
+                                <?php } ?>
                                 
                                 <?php if($this->popular_bards) { ?>
                                 <tr>
@@ -536,7 +639,7 @@
                                 
                                 
                                 
-								<tr>
+				<tr>
                                     <td width="100%" height="18" background="<?php echo $this->base_href;?>data/images/mail/badge_rule.gif"
                                     align="center" id="badge_rule"></td>
                                 </tr>

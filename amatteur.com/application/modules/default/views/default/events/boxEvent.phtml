@@ -1,4 +1,4 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: 308px">
+<div class="  <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: auto;min-height: 150px;border-width: 0px;border-color: #cccaca; border-style: solid;">
     <!--a style="background-image: url(<?php echo $this->event['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->event['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->event['href'];?>">
@@ -7,15 +7,15 @@
 			</p-->
 
             <div class="PersonInfo">
-                <div style="display:table" style="border-width: 1px;border-color: black">
-                    <div style="display:table-cell">                            
+                <div style="display:table">
+                    <div style="display:table-cell;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 2px;width:390px">                            
                         <div style="display:table-row">
                                 <div style="display:table-cell">
                                     <h2><?php echo $this->event['eventname'];?></h2>
                                 </div>
                         </div>
 
-                        <div style="display:table">
+                        <div style="display:table" >
                             <div style="display:table-row">
                                 <div style="display:table-cell">
                                     <p class="location colorless"><?php echo $this->translate('Organiza:');?> </div>
@@ -57,15 +57,12 @@
                     </p>
                 </div> 
                 <div style="display:table-cell">&nbsp;</div>
-                <div style="display:table-cell">
+                <div style="display:table-cell;top:10px">
                     <div style="display:table-row">
-                        <a class="Button RedButton Button24 silverbox" href="<?php echo $this->boxeventdetail;?>"><?php echo $this->translate('Ver');?></a>
-<!--p class="thumb">                        
-                        <a class="Button RedButton Button24" href="<?php echo $this->boxeventdetail;?>"><?php echo $this->translate('Ver');?></a>
-</p-->                        
+                        <a class="Button RedButton Button24" href="<?php echo $this->boxeventdetail;?>" <?php if ($this->search_add) { ?> target="_blank" <?php } ?> ><?php echo $this->translate('Ver');?></a>
                     </div>
                     <div style="display:table-row">
-                        <a onclick="$('#profileEdit').submit(); return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit" href="#"><strong><?php echo $this->translate('Comentar');?></strong></a>
+                        <a class="Button RedButton Button24" href="<?php echo $this->boxeventdetail;?>&comment=1" <?php if ($this->search_add) { ?> target="_blank" <?php } ?> ><?php echo $this->translate('Comentar');?></a>
                     </div>
                 </div> 
                 

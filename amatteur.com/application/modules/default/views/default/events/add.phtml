@@ -50,12 +50,8 @@ float:left;">
 
                                  <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category1' style='display:none;overflow-x: hidden;width: 370px;'>
 
-                                        <?php $i=0; foreach($this->categories as $category) { ?>
+                                        <?php foreach($this->categories as $category) { ?>
                                                 <li  class = 'master cat1' style='border:none !important' >
-                                                        <?php if ($i==0) { $i=1; ?>
-                                                        <a data-id='<?php echo 1; ?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo "Todo"; ?></a>
-                                                        <ul class='subcats hidden'><li style='border:none !important;padding-left:0px'></li></ul>
-                                                        <?php } ?>
 
                                                         <a data-id='<?php echo $category['category_id'];?>' href="" class='cats-category1' style='color:#AAA;' ><?php echo $category['title']?></a>
                                                         <?php if($category['subcategories']){?>
@@ -171,10 +167,10 @@ float:left;">
 			
                 <!-- Cancel -->
                 <li>
-                    <label for="id_cancel"><?php echo $this->translate('Evento Cancelado');?></label>
+                    <label for="delete_event"><?php echo $this->translate('Evento Cancelado');?></label>
                     <div id="genderOptions" class="Right">
                         <ul>
-                                <li><label for="id_cancel"><input <?php echo ($this->cancel == '1' ? 'checked="checked"' : '');?> type="radio" name="cancel" value="1" id="id_cancel"></label></li>
+                                <li><label for="id_cancel"><input <?php echo ($this->cancel == '1' ? 'checked="checked"' : '');?> type="radio" name="delete_event" value="1" id="delete_event"></label></li>
                         </ul>
                         
                     </div>
@@ -182,9 +178,9 @@ float:left;">
                 
                 <!-- Cancel Reason -->
                 <li>
-                    <label for="id_cancelReason"><?php echo $this->translate('Razón de la cancelación');?></label>
+                    <label for="delete_reason"><?php echo $this->translate('Razón de la cancelación');?></label>
                     <div class="Right">
-                        <input type="text" id="id_cancelReason" value="<?php echo $this->cancelReason;?>" name="cancelReason">
+                        <input type="text" id="delete_reason" value="<?php echo $this->cancelReason;?>" name="delete_reason">
                     </div>
                 </li>
                 
@@ -194,7 +190,11 @@ float:left;">
 
             <!-- Button -->
             <div class="Submit">
-                <a onclick="$('#profileEdit').submit(); return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit" href="#"><strong><?php echo $this->translate('Save Profile');?></strong></a>
+                <?php if ($this->owner) { ?>
+                    <a onclick="$('#profileEdit').submit(); return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit" href="#"><strong><?php echo $this->translate('Guardar Evento');?></strong></a>                
+                <?php } else { ?>
+                    <a onclick="return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit disabled" href="#"><strong><?php echo $this->translate('Guardar Evento');?></strong></a>
+                <?php } ?>                
             </div>
         </form>		
 
@@ -208,10 +208,10 @@ font-weight: 300;
 line-height: 1em;
 color:#0061A5;
 float:left;"><?php echo $this->translate('Ayúdanos a que no se dupliquen los eventos.');?></label>
-        <label for="black" style="color:#0061A5;
-float:left;"><?php echo $this->translate('Por favor, verifica que tu evento no esté ya inscrito, recuerda que puedes añadir datos a eventos ya existentes. Explora los eventos abajo, al abrirse una pestaña nueva, los datos de tu formulario no se perderán. ¡Gracias!');?></label>
+        <label for="black" style="color:#0061A5;float:left;"><?php echo $this->translate('Por favor, verifica que tu evento no esté ya inscrito, recuerda que puedes añadir datos a eventos ya existentes. Explora los eventos abajo, al abrirse una pestaña nueva, los datos de tu formulario no se perderán. ¡Gracias!');?></label>
     </div>
-    <div id="container" style="margin-left:0px">
+    <br/>
+    <div id="container" style="margin-left:50px;border-top: 20px;">
         <?php echo $this->events;?>
     </div>
     
@@ -240,18 +240,22 @@ $(document).ready(function(){
     
 
         $("#id_eventname").bind('focusout',function(event){
+            $("#container").html('');
             search();
         });
         
         $("#id_eventname").change(function() {
+            $("#container").html('');
             search();
         });
         
         $("#id_eventname").live('click',function(event){
+            $("#container").html('');
             search();
         });
 
         $("#id_eventname").blur(function() {
+            $("#container").html('');
             search();
         });
         
@@ -701,102 +705,77 @@ $(document).ready(function(){
                 	$("#selectBox-dropdown-menu-Category1").hide();
 
         });
+        
+        
 
+        $("#selectBox-Category1").bind('click',function(event){
+            $('ul.hidden').hide();
+            event.preventDefault();
+            $("#selectBox-Category1").hide();
+            $("#selectBox-dropdown-menu-Category1").show();
 
-	$("#selectBox-Category1").bind('click',function(event){
-		$('ul.hidden').hide();
-		event.preventDefault();
-		$("#selectBox-Category1").hide();
-		$("#selectBox-dropdown-menu-Category1").show();
-                
-                if (!$("#selectBox-Category2").is(":visible"))  
-                    {
-        		$("#selectBox-Category2").show();
-                	$("#selectBox-dropdown-menu-Category2").hide();
-                    }
-                if (!$("#selectBox-Category3").is(":visible"))  
-                    {
-        		$("#selectBox-Category3").show();
-                	$("#selectBox-dropdown-menu-Category3").hide();
-                    }
-                if (!$("#selectBox-TypeUser").is(":visible"))  
-                    {
-                        $("#selectBox-TypeUser").show();
-                        $("#selectBox-TypeUser-dropdown-menu").hide();
-                    }
-                
-                /*
-		$(".master").bind('click',function(event){
-                    alert("o");
-                            event.preventDefault();
-                            var self  = $(this);
-            		appendElementInMain(self.find($('a')));
-				
-		});
-*/
-		$(".cats-category1").bind('click',function(event){
+   
+
+            $(".master").unbind('click').bind('click',function(event){
+                event.preventDefault();
+
+			
+                var children  = $(this).find($('ul'));
+                if(children.hasClass('opened')){
+                    //children.hide().removeClass('opened');
+                $(".cats-category1").bind('dblclick',function(event){
                             event.preventDefault();
                             var self  = $(this);
                		appendElementInMain(self);
 		});
-
-                
-		//$(".master").unbind('click').bind('click',function(event){
-                $(".master.cat1").bind('mouseenter',function(event){
-
-                        event.preventDefault();
-
-			
-			var children  = $(this).find($('ul'));
-			if(children.hasClass('opened')){
-				children.hide().removeClass('opened');
 			
 				
-			}else{
+                }else{
 
-			$(".hidden").hide();
-			var self  = $(this);
-			children.addClass('opened');
+                    $(".hidden").hide();
+                    var self  = $(this);
+                    children.addClass('opened');
 
 
-			if($(children).hasClass('hidden')){
-				try
-                                {
-                                    console.log("OK");
-                                }
-                                catch(e)
-                                {
-                                    if (window.console // check for window.console not console
-                                        && window.console.log)
-                                    {
-                                        window.console.log("OK");
-                                    }
+                    if($(children).hasClass('hidden')){
+                        try
+                        {
+                            console.log("OK");
+                        }
+                        catch(e)
+                        {
+                            if (window.console // check for window.console not console
+                                && window.console.log)
+                            {
+                                window.console.log("OK");
+                            }
 
-                                }
-				children.show();
-				children.find('li a').click(function(event){
-						event.preventDefault();
-						appendElementInMain($(this));
-						$(".hidden").hide();
-				});
-			}else{
+                        }
+                        children.show();
+                        children.find('li a').click(function(event){
+                            event.preventDefault();
+                            appendElementInMain($(this));
+                            $(".hidden").hide();
+                        });
+                    }else{
 				
-				appendElementInMain(self.find($('a')));
+                        appendElementInMain(self.find($('a')));
 				
-			}
+                    }
 
-			}
-		});
+                }
+            });
 	
 
-		function appendElementInMain(element){
-			$("#selectBox-dropdown-menu-Category1").hide();
-			$("#selectBox-Category1").show();
-			$("#selectBox-label-Category1").text(element.text());
-			$("#catId1").val(element.data("id"));
+            function appendElementInMain(element){
+                $("#selectBox-dropdown-menu-Category1").hide();
+                $("#selectBox-Category1").show();
+                $("#selectBox-label-Category1").text(element.text());
+                $("#catId1").val(element.data("id"));
 			
-			}
-	});
+            }
+        });	        
+
         
 	$("#selectBox-dropdown-menu-Category2").bind('mouseleave',function(event){
         		$("#selectBox-Category2").show();

@@ -85,7 +85,18 @@ class EventsController extends JO_Action {
                                 $event_data[$k] = $v;
                         }
                 }
+                
+                if ($event_data['user_id'] != "") 
+                {
+                    $this->view->owner = (JO_Session::get('user[user_id]') == $event_data['user_id']);  
+                }
+
             }
+            else
+            {
+                $this->view->owner = true;
+            }
+
             
             $this->view->eventname = '';
             if($request->issetPost('eventname')) {
@@ -173,26 +184,26 @@ class EventsController extends JO_Action {
 
             
             $this->view->cancel = '';
-            if($request->issetPost('cancel')) {
-                    $this->view->cancel = $request->getPost('cancel');
+            if($request->issetPost('delete_event')) {
+                    $this->view->cancel = $request->getPost('delete_event');
             }       
             else if ($event_data)
             {
-                    if (isset($event_data['cancel'])) 
+                    if (isset($event_data['delete_event'])) 
                     {
-                        $this->view->cancel  = $event_data['cancel'];
+                        $this->view->cancel  = $event_data['delete_event'];
                     }
             }
             
             $this->view->cancelReason = '';
-            if($request->issetPost('cancelReason')) {
-                    $this->view->cancelReason = $request->getPost('cancelReason');
+            if($request->issetPost('delete_reason')) {
+                    $this->view->cancelReason = $request->getPost('delete_reason');
             }       
             else if ($event_data)
             {
-                    if (isset($event_data['cancelReason'])) 
+                    if (isset($event_data['delete_reason'])) 
                     {
-                        $this->view->cancelReason  = $event_data['cancelReason'];
+                        $this->view->cancelReason  = $event_data['delete_reason'];
                     }
             }
             
@@ -352,17 +363,18 @@ class EventsController extends JO_Action {
                                 $data['lat'] = $lat;
                                 $data['len'] = $len;
                                 
-				if(Model_Events::createEvent( JO_Session::get('user[user_id]'), $event_id, $data )) {
-					JO_Session::set('successfu_edite', true);
-					$upload->getFileInfo(true);
+				if(Model_Events::createEvent( JO_Session::get('user[user_id]'), $event_id, $data )) 
+                                {
+                                    JO_Session::set('successfu_edite', true);
+                                    $upload->getFileInfo(true);
 
-                $event_data = Model_Events::getEvent(array( 'filter_event_id' => $event_id));
+                                    $event_data = Model_Events::getEvent(array( 'filter_event_id' => $event_id));
 
-                foreach($event_data AS $k=>$v) {
-                        if(isset($event_data[$k])) {
-                                $event_data[$k] = $v;
-                        }
-                }
+                                    foreach($event_data AS $k=>$v) {
+                                            if(isset($event_data[$k])) {
+                                                    $event_data[$k] = $v;
+                                            }
+                                    }
 
 					
 					//$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=events' ) );
@@ -384,9 +396,7 @@ class EventsController extends JO_Action {
                 {
                     $avatar = Helper_Uploadimages::avatar($event_data, '_B');
                     $this->view->avatar = $avatar['image'] . '?s=' . microtime(true);
-                    error_log("Image " . $avatar['image']  . " ". $event_data['avatar']);
                     $this->view->has_avatar = @getimagesize($event_data['avatar']) ? true : false;
-                    error_log ("avatar " . $this->view->avatar . " ". $this->view->has_avatar);
                 }
             //}
             $this->view->form_action = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=upload_avatar' );
@@ -422,7 +432,8 @@ class EventsController extends JO_Action {
                     'filter_location' => $request->getPost('location'),
                     'filter_sport_category' => $request->getPost('sport_category'),
                     'filter_event_date' => $request->getPost('date_event'),
-                    'filter_compartir' => $request->getPost('compartir')
+                    'filter_compartir' => $request->getPost('compartir'),
+                    'filter_delete_event' => '1'
                 );
 
                 $events = Model_Events::getEvents($dataEvents);
@@ -462,6 +473,7 @@ class EventsController extends JO_Action {
                         $this->view->events .= $view->render('boxEvent', 'events');
                         
                     }
+                    $this->view->search_add = true;
                     $this->view->eventos = $events;
                     $this->view->class_contaner = 'persons';
                 }
@@ -598,7 +610,8 @@ class EventsController extends JO_Action {
                     'filter_sport_category' => $request->getPost('sport_category'),
                     'filter_event_date1' => $request->getPost('date_event1'),
                     'filter_event_date2' => $request->getPost('date_event2'),
-                    'filter_compartir' => $request->getPost('compartir')
+                    'filter_compartir' => $request->getPost('compartir'),
+                    'filter_delete_event' => '1'
                 );
 
                 $events = Model_Events::getEvents($dataEvents);
@@ -635,6 +648,8 @@ class EventsController extends JO_Action {
                         //$view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=boxeventdetail&event_id=' . $event['event_id']);
                         $view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
                         $this->view->from_url = WM_Router::create( $request->getBaseUrl() . '?controller=addpin&action=fromurl' );
+                        
+                        $this->view->successfu_edite = false;
                         
                         $view->event = $event;
                         $this->view->eventsBox .= $view->render('boxEvent', 'events');
@@ -695,6 +710,7 @@ class EventsController extends JO_Action {
                         $this->view->eventsBox .= $view->render('boxEvent', 'events');
                         
                     }
+                    $this->view->successfu_edite = false;                    
                     $this->view->eventos = $events;
                     $this->view->class_contaner = 'persons';
                 }
@@ -736,6 +752,10 @@ class EventsController extends JO_Action {
 			$this->forward('error', 'error404');
 		}
                 
+                 if ($request->getRequest('comment'))
+                 {
+                     $this->view->comment = true;
+                 }
                 
                 if ($events)
                 {
@@ -867,7 +887,7 @@ class EventsController extends JO_Action {
 				'limit' => 10,
 				'sort' => 'DESC',
 				'order' => 'history_id',
-                                'filter_history_action' => Model_History::FOLLOW_EVENT
+                                'filter_history_action' => Model_History::LIKE_EVENT
 			));
 			$model_images = new Helper_Images();
 			foreach($history AS $key => $data) {
@@ -877,7 +897,6 @@ class EventsController extends JO_Action {
 				$avatar = Helper_Uploadimages::avatar($data['user'], '_A');
 				$history[$key]['user']['avatar'] = $avatar['image'];
 
-				//if($data['history_action'] == Model_History::REPIN) 
                                 $history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['from_user_id']);
 			}
 			$this->view->history = $history;
@@ -894,7 +913,7 @@ class EventsController extends JO_Action {
 		$this->view->url_email = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=email&event_id=' . $event_id );
 		$this->view->url_comment = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
                 /*
-                $this->view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event_id . '&user_id=' . $user_id);                
+                $this->view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event_id . '&userio_id=' . $user_id);                
                 $this->view->eventIsFollow = Model_Events::isFollowEvent($event_id, $user_id);
                  * */
 
@@ -1644,7 +1663,7 @@ class EventsController extends JO_Action {
         if ((int) JO_Session::get('user[user_id]'))
         {
 
-            $user_id = $request->getRequest('user_id');
+            $user_id = $request->getRequest('userio_id');
             $event_id = $request->getRequest('event_id');
 
 
@@ -1655,7 +1674,7 @@ class EventsController extends JO_Action {
                         $result = Model_Events::UnFollowEvent($event_id, $user_id);
                         if ($result)
                         {
-                            $this->view->ok = $this->translate('Follow');
+                            $this->view->ok = $this->translate('Seguir evento');
                             $this->view->classs = 'add';
 
                             Model_History::addHistory($user_id, Model_History::UNFOLLOW_EVENT, $event_id);
@@ -1669,7 +1688,7 @@ class EventsController extends JO_Action {
                         $result = Model_Events::FollowEvent($event_id, $user_id);
                         if ($result)
                         {
-                            $this->view->ok = $this->translate('Unfollow');
+                            $this->view->ok = $this->translate('No seguir evento');
                             $this->view->classs = 'remove';
 
                             Model_History::addHistory($user_id, Model_History::FOLLOW_EVENT, $event_id);
@@ -1711,6 +1730,112 @@ class EventsController extends JO_Action {
         }
     }
         
+    public function likeAction()
+    {
+
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+
+        if ((int) JO_Session::get('user[user_id]'))
+        {
+
+            $user_id = $request->getRequest('userio_id');
+            $event_id = $request->getRequest('event_id');
+
+
+                if ($user_id)
+                {
+                    if (Model_Events::isLikeEvent($event_id, $user_id))
+                    {
+                        $result = Model_Events::UnLikeEvent($event_id, $user_id);
+                        if ($result)
+                        {
+                            $this->view->ok = $this->translate('Compartir');
+                            $this->view->classs = 'add';
+
+                            Model_History::addHistory($user_id, Model_History::UNLIKE_EVENT, $event_id);
+                        } else
+                        {
+                            $this->view->error = true;
+                        }
+                    } 
+                    else
+                    {
+                        $result = Model_Events::LikeEvent($event_id, $user_id);
+                        if ($result)
+                        {
+                            $this->view->ok = $this->translate('No compartir');
+                            $this->view->classs = 'remove';
+
+                            Model_History::addHistory($user_id, Model_History::LIKE_EVENT, $event_id);
+
+                            /*
+                            if ($board_info['email_interval'] == 1 && $board_info['follows_email'])
+                            {
+                                $this->view->user_info = $board_info;
+                                $this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
+                                $this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
+                                $this->view->text_email = $this->translate('now follow you');
+
+                                Model_Email::send(
+                                        $board_info['email'], JO_Registry::get('noreply_mail'), JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('follow your'), $this->view->render('follow_user', 'mail')
+                                );
+                            }
+                             * 
+                             */
+                        } else
+                        {
+                            $this->view->error = true;
+                        }
+                    }
+                } else
+                {
+                    $this->view->error = true;
+                }
+        } else
+        {
+            $this->view->location = WM_Router::create($request->getBaseUrl() . '?controller=landing');
+        }
+
+        if ($request->isXmlHttpRequest())
+        {
+            echo $this->renderScript('json');
+        } else
+        {
+            $this->redirect($request->getServer('HTTP_REFERER'));
+        }
+    }
+    
+    function cambiafyh_espanol($fechaH)
+{
+ $traducir_fecha = explode("-",$fechaH);
+ $separaHoras=explode(" ",$traducir_fecha[2]);
+ $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+ return $fecha_espana;
+}
+function cambiafyh_espanolAFecha($fechaH)
+{
+ $traducir_fecha = explode("-",$fechaH);
+ $separaHoras=explode(" ",$traducir_fecha[2]);
+ $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]; 
+ return $fecha_espana;
+}
+function cambiaf_a_mysql($fecha)
+{ 
+    $fecha_espana = $fecha; 
+ $traducir_fecha = explode("/",$fecha_espana); 
+ $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]; 
+ return $fecha_mysql;
+} 
+function cambiafyh_a_mysql($fecha)
+{ 
+    $fecha_espana = $fecha; 
+ $separaHora=explode(" ",$fecha_espana);
+ $traducir_fecha = explode("/",$separaHora[0]); 
+ $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]." ".$separaHora[1]; 
+ return $fecha_mysql;
+}
 }
 
 ?>

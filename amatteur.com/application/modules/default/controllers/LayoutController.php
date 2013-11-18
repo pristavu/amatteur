@@ -239,6 +239,13 @@ class LayoutController extends JO_Action {
 
 		//////////// ALL PINS ////////////
 		$this->view->all_url = WM_Router::create( $request->getBaseUrl() . '?controller=all' );
+
+		//////////// Eventtos ////////////
+		$this->view->events_url = WM_Router::create( $request->getBaseUrl() . '?controller=events' );
+
+		//////////// Volunttarios ////////////
+		$this->view->voluntarios_url = WM_Router::create( $request->getBaseUrl() . '?controller=voluntarios' );
+                
                 
 		////////////////////////////// SEARCH ///////////////////////////
 		

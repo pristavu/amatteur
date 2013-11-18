@@ -287,6 +287,7 @@ class CronsController extends JO_Action {
 				$history['history_follow_total'] = count($history['history_follow']);
 				$history['history_like_total'] = count($history['history_like']);
 				$history['history_repin_total'] = count($history['history_repin']);
+                                $history['history_event_total'] = count($history['history_event']);
 				
 				/////comments
 				if($history['history_comments_total']) {
@@ -332,6 +333,64 @@ class CronsController extends JO_Action {
 						$history['history_repin'][$k]['profile'] = WM_Router::create( $this->view->base_href . '?controller=users&action=profile&user_id=' . $v['user_id'] );
 					}
 				}
+                                ////events
+				if($history['history_event_total']) {
+					foreach($history['history_event'] AS $k => $v) {
+						if(!isset($v['store'])) {
+							continue;
+						}
+						$avatar = Helper_Uploadimages::event($v, '_A');
+						$history['history_event'][$k]['avatar'] = $avatar['image'];
+						$history['history_event'][$k]['profile'] = WM_Router::create( $this->view->base_href . '?controller=users&action=profile&user_id=' . $v['user_id'] );
+					}
+				}
+                                
+                                $this->view->events = array();
+                                $this->view->event = array();
+                                
+                                $dataEvents = array(
+                                    'filter_cron' => $history['user_id']
+                                );
+
+                                $events = Model_Events::getEvents($dataEvents);
+
+                                if ($events)
+                                {
+                                    foreach ($events AS $key => $event)
+                                    {
+                                        $href = "";
+                                        $view = JO_View::getInstance();
+                                        $view->loged = JO_Session::get('user[user_id]');
+                                        $model_images = new Helper_Images();
+
+                                        $avatar = Helper_Uploadimages::avatar($event, '_B');
+                                        $event['avatar'] = $avatar['image'];
+                                        $event['thumbs'] = $avatar['image'];
+
+                                        $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
+
+                                        $data = array(
+                                            'filter_user_id' => $event["user_id"]
+                                        );
+
+                                        $users = Model_Users::getUsers($data);
+                                        if ($users)
+                                        {
+                                            $event['fullname'] = $users[0]["fullname"];
+                                            $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                                            $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                                        }
+
+                                        //$view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=boxeventdetail&event_id=' . $event['event_id']);
+                                        $view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
+
+                                        $this->view->event[] = $event;
+                                        $view->event = $event;
+                                        $this->view->events[] = $view->render('boxEvent', 'events');
+
+                                    }
+                                }
+                                
 			
 				/* PINS */
 				$likes = Model_History::getHistory(array(

@@ -184,7 +184,7 @@ class Apiv1Controller extends JO_Action
             $validate = new Helper_Validate();
             $validate->_set_rules($request->getRequest('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
             $validate->_set_rules($request->getRequest('firstname'), $this->translate('First name'), 'not_empty;min_length[3];max_length[100]');
-            $validate->_set_rules($request->getRequest('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
+            //$validate->_set_rules($request->getRequest('lastname'), $this->translate('Last name'), 'not_empty;min_length[3];max_length[100]');
             $validate->_set_rules($request->getRequest('email'), $this->translate('Email'), 'not_empty;min_length[5];max_length[100];email');
             $validate->_set_rules($request->getRequest('password'), $this->translate('Password'), 'not_empty;min_length[4];max_length[30]');
             $validate->_set_rules($request->getRequest('password2'), $this->translate('Confirm password'), 'not_empty;min_length[4];max_length[30]');
@@ -212,22 +212,139 @@ class Apiv1Controller extends JO_Action
             {
                 $reg_key = sha1($request->getRequest('email') . $request->getRequest('username'));
 
+                $lat = $request->getPost('lat');
+                $len = $request->getPost('len');
+
+                while (Model_Users::getUsersLatLen($lat, $len))
+                {
+
+                    $posLat = strpos($lat, ".");
+                    $longLat = strlen(substr((string) $lat, $posLat));
+                    $cantLat = 0;
+                    for ($i = 0; $i < ($longLat - 4); $i++)
+                    {
+                        if ($i == 0)
+                        {
+                            $cantLat .= ".0";
+                        } else
+                        {
+                            $cantLat .= "0";
+                        }
+                    }
+                    $cantLat .= "1";
+                    $lat = $lat + $cantLat;
+
+                    $posLen = strpos($len, ".");
+                    $longLen = strlen(substr((string) $len, $posLen));
+                    $cantLen = 0;
+                    for ($i = 0; $i < ($longLen - 4); $i++)
+                    {
+                        if ($i == 0)
+                        {
+                            $cantLen .= ".0";
+                        } else
+                        {
+                            $cantLen .= "0";
+                        }
+                    }
+                    $cantLen .= "1";
+                    $len = $len + $cantLen;
+                }
+
+
                 $result = Model_Users::create(array(
-                            'username' => $request->getRequest('username'),
-                            'firstname' => $request->getRequest('firstname'),
-                            'lastname' => $request->getRequest('lastname'),
-                            'email' => $request->getRequest('email'),
-                            'password' => $request->getRequest('password'),
+                            'username' => $request->getPost('username'),
+                            'firstname' => $request->getPost('firstname'),
+                            'lastname' => $request->getPost('lastname'),
+                            'email' => $request->getPost('email'),
+                            'password' => $request->getPost('password'),
                             'delete_email' => isset($shared_content['email']) ? $shared_content['email'] : '',
                             'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
                             'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
                             'facebook_id' => isset($shared_content['facebook_id']) ? $shared_content['facebook_id'] : 0,
+                            'location' => $request->getPost('location'),
+                            'sport_category_1' => $request->getPost('sport_category_1'),
+                            'sport_category_2' => $request->getPost('sport_category_2'),
+                            'sport_category_3' => $request->getPost('sport_category_3'),
+                            'type_user' => $request->getPost('type_user'),
+                            'lat' => $lat,
+                            'len' => $len,
                             'confirmed' => '0',
                             'regkey' => $reg_key
                         ));
 
+
                 if ($result)
                 {
+                    
+                    for ($i = 0; $i <= $request->getPost('locationcounter'); $i++)
+                    {
+                        $location = 'location' . $i;
+                        $lat = 'lat' . $i;
+                        $len = 'len' . $i;
+                        if ($request->issetPost($location))
+                        {
+                            if ($request->getPost($location) != "")
+                            {
+                                        $lat = $request->getPost($lat);
+                                        $len = $request->getPost($len);
+
+                                        while (Model_Users::getLocationUsersLatLen($lat, $len))
+                                        {
+                                            $posLat = strpos($lat, ".");
+                                            $longLat = strlen(substr((string) $lat, $posLat));
+                                            $cantLat = 0;
+                                            for ($x = 0; $x < ($longLat - 4); $x++)
+                                            {
+                                                if ($x == 0)
+                                                {
+                                                    $cantLat .= ".0";
+                                                } else
+                                                {
+                                                    $cantLat .= "0";
+                                                }
+                                            }
+                                            $cantLat .= "1";
+                                            $lat = $lat + $cantLat;
+
+                                            $posLen = strpos($len, ".");
+                                            $longLen = strlen(substr((string) $len, $posLen));
+                                            $cantLen = 0;
+                                            for ($y = 0; $y < ($longLen - 4); $y++)
+                                            {
+                                                if ($y == 0)
+                                                {
+                                                    $cantLen .= ".0";
+                                                } else
+                                                {
+                                                    $cantLen .= "0";
+                                                }
+                                            }
+                                            $cantLen .= "1";
+                                            $len = $len + $cantLen;
+                                        }
+                                        if (Model_Users::createUsersLocation($result, $request->getPost($location), $lat, $len))
+                                        {
+                                            
+                                        }
+                            }
+                        }
+                    }
+                    for ($i = 0; $i < 350; $i++)
+                    {
+                        //option1
+                        if ($request->issetPost('option' . $i))
+                        {
+                            $this->view->successfu_edite = false;
+                            $sport = $request->getPost('option' . $i);
+                            if (Model_Users::createUsersSports($result, $sport))
+                            {
+                                $this->view->successfu_edite = true;
+                            }
+                        }
+                    }
+                    
+
                     if (self::sendMail($result))
                     {
                         //self::loginInit($result);
@@ -2102,7 +2219,7 @@ class Apiv1Controller extends JO_Action
         if ($request->isPost())
         {
         $session = $request->getPost('facebook_id');
-error_log("facebook id " . $session . " " .  $request->getPost('username') . " " . $request->getPost('firstname')." ".  $request->getPost('lastname'));
+//error_log("facebook id " . $session . " " .  $request->getPost('username') . " " . $request->getPost('firstname')." ".  $request->getPost('lastname'));
 
             $validate = new Helper_Validate();
             $validate->_set_rules($request->getPost('username'), $this->translate('Username'), 'not_empty;min_length[3];max_length[100];username');
@@ -2117,19 +2234,19 @@ error_log("facebook id " . $session . " " .  $request->getPost('username') . " "
                 if( md5($request->getPost('password')) != md5($request->getPost('password2')) ) {
                         $validate->_set_form_errors( $this->translate('Password and Confirm Password should be the same') );
                         $validate->_set_valid_form(false);
-error_log("ERROR PASSS ". $request->getPost('password') . " " . $request->getPost('password2') );                        
+//error_log("ERROR PASSS ". $request->getPost('password') . " " . $request->getPost('password2') );                        
                 }
                 if (Model_Users::isExistEmail($request->getPost('email')))
                 {
                     $validate->_set_form_errors($this->translate('This e-mail address is already used'));
                     $validate->_set_valid_form(false);
-error_log("ERROR MAIL ". $request->getPost('email'));
+//error_log("ERROR MAIL ". $request->getPost('email'));
                 }
                 if (Model_Users::isExistUsername($request->getPost('username')))
                 {
                     $validate->_set_form_errors($this->translate('This username is already used'));
                     $validate->_set_valid_form(false);
-error_log("ERROR USER ". $request->getPost('username'));
+//error_log("ERROR USER ". $request->getPost('username'));
                 }
             }
 
@@ -2170,17 +2287,17 @@ error_log("ERROR USER ". $request->getPost('username'));
                         //self::loginInit($result);
                     };
                     $return = array('id' => $result); //['user_id']); 
-error_log("SIN ERROR ". $result);
+//error_log("SIN ERROR ". $result);
                 } 
                 else
                 {
                     $return = array('error' => 3, 'description' => $this->translate('There was a problem with the record. Please try again!'));
-error_log("ERROR 3 ");
+//error_log("ERROR 3 ");
                 }
             } else
             {
                 $return = array('error' => 4, 'description' => str_replace("<br />", ". ", $validate->_get_error_messages()));
-error_log("ERROR 4 " . str_replace("<br />", ". ", $validate->_get_error_messages()));
+//error_log("ERROR 4 " . str_replace("<br />", ". ", $validate->_get_error_messages()));
             }
         }
 
@@ -2272,12 +2389,12 @@ error_log("2RETURN " . $return);
         {
             
             $id = $_POST['facebook_id'];
-error_log("facebook ID ".$id);
+//error_log("facebook ID ".$id);
 
             $user_data = WM_Users::checkLoginFacebookTwitter($id, 'facebook');
             if ($user_data)
             {
-error_log("USER ". $user_data['user_id'] . " " . $user_data['username']);
+//error_log("USER ". $user_data['user_id'] . " " . $user_data['username']);
                 JO_Session::set(array('user' => $user_data));
                 JO_Session::clear('fb_login');
 
@@ -2308,21 +2425,21 @@ error_log("USER ". $user_data['user_id'] . " " . $user_data['username']);
                     'avatar' => '');
                 */
                 
-error_log("ERROR 13 ");                
+//error_log("ERROR 13 ");                
             }
         }
 
         if ($callback)
         {
             $return = $callback . '(' . JO_Json::encode($return) . ')';
-error_log("1RETURN " . $return);                        
+//error_log("1RETURN " . $return);                        
         } else
         {
             $response->addHeader('Cache-Control: no-cache, must-revalidate');
             $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
             $response->addHeader('Content-type: application/json; charset=utf-8');
             $return = JO_Json::encode($return);
-error_log("2RETURN " . $return);            
+//error_log("2RETURN " . $return);            
         }
 
         $response->appendBody($return);
@@ -2511,6 +2628,112 @@ error_log("2RETURN " . $return);
         $response->appendBody($return);
     }
 
+    //====== sports ====//
+    public function sportsAction()
+    {
+        //echo"entrando";
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        $return = array();
+
+        //////////// Categories ////////////
+        $categorias = array();
+        //$this->view->category_active = false;
+        //array('id' => $result['user_id']); // $user_data;
+        $categories = Model_Categories::getCategories(array(
+                    'filter_status' => 1
+                ));
+
+        
+        foreach ($categories as $category)
+        {
+            $category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+            $categorias[] = $category;
+        }
+        
+        $return = array($categorias);
+        
+        
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json; charset=utf-8');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }
+    
+    //====== userTypes ====//
+    public function usertypesAction()
+    {
+        //echo"entrando";
+        $this->noViewRenderer(true);
+
+        $request = $this->getRequest();
+        $response = $this->getResponse();
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+
+        $callback = $request->getRequest('callback');
+        if (!preg_match('/^([a-z0-9_.]{1,})$/', $callback))
+        {
+            $callback = false;
+        }
+
+        $return = array();
+
+        //////////// User Type ////////////
+        $user_tipos = array();
+        $user_types = Model_Users::getUserType(array(
+                    'filter_status' => 1
+                ));
+
+        foreach ($user_types as $user_type)
+        {
+            $user_type['subuser_types'] = Model_Users::getSubUserType($user_type['user_type_id']);
+            $user_tipos[] = $user_type;
+        }
+        
+        $return = array($user_tipos);
+
+        if ($callback)
+        {
+            $return = $callback . '(' . JO_Json::encode($return) . ')';
+        } else
+        {
+            $response->addHeader('Cache-Control: no-cache, must-revalidate');
+            $response->addHeader('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+            $response->addHeader('Content-type: application/json; charset=utf-8');
+            $return = JO_Json::encode($return);
+        }
+
+        $response->appendBody($return);
+    }    
 }
 
 ?>

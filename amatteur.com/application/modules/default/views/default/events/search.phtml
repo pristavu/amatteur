@@ -1,7 +1,7 @@
 <?php echo $this->header_part; ?>
 <body onLoad="GLoad();" >
 
-                    <div style="margin-top:90px;margin-left:200px;position:relative"></div>
+                    <div style="margin-top:90px;margin-left:200px;position:relative;width: auto;padding: 0px">
                     <label style="font-size: 2.8em;
 font-weight: 300;
 line-height: 1em;
@@ -10,15 +10,15 @@ float:left;">
                     <image src="data/images/event_calendar.png" >&nbsp;
                     <strong><?php echo $this->translate('Buscar Evento Deportivo ');?> </strong>
                     </label>		
-</div>
+                </div>
 
     
             <?php if ($this->all) { ?>
     
-                <div id="mapa" style="width: 1000px; height: 400px;margin-top:190px;margin-left:200px"></div>
+                <div id="mapa" style="width: 1000px; height: 400px;margin-top:210px;margin-left:200px"></div>
                 <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
 
-	<div id="" style="padding-top: 0px ! important;width:1025px ! important">    
+	<div id="panelsearch" style="padding-top: 0px ! important;width:1025px ! important; padding-left: 160px">    
             
             
             
@@ -138,7 +138,7 @@ float:left;">
                     <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
                     <br/>
                     <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
-                    <div id="container" style="margin-left:0px">
+                    <div id="container" style="margin-left:400px">
                         <?php echo $this->eventsBox;?>
                     </div>
                 <?php } ?>                

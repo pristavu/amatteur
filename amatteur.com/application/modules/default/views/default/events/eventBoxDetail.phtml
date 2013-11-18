@@ -1,21 +1,112 @@
+<body onload="scrollComment();"> 
+
 <?php if($this->popup) { ?>
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = "//connect.facebook.net/es_ES/all.js#xfbml=1";
+    fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<script type="text/javascript">
+window.___gcfg = {
+    lang: 'es-ES'
+};
+
+(function() {
+    var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;
+    po.src = 'https://apis.google.com/js/plusone.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+})();
+</script>
+
 
 <div class="buttonswrapper">
 	<div id="buttons">
-		<ul>
-			<li class="fb-like-button"></li>
-			<?php /* ?> 
-			<li><a id="share-fb">11111</a></li>
-			<?php */ ?>
-			<li><a href="<?php echo $this->pin_url;?>" class="tweet" title="<?php echo $this->translate('Tweet');?>"><span><?php echo $this->translate('Tweet');?></span></a></li>
-			<li><a href="<?php echo $this->url_embed;?>" class="embed" title="<?php echo $this->translate('Embed');?>"><span><?php echo $this->translate('Embed');?></span></a></li>
-			<?php if(!$this->pin['pinIsReported']) { ?>
-			<li><a href="<?php echo $this->url_report;?>" class="report" title="<?php echo $this->translate('Report Pin');?>"><span><?php echo $this->translate('Report Pin');?></span></a></li>
-			<?php } ?>
-			<?php if($this->loged) { ?>
-			<li><a href="<?php echo $this->url_email;?>" class="email" title="<?php echo $this->translate('Email');?>"><span><?php echo $this->translate('Email');?></span></a></li>
-			<?php } ?>
-		</ul>
+                <ul>
+                    <li>
+                        <div class="fb-like" data-href="http://www.amatteur.com" data-layout="button-count" data-action="like" data-show-faces="true" data-share="false"></div>
+                    </li>
+                    <li>
+                        <div class="fb-share-button" data-href="<?php echo $this->pin_url; ?>" data-type="button_count"></div>                                    
+                    </li>
+
+                    <li>
+                        <div class="g-plusone" data-size="tall" data-annotation="none" ></div>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->pin_url; ?>" class="tweet" title="<?php echo $this->translate('Tweet'); ?>"><span><?php echo $this->translate('Tweet'); ?></span></a>
+                    </li>
+                    <li>
+                        <a href="<?php echo $this->url_embed; ?>" class="embed" title="<?php echo $this->translate('Embed'); ?>"><span><?php echo $this->translate('Embed'); ?></span></a>
+                    </li>
+                    <?php if (!$this->pin['pinIsReported'])
+                    { ?>
+                        <li>
+                            <a href="<?php echo $this->url_report; ?>" class="report" title="<?php echo $this->translate('Report Pin'); ?>"><span><?php echo $this->translate('Report Pin'); ?></span></a>
+                        </li>
+                    <?php } ?>
+                    <?php if ($this->loged)
+                    { ?>
+                        <li>
+                            <a href="<?php echo $this->url_email; ?>" class="email" title="<?php echo $this->translate('Email'); ?>"><span><?php echo $this->translate('Email'); ?></span></a>
+                        </li>
+                        <?php } ?>
+
+                    <li>
+
+                        <?php /* if($this->follow_event) { ?>
+                          <div class="action">
+                          <a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong>
+                          </a>
+                          </div>
+                          <?php } */ ?>
+
+
+                        <div id="container" style="top:-100px">                            
+                            <?php if ($this->history)
+                            { ?>
+                                <div class="feed box">
+                                    <div class="left-corner">
+                                        <div class="bottom-corner">
+                                            <div class="right-corner">
+                                                <div class="preview" style="overflow: auto;height: 300px">
+                                                    
+                                                    <label style="font-size: 0.8em;font-weight: 300;line-height: 1em;color:#0061A5;"> <?php echo $this->translate('¿Piensas asistir?') ?></span>
+
+                                                    <div class="action">
+                                                            <a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong><span></span>
+                                                            </a>
+                                                    </div>
+
+                                                    <label for="black" style="color:#0061A5;float:left;"><h2><?php echo $this->translate('Se han apuntado'); ?></h2></label>
+
+                                                    <?php foreach ($this->history AS $history)
+                                                    { ?>
+                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 180px;padding-left: 15px;white-space: normal">
+                                                            <span class="profile">
+                                                                <img src="<?php echo $history['user']['avatar']; ?>" alt="<?php echo $history['user']['fullname']; ?>">
+                                                            </span>
+                                                            <strong><?php echo $history['user']['fullname']; ?></strong> <?php echo $history['text_type']; ?>
+                                                            <span class="colorlight" title="<?php echo $history['date_added']; ?>">
+                                                            <?php echo sprintf($this->translate('%d %s ago'), $history['date_dif']['value'], $this->translate($history['date_dif']['key'])); ?>
+                                                            </span>
+                                                        </a>
+                                                    <?php } ?>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            <?php } ?>
+
+                        </div>                       
+                    </li>
+                </ul>     
 	</div>
 </div>
 
@@ -26,7 +117,7 @@
 		<?php } ?>
 		
 		<div class="info">
-			<div class="title">
+			<div class="title" style="height:100px">
                             <p>
                                                 <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:left;"> 
                     <image src="data/images/event_calendar.png" >&nbsp;<strong><?php echo $this->translate('Evento Deportivo ');?> </strong></label>		
@@ -35,10 +126,18 @@
                             </p>
 
                             			
-                            <div class="box2" style="margin-left:80%">
-                                <?php if ($this->loged) { ?>                    
-                                <span class="selected"><a id="editEvent" href="<?php echo $this->editEvent_url ?>" class="Button RedButton addEvent " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Editar');?></a></span>
-                                <span class="selected"><a id="share" href="<?php echo $this->share_url ?>" class="Button RedButton search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Compartir');?></a></span>
+                            <div class="box2" style="margin-left:70%;padding: 4px;margin-top:-16px">
+                                <?php if ($this->loged) { ?>    
+                                                    <div class="action">                                
+                                    <?php if ($this->owner) { ?>                                                    
+                                        <span class="selected"><a id="editEvent" href="<?php echo $this->editEvent_url ?>" class="Button RedButton addEvent" style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Editar');?></a></span>
+                                    <?php } ?>                    
+
+                                                            <a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsLike?' gray':'');?>" href="<?php echo $this->like_event;?>"><strong><?php echo ($this->eventIsLike ? $this->translate('Ya no comparto') : $this->translate('Compartir') );?></strong><span></span>
+                                                            </a>
+                                                    </div>
+                                        
+                                <!--span class="selected"><a id="share" href="<?php echo $this->share_url ?>" class="Button RedButton search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Compartir');?></a></span-->
                                 <?php } ?>                    
                             </div>
 
@@ -46,19 +145,21 @@
 				<!--p class="avatar">
 					<img src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['eventname'];?>" />
 				</p-->
-				<div class="left">
+				<div class="left" style="float:right;border-top:10px;padding: 7px;border-color: #e2e2e2;border-style: solid;border-width: 1px">
 					<h3>
-						<!--a href="<?php // echo $this->author['profile'];?>"><?php echo $this->author['fullname'];?></a-->
+						<!--a href="<?php // echo $this->author['profile'];?>"><?php //echo $this->author['fullname'];?></a-->
 						<?php /*if($this->replin_info) { ?>
 						<?php echo $this->translate('via');?> 
 						<a onclick="target='_blank'" href="<?php echo $this->replin_info['profile'];?>"><?php echo $this->replin_info['fullname'];?></a>
 						<?php }*/ ?>
+                                            <label style="font-size: 0.8em;font-weight: 300;line-height: 1em;color:#0061A5;"> <?php echo $this->translate('¿Piensas asistir?') ?></span>
 					</h3>
- 		<div class="action">
-			<a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong><span></span>
-                        </a>
-                </div>
                                     
+                                        <div class="action">
+                                                <a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong><span></span>
+                                                </a>
+                                        </div>
+
 					<?php /*if($this->source) { ?>
 					<?php if(!$this->popup) { ?>
 					<?php if($this->pin['pinmarklet']) { ?>
@@ -83,7 +184,7 @@
 				</p>
 				<?php } */ ?>
 			</div>
-			
+
 			<div class="view">
 			
 				<?php /*if($this->prev_navigation_pin || $this->next_navigation_pin) { ?>
@@ -232,7 +333,6 @@
                                     </div>
                                 </div>
                                 <div style="display:table-row;padding: 0px">
-                                    
                                 </div>
 			</div>
                                     <div class="commentslist">
@@ -412,13 +512,33 @@
 </div>
 <?php } ?>
 
+</body>        
+        
 <script type="text/javascript">
+
+function scrollComment() {
+    $(document).ready(function(){
+
+
+        <?php if($this->comment) { ?>
+
+        var target_offset = $('#comment').offset();
+        $('html, body').animate({scrollTop:target_offset.top}, 1000);
+
+        <?php } ?>
+
+    });
+    
+}
+
 
 $(document).ready(function(){
 
+//share
 
 
 	<?php if($this->popup) { ?>
+                
                 
         $("#fancybox-wrap").wrap('<div class="pin-overlay" />');
 
@@ -436,6 +556,7 @@ $(document).ready(function(){
         
         $('#pin .closePop').click(function(){
 		$.fancybox.close();
+                $(".pin-overlay").remove();
 	});
 	<?php } ?>
 	
