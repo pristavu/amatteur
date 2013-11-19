@@ -41,9 +41,9 @@ window.___gcfg = {
                     <li>
                         <a href="<?php echo $this->pin_url; ?>" class="tweet" title="<?php echo $this->translate('Tweet'); ?>"><span><?php echo $this->translate('Tweet'); ?></span></a>
                     </li>
-                    <li>
+                    <!--li>
                         <a href="<?php echo $this->url_embed; ?>" class="embed" title="<?php echo $this->translate('Embed'); ?>"><span><?php echo $this->translate('Embed'); ?></span></a>
-                    </li>
+                    </li-->
                     <?php if (!$this->pin['pinIsReported'])
                     { ?>
                         <li>
@@ -67,7 +67,7 @@ window.___gcfg = {
                           <?php } */ ?>
 
 
-                        <div id="container" style="top:-100px">                            
+                        <div id="contenedor">    
                             <?php if ($this->history)
                             { ?>
                                 <div class="feed box">
@@ -84,7 +84,7 @@ window.___gcfg = {
                                                             <span class="profile">
                                                                 <img src="<?php echo $history['user']['avatar']; ?>" alt="<?php echo $history['user']['fullname']; ?>">
                                                             </span>
-                                                            <strong><?php echo $history['user']['fullname']; ?></strong> <?php echo $history['text_type']; ?>
+                                                            <p><strong style="float:left"><?php echo $history['user']['fullname']; ?></strong> <?php //echo $this->translate("Se ha apuntado"); ?></p>  
                                                             <span class="colorlight" title="<?php echo $history['date_added']; ?>">
                                                             <?php echo sprintf($this->translate('%d %s ago'), $history['date_dif']['value'], $this->translate($history['date_dif']['key'])); ?>
                                                             </span>

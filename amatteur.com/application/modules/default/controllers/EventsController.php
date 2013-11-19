@@ -289,7 +289,7 @@ class EventsController extends JO_Action {
 			$validate->_set_rules($request->getPost('organiza'), $this->translate('Organiza'), 'not_empty;min_length[3];max_length[100]');
 			$validate->_set_rules($request->getPost('date_event'), $this->translate('Fecha y Hora'), 'not_empty;min_length[5];max_length[100]');
                         $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');                                        
-                        $validate->_set_rules($request->getPost('description'), $this->translate('Detalles'), 'not_empty;min_length[3];max_length[100]');
+                        $validate->_set_rules($request->getPost('description'), $this->translate('Detalles'), 'not_empty;min_length[3];max_length[200]');
                         $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
 
 			
@@ -365,7 +365,7 @@ class EventsController extends JO_Action {
                                 
 				if(Model_Events::createEvent( JO_Session::get('user[user_id]'), $event_id, $data )) 
                                 {
-                                    JO_Session::set('successfu_edite', true);
+                                    //JO_Session::set('successfu_edite', true);
                                     $upload->getFileInfo(true);
 
                                     $event_data = Model_Events::getEvent(array( 'filter_event_id' => $event_id));
@@ -376,6 +376,8 @@ class EventsController extends JO_Action {
                                             }
                                     }
 
+                                    $this->view->successfu_edite = true;
+                                    $this->view->user_events = WM_Router::create($request->getBaseUrl() . '?controller=users&action=events&user_id=' . JO_Session::get('user[user_id]'));
 					
 					//$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=events' ) );
 				} else {
@@ -438,6 +440,7 @@ class EventsController extends JO_Action {
 
                 $events = Model_Events::getEvents($dataEvents);
 
+                $numeroEventos = 0;
                 if ($events)
                 {
                     foreach ($events AS $key => $event)
@@ -472,10 +475,12 @@ class EventsController extends JO_Action {
                         $view->event = $event;
                         $this->view->events .= $view->render('boxEvent', 'events');
                         
+                        $numeroEventos++;
                     }
                     $this->view->search_add = true;
                     $this->view->eventos = $events;
                     $this->view->class_contaner = 'persons';
+                    $this->view->numeroEventos = $numeroEventos;
                 }
          
 
@@ -618,6 +623,7 @@ class EventsController extends JO_Action {
 
                 if ($events)
                 {
+                    $i=0;
                     foreach ($events AS $key => $event)
                     {
                         $this->view->all = false;
@@ -631,6 +637,9 @@ class EventsController extends JO_Action {
 
                         $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
                         
+                        $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
+                        $href = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
+                        
                         $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                             'limit' => JO_Registry::get('config_front_limit'),
@@ -641,8 +650,8 @@ class EventsController extends JO_Action {
                         if ($users)
                         {
                             $event['fullname'] = $users[0]["fullname"];
-                            $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
-                            $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                            $event['hrefuser'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                            //$href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
                         }
                         
                         //$view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=boxeventdetail&event_id=' . $event['event_id']);
@@ -654,8 +663,12 @@ class EventsController extends JO_Action {
                         $view->event = $event;
                         $this->view->eventsBox .= $view->render('boxEvent', 'events');
                         
+                        $events[$i]["href"] = $href;
+                        $eventsTot[] = $events[$i];
+                        $i++;
                     }
-                    $this->view->eventos = $events;
+
+                    $this->view->eventos = $eventsTot;
                     $this->view->class_contaner = 'persons';
                 }
                 else
@@ -676,6 +689,7 @@ class EventsController extends JO_Action {
 
                 if ($events)
                 {
+                    $i=0;
                     foreach ($events AS $key => $event)
                     {
                         $this->view->all = true;                        
@@ -689,6 +703,9 @@ class EventsController extends JO_Action {
 
                         $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
                         
+                        $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
+                        $href = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
+                        
                         $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                             'limit' => JO_Registry::get('config_front_limit'),
@@ -699,8 +716,8 @@ class EventsController extends JO_Action {
                         if ($users)
                         {
                             $event['fullname'] = $users[0]["fullname"];
-                            $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
-                            $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                            $event['hrefuser'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                            //$href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
                         }
                         
                         //$view->boxeventdetail = WM_Router::create($request->getBaseUrl() . '?controller=events&action=boxeventdetail&event_id=' . $event['event_id']);
@@ -709,9 +726,14 @@ class EventsController extends JO_Action {
                         $view->event = $event;
                         $this->view->eventsBox .= $view->render('boxEvent', 'events');
                         
+                        $events[$i]["href"] = $href;
+                        $eventsTot[] = $events[$i];
+                        $i++;
                     }
+
+                        
                     $this->view->successfu_edite = false;                    
-                    $this->view->eventos = $events;
+                    $this->view->eventos = $eventsTot;
                     $this->view->class_contaner = 'persons';
                 }
                 else
@@ -799,6 +821,19 @@ class EventsController extends JO_Action {
                             $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $events['user_id']);
                         }
                         
+                        
+                        if(JO_Session::get('user[user_id]')) {
+                                $events['url_like'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event_id );
+                                $events['url_repin'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=repin&event_id=' . $event_id );
+                                $events['url_comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
+                                $events['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
+                                $events['edit'] = JO_Session::get('user[user_id]') == $user_id ? WM_Router::create( $request->getBaseUrl() . '?controller=events&action=events&event_id=' . $event_id ) : false;
+                        } else {
+                                $events['url_like'] = $events['url_repin'] = $events['url_comment'] = $events['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=landing' );
+                                $events['edit'] = false;
+                        }
+                        
+                        
                         $view->event = $events;
                         //$this->view->events .= $view->render('boxEventDetail', 'events');
                         //$this->view->events .= $view->render('pinboxdetail', 'events');
@@ -882,12 +917,10 @@ class EventsController extends JO_Action {
 		
 		
 		if(!$request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
-			$history = Model_History::getHistory(array(
-				'start' => 0,
-				'limit' => 10,
-				'sort' => 'DESC',
-				'order' => 'history_id',
-                                'filter_history_action' => Model_History::LIKE_EVENT
+			$history = Model_Events::getTotalFollow(array(
+				'sort' => 'ASC',
+				'order' => 'date_added',
+                                'filter_event_id' => $event_id
 			));
 			$model_images = new Helper_Images();
 			foreach($history AS $key => $data) {
@@ -897,7 +930,7 @@ class EventsController extends JO_Action {
 				$avatar = Helper_Uploadimages::avatar($data['user'], '_A');
 				$history[$key]['user']['avatar'] = $avatar['image'];
 
-                                $history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['from_user_id']);
+                                $history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['user_id']);
 			}
 			$this->view->history = $history;
 		}
@@ -905,17 +938,25 @@ class EventsController extends JO_Action {
                 
                 
 		$this->view->show_buttonswrapper = true;
-		
-		$this->view->url_like = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event_id );
+
+                $this->view->url_like = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event_id );
 		$this->view->url_tweet = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=eventboxdetail&event_id=' . $event_id );
 		$this->view->url_embed = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=embed&event_id=' . $event_id );
 		$this->view->url_report = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=report&event_id=' . $event_id );
 		$this->view->url_email = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=email&event_id=' . $event_id );
 		$this->view->url_comment = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
-                /*
-                $this->view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event_id . '&userio_id=' . $user_id);                
-                $this->view->eventIsFollow = Model_Events::isFollowEvent($event_id, $user_id);
-                 * */
+
+                $view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event_id );
+		
+		//$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
+                
+                $view->like_event = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event_id . '&userio_id=' . $user_id); 
+                $view->eventIsLike = Model_Events::isLikeEvent($event_id, JO_Session::get('user[user_id]'));
+                
+                $view->editEvent_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=add?event_id=' . $event_id );
+                
+                $view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event_id . '&userio_id=' . $user_id); 
+                $view->eventIsFollow = Model_Events::isFollowEvent($event_id, JO_Session::get('user[user_id]'));
 
 
                 
@@ -941,94 +982,7 @@ class EventsController extends JO_Action {
 		
 	}        
         
-        public function boxeventdetailActionNOSEUSA(){
-            
-            
-		
-		$request = $this->getRequest();
-		
-		$this->view->popup_main_box = $this->view->render('boxeventdetail','events');
-		
-		
-            
-
-
-
-            $page = (int) $request->getRequest('page');
-            if ($page < 1)
-            {
-                $page = 1;
-            }
-
-                $dataEvents = array(
-                    'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                    'limit' => JO_Registry::get('config_front_limit'),
-                    'filter_event_id' => $request->getRequest('event_id')
-                );
-
-                $events = Model_Events::getEvents($dataEvents);
-
-                if ($events)
-                {
-                    foreach ($events AS $key => $event)
-                    {
-                        $href = "";
-                        $view = JO_View::getInstance();
-                        $view->loged = JO_Session::get('user[user_id]');
-                        $model_images = new Helper_Images();
-
-                        $avatar = Helper_Uploadimages::avatar($event, '_D');
-                        $event['thumb'] = $avatar['image'];
-                        $event['avatar'] = $avatar['image'];
-			$event['popup'] = $avatar['image'];
-			$event['popup_width'] = $avatar['width'];
-			$event['popup_height'] = $avatar['height'];
-			$event['original_image'] = $avatar['original'];
-                        
-
-                        $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
-                        
-                        $data = array(
-                            'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
-                            'limit' => JO_Registry::get('config_front_limit'),
-                            'filter_user_id' => $event["user_id"]
-                        );
-
-                        $users = Model_Users::getUsers($data);
-                        if ($users)
-                        {
-                            $event['fullname'] = $users[0]["fullname"];
-                            $event['desctiption'] = $users[0]["description"];
-                            $avataruser = Helper_Uploadimages::avatar($users[0], '_B');
-                            $event['avataruser'] = $avataruser['image'];
-                           
-                            
-                            $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
-                            $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
-                        }
-                        
-                        $view->event = $event;
-                        //$this->view->events .= $view->render('boxEventDetail', 'events');
-                        //$this->view->events .= $view->render('pinboxdetail', 'events');
-                        
-                    }
-                    $this->view->eventos = $events;
-                    $this->view->class_contaner = 'persons';
-                }
-         
-		if($request->isXmlHttpRequest()) {
-			$this->noViewRenderer(true);
-			echo $this->view->popup_main_box;
-		} else {
-			$this->view->children = array(
-	        	'header_part' 	=> 'layout/header_part',
-	        	'footer_part' 	=> 'layout/footer_part',
-	        	'left_part' 	=> 'layout/left_part'
-	        );
-		}
-                
-        }
-        
+       
 	public function upload_avatarAction(){
 		
 		$request = $this->getRequest();
@@ -1418,7 +1372,7 @@ class EventsController extends JO_Action {
 			$this->redirect( $request->getServer('HTTP_REFERER') );
 		}
 	}	
-	
+        
 	public function reportAction() {
 		
 		$request = $this->getRequest();
@@ -1456,21 +1410,21 @@ class EventsController extends JO_Action {
 			$this->view->is_posted = true;
 			
 			if(Model_Events::eventIsReported($request->getRequest('event_id'))) {
-				$this->view->error = $this->translate('You are already reported this event!');
+				$this->view->error = $this->translate('Ya has denunciado este evento!');
 				$this->view->events_details = $this->view->render('report','events');
 			} else {
 			
 				$result = Model_Events::reportEvent( $request->getRequest('event_id'), $request->getPost('report_category'), $request->getPost('report_message') );
 				if(!$result) {
-					$this->view->error = $this->translate('Error reporting experience. Try again!');
+					$this->view->error = $this->translate('Error denunciando el evento. Intentalo de nuevo!');
 					$this->view->events_details = $this->view->render('report','events');
 				} else {
 				    if(JO_Registry::get('not_rp')) {
     		    			Model_Email::send(
     				    	  	JO_Registry::get('report_mail'),
     				    	 	JO_Registry::get('noreply_mail'),
-    				    	   	$this->translate('New reported evetn'),
-    				    	  	$this->translate('Hello, there is new reported event in ').' '.JO_Registry::get('site_name')
+    				    	   	$this->translate('Nuevo evento denunciado'),
+    				    	  	$this->translate('Hola, existe un nuevo evento denunciado en ').' '.JO_Registry::get('site_name')
     				    	 );
 		    			}
 					$terms = Model_Pages::getPage( JO_Registry::get('page_terms') );
@@ -1501,7 +1455,68 @@ class EventsController extends JO_Action {
 	        );
 		}
 	}
+
+        public function totalLikeAction() {
+		$request = $this->getRequest();
+                
+                $event_id = $request->getRequest('event_id');
 	
+                if($request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
+			$history = Model_Events::getTotalLike(array(
+				'sort' => 'ASC',
+				'order' => 'date_added',
+                                'filter_event_id' => $event_id
+			));
+			$model_images = new Helper_Images();
+			foreach($history AS $key => $data) {
+				if(!isset($data['user']['store'])) {
+					continue;
+				}
+				$avatar = Helper_Uploadimages::avatar($data['user'], '_A');
+				$history[$key]['user']['avatar'] = $avatar['image'];
+
+                                $history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['user_id']);
+			}
+			$this->view->history = $history;
+		}
+		if($request->isXmlHttpRequest()) {
+			echo $this->renderScript('json');
+		} else {
+			$this->redirect( $request->getServer('HTTP_REFERER') );
+		}
+	}	
+        
+        
+        public function totalFollowAction() {
+		$request = $this->getRequest();
+                
+                $event_id = $request->getRequest('event_id');
+	
+                if($request->isXmlHttpRequest() && JO_Session::get('user[user_id]')) {
+			$history = Model_Events::getTotalFollow(array(
+				'sort' => 'ASC',
+				'order' => 'date_added',
+                                'filter_event_id' => $event_id
+			));
+			$model_images = new Helper_Images();
+			foreach($history AS $key => $data) {
+				if(!isset($data['user']['store'])) {
+					continue;
+				}
+				$avatar = Helper_Uploadimages::avatar($data['user'], '_A');
+				$history[$key]['user']['avatar'] = $avatar['image'];
+
+                                $history[$key]['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $data['user_id']);
+			}
+			$this->view->history = $history;
+		}
+		if($request->isXmlHttpRequest()) {
+			echo $this->renderScript('json');
+		} else {
+			$this->redirect( $request->getServer('HTTP_REFERER') );
+		}
+	}	
+        
 	public function embedAction() {
 		
 		$request = $this->getRequest();
@@ -1674,7 +1689,7 @@ class EventsController extends JO_Action {
                         $result = Model_Events::UnFollowEvent($event_id, $user_id);
                         if ($result)
                         {
-                            $this->view->ok = $this->translate('Seguir evento');
+                            $this->view->ok = $this->translate('Me apunto!');
                             $this->view->classs = 'add';
 
                             Model_History::addHistory($user_id, Model_History::UNFOLLOW_EVENT, $event_id);
@@ -1688,7 +1703,7 @@ class EventsController extends JO_Action {
                         $result = Model_Events::FollowEvent($event_id, $user_id);
                         if ($result)
                         {
-                            $this->view->ok = $this->translate('No seguir evento');
+                            $this->view->ok = $this->translate('Ya no me apunto');
                             $this->view->classs = 'remove';
 
                             Model_History::addHistory($user_id, Model_History::FOLLOW_EVENT, $event_id);

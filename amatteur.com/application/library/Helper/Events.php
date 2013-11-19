@@ -120,7 +120,7 @@ class Helper_Events {
                     $event['avataruser'] = $avataruser['image'];
 
 
-                    //$event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
+                    $event['userHref'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
                     $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
                 }
                         
@@ -182,6 +182,9 @@ class Helper_Events {
 			}
 		}
 		
+                $view->get_user_friends = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=friends' );
+                $view->totalFollow = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=totalFollow' );
+                
                 // no se pa que vale
                 /*
 		$view->via = array();
@@ -368,12 +371,12 @@ class Helper_Events {
 		
 		$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
                 
-                $view->like_event = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event['event_id'] . '&userio_id=' . JO_Session::get('user[user_id]')); 
+                $view->like_event = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event['event_id'] . '&userio_id=' . $event['user_id'] ); 
                 $view->eventIsLike = Model_Events::isLikeEvent($event['event_id'], JO_Session::get('user[user_id]'));
                 
                 $view->editEvent_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=add?event_id=' . $event['event_id']  );
                 
-                $view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event['event_id'] . '&userio_id=' . JO_Session::get('user[user_id]')); 
+                $view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event['event_id'] . '&userio_id=' . $event['user_id'] ); 
                 $view->eventIsFollow = Model_Events::isFollowEvent($event['event_id'], JO_Session::get('user[user_id]'));
 
 		

@@ -25,7 +25,7 @@ window.___gcfg = {
 </script>
 
 
-<div class="buttonswrapper">
+<!--div class="buttonswrapper">
 	<div id="buttons">
                 <ul>
                     <li>
@@ -41,7 +41,7 @@ window.___gcfg = {
                     <li>
                         <a href="<?php echo $this->pin_url; ?>" class="tweet" title="<?php echo $this->translate('Tweet'); ?>"><span><?php echo $this->translate('Tweet'); ?></span></a>
                     </li>
-                    <li>
+                    <!--li>
                         <a href="<?php echo $this->url_embed; ?>" class="embed" title="<?php echo $this->translate('Embed'); ?>"><span><?php echo $this->translate('Embed'); ?></span></a>
                     </li>
                     <?php if (!$this->pin['pinIsReported'])
@@ -67,7 +67,7 @@ window.___gcfg = {
                           <?php } */ ?>
 
 
-                        <div id="container" style="top:-100px">                            
+                        <div id="contenedor" >     
                             <?php if ($this->history)
                             { ?>
                                 <div class="feed box">
@@ -108,14 +108,14 @@ window.___gcfg = {
                     </li>
                 </ul>     
 	</div>
-</div>
+</div-->
 
 <div id="pin" class="popuppin">
 	<div class="box boxlarge">
     	<a class="closePop"></a>
             
 		<?php } ?>
-		
+        
 		<div class="info">
 			<div class="title" style="height:100px">
                             <p>
@@ -128,167 +128,38 @@ window.___gcfg = {
                             			
                             <div class="box2" style="margin-left:70%;padding: 4px;margin-top:-16px">
                                 <?php if ($this->loged) { ?>    
-                                                    <div class="action">                                
+                                    <div class="action">                                
                                     <?php if ($this->owner) { ?>                                                    
                                         <span class="selected"><a id="editEvent" href="<?php echo $this->editEvent_url ?>" class="Button RedButton addEvent" style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Editar');?></a></span>
                                     <?php } ?>                    
 
-                                                            <a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsLike?' gray':'');?>" href="<?php echo $this->like_event;?>"><strong><?php echo ($this->eventIsLike ? $this->translate('Ya no comparto') : $this->translate('Compartir') );?></strong><span></span>
-                                                            </a>
-                                                    </div>
+                                        <a id="comparto" class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsLike?' gray':'');?>" href="<?php echo $this->like_event;?>"><strong><?php echo ($this->eventIsLike ? $this->translate('Ya no comparto') : $this->translate('Compartir') );?></strong><span></span>
+                                        </a>
+                                    </div>
                                         
-                                <!--span class="selected"><a id="share" href="<?php echo $this->share_url ?>" class="Button RedButton search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Compartir');?></a></span-->
+
                                 <?php } ?>                    
                             </div>
 
                             
-				<!--p class="avatar">
-					<img src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['eventname'];?>" />
-				</p-->
 				<div class="left" style="float:right;border-top:10px;padding: 7px;border-color: #e2e2e2;border-style: solid;border-width: 1px">
 					<h3>
-						<!--a href="<?php // echo $this->author['profile'];?>"><?php //echo $this->author['fullname'];?></a-->
-						<?php /*if($this->replin_info) { ?>
-						<?php echo $this->translate('via');?> 
-						<a onclick="target='_blank'" href="<?php echo $this->replin_info['profile'];?>"><?php echo $this->replin_info['fullname'];?></a>
-						<?php }*/ ?>
                                             <label style="font-size: 0.8em;font-weight: 300;line-height: 1em;color:#0061A5;"> <?php echo $this->translate('¿Piensas asistir?') ?></span>
 					</h3>
                                     
                                         <div class="action">
-                                                <a class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong><span></span>
+                                                <a id="apunto" class="Button13 Button WhiteButton Tab following follow-red<?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong><span></span>
                                                 </a>
                                         </div>
 
-					<?php /*if($this->source) { ?>
-					<?php if(!$this->popup) { ?>
-					<?php if($this->pin['pinmarklet']) { ?>
-					<p class="time"><?php echo sprintf($this->translate('Pinned %d %s ago via'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?> <a <?php echo ($this->target_repin?'onclick="target=\'_blank\'"':'');?> href="<?php echo $this->pin['pinmarklet_href'];?>"><strong><?php echo $this->translate('pinmarklet');?></strong></a></p>
-					<?php } else { ?>
-					<p class="time"><?php echo sprintf($this->translate(($this->pin['repin_from'] ? 'Repinned' : 'Pinned').' %d %s ago'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?> </p>
-					<?php } ?>
-					<?php } else { ?>
-					<p class="time"><?php echo sprintf($this->translate(($this->pin['repin_from'] ? 'Repinned' : 'Pinned').' %d %s ago from'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?> <a <?php echo ($this->target_repin?'onclick="target=\'_blank\'"':'');?> href="<?php echo $this->pin['from'];?>"><?php echo $this->source['source'];?></a></p>
-					<?php } ?>
-					<?php } else { ?>
-					<p class="time"><?php echo sprintf($this->translate('Uploaded %d %s ago'), $this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?></p>
-					<?php }*/ ?>
 				</div>
-				<?php /* if($this->loged && !$this->pin['userFollowIgnore']) { ?>
-				<p class="follow">
-					<?php if($this->pin['userIsFollow']) { ?>
-					<a class="gray" href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Ya no me apunto');?></a>
-					<?php } else { ?>
-					<a href="<?php echo $this->follow_user;?>"><?php echo $this->translate('Me apunto!');?></a>
-					<?php } ?>
-				</p>
-				<?php } */ ?>
 			</div>
 
 			<div class="view">
 			
-				<?php /*if($this->prev_navigation_pin || $this->next_navigation_pin) { ?>
-				<div class="prev_next">
-					<?php if($this->next_navigation_pin) { ?>
-					<a href="<?php echo $this->next_navigation_pin;?>" class="next_navigation_pin"><!--img src="data/images/bt_atras.png" height="32px" width="32px" /--></a>
-					<?php } ?>
-					<?php if($this->prev_navigation_pin) { ?>
-					<a href="<?php echo $this->prev_navigation_pin;?>" class="prev_navigation_pin"><!--img src="data/images/bt_siguiente.png" height="32px" width="32px" /--></a>
-					<?php } ?>
-					<div class="clear"></div>
-				</div>
-				<?php } */?>
-			
-				<?php /*$isNotPopup = ""; ?>
-				<?php if(!$this->popup) { ?>
-             <!--  <div class="iconsStatic">
-                    <div class="source">
-                    	<?php if($this->source) { ?>
-						<p><?php echo $this->translate('From');?> <a onclick="target='_blank'" href="<?php echo $this->pin['from'];?>"><strong><?php echo $this->source['source'];?></strong></a></p>
-						<?php } else { ?>
-						<p><a onclick="target='_blank'" href="<?php echo $this->author['profile'];?>"><strong><?php echo $this->translate('Uploaded by');?> <?php echo $this->author['fullname'];?></strong></a></p>
-						<?php } ?>
-					</div>
-					<div class="ics">
-                        <a href="<?php echo $this->pin['url_repin'];?>" class="repin<?php echo (!$this->loged ? ' login' : '');?>" title="<?php echo $this->translate('Repin');?>"><span><?php echo $this->translate('Repin');?></span></a> 
-                        <?php if($this->pin['edit']) { ?>
-                        <a href="<?php echo $this->pin['edit'];?>" class="edit login" title="<?php echo $this->translate('Edit');?>"><span><?php echo $this->translate('Edit');?></span></a> 
-                        <?php } else { ?>
-                        <a href="<?php echo $this->pin['url_like'];?>" class="like<?php echo (!$this->loged ? ' login' : ($this->pin['liked'] ? ' disabled' : '') );?>"><span><?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?></span></a> 
-                        <?php } ?>
-                    </div>
-				</div> -->
-					<ul class='c_icons_small_pb'>
-					<li>
-						<a href='<?php echo $this->pin['url_repin'];?>' class='repin <?php echo (!$this->loged ? ' login' : ' silverbox');?>' title="<?php echo $this->translate('Repin');?>">
-							<span  class='anim repinIcon'></span>
-							<span class='text'><?php echo strtoupper($this->translate('Repin'));?></span>
-							<span class='roundedImage'></span>
-						</a>
-					</li>
-					<li>
-						<?php if($this->pin['edit']){?>
-						<a href='<?php echo  $this->pin['edit'];?>' class='edit login <?php echo (!$this->loged ? ' login' : '');?>' title="<?php echo $this->translate('Edit');?>">
-							<span  class='anim editIcon'></span>
-							<span class='text'><?php echo strtoupper($this->translate('Edit'));?></span>
-							<span class='roundedImage'></span>
-						</a>
-						<?php }else{?>
-						<a href='<?php echo  $this->pin['url_like'];?>' class="like<?php echo (!$this->loged ? ' login' : ($this->pin['liked'] ? ' disabled' : '') );?>"  title="<?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?>">
-							<span  class='anim likeIcon'></span>
-							<span class='text'><?php echo strtoupper($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?></span>
-							<span class='roundedImage'></span>
-						</a>
-						<?php }?>
-					</li>
-					
-				</ul>
-                <?php $isNotPopup = 1; }*/ ?>
-                <div class="photo">
-					<?php /*if($isNotPopup != 1) { ?>
-                  <!--  <p class="icons">
-						<a href="<?php echo $this->pin['url_repin'];?>" class="repin<?php echo (!$this->loged ? ' login' : ' silverbox');?>" title="<?php echo $this->translate('Repin');?>"><span><?php echo $this->translate('Repin');?></span></a> 
-						<?php if($this->pin['edit']) { ?>
-						<a href="<?php echo $this->pin['edit'];?>" class="edit login" title="<?php echo $this->translate('Edit');?>"><span><?php echo $this->translate('Edit');?></span></a> 
-						<?php } else { ?>
-						<a href="<?php echo $this->pin['url_like'];?>" class="like<?php echo (!$this->loged ? ' login' : ($this->pin['liked'] ? ' disabled' : '') );?>"><span><?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?></span></a> 
-						<?php } ?>
-					</p> -->
-					
-						<ul class='c_icons_small_pb'>
-					<li>
-						<a href='<?php echo $this->pin['url_repin'];?>' class='repin <?php echo (!$this->loged ? ' login' : ' silverbox');?>' title="<?php echo $this->translate('Repin');?>">
-							<span  class='anim repinIcon'></span>
-							<span class='text'><?php echo strtoupper($this->translate('Repin'));?></span>
-							<span class='roundedImage'></span>
-						</a>
-					</li>
-					<li>
-						<?php if($this->pin['edit']){?>
-						<a href='<?php echo  $this->pin['edit'];?>' class='edit login <?php echo (!$this->loged ? 'login' : '');?>' title="<?php echo $this->translate('Edit');?>">
-							<span  class='anim editIcon'></span>
-							<span class='text'><?php echo strtoupper($this->translate('Edit'));?></span>
-							<span class='roundedImage'></span>
-						</a>
-						<?php }else{?>
-						<a href='<?php echo  $this->pin['url_like'];?>' class="like<?php echo (!$this->loged ? ' login' : ($this->pin['liked'] ? ' disabled' : '') );?>"  title="<?php echo ($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?>">
-							<span  class='anim likeIcon'></span>
-							<span class='text'><?php echo strtoupper($this->pin['liked']?$this->translate('Unlike'):$this->translate('Like'));?></span>
-							<span class='roundedImage'></span>
-						</a>
-						<?php }?>
-					</li>
-				
-				</ul>
-                    <?php }*/ ?>
+                                <div class="photo">
 					<p>
-						<?php /*if($this->event['from']) { ?>
-							<a onclick="target='_blank'" href="<?php echo $this->event['from'];?>">
-								<img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
-							</a>
-						<?php } else*/ { ?>
-							<img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
-						<?php } ?>
+                                                <img width="<?php echo $this->event['popup_width'];?>" height="<?php echo $this->event['popup_height'];?>" data-original="<?php echo $this->event['popup'];?>" src="<?php echo $this->event['thumb'];?>" alt="Image" />
 					</p>
 				</div>
 				
@@ -327,9 +198,12 @@ window.___gcfg = {
                                 </div>
                                 <div style="display:table-row;padding: 0px">
                                     <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> </span> </div>
-                                    <div style="display:table-cell;padding: 15px"><img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
-                                        <div style="display:table-cell;padding: 0px">
-                                        <?php echo $this->event['fullname'];?>
+                                    <div style="display:table-cell;padding: 15px">
+                                        <a href="<?php echo $this->event['userHref'];?>">
+                                            <img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
+                                            <div style="display:table-cell;padding: 0px">
+                                            <?php echo $this->event['fullname'];?>
+                                        </a>    
                                     </div>
                                 </div>
                                 <div style="display:table-row;padding: 0px">
@@ -391,120 +265,11 @@ window.___gcfg = {
 				</div>	
 
                 </div>			
-			<?php /* if($this->pin['onto_board']) { ?>
-			<div class="pinned">
-				<div class="titlebar">
-					<?php if($this->loged && $this->enable_follow) { ?>
-					<p class="follow">
-						<?php if($this->pin['boardIsFollow']) { ?>
-						<a class="boardF gray" href="<?php echo $this->follow;?>"><?php echo $this->translate('Ya no me apunto');?></a>
-						<?php } else { ?>
-						<a class="boardF" href="<?php echo $this->follow;?>"><?php echo $this->translate('Me apunto!');?></a>
-						<?php } ?>
-					</p>
-					<?php } ?>
-					<h4><?php echo $this->translate('Pinned onto the board');?></h4>
-					<!--h3><a href="<?php //echo $this->pin['onto_board'][0]['href'];?>"><?php //echo $this->pin['onto_board'][0]['board']['title'];?></a></h3-->
-				</div>
-				<ul class="members">
-					<?php foreach($this->pin['onto_board'] AS $key => $pin) { ?>
-					<li<?php echo ($key == (count($this->pin['onto_board'])-1) ? ' class="last"' : '');?>>
-						<a href="<?php echo $pin['href'];?>"><img src="<?php echo $pin['thumb'];?>" alt="Avatar" /></a>
-					</li>
-					<?php } ?>
-				</ul>
-				<div class="clear"></div>
-			</div>
-			<?php } */ ?>
 			
 			<div class="columns">
-				<?php /*if($this->pin['originally_pinned']) { ?>
-				<div class="pinned left">
-					<div class="titlebar">
-						<?php if($this->follow_user_via && $this->loged && !$this->pin['userViaFollowIgnore']) { ?>
-						<?php if($this->follow_user_via != $this->follow_user) { ?>
-						<p class="follow">
-							<?php if($this->pin['userViaIsFollow']) { ?>
-							<a class="gray" href="<?php echo $this->follow_user_via;?>"><?php echo $this->translate('Ya no me apunto');?></a>
-							<?php } else { ?>
-							<a href="<?php echo $this->follow_user_via;?>"><?php echo $this->translate('Me apunto!');?></a>
-							<?php } ?>
-						</p>
-						<?php } ?>
-						<?php } ?>
-				
-						<h4><?php echo $this->translate('Originally pinned by');?></h4>
-						<!--h3><a href="<?php //echo $this->pin['originally_pinned'][0]['href'];?>"><?php //echo $this->pin['originally_pinned'][0]['user']['fullname'];?></a></h3-->
-					</div>
-					<ul class="members">
-						<?php foreach($this->pin['originally_pinned'] AS $key => $pin) { ?>
-						<li<?php echo ($key == (count($this->pin['originally_pinned'])-1) ? ' class="last"' : '');?>>
-							<a href="<?php echo $pin['href'];?>"><img src="<?php echo $pin['thumb'];?>" alt="Avatar" /></a>
-						</li>
-						<?php } ?>
-					</ul>
-					<div class="clear"></div>
-				</div>
-				<?php } ?>
-				<?php if($this->source && $this->pin['source_pins']) { ?>
-				<div class="pinned">
-					<div class="titlebar">
-						<h4><?php echo sprintf($this->translate('Pinned via %s from'), $this->site_name);?></h4>
-						<!--h3 class="source-pins-title"><a href="<?php // echo $this->pin['source_pins'][0]['href'];?>"><?php // echo $this->source['source'];?><span></span></a></h3-->
-					</div>
-					<ul class="members">
-						<?php foreach($this->pin['source_pins'] AS $key => $pin) { ?>
-						<li<?php echo ($key == (count($this->pin['source_pins'])-1) ? ' class="last"' : '');?>>
-							<a href="<?php echo $pin['href'];?>"><img src="<?php echo $pin['thumb'];?>" alt="<?php echo $this->source['source'];?>" /></a>
-						</li>
-						<?php } ?>
-					</ul>
-					<div class="clear"></div>
-				</div>
-				<?php }*/ ?>
 				<div class="clear"></div>
 			</div>
 			
-			<?php /*if($this->pin['likes']) { ?>
-			<div class="likes">
-				<h3><?php echo $this->translate('Likes');?></h3>
-				<ul class="members">
-					<?php foreach($this->pin['likes'] AS $key => $like) { ?>
-					<li<?php echo ($key%10==9?' class="last"':'');?>>
-						<a href="<?php echo $like['href'];?>"><img src="<?php echo $like['avatar'];?>" alt="<?php echo $like['fullname'];?>" /></a>
-					</li>
-					<?php } ?>
-				</ul>
-				<div class="clear"></div>
-				<?php if($this->pin['likes_total']) { ?>
-				<p class="stats"><?php echo sprintf($this->translate('+%d more likes'), $this->pin['likes_total']);?></p>
-				<?php } ?>
-			</div>
-			<?php } ?>
-			
-			<?php if($this->pin['repins']) { ?>
-			<div class="likes repins">
-				<h3><?php echo $this->translate('Repins')?></h3>
-				<ul class="list">
-					<?php foreach($this->pin['repins'] AS $repin) { ?>
-					<li>
-						<p class="avatar">
-							<a href="<?php echo $repin['user']['profile'];?>">
-								<img src="<?php echo $repin['user']['avatar'];?>" alt="<?php echo $repin['user']['fullname'];?>" />
-							</a>
-						</p>
-						<p class="status">
-							<a href="<?php echo $repin['user']['profile'];?>"><?php echo $repin['user']['fullname'];?></a> 
-							<?php echo $this->translate('onto');?> <a href="<?php echo $repin['onto_href'];?>"><?php echo $repin['board'];?></a>
-						</p>
-						<div class="clear"></div>
-					</li>
-					<?php } ?>
-					
-				</ul>
-				<div class="clear"></div>
-			</div>	
-			<?php } */ ?>	
 		</div>
 		
 		<?php if($this->popup) { ?>
@@ -526,6 +291,21 @@ function scrollComment() {
         $('html, body').animate({scrollTop:target_offset.top}, 1000);
 
         <?php } ?>
+            
+            
+        $("#apunto").click(function(){
+            window.location.reload();
+            //totallikesearch();
+        });
+
+	function totallikesearch() {
+                val = '<?php echo $this->event['event_id']; ?>';
+		$.post('<?php echo $this->totallike_url;?>', {event_id: val}, function(data){
+                    alert(data);
+                    $("#contenedor").html(data);
+		},'json');
+	}
+            
 
     });
     

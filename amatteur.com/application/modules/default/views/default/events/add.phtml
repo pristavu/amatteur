@@ -188,6 +188,18 @@ float:left;">
 
             </ul>
 
+            <!-- Search events -->
+            <br/>
+            <div>
+                <label for="black" style="width:800px;font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:left;"><?php echo $this->translate('Ayúdanos a que no se dupliquen los eventos.');?></label>
+                <label for="black" style="width:800px;color:#0061A5;float:left;"><?php echo $this->translate('Por favor, verifica que tu evento no esté ya inscrito, recuerda que puedes añadir datos a eventos ya existentes. Explora los eventos abajo, al abrirse una pestaña nueva, los datos de tu formulario no se perderán. ¡Gracias!');?></label>
+            </div>
+            <br/>
+            <div id="container" style="margin-left:50px;border-top: 20px;">
+                <?php echo $this->events;?>
+            </div>
+            
+                
             <!-- Button -->
             <div class="Submit">
                 <?php if ($this->owner) { ?>
@@ -200,19 +212,6 @@ float:left;">
 
     </div>
             
-    </div>
-    <br/>
-    <div>
-        <label for="black"  style="font-size: 2.8em;
-font-weight: 300;
-line-height: 1em;
-color:#0061A5;
-float:left;"><?php echo $this->translate('Ayúdanos a que no se dupliquen los eventos.');?></label>
-        <label for="black" style="color:#0061A5;float:left;"><?php echo $this->translate('Por favor, verifica que tu evento no esté ya inscrito, recuerda que puedes añadir datos a eventos ya existentes. Explora los eventos abajo, al abrirse una pestaña nueva, los datos de tu formulario no se perderán. ¡Gracias!');?></label>
-    </div>
-    <br/>
-    <div id="container" style="margin-left:50px;border-top: 20px;">
-        <?php echo $this->events;?>
     </div>
     
     
@@ -263,6 +262,11 @@ $(document).ready(function(){
                 val = $("#id_eventname").val();
 		$.post('<?php echo $this->search_json;?>', {eventname: val}, function(data){
                     $("#container").html(data.events);
+                     $(".Submit").css("padding-top", (data.numeroEventos * 150) + "px");
+                    /*$(".Submit").css("padding-top", function(index, value){
+                       var aumento = data.numeroEventos * 137;
+                       return (parseInt(value) + parseInt(aumento)) + "px";
+                    });*/
 		},'json');
 	}
 
@@ -474,6 +478,11 @@ $(document).ready(function(){
 
 	<?php if($this->successfu_edite) { ?>
 	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');
+        var kk = '<?php echo $this->user_events;?>';
+        alert (kk);
+        setTimeout(function () {var href = '<?php echo $this->user_events;?>';
+                                document.location.href=href;
+                                }, 5000);
 	<?php } ?>
 	<?php if($this->error) { ?>
 	Pins.error('<?php echo $this->error;?>');

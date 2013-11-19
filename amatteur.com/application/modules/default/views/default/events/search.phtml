@@ -49,8 +49,8 @@ float:left;">
 
                                         <?php foreach ($this->categories as $category)
                                         { ?>
-                                    <li  class = 'master' style='border:none !important' >
-                                        <a data-id='<?php echo $category['category_id']; ?>' href="" class='' style='color:#AAA;' ><?php echo $category['title'] ?></a>
+                                    <li  class = 'master cat' style='border:none !important' >
+                                        <a data-id='<?php echo $category['category_id']; ?>' href="" class='cats-category' style='color:#AAA;' ><?php echo $category['title'] ?></a>
                                             <?php if ($category['subcategories'])
                                             { ?>
                                             <ul class='subcats hidden'>
@@ -120,7 +120,7 @@ float:left;">
                         <div class="left w335px">
                             <div class="submit" style="padding-top: 0px">
                                 
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px;background: #00538e !important; " type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
                             &nbsp;&nbsp;<!--input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
                             </div>
                         </div>
@@ -223,6 +223,7 @@ function GLoad()
         var fullname = [];
         var avatar = [];
         var href = [];
+        var date_event = [];
 
 
     <?php if ($this->location) { ?>
@@ -231,7 +232,7 @@ function GLoad()
          var i = 1;       
          var len = <?php echo count($this->eventos); ?>;
          
-        <?php foreach($this->users as $user) { ?>
+        <?php foreach($this->eventos as $user) { ?>
             //var location = '<?php echo ($this->location)?>';
             var location = '<?php echo $user["location"];?>';
             //if (location != "")
@@ -243,6 +244,7 @@ function GLoad()
                 lat.push('<?php echo $user["lat"]; ?>');
                 lng.push('<?php echo $user["len"]; ?>');
                 href.push('<?php echo $user["href"]; ?>');
+                date_event.push('<?php echo $user["date_event"]; ?>');
                 
 
                 var geocoder = new google.maps.Geocoder();
@@ -303,7 +305,8 @@ function GLoad()
 
                 lat.push('<?php echo $user["lat"]; ?>');
                 lng.push('<?php echo $user["len"]; ?>');
-                //href.push('<?php //echo $user["href"]; ?>');
+                href.push('<?php echo $user["href"]; ?>');
+                date_event.push('<?php echo $user["date_event"]; ?>');                
         <?php } ?>
             
             colocar();
@@ -381,6 +384,7 @@ function GLoad()
             var fullnameString = fullname[i];
             var avatarString = avatar[i];
             var hrefString = href[i];
+            var dateString = date_event[i];
           
             var contentString = '<div id="contenido">'+
                 '<div id="siteNotice">'+
@@ -389,8 +393,9 @@ function GLoad()
                 fullnameString +
                 '</h2>'+
                 '<div id="bodyContent">'+ 
-                '<p><b></b>' + 
-                locationString + 
+                '<p><b>' + locationString +
+                '</b></p><p>' + 
+                dateString + 
                 '</p>' +
                 '<a href="' + hrefString + '">'+
                 '<p><img src="'+ avatarString + '">' +
@@ -441,10 +446,11 @@ $(document).ready(function(){
 
         
 	$("#selectBox-dropdown-menu-Category").bind('mouseleave',function(event){
-                        $("#selectBox-Category").show();
-                        $("#selectBox-dropdown-menu-Category").hide();
+        		$("#selectBox-Category").show();
+                	$("#selectBox-dropdown-menu-Category").hide();
 
         });
+        
         
 
         $("#selectBox-Category").bind('click',function(event){
@@ -453,16 +459,7 @@ $(document).ready(function(){
             $("#selectBox-Category").hide();
             $("#selectBox-dropdown-menu-Category").show();
 
-                if (!$("#selectBox-Age").is(":visible"))  
-                    {
-        		$("#selectBox-Age").show();
-                	$("#selectBox-dropdown-menu-Age").hide();
-                    }
-                if (!$("#selectBox-Level").is(":visible"))  
-                    {
-        		$("#selectBox-Level").show();
-                	$("#selectBox-dropdown-menu-Level").hide();
-                    }
+   
 
             $(".master").unbind('click').bind('click',function(event){
                 event.preventDefault();
@@ -470,7 +467,12 @@ $(document).ready(function(){
 			
                 var children  = $(this).find($('ul'));
                 if(children.hasClass('opened')){
-                    children.hide().removeClass('opened');
+                    //children.hide().removeClass('opened');
+                $(".cats-category").bind('dblclick',function(event){
+                            event.preventDefault();
+                            var self  = $(this);
+               		appendElementInMain(self);
+		});
 			
 				
                 }else{
@@ -517,7 +519,7 @@ $(document).ready(function(){
                 $("#catId").val(element.data("id"));
 			
             }
-        });	
+        });
 
 	return;
 	

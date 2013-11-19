@@ -6,7 +6,7 @@
 				<div class="preview">
 					<h4 class="title">
 						<span class="icon-holder"></span>
-						<?php echo sprintf($this->translate('Apuntado %s.'), '<a href="'.$this->history['href'].'">'.$this->history['user']['fullname'].'</a>')?>
+						<?php echo sprintf($this->translate('Compartido %s.'), '<a href="'.$this->history['href'].'">'.$this->history['user']['fullname'].'</a>')?>
 						<span><?php echo sprintf($this->translate('%d %s ago'), $this->history['date_dif']['value'], $this->translate($this->history['date_dif']['key']));?></span>
 					</h4>
 				
@@ -19,8 +19,8 @@
 				</div>
 
 				<div class="talcenter">
-					<a href="<?php echo $this->history['follow_event'];?>" class="WhiteButton gray">
-						<?php echo $this->translate($this->history['eventIsFollow']?'Unfollow':'Follow');?>
+					<a href="<?php echo $this->history['like_event'];?>" class="WhiteButton gray">
+						<?php echo $this->translate($this->history['eventIsLike']?'Unlike':'Like');?>
 					</a>
 				</div>
 

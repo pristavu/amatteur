@@ -256,7 +256,7 @@ class Model_Events extends JO_Model {
 		
 		////////////filter
 		if(isset($data['filter_user_id']) && $data['filter_user_id']) {
-			$query->where('event_id in (select event_id from events_following where user_following_id = ?) OR user_id = ?', (string)$data['filter_user_id']);
+			$query->where('event_id in (select event_id from events_following where user_id = ?) OR user_id = ?', (string)$data['filter_user_id']);
 		}
 
                 
@@ -316,6 +316,53 @@ class Model_Events extends JO_Model {
 		return $results;
 	}                
         
+	public static function getTotalLike($data = array()) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$query = $db->select()
+					->from('events_like');
+					
+		if(isset($data['filter_event_id']) && (int)$data['filter_event_id']) {
+			$query->where('event_id = ?', (int)$data['filter_event_id']);
+		}
+					
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		if(isset($data['sort']) && strtolower($data['sort']) == 'asc') {
+			$sort = ' ASC';
+		} else {
+			$sort = ' DESC';
+		}
+		
+		$allow_sort = array(
+			'date_added'
+		);
+		
+		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
+			$query->order($data['order'] . $sort);
+		} else {
+			$query->order('date_added' . $sort);
+		}
+
+//                error_log($query);
+		$results = $db->fetchAll($query); 
+		$data = array();
+		if($results) {
+			foreach($results AS $result) {
+                                $result['user'] = Model_Users::getUser($result['user_id']);
+                                $result['date_dif'] = array_shift( WM_Date::dateDiff($result['date_added'], time()) );
+                                $data[] = $result;
+                        }
+		}
+		return $data;
+		
+	}
+
 	public static function isLikeEvent($event_id, $user_id) {
             /*
 		if($user_id2 === null) {
@@ -347,7 +394,7 @@ class Model_Events extends JO_Model {
 		return $db->fetchOne($query);
 	}
 
-        	public static function LikeEvent($event_id, $user_id) {
+        public static function LikeEvent($event_id, $user_id) {
 		if(!(string)JO_Session::get('user[user_id]')) {
 			return false;
 		}
@@ -418,7 +465,7 @@ class Model_Events extends JO_Model {
 		$uf_id = true;
 		if(!Model_Events::isFollowEvent($event_id, $user_id)) {
 			$db->insert('events_following', array(
-				'user_following_id' => (string)$user_id,
+				'user_id' => (string)$user_id,
                                 'date_added' => new JO_Db_Expr('NOW()'),
 				'event_id' => (string)$event_id
 			));
@@ -448,7 +495,7 @@ class Model_Events extends JO_Model {
 		}
 		$db = JO_Db::getDefaultAdapter();
 		$row = $db->delete('events_following', array(
-			'user_following_id = ?' => (string)$user_id,
+			'user_id = ?' => (string)$user_id,
 			'event_id = ?' => (string)$event_id
 		));
                 /*
@@ -487,14 +534,14 @@ class Model_Events extends JO_Model {
                 	$query = $db->select()
 					->from('events_following', 'COUNT(event_following_id)')
 					->where('event_id = ?', (string)$event_id)
-					->where('user_following_id = ?', (string)$user_id)
+					->where('user_id = ?', (string)$user_id)
 					->limit(1);
                 }
                 else
                 {
         		$query = $db->select()
 					->from('events_following', 'COUNT(event_following_id)')
-					->where('user_following_id = ?', (string)$user_id)
+					->where('user_id = ?', (string)$user_id)
 					->limit(1);
                     
                 }
@@ -512,6 +559,53 @@ class Model_Events extends JO_Model {
 		return $db->fetchAll($query);
 	}
 
+        public static function getTotalFollow($data = array()) {
+		$db = JO_Db::getDefaultAdapter();
+		
+		$query = $db->select()
+					->from('events_following');
+					
+		if(isset($data['filter_event_id']) && (int)$data['filter_event_id']) {
+			$query->where('event_id = ?', (int)$data['filter_event_id']);
+		}
+					
+		if(isset($data['start']) && isset($data['limit'])) {
+			if($data['start'] < 0) {
+				$data['start'] = 0;
+			}
+			$query->limit($data['limit'], $data['start']);
+		}
+		
+		if(isset($data['sort']) && strtolower($data['sort']) == 'asc') {
+			$sort = ' ASC';
+		} else {
+			$sort = ' DESC';
+		}
+		
+		$allow_sort = array(
+			'date_added'
+		);
+		
+		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
+			$query->order($data['order'] . $sort);
+		} else {
+			$query->order('date_added' . $sort);
+		}
+
+//                error_log($query);
+		$results = $db->fetchAll($query); 
+		$data = array();
+                
+		if($results) {
+			foreach($results AS $result) {
+                                $result['user'] = Model_Users::getUser($result['user_id']);
+                                $result['date_dif'] = array_shift( WM_Date::dateDiff($result['date_added'], time()) );
+                                $data[] = $result;
+                        }
+		}
+		return $data;
+		
+	}
         
         public function getEventUser($user_id, $event_id){
 		$db  = JO_Db::getDefaultAdapter();

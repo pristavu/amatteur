@@ -2910,7 +2910,36 @@ class UsersController extends JO_Action
                         $this->view->boards .= $view->render('history/history', 'users');
                         //$view->history['unmessage_user'] = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=likeUser&user_id=' . $view->history['to_user_id'] );
                         //$this->view->boards .= $view->render('history/unmessage_user', 'users');
+                    } elseif ($data['history_action'] == Model_History::FOLLOW_EVENT)
+                    {
+                        $view->history['eventIsFollow'] = Model_Events::isFollowEvent($view->history['pin_id'], $view->history['to_user_id']);
+                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&userio_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['fullname'] = $data['user']['fullname'];
+                        $view->history['avatar'] = $avatar['image'];
+                        $this->view->boards .= $view->render('history/follow_event', 'users');
+                    } elseif ($data['history_action'] == Model_History::UNFOLLOW_EVENT)
+                    {
+                        $view->history['eventIsFollow'] = Model_Events::isFollowEvent($view->history['pin_id'], $view->history['to_user_id']);
+                        $view->history['follow_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&userio_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['fullname'] = $data['user']['fullname'];
+                        $view->history['avatar'] = $avatar['image'];
+                        $this->view->boards .= $view->render('history/unfollow_event', 'users');
+                    } elseif ($data['history_action'] == Model_History::LIKE_EVENT)
+                    {
+                        $view->history['eventIsLike'] = Model_Events::isLikeEvent($view->history['pin_id'], $view->history['to_user_id']);
+                        $view->history['like_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=like&userio_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['fullname'] = $data['user']['fullname'];
+                        $view->history['avatar'] = $avatar['image'];
+                        $this->view->boards .= $view->render('history/like_event', 'users');
+                    } elseif ($data['history_action'] == Model_History::UNLIKE_EVENT)
+                    {
+                        $view->history['eventIsLike'] = Model_Events::isLikeEvent($view->history['pin_id'], $view->history['to_user_id']);
+                        $view->history['like_event'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=like&userio_id=' . $view->history['to_user_id'] . '&event_id=' . $view->history['pin_id']);
+                        $view->history['fullname'] = $data['user']['fullname'];
+                        $view->history['avatar'] = $avatar['image'];
+                        $this->view->boards .= $view->render('history/unlike_event', 'users');
                     }
+
                 }
             }
         }
