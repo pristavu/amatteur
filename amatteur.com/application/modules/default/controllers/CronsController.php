@@ -175,7 +175,8 @@ class CronsController extends JO_Action {
 		
 		$goodies = Model_Pages::getPage( JO_Registry::get('page_goodies') );
 		if($goodies) {
-			$this->view->pin_it = WM_Router::create($this->view->base_href . '?controller=pages&action=read&page_id=' . JO_Registry::get('page_goodies'));
+			//$this->view->pin_it = WM_Router::create($this->view->base_href . '?controller=pages&action=read&page_id=' . JO_Registry::get('page_goodies'));
+                    $this->view->pin_it = 'http://amatteur.com/apps';
 		}
 		
 		$this->view->pages = array();

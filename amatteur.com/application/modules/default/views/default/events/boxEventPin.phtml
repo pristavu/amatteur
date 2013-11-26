@@ -1,11 +1,10 @@
-<div class="  <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: auto;min-height: 150px;border-width: 0px;border-color: #cccaca; border-style: solid;">
+<div class="box<?php echo $this->history_action;?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: auto;border-width: 0px;border-color: #cccaca; border-style: solid;background-color: white">
     <!--a style="background-image: url(<?php echo $this->event['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->event['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->event['href'];?>">
 					<img style="height:110px;width:110px;" data-original="<?php echo $this->event['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->event['fullname'];?>" />
 				</a>
 			</p-->
-
             <div class="PersonInfo">
                 <div style="display:table">
                     <div style="display:table-cell;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 2px;width:390px">                            
@@ -14,15 +13,7 @@
                                     <h2><?php echo $this->event['eventname'];?></h2>
                                 </div>
                         </div>
-                        <div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <?php if ($this->event['delete_event'] == '1') { ?>
-                                    <div style="width:auto;">
-                                        <label for="evento_cancelado" style="color:red;font-size: 1em"><?php echo $this->translate('Este evento ha sido cancelado por: ');?></label>&nbsp;<label for="evento_cancelado" style="color:silver;font-size: 1em"><?php echo $this->event['delete_reason'];?></label>
-                                    </div>    
-                                    <?php } ?>
-                                </div>
-                        </div>
+
                         <div style="display:table" >
                             <div style="display:table-row">
                                 <div style="display:table-cell">
@@ -30,29 +21,25 @@
                                 <div style="display:table-cell">
                                     <?php echo $this->event['organiza'];?></p>
                                 </div>
-                            </div>
-                            <div style="display:table-row">
+                            </div><div style="display:table-row">
                                 <div style="display:table-cell">
                                     <p class="location colorless"><?php echo $this->translate('');?> </div>
                                 <div style="display:table-cell">
                                     <?php echo $this->event['location'];?></p>
                                 </div>
-                            </div>
-                            <div style="display:table-row">
+                            </div><div style="display:table-row">
                                 <div style="display:table-cell">
                                     <p class="location colorless"><?php echo $this->translate('');?> </div>
                                 <div style="display:table-cell">
                                     <?php echo $this->event['date_event'];?></p>
                                 </div>
-                            </div>
-                            <div style="display:table-row">                                
+                            </div><div style="display:table-row">                                
                                 <div style="display:table-cell">
                                     <p class="location colorless"><?php echo $this->translate('');?> </div>
                                 <div style="display:table-cell">
                                      <?php echo $this->event['website'];?></p> 
                                 </div>
-                            </div>
-                            <div style="display:table-row">
+                            </div><div style="display:table-row">
                                 <div style="display:table-cell">
                                     <p class="location colorless"><?php echo $this->translate('Publicado por: ');?> </div>
                                 <div style="display:table-cell">

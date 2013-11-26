@@ -47,7 +47,7 @@ class Model_Upload_Locale extends Model_Upload_Abstract {
 	
 	public static function deletePinImage($pin_info) {
 		$model_image = new Helper_Images();
-		$model_image->deleteImages($pin_info['image'], true);
+		//$model_image->deleteImages($pin_info['image'], true);
 	}
 	
 	public static function uploadPin($image, $title = '', $id = 0) {
@@ -160,7 +160,7 @@ class Model_Upload_Locale extends Model_Upload_Abstract {
 	
 	public static function deleteUserImage($user_info) {
 		$model_image = new Helper_Images();
-		$model_image->deleteImages($user_info['avatar'], true);
+		//$model_image->deleteImages($user_info['avatar'], true);
 	}
 
 	public static function getUserImage($user, $prefix = null) {
@@ -253,7 +253,7 @@ class Model_Upload_Locale extends Model_Upload_Abstract {
 	
 	public static function deleteEventImage($user_info) {
 		$model_image = new Helper_Images();
-		$model_image->deleteImages($user_info['avatar'], true);
+		//$model_image->deleteImages($user_info['avatar'], true);
 	}
 
 	public static function getEventImage($user, $prefix = null) {

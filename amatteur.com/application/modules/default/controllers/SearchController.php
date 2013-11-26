@@ -598,6 +598,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_image' => 1,
+                                    'filter_search' => 1,                                    
                                     'filter_description' => $query,
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
@@ -608,6 +609,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_image' => 1,
+                                    'filter_search' => 1,                                    
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
@@ -632,6 +634,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_video' => 1,
+                                    'filter_search' => 1,                                    
                                     'filter_description' => $query,
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
@@ -642,6 +645,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_video' => 1,
+                                    'filter_search' => 1,                                    
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
@@ -665,6 +669,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'allow_gifts' => true,
+                                    'filter_search' => 1,                                    
                                     'filter_description' => $query,
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
@@ -675,6 +680,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'allow_gifts' => true,
+                                    'filter_search' => 1,                                    
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
                             }
@@ -698,6 +704,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_article' => 1,
+                                    'filter_search' => 1,                                    
                                     'filter_description' => $query,
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
@@ -708,6 +715,7 @@ class SearchController extends JO_Action
                                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                                     'limit' => JO_Registry::get('config_front_limit'),
                                     'filter_is_article' => 1,
+                                    'filter_search' => 1,                                    
                                     'filter_category_id' => $request->getRequest('sport_category_1') != "" ? $request->getRequest('sport_category_1') : null
                                 );
 
@@ -928,14 +936,22 @@ class SearchController extends JO_Action
             {
                 $this->view->error = $this->translate("La búsqueda no ha devuelto resultados");
             }
+            
+        }
+
+        if ($request->isXmlHttpRequest())
+        {
+            echo $this->view->pins;
+            $this->noViewRenderer(true);
+        } else
+        {
+            $this->view->children = array(
+                'header_part' => 'layout/header_part',
+                'footer_part' => 'layout/footer_part'
+            );
         }
 
 
-
-        $this->view->children = array(
-            'header_part' => 'layout/header_part',
-            'footer_part' => 'layout/footer_part'
-        );
     }
 
     public function MAXactivatedAction()

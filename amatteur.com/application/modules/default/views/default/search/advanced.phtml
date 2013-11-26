@@ -1305,12 +1305,12 @@ $(".option6").change(function() {
 			
                 var children  = $(this).find($('ul'));
                 if(children.hasClass('opened')){
-                    //children.hide().removeClass('opened');
-                $(".cats-category1").bind('dblclick',function(event){
-                            event.preventDefault();
-                            var self  = $(this);
-               		appendElementInMain(self);
-		});
+                    children.hide().removeClass('opened');
+                    $(".cats-category1").bind('dblclick',function(event){
+                                event.preventDefault();
+                                var self  = $(this);
+                            appendElementInMain(self);
+                    });
 			
 				
                 }else{
@@ -1492,12 +1492,12 @@ $(".option6").change(function() {
                         
 			var children  = $(this).find($('ul'));
 			if(children.hasClass('opened')){
-				//children.hide().removeClass('opened');
-                $(".cats-category1").bind('click',function(event){
-                            event.preventDefault();
-                            var self  = $(this);
-               		appendElementInMain(self);
-		});
+				children.hide().removeClass('opened');
+                                $(".cats-category1").bind('click',function(event){
+                                            event.preventDefault();
+                                            var self  = $(this);
+                                        appendElementInMain(self);
+                                });
 				
 			}else{
 

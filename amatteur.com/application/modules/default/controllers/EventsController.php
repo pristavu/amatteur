@@ -376,9 +376,14 @@ class EventsController extends JO_Action {
                                             }
                                     }
 
+                                    if ($this->view->cancel)
+                                    {
+                                        self::sendMail($event_id);
+                                    }
+                                    
                                     $this->view->successfu_edite = true;
                                     $this->view->user_events = WM_Router::create($request->getBaseUrl() . '?controller=users&action=events&user_id=' . JO_Session::get('user[user_id]'));
-					
+
 					//$this->redirect( WM_Router::create( $request->getBaseUrl() . '?controller=events' ) );
 				} else {
 					$this->view->error = $this->translate('There was a problem with the record. Please try again!');
@@ -414,6 +419,50 @@ class EventsController extends JO_Action {
             );
 	}
 	
+        private function sendMail($eventId)
+        {
+            //$this->noViewRenderer(true);
+            //$this->noLayout(true);
+            $dataEvents = array(
+                'filter_event_id' => $eventId
+            );
+
+            $events = Model_Events::getEvents($dataEvents);
+            if ($events)
+            {
+                foreach ($events AS $key => $event)
+                {
+                    $dataFollowEvents = array(
+                        'filter_event_id' => $eventId
+                    );
+                    
+                    $followEvents = Model_Events::getFollowers($dataFollowEvents);
+                    if ($followEvents)
+                    {
+                        foreach ($followEvents AS $key => $followEvent)
+                        {
+
+                            $user = Model_Users::getUser($followEvent['user_id']);
+
+                            $body = "Hola " . $user['username'] . "! <br /> El evento " . $event['eventname'] . " ha sido cancelado por la razón: " . $event['delete_reason'] . ".<br/>";
+                            //var_dump($user);
+                            $to = $user['email'];
+                            $from = JO_Registry::forceGet('noreply_mail');
+                            $title = "amatteur - Evento " . $event['eventname'] . " cancelado ";
+
+
+                            if (Model_Email::send($to, $from, $title, $body))
+                            {
+                                //$this->redirect(WM_Router::create(JO_Request::getInstance()->getBaseUrl()."?controller=users&action=verificationRequired"));
+                                //return true;
+                            }
+                        }
+                    }
+                }
+            }
+
+        }
+        
         public function search2Action(){
             
             $request = $this->getRequest();
@@ -443,6 +492,7 @@ class EventsController extends JO_Action {
                 $numeroEventos = 0;
                 if ($events)
                 {
+                    $this->view->events = "<div id='boxero'>";
                     foreach ($events AS $key => $event)
                     {
                         $href = "";
@@ -477,6 +527,7 @@ class EventsController extends JO_Action {
                         
                         $numeroEventos++;
                     }
+                    $this->view->events .= "</div>";
                     $this->view->search_add = true;
                     $this->view->eventos = $events;
                     $this->view->class_contaner = 'persons';
@@ -500,6 +551,11 @@ class EventsController extends JO_Action {
             
             $this->view->search_action = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=search' );            
 
+            $event_data = Model_Users::getUser( JO_Session::get('user[user_id]') );
+
+            $this->view->user_data = $event_data;
+            
+            
         //////////// Categories ////////////
         $this->view->categories = array();
         $categories = Model_Categories::getCategories(array(
@@ -812,7 +868,7 @@ class EventsController extends JO_Action {
                         if ($users)
                         {
                             $events['fullname'] = $users[0]["fullname"];
-                            $events['description'] = $users[0]["description"];
+                            $events['descriptionUser'] = $users[0]["description"];
                             $avataruser = Helper_Uploadimages::avatar($users[0], '_B');
                             $events['avataruser'] = $avataruser['image'];
                            
@@ -878,16 +934,16 @@ class EventsController extends JO_Action {
 						
                                                 /*
 						if($request) {
-							Model_History::addHistory($pin_info['user_id'], Model_History::COMMENTPIN, $event_id, 0, $request->getPost('write_comment'));
+							Model_History::addHistory($event_info['user_id'], Model_History::COMMENTPIN, $event_id, 0, $request->getPost('write_comment'));
 						
-							if($pin_info['user']['email_interval'] == 1 && $pin_info['user']['comments_email']) {
-								$this->view->user_info = $pin_info['user'];
+							if($event_info['user']['email_interval'] == 1 && $event_info['user']['comments_email']) {
+								$this->view->user_info = $event_info['user'];
 								$this->view->text_email = $this->translate('comment your');
 								$this->view->profile_href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]'));
 								$this->view->full_name = JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]');
-								$this->view->event_href = WM_Router::create($request->getBaseUrl() . '?controller=pin&pin_id=' . $pin_id );
+								$this->view->event_href = WM_Router::create($request->getBaseUrl() . '?controller=pin&pin_id=' . $event_id );
 								Model_Email::send(
-				    	        	$pin_info['user']['email'],
+				    	        	$event_info['user']['email'],
 				    	        	JO_Registry::get('noreply_mail'),
 				    	        	JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]') . ' ' . $this->translate('comment your pin'),
 				    	        	$this->view->render('comment_pin', 'mail')
@@ -951,12 +1007,18 @@ class EventsController extends JO_Action {
 		//$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
                 
                 $view->like_event = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event_id . '&userio_id=' . $user_id); 
-                $view->eventIsLike = Model_Events::isLikeEvent($event_id, JO_Session::get('user[user_id]'));
+                if (JO_Session::get('user[user_id]'))
+                {
+                    $view->eventIsLike = Model_Events::isLikeEvent($event_id, JO_Session::get('user[user_id]'));
+                }
                 
                 $view->editEvent_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=add?event_id=' . $event_id );
                 
                 $view->follow_event = WM_Router::create($request->getBaseUrl() . '?controller=events&action=follow&event_id=' . $event_id . '&userio_id=' . $user_id); 
-                $view->eventIsFollow = Model_Events::isFollowEvent($event_id, JO_Session::get('user[user_id]'));
+                if (JO_Session::get('user[user_id]'))
+                {
+                    $view->eventIsFollow = Model_Events::isFollowEvent($event_id, JO_Session::get('user[user_id]'));
+                }
 
 
                 
@@ -1043,32 +1105,32 @@ class EventsController extends JO_Action {
 			
 			JO_Registry::set('meta_title', $event_data['fullname'] . ' - ' . JO_Registry::get('meta_title'));
 	
-			$pins = Model_Events::getEvents($data);
+			$events = Model_Events::getEvents($data);
 					
 			$this->view->item = array();
-			if($pins) {
+			if($events) {
 				$model_images = new Helper_Images();
-				foreach($pins AS $pin) {
-					$data_img = Helper_Uploadimages::event($pin, '_D');
+				foreach($events AS $event) {
+					$data_img = Helper_Uploadimages::event($event, '_D');
 					if(!$data_img) {
 						continue;
 					}
 					$enclosure = $data_img['image'];
 			
-					$category_info = Model_Categories::getCategory($pin['category_id']);
+					$category_info = Model_Categories::getCategory($event['category_id']);
 					if($category_info) {
-						$pin['board'] = $category_info['title'] . ' >> ' . $pin['board'];
+						$event['sport_category'] = $category_info['title'] . ' >> ' . $event['sport_category'];
 					}
 			
 					$this->view->item[] = array(
-							'guid' => $pin['pin_id'],
+							'guid' => $event['event_id'],
 							'enclosure' => $enclosure,
-							'description' => Helper_Pin::descriptionFix($pin['description']),
-							'title' => Helper_Pin::descriptionFix(JO_Utf8::splitText($pin['description'], 60, '...')),
-							'link' => WM_Router::create( $request->getBaseUrl() . '?controller=pin&pin_id=' . $pin['pin_id'] ),
-							'author' => $pin['user']['fullname'],
-							'pubDate' => WM_Date::format($pin['date_added'], JO_Date::RSS_FULL),
-							'category' => $pin['board']
+							'description' => Helper_Pin::descriptionFix($event['description']),
+							'title' => Helper_Pin::descriptionFix(JO_Utf8::splitText($event['description'], 60, '...')),
+							'link' => WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id'] ),
+							'author' => $event['user']['fullname'],
+							'pubDate' => WM_Date::format($event['date_added'], JO_Date::RSS_FULL),
+							'category' => $event['sport_category']
 					);
 				}
 			}
@@ -1239,11 +1301,11 @@ class EventsController extends JO_Action {
 			$this->view->source_pins = Helper_Pin::getSourcePins(JO_Registry::getArray('pin_info[source_id]'), 6, 75);
 			$this->view->pin['from'] = WM_Router::create($request->getBaseUrl() . '?controller=source&source_id=' . $this->view->pin['source_id']);
 		} else if(JO_Registry::getArray('pin_info[repin_from]')) {
-			$pin_repin = Model_Pins::getPin(JO_Registry::getArray('pin_info[repin_from]'));
-			if($pin_repin) {
-				$this->view->source['source'] = $pin_repin['board'];
-				$this->view->pin['from'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $pin_repin['user_id'] . '&board_id=' . $pin_repin['board_id'] );
-				$this->view->source_pins = Helper_Pin::getBoardPins( $pin_repin['board_id'], 9, 75 );
+			$event_repin = Model_Pins::getPin(JO_Registry::getArray('pin_info[repin_from]'));
+			if($event_repin) {
+				$this->view->source['source'] = $event_repin['board'];
+				$this->view->pin['from'] = WM_Router::create( $request->getBaseUrl() . '?controller=boards&action=view&user_id=' . $event_repin['user_id'] . '&board_id=' . $event_repin['board_id'] );
+				$this->view->source_pins = Helper_Pin::getBoardPins( $event_repin['board_id'], 9, 75 );
 			}
 		}
 		
@@ -1351,11 +1413,11 @@ class EventsController extends JO_Action {
 		$comment_id = $request->getRequest('comment_id');
 		$comment_info = Model_Events::getComment($comment_id);
 		if($comment_info) {
-			$pin = Model_Events::getEvent($comment_info['event_id']);
-			if($comment_info['user_id'] == JO_Session::get('user[user_id]') || JO_Session::get('user[is_admin]') || JO_Session::get('user[user_id]') == $pin['board_data']['user_id']) {
+			$event = Model_Events::getEvent($comment_info['event_id']);
+			if($comment_info['user_id'] == JO_Session::get('user[user_id]') || JO_Session::get('user[is_admin]') ) {
 				if(Model_Events::deleteComment($comment_id)) {
 					$this->view->ok = true;
-					$this->view->stats = self::getPinStat($comment_info['event_id']);
+					$this->view->stats = self::getEventStat($comment_info['event_id']);
 				} else {
 					$this->view->error = $this->translate('An error occurred while deleting. Please try again');
 				}
@@ -1372,6 +1434,21 @@ class EventsController extends JO_Action {
 			$this->redirect( $request->getServer('HTTP_REFERER') );
 		}
 	}	
+        
+	private function getEventStat($event_id) {
+		$result = Model_Events::getEvent($event_id, Model_Users::$allowed_fields);
+		if(!$result) {
+			return false;
+		}
+		
+		$request = $this->getRequest();
+		
+		$result['stats'] = array();
+                $result['stats']['likes'] = '';
+                $result['stats']['comments'] = '';
+                $result['stats']['repins'] = '';
+		return $result;
+	}
         
 	public function reportAction() {
 		
@@ -1678,7 +1755,8 @@ class EventsController extends JO_Action {
         if ((int) JO_Session::get('user[user_id]'))
         {
 
-            $user_id = $request->getRequest('userio_id');
+            $history_user_id = $request->getRequest('userio_id');
+            $user_id = JO_Session::get('user[user_id]');
             $event_id = $request->getRequest('event_id');
 
 
@@ -1692,7 +1770,7 @@ class EventsController extends JO_Action {
                             $this->view->ok = $this->translate('Me apunto!');
                             $this->view->classs = 'add';
 
-                            Model_History::addHistory($user_id, Model_History::UNFOLLOW_EVENT, $event_id);
+                            Model_History::addHistory($history_user_id, Model_History::UNFOLLOW_EVENT, $event_id);
                         } else
                         {
                             $this->view->error = true;
@@ -1706,7 +1784,7 @@ class EventsController extends JO_Action {
                             $this->view->ok = $this->translate('Ya no me apunto');
                             $this->view->classs = 'remove';
 
-                            Model_History::addHistory($user_id, Model_History::FOLLOW_EVENT, $event_id);
+                            Model_History::addHistory($history_user_id, Model_History::FOLLOW_EVENT, $event_id);
 
                             /*
                             if ($board_info['email_interval'] == 1 && $board_info['follows_email'])
@@ -1755,7 +1833,8 @@ class EventsController extends JO_Action {
         if ((int) JO_Session::get('user[user_id]'))
         {
 
-            $user_id = $request->getRequest('userio_id');
+            $history_user_id = $request->getRequest('userio_id');
+            $user_id = JO_Session::get('user[user_id]');
             $event_id = $request->getRequest('event_id');
 
 
@@ -1766,10 +1845,10 @@ class EventsController extends JO_Action {
                         $result = Model_Events::UnLikeEvent($event_id, $user_id);
                         if ($result)
                         {
-                            $this->view->ok = $this->translate('Compartir');
+                            $this->view->ok = $this->translate('Me gusta');
                             $this->view->classs = 'add';
 
-                            Model_History::addHistory($user_id, Model_History::UNLIKE_EVENT, $event_id);
+                            Model_History::addHistory($history_user_id, Model_History::UNLIKE_EVENT, $event_id);
                         } else
                         {
                             $this->view->error = true;
@@ -1780,10 +1859,10 @@ class EventsController extends JO_Action {
                         $result = Model_Events::LikeEvent($event_id, $user_id);
                         if ($result)
                         {
-                            $this->view->ok = $this->translate('No compartir');
+                            $this->view->ok = $this->translate('No me gusta');
                             $this->view->classs = 'remove';
 
-                            Model_History::addHistory($user_id, Model_History::LIKE_EVENT, $event_id);
+                            Model_History::addHistory($history_user_id, Model_History::LIKE_EVENT, $event_id);
 
                             /*
                             if ($board_info['email_interval'] == 1 && $board_info['follows_email'])

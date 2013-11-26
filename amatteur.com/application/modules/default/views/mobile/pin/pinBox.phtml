@@ -172,6 +172,7 @@
 	      $this->getRequest()->getController() == 'popular'  ||
 		  $this->getRequest()->getController() == 'gifts' 	 ||
 		  $this->getRequest()->getController() == 'all' 	 ||
+		  $this->getRequest()->getController() == 'search' 	 ||        
 		  $this->getRequest()->getController() == 'boards'  
 		 
 		  ) : ?>
@@ -311,10 +312,7 @@
 
 <!-- if the controller is user and action is pins -->
 
-<?php if($this->getRequest()->getAction() == 'pins' ||
-	   $this->getRequest()->getController() == 'search' 
-
-) : ?>
+<?php if($this->getRequest()->getAction() == 'pins' ) : ?>
 	
 	
 	<div class='pin'>
@@ -326,4 +324,54 @@
 	
 
 	</div>
+
+
+<?php endif; ?>
+
+<!-- if the controller is search -->
+    <?php if($this->getRequest()->getController() == 'selarch' ) : ?>
+	
+	
+	<div class='image' style='background:#D9D9D9 !important'>
+            <p class="videoindicator">
+					<?php if($this->pin['is_video']): ?>
+                                            <a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg'>
+                                                <img  class='notLoadedImg'  alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                                <img src="data/images/VideoIndicator.png" alt="Video" class="video" style='position:absolute;top:-<?php echo ($this->pin['height']);?>px;left:200px' />                                                
+                                            </a>
+					<?php elseif($this->pin['is_article']): ?>
+                                            <a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
+                                                <img src="data/images/ico_arti.png"  class="article" alt="Articulo" style="display:block;float:right;position:absolute;right:10px"  />
+                                                <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%;' />
+                                            </a>
+					<?php else: ?>
+                                            <?php if ($this->pin['from'] != "") { ?>
+                                                <a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
+                                                    <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                                </a>
+                                            <?php } else { ?>
+                                                <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+                                            <?php }  ?>
+                                        <?php endif; ?>
+
+	</p>	
+		<!--a href='<?php echo $this->pin['from'] ?>' target='_blank' class='pinImg' >
+				<img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
+		</a-->
+	</div>
+	<p class='pin_description'>
+		<?php echo Helper_Pin::descriptionFix($this->pin['description']); ?>
+	</p>
+	<p class='pin_source'>
+		<!--  decide wether to type pinned or repinned by checkin for the user_via array. if its empty it is pinned and not  repinned-->
+		<?php if($this->pin['user_via'] == ''): ?>
+			<?php echo $this->translate('Pinned by')?> <span class='pin_method'><a class='link' href='<?php echo $this->author['profile']?>'> <?php echo $this->author['fullname'] ?> </a></span> <?php echo sprintf($this->translate('%d %s ago'),$this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']));?>
+		
+		<!-- if it is not empty it means it is repinned -->
+		<?php else: ?>
+			
+			<?php echo $this->translate('Repinned')." ".sprintf($this->translate('%d %s ago'),$this->pin['date_dif']['value'], $this->translate($this->pin['date_dif']['key']))." ".$this->translate('via')." <span class='pin_method'><a class='link' href='".$this->author['profile']."'>".$this->pin['user_via']['fullname']."</a></span>" ?>
+		<?php endif; ?>
+	</p>
+
 <?php endif; ?>

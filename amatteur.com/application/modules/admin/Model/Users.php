@@ -193,7 +193,16 @@ class Model_Users {
         $db->delete('users_following_user', array('following_id = ?' => (string)$user_id));
         $db->delete('users_history', array('from_user_id = ?' => (string)$user_id));
         $db->delete('users_history', array('to_user_id = ?' => (string)$user_id));
-		$db->delete('users', array('user_id = ?' => (string)$user_id));
+        $db->delete('users_agenda', array('user_id = ?' => (string)$user_id));
+        $db->delete('users_activate', array('user_id = ?' => (string)$user_id));
+        $db->delete('users_location', array('user_id = ?' => (string)$user_id));        
+        $db->delete('users_sports', array('user_id = ?' => (string)$user_id));
+        $db->delete('users_messages', array('from_user_id = ?' => (string)$user_id));
+        $db->delete('users_messages', array('to_user_id = ?' => (string)$user_id));
+        $db->delete('users_mails', array('from_user_id = ?' => (string)$user_id));                
+        $db->delete('users_mails_to', array('user_id = ?' => (string)$user_id));        
+        $db->delete('users_likes', array('user_id = ?' => (string)$user_id));        
+        $db->delete('users', array('user_id = ?' => (string)$user_id));
         
 	}
 	

@@ -41,6 +41,8 @@ class Helper_Events {
                 $description = str_replace("Ã±", "ñ", $description);
                 $description = str_replace("Ã‘", "Ñ", $description);
                 $description = str_replace("Ã", "í", $description);
+                $description = nl2br($description);
+                //$description = str_replace ("<br />", " ", $description);
 		//$description = preg_replace('/(<!--|-->)/Uis','',$description);
 		$description = self::parse_urls(str_replace('&amp;', '&', $description), 35, '_blank');
 		return $description;
@@ -115,7 +117,7 @@ class Helper_Events {
                 if ($users)
                 {
                     $event['fullname'] = $users[0]["fullname"];
-                    $event['description'] = $users[0]["description"];
+                    $event['descriptionUser'] = $users[0]["description"];
                     $avataruser = Helper_Uploadimages::avatar($users[0], '_B');
                     $event['avataruser'] = $avataruser['image'];
 

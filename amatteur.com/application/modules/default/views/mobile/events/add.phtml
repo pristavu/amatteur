@@ -136,7 +136,7 @@ float:left;">
                         </div>
 
                         <div style="padding-left: 12px;" class="floatLeft NoInput">
-                            <a class="floatLeft Button WhiteButton Button18 change_avatar" href="#"><strong><?php echo $this->translate('Upload an Image');?></strong><span></span></a>
+                            <a class="floatLeft red mbtn change_avatar" href="#"><strong><?php echo $this->translate('Upload an Image');?></strong><span></span></a>
                             
                             <div class="clear"></div>
                         </div>
@@ -212,9 +212,9 @@ float:left;">
             <!-- Button -->
             <div class="Submit">
                 <?php if ($this->owner) { ?>
-                    <a onclick="$('#profileEdit').submit(); return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit" href="#"><strong><?php echo $this->translate('Guardar Evento');?></strong></a>                
+                    <a onclick="$('#profileEdit').submit(); return false" class="red mbtn userform_submit editpage_submit" href="#"><strong><?php echo $this->translate('Guardar Evento');?></strong></a>                
                 <?php } else { ?>
-                    <a onclick="return false" class="Button WhiteButton RedButton Button24 userform_submit editpage_submit disabled" href="#"><strong><?php echo $this->translate('Guardar Evento');?></strong></a>
+                    <a onclick="return false" class="red mbtn userform_submit editpage_submit disabled" href="#"><strong><?php echo $this->translate('Guardar Evento');?></strong></a>
                 <?php } ?>                
             </div>
         </form>		

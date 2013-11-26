@@ -161,6 +161,11 @@ class Model_Events extends JO_Model {
 			$allow_sort[] = 'pins_likes.like_id';
 		}
 		
+		if(isset($data['filter_likes']) && $data['filter_likes'] ) {
+			$query->where('events.event_id IN (SELECT events_likes.event_id FROM events_likes WHERE user_id = ?)', $data['filter_likes']);
+					
+                }                
+                
 		if(isset($data['order']) && in_array($data['order'], $allow_sort)) {
 			$query->order($data['order'] . $sort);
 		} else {
@@ -198,11 +203,11 @@ class Model_Events extends JO_Model {
                 if(isset($data['filter_event_date2']) && $data['filter_event_date2']) {
 			$query->where('events.date_event <= ?', $data['filter_event_date2']);
 		}
-                
+                /*
 		if(isset($data['filter_compartir']) && $data['filter_compartir']) {
 			$query->where('events.compartir = ?', (string)$data['filter_compartir']);
 		}
-                
+                */
 		if(isset($data['filter_cron']) && $data['filter_cron']) {
 			$query->where('sport_category IN (select sport_category from users_sports where user_id = ?) OR user_id IN (select following_id from users_following_user where user_id = ?)', (string)$data['filter_cron']);
 		}
@@ -210,6 +215,15 @@ class Model_Events extends JO_Model {
 		if(isset($data['filter_delete_event']) && $data['filter_delete_event']) {
 			$query->where('events.delete_event <> ? OR events.delete_event IS NULL', (string)$data['filter_delete_event']);
 		}
+                
+		if(isset($data['filter_compartir']) && $data['filter_compartir']) {
+			//$query->joinLeft('users_following_user', 'events.user_id = users_following_user.following_id', array())
+			//->where('users_following_user.user_id = ?', (string)JO_Session::get('user[user_id]'));
+			$query->joinLeft('users_following_user', 'events.user_id = users_following_user.user_id', array())
+			->where('users_following_user.following_id = ?', (string)JO_Session::get('user[user_id]'));
+		}
+		
+                
                 
 //error_log (" QUERY $query");
 		$results = $db->fetchAll($query);
@@ -259,6 +273,10 @@ class Model_Events extends JO_Model {
 			$query->where('event_id in (select event_id from events_following where user_id = ?) OR user_id = ?', (string)$data['filter_user_id']);
 		}
 
+		if(isset($data['filter_event_id']) && $data['filter_event_id']) {
+			$query->where('event_id = ?', (string)$data['filter_event_id']);
+		}
+
                 
 //error_log (" QUERY $query");
 		$results = $db->fetchAll($query);
@@ -266,6 +284,33 @@ class Model_Events extends JO_Model {
 		
 		return $results;
 	}        
+        
+        public static function getFollowers($data = array()) {
+		
+		$key = md5(serialize($data));
+		
+		static $result = array();
+		if(isset($result[$key])) { return $result[$key]; }
+		
+		$db = JO_Db::getDefaultAdapter();
+        
+		$query = $db
+                    ->select()
+                    ->from('events_following', array('*'));
+	
+		
+		////////////filter
+		if(isset($data['filter_event_id']) && $data['filter_event_id']) {
+			$query->where('event_id = ?', (string)$data['filter_event_id']);
+		}
+
+                
+//error_log (" QUERY $query");
+		$results = $db->fetchAll($query);
+
+		
+		return $results;
+	}                
         
         public static function getLikingEvents($data = array()) {
 		
@@ -681,19 +726,23 @@ class Model_Events extends JO_Model {
 
                         $event_id = $db->lastInsertId();
 
-                        $users = Model_Users::getUsers(array(
-                            'filter_following_user_id' => (string)$user_id,
-                            ));
-                        if ($users)
+                        if ($followers)
                         {
-                            foreach ($users AS $key => $user)
+                            $users = Model_Users::getUsers(array(
+                                'filter_following_user_id' => (string)$user_id,
+                                ));
+                            if ($users)
                             {
-                                self::FollowEvent($event_id, $user['user_id']);
-                            }                        
+                                foreach ($users AS $key => $user)
+                                {
+                                    Model_History::addHistory($user['user_id'], Model_History::CREATE_EVENT, $event_id);
+                                    //self::FollowEvent($event_id, $user['user_id']);
+                                }                        
+                            }
                         }
+                        
 
-
-                        if(!$user_id) {
+                        if(!$event_id) {
                             return false;
                         }
 
@@ -703,17 +752,20 @@ class Model_Events extends JO_Model {
                         $result = $db->update('events', $update, 
                                 array('user_id = ' . (string)$user_id . ' AND event_id = ' .(string)$event_id));
 
-                        $users = Model_Users::getUsers(array(
-                            'filter_following_user_id' => (string)$user_id,
-                            ));
-                        if ($users)
+                        if ($followers)
                         {
-                            foreach ($users AS $key => $user)
+                            $users = Model_Users::getUsers(array(
+                                'filter_following_user_id' => (string)$user_id,
+                                ));
+                            if ($users)
                             {
-                                self::FollowEvent($event_id, $user['user_id']);
-                            }                        
+                                foreach ($users AS $key => $user)
+                                {
+                                    Model_History::addHistory($user['user_id'], Model_History::CREATE_EVENT, $event_id);
+                                    //self::FollowEvent($event_id, $user['user_id']);
+                                }                        
+                            }
                         }
-
 
                         if (!$result)
                         {
@@ -728,19 +780,22 @@ class Model_Events extends JO_Model {
 
                         $event_id = $db->lastInsertId();
 
-                        $users = Model_Users::getUsers(array(
-                            'filter_following_user_id' => (string)$user_id,
-                            ));
-                        if ($users)
+                        if ($followers)
                         {
-                            foreach ($users AS $key => $user)
+                            $users = Model_Users::getUsers(array(
+                                'filter_following_user_id' => (string)$user_id,
+                                ));
+                            if ($users)
                             {
-                                self::FollowEvent($event_id, $user['user_id']);
-                            }                        
+                                foreach ($users AS $key => $user)
+                                {
+                                    Model_History::addHistory($user['user_id'], Model_History::CREATE_EVENT, $event_id);
+                                    //self::FollowEvent($event_id, $user['user_id']);
+                                }                        
+                            }
                         }
 
-
-                        if(!$user_id) {
+                        if(!$event_id) {
                             return false;
                         }
                 }
@@ -919,11 +974,11 @@ class Model_Events extends JO_Model {
 					}
 				}
 			} */
-			$db->update('event', array(
-				'comments' => new JO_Db_Expr("(SELECT COUNT(comment_id) FROM events_comments WHERE pin_id = '".(string)$info['event_id']."')"),
+			$db->update('events', array(
+				'comments' => new JO_Db_Expr("(SELECT COUNT(comment_id) FROM events_comments WHERE event_id = '".(string)$info['event_id']."')"),
 //				'latest_comments' => (string)implode(',',$fcm)
-				'latest_comments' => new JO_Db_Expr("(SELECT GROUP_CONCAT(comment_id ORDER BY comment_id ASC) FROM (SELECT comment_id FROM events_comments WHERE pin_id = '" . (string)$info['event_id'] . "' ORDER BY comment_id ASC LIMIT 4) AS tmp)")
-			), array('pin_id = ?' => (string)$info['pin_id']));
+				'latest_comments' => new JO_Db_Expr("(SELECT GROUP_CONCAT(comment_id ORDER BY comment_id ASC) FROM (SELECT comment_id FROM events_comments WHERE event_id = '" . (string)$info['event_id'] . "' ORDER BY comment_id ASC LIMIT 4) AS tmp)")
+			), array('event_id = ?' => (string)$info['event_id']));
 			
 			//self::rebuildCache($info['pin_id']);
 			

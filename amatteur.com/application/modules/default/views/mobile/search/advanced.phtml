@@ -1,5 +1,34 @@
-<?php echo $this->header_part; ?>
+<?php echo $this->header_part; 
+
+$masonry = true;
+?>
+<script type="text/javascript" src='data_mobile/js/infscroll.js?<?php echo rand(1,999); ?>'></script>
+<script type="text/javascript" src='data_mobile/js/jquery.masonry.min.js'></script>
+<script type="text/javascript">	
+    
+    
+		$(document).ready(function(){
+			if ($('#container').width()>768)
+			{
+				$('#container').masonry({
+					itemSelector : '.pin'
+				  });
+				  
+				$(window).bind('deviceorientation', function() { $('#container').masonry('reload'); });
+				$(window).bind('MozOrientation', function() { $('#container').masonry('reload'); });
+				$(window).bind('load', function() { $('#container').masonry('reload'); }); 
+			}
+		});	 
+		lazyLoad();
+                var url = '<?php echo $this->full_url_js; ?>';
+		infScroll();
+</script>
+<!-- here we put the variables for the users pinboards -->
+
+
+
 <body onLoad="GLoad();" >
+    <input type="hidden" id="Page" value="1" />
     <!--div id="container"> 
 	
 		<div id="ContextBarqSearch" class="box">
@@ -145,7 +174,7 @@
             <ul style="margin:0px;">
                 
                 
-                <!-- Deportes --
+                <!-- Deportes -->
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('Sports');?></label>
                     <div class="Right" id='catList'>
@@ -187,6 +216,7 @@
                     </div>
                 </li>
 
+                <!--
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('');?></label>
                     <div class="Right" id='catList'>
@@ -602,7 +632,7 @@
             <?php } ?>            
         </div>
 		</div>
-            <?php if ($this->pins) { ?>
+            <?php if ($this->pins) {/* ?>
 <?php if ($this->advancedActive != "amatteur") { ?>                                     
                 <?php if ($this->users) { ?>
                 <div id="mapa" style="width: 500px; height: 400px;margin-top:70px;margin-left:0px"></div>            
@@ -611,8 +641,28 @@
                 <div id="container" style="margin-left:0px">
 		<?php echo $this->pins;?>
                 </div>
+            <?php */} ?>                
+
+            <?php if ($this->pins) { ?>
+<?php if ($this->advancedActive != "amatteur") { ?>                         
+                <?php if ($this->users) { ?>
+                <div id="mapa" style="width: 500px; height: 400px;margin-top:70px;margin-left:0px"></div>
+                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-600px;margin-left:200px" />
+                <br/>
+                <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
+                <?php } ?>
+<?php } ?>                                                
+<?php if ($this->advancedActive == "activate") { ?>    
+                <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">                                    
+                    <?php echo $this->pins;?>
+                </div>
+                
+<?php } else { ?>
+                <div id="container" style="margin-left:0px">
+                    <?php echo $this->pins;?>
+                </div>
+<?php } ?>                                
             <?php } ?>                
-                    
 
 		
 		<div class="clear"></div>

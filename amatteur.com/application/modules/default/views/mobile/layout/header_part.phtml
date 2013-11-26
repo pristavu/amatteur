@@ -14,7 +14,43 @@
                 {}
                  
 		//then in the file js/animations.js we will set it as a background image of #mobile_logo
-	
+<?php /*if ($this->full_url_js)
+{ ?>
+        window.infiniteFinishedMsg = "<em><?php echo $this->translate('Congratulations, you\'ve reached the end of the internet.'); ?></em>";
+        window.infiniteMsgText = "<em><?php echo $this->translate('Loading the next set of posts...'); ?></em>";
+        window.Pins.url = '<?php echo rtrim($this->full_url_js, '/'); ?>';
+    <?php $page = (int) $this->getRequest()->getRequest('page');
+    if ($page < 1)
+    {
+        $page = 1;
+    } ?>
+        window.Pins.currentPage = <?php echo $page; ?>;
+<?php } else
+{ ?>
+        if($('#container .box').size() > 0) {
+            $('#container').infinitescroll('pause');
+        }
+<?php } ?>     
+    
+<?php if ($this->full_url_js)
+{ ?>
+                
+                		$(document).ready(function(){
+			if ($('#container').width()>768)
+			{
+				$('#container').masonry({
+					itemSelector : '.pin'
+				  });
+				  
+				$(window).bind('deviceorientation', function() { $('#container').masonry('reload'); });
+				$(window).bind('MozOrientation', function() { $('#container').masonry('reload'); });
+				$(window).bind('load', function() { $('#container').masonry('reload'); }); 
+			}
+		});	 
+		lazyLoad();
+                var url = '<?php echo $this->full_url_js; ?>';                
+		infScroll();
+<?php } */?>	
 	</script>
 	
         	<?php 
@@ -22,7 +58,7 @@
         		$this->is_loged == 0 ? JO_Registry::set('is_loged', false) : JO_Registry::set('is_loged', true);
         		
         	 ?>
-        
+<input type="hidden" id="urlSearch" value="<?php echo ($this->full_url_js ? $this->full_url_js : 0 ); ?>" />
 	
 	 <div id='wrapper'>
 <?php if (!isset($_SESSION['token'])) //<?php if(!JO_Session::get('token')) 

@@ -53,7 +53,7 @@ window.___gcfg = {
                                                                         </h3>
 
                                                                         <div class="action">
-                                                                            <a id="apunto-follow" style="margin-left:15%;width:100px;height:15px;padding-top: 8px;background: no-repeat;background-color:#0070BF !important;color:white;text-shadow:none;border-color: white;border-style: solid;border-width: 1px;border-radius: 5px" class="Button13 Button WhiteButton Tab following <?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><center><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong></center>
+                                                                            <a id="apunto-follow" style="margin-left:15%;width:100px;height:15px;padding-top: 8px;background: no-repeat;background-color:#0070BF !important;color:white;text-shadow:none;border-color: white;border-style: solid;border-width: 1px;border-radius: 5px" class="red mbtn Tab following <?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><center><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong></center>
                                                                                 </a>
                                                                         </div>
 
@@ -68,7 +68,7 @@ window.___gcfg = {
 
                                                     <?php foreach ($this->history AS $history)
                                                     { ?>
-                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 202px;padding-left: 15px;white-space: normal">
+                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 180px;padding-left: 15px;white-space: normal">
                                                             <span class="profile">
                                                                 <img src="<?php echo $history['user']['avatar']; ?>" alt="<?php echo $history['user']['fullname']; ?>">
                                                             </span>
@@ -125,9 +125,9 @@ window.___gcfg = {
 
     <?php echo $this->left_part; ?>		
 <?php if ($this->loged) { ?>
-    <div class="pin"  style="margin-left:0px;padding-top: 60px">
+    <div class="pin"  style="margin-left:0px;padding-top: 60px;width: auto">
 <?php } else { ?>        
-    <div class="pin"  style="margin-left:0px;padding-top: 0px">
+    <div class="pin"  style="margin-left:0px;padding-top: 0px;width: auto">
 <?php }  ?>
         <div class="box boxlarge-2">
             <div class="left-corner">

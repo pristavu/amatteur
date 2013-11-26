@@ -32,6 +32,8 @@ class Model_History extends JO_Model {
         
 	const LIKE_EVENT = 18;
 	const UNLIKE_EVENT = 19;
+        
+        const CREATE_EVENT = 20;
 	
 	public static function getType($type) {
 		
@@ -54,10 +56,11 @@ class Model_History extends JO_Model {
 			self::COMMENTUSER => self::translate('Comment his board'),                    
 			self::MESSAGEUSER => self::translate('Message in his board'),
 			self::UNMESSAGEUSER => self::translate('Delete message in his board'),
-			self::FOLLOW_EVENT => self::translate('is now following the event'),
-			self::UNFOLLOW_EVENT => self::translate('has unfollow the event'),
-			self::LIKE_EVENT => self::translate('like the event'),
-			self::UNLIKE_EVENT => self::translate('unlike the event'),
+			self::FOLLOW_EVENT => self::translate('se ha apuntado al evento'),
+			self::UNFOLLOW_EVENT => self::translate('no se ha apuntado al evento'),
+			self::LIKE_EVENT => self::translate('le gusta el evento'),
+			self::UNLIKE_EVENT => self::translate('no le gusta el evento'),
+                        self::CREATE_EVENT => self::translate('tiene un nuevo evento compartido'),
 		);
                 
 		

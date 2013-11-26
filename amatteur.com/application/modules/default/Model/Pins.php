@@ -837,10 +837,32 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-                //error_log("Query". $query);
+//                error_log("Query". $query);
 
 		$results = $db->fetchAll($query);
+                                
 		$results_array = array();
+
+                if(isset($data['filter_search']) && $data['filter_search'] ) 
+                {
+                    $results_array = array();
+                    if($results) {
+                            foreach($results AS $result) {
+                                    $userinfo = Model_Users::getUser($result['user_id'], false, Model_Users::$allowed_fields);
+                                    if($userinfo) {
+                                            $result['user_via'] = $result['via']?Model_Users::getUser($result['via'], false, Model_Users::$allowed_fields):false;
+                                            $result['user'] = $userinfo;
+                                            $result['board'] = Model_Boards::getBoardTitle($result['board_id']);
+                                            $result['latest_comments'] = $result['comments'] ? Model_Comments::getLatestComments($result['latest_comments']) : array();
+                                            $result['liked'] = $result['likes'] ? self::pinIsLiked($result['pin_id']) : 0;
+                                            $results_array[] = $result;
+    //                                        array_push($pin_ids, $result['pin_id']);
+                                    }
+                            }
+                    }
+                }
+                else
+                {
 		if($results) {
 			$usuarioOld=0;
 			$cuentaSameUser=0;
@@ -895,7 +917,7 @@ class Model_Pins {
 				}
 			}
 		}
-		
+                }
 //		var_dump( microtime(true)-JO_Registry::get('start_microtime') ); exit;
 		return $results_array;
 	}

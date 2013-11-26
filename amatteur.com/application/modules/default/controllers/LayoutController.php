@@ -433,7 +433,8 @@ class LayoutController extends JO_Action {
         if ($request->issetPost('option10'))
         {
             $parametros .= "&option10=". $request->getPost('option10');
-        }       
+        }
+        $parametros .= "&kk=kk";
                                     
 					$this->view->full_url_js = WM_Router::create($request->getBaseUrl() . '?controller=search&action='.$request->getAction().'&q=' . $request->getRequest('q').'&id=' . $request->getRequest('id').$parametros);
 				}
