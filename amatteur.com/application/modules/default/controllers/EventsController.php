@@ -1468,7 +1468,7 @@ class EventsController extends JO_Action {
 		$this->view->intellectual_property = WM_Router::create( $request->getBaseUrl() . '?controller=about&action=copyright&event_id=' . $event_id );
 		$this->view->event_id = $event_id;
 	
-		$this->view->event_href = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event_id );
+		$this->view->event_href = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail?event_id=' . $event_id );
 		
 		if($request->issetPost('report_category')) {
 			$this->view->report_category = $request->getPost('report_category');
@@ -1656,7 +1656,7 @@ class EventsController extends JO_Action {
 		
 		$this->view->event_id = $event_id;
 	
-		$this->view->event_href = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event_id );
+		$this->view->event_href = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail?event_id=' . $event_id );
 		$this->view->url_form = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=email&event_id=' . $event_id );
 		
 		
@@ -1708,7 +1708,7 @@ class EventsController extends JO_Action {
     	        	$request->getPost('email'),
     	        	JO_Registry::get('noreply_mail'),
     	        	$this->translate('Shared content from') . ' ' . JO_Session::get('user[firstname]') . ' ' . JO_Session::get('user[lastname]'),
-    	        	$this->view->render('send_pin', 'mail')
+    	        	$this->view->render('send_event', 'mail')
     	        );
     	        
     	        if($result) {

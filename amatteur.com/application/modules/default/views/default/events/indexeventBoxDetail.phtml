@@ -21,6 +21,7 @@ window.___gcfg = {
     var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
 })();
 </script>
+<script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
 
 
 <div id="detail" class="pindetail">
@@ -68,7 +69,7 @@ window.___gcfg = {
 
                                                     <?php foreach ($this->history AS $history)
                                                     { ?>
-                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 202px;padding-left: 15px;white-space: normal">
+                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 182px;padding-left: 15px;white-space: normal">
                                                             <span class="profile">
                                                                 <img src="<?php echo $history['user']['avatar']; ?>" alt="<?php echo $history['user']['fullname']; ?>">
                                                             </span>
@@ -87,16 +88,28 @@ window.___gcfg = {
                         </div>  
                        <?php } ?>
                     </li>                    
-                    <li>
+                    <!--li>
                         <div class="fb-like" data-href="http://www.amatteur.com" data-layout="button-count" data-action="like" data-show-faces="true" data-share="false"></div>
                     </li>
                     <!--li>
                         <div class="fb-share-button" data-href="<?php echo $this->pin_url; ?>" data-type="button_count"></div>                                    
-                    </li-->
-                    <li>
-                        <div class="g-plusone" data-size="tall" data-annotation="none" ></div>
                     </li>
                     <li>
+                        <div class="g-plusone" data-size="tall" data-annotation="none" ></div>
+                    </li-->
+                    <li>
+                                <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.amatteur.com&layout=button_count&show_faces=false&width=450&action=like&font&colorscheme=light&height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:20px;" allowTransparency="true"></iframe>
+                    </li>
+                    <li>                    
+                                <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" hashtags="<?php echo $this->pin_url; ?>" data-via="amatteur" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                    </li>
+                    <li>
+                                <g:plusone size="medium"></g:plusone>
+                    </li>
+<!--a class="tweet" href="javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());"><span><?php echo $this->translate('Tweet'); ?></span></a>
+<a href="javascript:(function(){window.twttr=window.twttr||{};var D=550,A=450,C=screen.height,B=screen.width,H=Math.round((B/2)-(D/2)),G=0,F=document,E;if(C&gt;A){G=Math.round((C/2)-(A/2))}window.twttr.shareWin=window.open('http://twitter.com/share','','left='+H+',top='+G+',width='+D+',height='+A+',personalbar=0,toolbar=0,scrollbars=1,resizable=1');E=F.createElement('script');E.src='http://platform.twitter.com/bookmarklets/share.js?v=1';F.getElementsByTagName('head')[0].appendChild(E)}());"></a-->
+<!--a href="http://twitter.com/home?status=<?php echo $this->pin_url; ?>">Compartir en Twitter</a>                         
+                    <a title="Enviar a Twitter" href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tuitear</a>
                         <a href="<?php echo $this->pin_url; ?>" class="tweet" title="<?php echo $this->translate('Tweet'); ?>"><span><?php echo $this->translate('Tweet'); ?></span></a>
                     </li>
                     <!--li>

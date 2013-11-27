@@ -105,7 +105,9 @@
                                     <li class="search">
                                         <a  href="<?php echo $this->search_url; ?>"><?php echo $this->translate('Búsqueda Avanzada'); ?></a>            
                                     </li>
-                                    
+                                    <li class="search">
+                                        <div id="eventtos"><a id='eventoTrigger' class="ados" style="padding-top:0px" href="<?php echo $this->events_url; ?>"><img width="75px" height="30px" src="data/images/eventtoslogo.png" alt="" /></a></div>                                    
+                                    </li>                                    
                                     <?php if($this->is_loged !== 0): ?>
                                     	<a class="selected" href="">
                     						<li><?php echo $this->translate('Pinners You Follow') ?></li>

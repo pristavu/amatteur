@@ -75,9 +75,10 @@
                                     <span class="" style='text-align:left'><input <?php echo ($this->option17 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option17' name='option17' class='option17' value="1"><?php echo " ". sprintf($this->translate('Ayudo a personas mayores a hacer ejercicio')); ?> </span>
                                 </div>
                                 <div style="display:table-row">
-                                    <span class="" style='text-align:left'><input <?php echo ($this->option18 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option18' name='option18' class='option18' value="1"><?php echo " ". sprintf($this->translate('Otros (descripción en los comentarios')); ?> </span>
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option18 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option18' name='option18' class='option18' value="1"><?php echo " ". sprintf($this->translate('Otros (descripción en los comentarios)')); ?> </span>
                                 </div>
                             </div>
+                            <span style="color:red">*</span>                                                            
                         </div>
                     </li>
                     
@@ -85,8 +86,8 @@
                     <li>
                         <label for="id_estado_0"><?php echo $this->translate('Estado'); ?></label>
                         <div id="estadoOptions" class="Right">
-                                <label for="id_estado_0"><input <?php echo ($this->gender == '1' ? 'checked="checked"' : ''); ?> type="radio" name="estado" class="estado" value="1" id="id_estado_0"> <?php echo $this->translate('Habilitar'); ?></label>
-                                <label for="id_estado_1"><input <?php echo ($this->gender == '0' ? 'checked="checked"' : ''); ?> type="radio" name="estado" class="estado" value="0" id="id_estado_1"> <?php echo $this->translate('Deshabilitar'); ?></label>
+                                <label for="id_estado_0"><input <?php echo ($this->estado == '1' ? 'checked="checked"' : ''); ?> type="radio" name="estado" class="estado" value="1" id="id_estado_0"> <?php echo $this->translate('Habilitar'); ?></label>
+                                <label for="id_estado_1"><input <?php echo ($this->estado == '0' ? 'checked="checked"' : ''); ?> type="radio" name="estado" class="estado" value="0" id="id_estado_1"> <?php echo $this->translate('Deshabilitar'); ?></label>
                                 <span style="color:red">*</span>
                         </div>
                     </li>
@@ -96,6 +97,7 @@
                         <div id="disponibleOptions" class="">
                             <label for="id_disponible_0"><input <?php echo ($this->disponible == '1' ? 'checked="checked"' : ''); ?> type="radio" name="disponible" class="disponible" value="1" id="id_disponible_0"> <?php echo $this->translate('Disponible'); ?></label>
                             <label for="id_disponible_1"><input <?php echo ($this->disponible == '0' ? 'checked="checked"' : ''); ?> type="radio" name="disponible" class="disponible" value="0" id="id_disponible_1"> <?php echo $this->translate('Ocupado'); ?></label>
+                            <span style="color:red">*</span>
                         </div>
                     </li>  
                     <!-- Ubicacion -->
@@ -148,7 +150,6 @@
                             </ul>
 
                             <input type='hidden' id='catId' name='sport_category' class='sport_category' value = '<?php echo $this->sport_category; ?>'/>
-                            <span style="color:red">*</span>
                         </div>
                     </li>
 
@@ -620,8 +621,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
 <!-- AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I -->
-<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
-      type="text/javascript"></script>
+<!--script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
+      type="text/javascript"></script-->
       
 <!--script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script-->      
     <script type="text/javascript">

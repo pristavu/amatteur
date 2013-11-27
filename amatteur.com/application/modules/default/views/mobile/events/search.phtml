@@ -2,9 +2,9 @@
 <body onLoad="GLoad();" >
 
     <?php  if (!$this->user_data) { ?>                    
-                    <div style="margin-top:50px;margin-left:200px;position:relative;width: auto;padding: 0px">
+                    <div style="margin-top:10px;margin-left:0px;position:relative;width: auto;padding: 0px">
     <?php } else { ?>                    
-                    <div style="margin-top:110px;margin-left:200px;position:relative;width: auto;padding: 0px">
+                    <div style="margin-top:10px;margin-left:0px;position:relative;width: auto;padding: 0px">
     <?php } ?>
     
     
@@ -13,17 +13,19 @@
 font-weight: 300;
 line-height: 1em;
 color:#0061A5;
-float:left;"> 
-                    <image src="data/images/event_calendar.png" >&nbsp;
-                    <strong><?php echo $this->translate('Buscar Evento Deportivo ');?> </strong>
-                    </label>		
+float:none;"> 
+            <?php if ($this->all) { ?>                        
+                    <image src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
+            <?php } else { ?>
+                    <image src="data/images/Resultados_eventtos.png"  height="53px" width="235px" style="padding-bottom: 10px" >&nbsp; </strong></label>                        
+            <?php } ?>                                                
                 </div>
 
     
             <?php if ($this->all) { ?>
     
 
-	<div id="panelsearch" style="padding-top: 0px ! important;width:1025px ! important; padding-left: 160px">    
+	<div id="panelsearch" style="padding-top: 60px ! important;width:1025px ! important; padding-left: 0px">    
             
             
             
@@ -136,17 +138,17 @@ float:left;">
 	</form>
 </div>     
 
-                <div id="mapa" style="width: 1000px; height: 400px;margin-top:210px;margin-left:40px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                <div id="mapa" style="width: 1000px; height: 400px;margin-top:10px;margin-left:0px"></div>
+                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-500px;margin-left:600px" />
             
             <?php } else { ?>                            
 
                 <?php if ($this->eventos) { ?>
-                    <div id="mapa" style="width: 1000px; height: 400px;margin-top:90px;margin-left:200px"></div>
+                    <div id="mapa" style="width: 1000px; height: 400px;margin-top:20px;margin-left:0px"></div>
                     <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
                     <br/>
-                    <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
-                    <div id="container" style="margin-left:400px">
+                    <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:50px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
+                    <div id="container" style="margin-left:0px">
                         <?php echo $this->eventsBox;?>
                     </div>
                 <?php } ?>                

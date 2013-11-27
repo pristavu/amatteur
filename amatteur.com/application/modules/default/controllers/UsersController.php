@@ -1278,7 +1278,7 @@ class UsersController extends JO_Action
         $levels = Model_Users::getLevel();
         $this->view->levels = $levels;
 
-        $user_data = Model_Users::getActivateUser(JO_Session::get('user[user_id]'));
+        $user_data = Model_Users::getVoluntariosUser(JO_Session::get('user[user_id]'));
         $this->view->user_data = $user_data;
 
         if (JO_Registry::get('isMobile'))
@@ -1286,18 +1286,30 @@ class UsersController extends JO_Action
             $this->view->urlmensajes = WM_Router::create($request->getBaseUrl() . '?controller=users&action=mensajes&user_id=' . $request->getRequest('board_user'));
         }
 
-        //gender
-        if ($request->issetPost('gender'))
+        //disponible
+        if ($request->issetPost('disponible'))
         {
-            $this->view->gender = $request->getRequest('gender');
-        } elseif (isset($user_data['gender']))
+            $this->view->disponible = $request->getRequest('disponible');
+        } elseif (isset($user_data['disponible']))
         {
-            $this->view->gender = $user_data['gender'];
+            $this->view->disponible = $user_data['disponible'];
         } else
         {
-            $this->view->gender = "";
+            $this->view->disponible = "";
         }
 
+        //estado
+        if ($request->issetPost('estado'))
+        {
+            $this->view->estado = $request->getRequest('estado');
+        } elseif (isset($user_data['estado']))
+        {
+            $this->view->estado = $user_data['estado'];
+        } else
+        {
+            $this->view->estado = "";
+        }
+        
         //location
         if ($request->issetPost('location'))
         {
@@ -1328,42 +1340,6 @@ class UsersController extends JO_Action
             $this->view->sport_category = '';
         }
 
-        //age
-        if ($request->issetPost('age'))
-        {
-            $this->view->age = $request->getPost('age');
-            if ($request->getPost('age') != "")
-            {
-                $this->view->age_title = Model_Users::getAgeTitle($request->getPost('age'));
-            }
-        } elseif (isset($user_data['age']))
-        {
-            $this->view->age = $user_data['age'];
-            $this->view->age_title = Model_Users::getAgeTitle($user_data['age']);
-        } else
-        {
-            $this->view->age_title = '';
-            $this->view->age = '';
-        }
-
-        //level
-        if ($request->issetPost('level'))
-        {
-            $this->view->level = $request->getPost('level');
-            if ($request->getPost('level') != "")
-            {
-                $this->view->level_title = Model_Users::getLevelTitle($request->getPost('level'));
-            }
-        } elseif (isset($user_data['level']))
-        {
-            $this->view->level = $user_data['level'];
-            $this->view->level_title = Model_Users::getLevelTitle($user_data['level']);
-        } else
-        {
-            $this->view->level_title = '';
-            $this->view->level = '';
-        }
-
         //comment
         if ($request->issetPost('comment'))
         {
@@ -1374,18 +1350,6 @@ class UsersController extends JO_Action
         } else
         {
             $this->view->comment = '';
-        }
-
-        //activate
-        if ($request->issetPost('activate'))
-        {
-            $this->view->activate = $request->getPost('activate');
-        } elseif (isset($user_data['activate']))
-        {
-            $this->view->activate = $user_data['activate'];
-        } else
-        {
-            $this->view->activate = '';
         }
 
         //option1
@@ -1487,13 +1451,13 @@ class UsersController extends JO_Action
         //option9
         if ($request->issetPost('option9'))
         {
-            $this->view->option8 = $request->getPost('option9');
+            $this->view->option9 = $request->getPost('option9');
         } elseif (isset($user_data['option9']))
         {
-            $this->view->option8 = $user_data['option9'];
+            $this->view->option9 = $user_data['option9'];
         } else
         {
-            $this->view->option8 = '';
+            $this->view->option9 = '';
         }
         
         //option10
@@ -1611,11 +1575,22 @@ class UsersController extends JO_Action
         {
 
             $validate = new Helper_Validate();
-            $validate->_set_rules($request->getPost('location'), $this->translate('Location'), 'not_empty;min_length[3];max_length[100]');
-            $validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
-            $validate->_set_rules($request->getPost('gender'), $this->translate('Gender'), 'not_empty;min_length[3];max_length[100]');
-            $validate->_set_rules($request->getPost('level'), $this->translate('Level'), 'not_empty;min_length[1];max_length[100]');
-            //$validate->_set_rules($request->getPost('type_user'), $this->translate('User_type_id'), 'not_empty;min_length[1];max_length[100]');
+            $validate->_set_rules($request->getPost('location'), $this->translate('Zona geográfica'), 'not_empty;min_length[3];max_length[100]');
+            //$validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
+            $validate->_set_rules($request->getPost('estado'), $this->translate('Estado'), 'not_empty;min_length[1];max_length[100]');
+            $validate->_set_rules($request->getPost('disponible'), $this->translate('Disponibilidad'), 'not_empty;min_length[1];max_length[100]');
+            if (!$request->issetPost('option1') && !$request->issetPost('option2') 
+                    && !$request->issetPost('option3') && !$request->issetPost('option4') 
+                    && !$request->issetPost('option5') && !$request->issetPost('option6') 
+                    && !$request->issetPost('option7') && !$request->issetPost('option8') 
+                    && !$request->issetPost('option9') && !$request->issetPost('option10') 
+                    && !$request->issetPost('option11') && !$request->issetPost('option12') 
+                    && !$request->issetPost('option13') && !$request->issetPost('option14') 
+                    && !$request->issetPost('option15') && !$request->issetPost('option16') 
+                    && !$request->issetPost('option17') && !$request->issetPost('option18'))
+            {
+                $validate->_set_rules($request->getPost('option1'), $this->translate('Opciones'), 'not_empty;min_length[1];max_length[100]');
+            }
 
             if ($validate->_valid_form())
             {
@@ -1623,7 +1598,7 @@ class UsersController extends JO_Action
                 $lat = $request->getPost('lat');
                 $len = $request->getPost('len');
 
-                while (Model_Users::getVoluntarioLatLen($lat, $len))
+                while (Model_Users::getVoluntariosLatLen($lat, $len))
                 {
 
                     $posLat = strpos($lat, ".");
@@ -1659,14 +1634,12 @@ class UsersController extends JO_Action
                     $len = $len + $cantLen;
                 }
 
-                $result = Model_Users::createVoluntario(JO_Session::get('user[user_id]'), array(
+                $result = Model_Users::createVoluntarios(JO_Session::get('user[user_id]'), array(
                             'user_id' => JO_Session::get('user[user_id]'),
-                            'gender' => $request->getPost('gender'),
-                            'age' => $request->getPost('age'),
+                            'estado' => $request->getPost('estado'),
+                            'disponible' => $request->getPost('disponible'),
                             'location' => $request->getPost('location'),
                             'sport_category' => $request->getPost('sport_category'),
-                            'level' => $request->getPost('level'),
-                            'activate' => $request->getPost('activate'),
                             'option1' => $request->getPost('option1'),
                             'option2' => $request->getPost('option2'),
                             'option3' => $request->getPost('option3'),
@@ -1675,6 +1648,16 @@ class UsersController extends JO_Action
                             'option6' => $request->getPost('option6'),
                             'option7' => $request->getPost('option7'),
                             'option8' => $request->getPost('option8'),
+                            'option9' => $request->getPost('option9'),                    
+                            'option10' => $request->getPost('option10'),
+                            'option11' => $request->getPost('option11'),
+                            'option12' => $request->getPost('option12'),
+                            'option13' => $request->getPost('option13'),
+                            'option14' => $request->getPost('option14'),
+                            'option15' => $request->getPost('option15'),
+                            'option16' => $request->getPost('option16'),
+                            'option17' => $request->getPost('option17'),
+                            'option18' => $request->getPost('option18'),
                             'comment' => $request->getPost('comment'),
                             'lat' => $lat,
                             'len' => $len

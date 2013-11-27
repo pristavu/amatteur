@@ -35,7 +35,7 @@ window.___gcfg = {
                 <ul>
                     <li>
                     <?php if ($this->loged) { ?>                                                                    
-                        <div id="contenedor">
+                        <div id="contenedor" style="padding-bottom: 20px">
                             <div class="feed box">
                                 <div class="left-corner">
                                     <div class="bottom-corner">
@@ -53,7 +53,7 @@ window.___gcfg = {
                                                                         </h3>
 
                                                                         <div class="action">
-                                                                            <a id="apunto-follow" style="margin-left:15%;width:100px;height:15px;padding-top: 8px;background: no-repeat;background-color:#0070BF !important;color:white;text-shadow:none;border-color: white;border-style: solid;border-width: 1px;border-radius: 5px" class="red mbtn Tab following <?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><center><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong></center>
+                                                                            <a id="apunto-follow" style="margin-left:0px;width:100px;height:15px;padding-top: 8px;background: no-repeat;background-color:#0070BF !important;color:white;text-shadow:none;border-color: white;border-style: solid;border-width: 1px;border-radius: 5px" class="red mbtn Tab following <?php echo ($this->eventIsFollow?' gray':'');?>" href="<?php echo $this->follow_event;?>"><center><strong><?php echo ($this->eventIsFollow ? $this->translate('Ya no me apunto') : $this->translate('Me apunto!') );?></strong></center>
                                                                                 </a>
                                                                         </div>
 
@@ -68,7 +68,7 @@ window.___gcfg = {
 
                                                     <?php foreach ($this->history AS $history)
                                                     { ?>
-                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 180px;padding-left: 15px;white-space: normal">
+                                                        <a href="<?php echo $history['href']; ?>" class="story" style="height: 40px;width: 80px;padding-left: 15px;white-space: normal">
                                                             <span class="profile">
                                                                 <img src="<?php echo $history['user']['avatar']; ?>" alt="<?php echo $history['user']['fullname']; ?>">
                                                             </span>
@@ -86,20 +86,30 @@ window.___gcfg = {
                             </div>
                         </div>  
                        <?php } ?>
-                    </li>                    
+                    </li>   
                     <li>
+                                <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.amatteur.com&layout=button_count&show_faces=false&width=450&action=like&font&colorscheme=light&height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:20px;" allowTransparency="true"></iframe>
+                    </li>
+                    <li>                    
+                                <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" hashtags="<?php echo $this->pin_url; ?>" data-via="amatteur" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
+                    </li>
+                    <li>
+                                <g:plusone size="medium"></g:plusone>
+                    </li>
+                   
+                    <!--li>
                         <div class="fb-like" data-href="http://www.amatteur.com" data-layout="button-count" data-action="like" data-show-faces="true" data-share="false"></div>
                     </li>
-                    <!--li>
+                    <li>
                         <div class="fb-share-button" data-href="<?php echo $this->pin_url; ?>" data-type="button_count"></div>                                    
-                    </li-->
+                    </li
                     <li>
                         <div class="g-plusone" data-size="tall" data-annotation="none" ></div>
                     </li>
                     <li>
                         <a href="<?php echo $this->pin_url; ?>" class="tweet" title="<?php echo $this->translate('Tweet'); ?>"><span><?php echo $this->translate('Tweet'); ?></span></a>
                     </li>
-                    <!--li>
+                    <li>
                         <a href="<?php echo $this->url_embed; ?>" class="embed" title="<?php echo $this->translate('Embed'); ?>"><span><?php echo $this->translate('Embed'); ?></span></a>
                     </li-->
                     <?php if (!$this->pin['pinIsReported'])
@@ -125,9 +135,9 @@ window.___gcfg = {
 
     <?php echo $this->left_part; ?>		
 <?php if ($this->loged) { ?>
-    <div class="pin"  style="margin-left:0px;padding-top: 60px;width: auto">
+    <div class="pin"  style="margin-left:0px;padding-top: 60px;width: 360px">
 <?php } else { ?>        
-    <div class="pin"  style="margin-left:0px;padding-top: 0px;width: auto">
+    <div class="pin"  style="margin-left:0px;padding-top: 0px;width: 360px">
 <?php }  ?>
         <div class="box boxlarge-2">
             <div class="left-corner">

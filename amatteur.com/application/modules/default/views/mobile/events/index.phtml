@@ -1,9 +1,9 @@
 <?php echo $this->header_part; ?>
 
     <?php  if (!$this->user_data) { ?>                    
-	<div id="container" style="margin-top:-50px;margin-left: 300px;" >
+	<div id="container" style="margin-top:10px;margin-left: 0px;" >
     <?php } else { ?>                    
-	<div id="container" style="margin-top:10px;margin-left: 300px;" >
+	<div id="container" style="margin-top:10px;margin-left: 0px;" >
     <?php } ?>
 
 	            	<span class="greyselected" style="font-size: 1.8em;
@@ -13,12 +13,12 @@ color:#0061A5;
 float:left;"> 
                             <label>
                                 <div style="width:70px;float:left">
-                                    <image src="data/images/event_calendar.png" >&nbsp;<strong>
+                                    <image src="data/images/eventtos_deportivos.png" height="53px" width="235px" >&nbsp;<strong>
                                 </div>    
-                                <div style="width:750px">
-                                    <?php echo $this->translate('Eventos Deportivos ');?> &mdash; </strong>
-                                    <span class="hilight"><?php echo $this->translate('¡Busca, Añade, Comparte! ');?></span><br/>
-                                    <span style="font-size: 0.8em;"><?php echo $this->translate('Busca, publica, comparte y promociona cualquier tipo de evento deportivo; cualquier deporte, en cualquier lugar, lo podrás encontrar aquí. Una base de datos creada y moderada por la comunidad amatteur');?></span>
+                                <div style="width:560px;margin-left: 0px;padding-bottom: 30px;padding-top: 40px">
+                                    <br/> 
+                                    <span class="hilight"><?php echo $this->translate('Busca, comparte, promociona ');?></span></strong><br/><br/>
+                                    <span style="font-size: 0.8em;"><?php echo $this->translate('cualquier tipo de evento deportivo; cualquier deporte, en cualquier lugar, lo podrás encontrar aquí. Una base de datos creada y moderada por la comunidad amatteur');?></span>
                                 </div>
                             </label>
                         </span>
@@ -27,8 +27,8 @@ float:left;">
 height: 35px;
 padding: 10px 10px 12px 170px;
 text-shadow: 0 1px rgba(255,255,255,0.9);
-margin-top:90px;
-margin-left: 150px;
+margin-top:110px;
+margin-left: 0px;
 clear: both;
 min-width: 340px;
 white-space: nowrap;
@@ -50,9 +50,9 @@ line-height: 1em;">
 height: 25px;
 padding: 10px 0 12px;
 text-shadow: 0 1px rgba(255,255,255,0.9);
-margin-top:160px;
+margin-top:10px;
 clear: both;
-margin-left: 220px;
+margin-left: 0px;
 white-space: nowrap;
 box-shadow: 0;"
                                 <?php  if (!$this->user_data) { ?>                    
@@ -60,7 +60,7 @@ box-shadow: 0;"
 		<p class="input">                            
                                 <span class="addtext" style="font-size: 1.3em;
 font-weight: 300;
-line-height: 1em;"><?php echo $this->translate('Para añadir un evento tienes que estar registrado. ');?><a id="register" href="<?php echo $this->register_url ?>" class="Button RedButton register " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Regístrate Aquí');?></a></span>
+line-height: 1em;"><?php echo $this->translate('Para añadir un evento tienes que estar registrado. ');?><a id="register" href="<?php echo $this->register_url ?>" class="red mbtn register " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Regístrate Aquí');?></a></span>
         </p>            	
                                 <?php } ?>
             </div>
