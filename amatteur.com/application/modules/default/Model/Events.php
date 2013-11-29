@@ -197,11 +197,11 @@ class Model_Events extends JO_Model {
 		}
 
                 if(isset($data['filter_event_date1']) && $data['filter_event_date1']) {
-			$query->where('events.date_event >= ?', $data['filter_event_date1']);
+			$query->where('events.date_event >= ?', self::cambiafyh_a_mysql($data['filter_event_date1'] . " 00:00:00"));
 		}
 
                 if(isset($data['filter_event_date2']) && $data['filter_event_date2']) {
-			$query->where('events.date_event <= ?', $data['filter_event_date2']);
+			$query->where('events.date_event <= ?', self::cambiafyh_a_mysql($data['filter_event_date2'] . " 23:59:59"));
 		}
                 /*
 		if(isset($data['filter_compartir']) && $data['filter_compartir']) {
@@ -232,6 +232,39 @@ class Model_Events extends JO_Model {
 		return $results;
 	}        
 
+        public static function cambiafyh_a_mysql($fecha)
+        { 
+             $fecha_espana = $fecha; 
+             $separaHora=explode(" ",$fecha_espana);
+             $traducir_fecha = explode("/",$separaHora[0]); 
+             $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]." ".$separaHora[1]; 
+             return $fecha_mysql;
+        }
+        
+        public static function cambiaf_a_mysql($fecha)
+        { 
+             $fecha_espana = $fecha; 
+             $traducir_fecha = explode("/",$fecha_espana); 
+             $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]; 
+             return $fecha_mysql;
+        } 
+
+        public static function cambiafyh_espanol($fechaH)
+        {
+            $traducir_fecha = explode("-",$fechaH);
+            $separaHoras=explode(" ",$traducir_fecha[2]);
+            $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+            return $fecha_espana;
+        }
+        public static function cambiafyh_espanolAFecha($fechaH)
+        {
+            $traducir_fecha = explode("-",$fechaH);
+            $separaHoras=explode(" ",$traducir_fecha[2]);
+            $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]; 
+            return $fecha_espana;
+        }
+
+        
         public static function getFollowingEvents($data = array()) {
 		
 		$key = md5(serialize($data));

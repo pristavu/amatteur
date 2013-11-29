@@ -86,6 +86,8 @@ class EventsController extends JO_Action {
                         }
                 }
                 
+                $event_data['date_event'] = Model_Events::cambiafyh_espanol($event_data['date_event']);
+                
                 if ($event_data['user_id'] != "") 
                 {
                     $this->view->owner = (JO_Session::get('user[user_id]') == $event_data['user_id']);  
@@ -505,6 +507,8 @@ class EventsController extends JO_Action {
 
                         $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
                         
+                        $event['date_event'] = Model_Events::cambiafyh_espanol($event['date_event']);
+                        
                         $data = array(
                             'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                             'limit' => JO_Registry::get('config_front_limit'),
@@ -693,6 +697,8 @@ class EventsController extends JO_Action {
 
                         $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
                         
+                        $event['date_event'] = Model_Events::cambiafyh_espanol($event['date_event']);
+                        
                         $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
                         $href = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
                         
@@ -719,8 +725,9 @@ class EventsController extends JO_Action {
                         $view->event = $event;
                         $this->view->eventsBox .= $view->render('boxEvent', 'events');
                         
-                        $events[$i]["href"] = $href;
-                        $eventsTot[] = $events[$i];
+                        //$events[$i]["href"] = $href;
+                        //$eventsTot[] = $events[$i];
+                        $eventsTot[] = $event;
                         $i++;
                     }
 
@@ -732,10 +739,14 @@ class EventsController extends JO_Action {
                     $this->view->error = $this->translate('La búsqueda no ha devuelto resultados');
                 }
             }
+            
             else
             {
-                $this->view->all = false;
+                $this->view->all = true;
+                /*
                 
+                $this->view->all = false;
+
                 $dataEvents = array(
                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                     'limit' => JO_Registry::get('config_front_limit')
@@ -758,6 +769,8 @@ class EventsController extends JO_Action {
                         $event['avatar'] = $avatar['image'];
 
                         $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
+                        
+                        $event['date_event'] = Model_Events::cambiafyh_espanol($event['date_event']);                        
                         
                         $event['href'] = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
                         $href = WM_Router::create($request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id']);
@@ -782,8 +795,9 @@ class EventsController extends JO_Action {
                         $view->event = $event;
                         $this->view->eventsBox .= $view->render('boxEvent', 'events');
                         
-                        $events[$i]["href"] = $href;
-                        $eventsTot[] = $events[$i];
+                        //$events[$i]["href"] = $href;
+                        //$eventsTot[] = $events[$i];
+                        $eventsTot[] = $event;
                         $i++;
                     }
 
@@ -796,8 +810,10 @@ class EventsController extends JO_Action {
                 {
                     $this->view->error = $this->translate('La búsqueda no ha devuelto resultados');
                 }
+                 * 
+                 */
             }
-              
+
             $this->view->children = array(
                 'header_part' => 'layout/header_part',
                 'footer_part' => 'layout/footer_part'
@@ -854,6 +870,8 @@ class EventsController extends JO_Action {
 			$events['popup_width'] = $avatar['width'];
 			$events['popup_height'] = $avatar['height'];
 			$events['original_image'] = $avatar['original'];
+                        
+                        $events['date_event'] = Model_Events::cambiafyh_espanol($events['date_event']);
                         
 
                         //$events["sport_category"] = Model_Boards::getCategoryTitle($events["sport_category"]);
@@ -1002,7 +1020,7 @@ class EventsController extends JO_Action {
 		$this->view->url_email = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=email&event_id=' . $event_id );
 		$this->view->url_comment = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
 
-                $view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event_id );
+                $view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event_id );
 		
 		//$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
                 
@@ -1901,35 +1919,35 @@ class EventsController extends JO_Action {
         }
     }
     
-    function cambiafyh_espanol($fechaH)
-{
- $traducir_fecha = explode("-",$fechaH);
- $separaHoras=explode(" ",$traducir_fecha[2]);
- $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
- return $fecha_espana;
-}
-function cambiafyh_espanolAFecha($fechaH)
-{
- $traducir_fecha = explode("-",$fechaH);
- $separaHoras=explode(" ",$traducir_fecha[2]);
- $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]; 
- return $fecha_espana;
-}
-function cambiaf_a_mysql($fecha)
-{ 
-    $fecha_espana = $fecha; 
- $traducir_fecha = explode("/",$fecha_espana); 
- $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]; 
- return $fecha_mysql;
-} 
-function cambiafyh_a_mysql($fecha)
-{ 
-    $fecha_espana = $fecha; 
- $separaHora=explode(" ",$fecha_espana);
- $traducir_fecha = explode("/",$separaHora[0]); 
- $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]." ".$separaHora[1]; 
- return $fecha_mysql;
-}
+    public function cambiafyh_espanol($fechaH)
+    {
+        $traducir_fecha = explode("-",$fechaH);
+        $separaHoras=explode(" ",$traducir_fecha[2]);
+        $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]." ".$separaHoras[1]; 
+        return $fecha_espana;
+    }
+    public function cambiafyh_espanolAFecha($fechaH)
+    {
+        $traducir_fecha = explode("-",$fechaH);
+        $separaHoras=explode(" ",$traducir_fecha[2]);
+        $fecha_espana = $separaHoras[0]."/".$traducir_fecha[1]."/".$traducir_fecha[0]; 
+        return $fecha_espana;
+    }
+    public function cambiaf_a_mysql($fecha)
+    { 
+        $fecha_espana = $fecha; 
+        $traducir_fecha = explode("/",$fecha_espana); 
+        $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]; 
+        return $fecha_mysql;
+    } 
+    public function cambiafyh_a_mysql($fecha)
+    { 
+        $fecha_espana = $fecha; 
+        $separaHora=explode(" ",$fecha_espana);
+        $traducir_fecha = explode("/",$separaHora[0]); 
+        $fecha_mysql = $traducir_fecha[2]."-".$traducir_fecha[1]."-".$traducir_fecha[0]." ".$separaHora[1]; 
+        return $fecha_mysql;
+    }
 }
 
 ?>

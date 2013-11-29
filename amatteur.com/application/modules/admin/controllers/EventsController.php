@@ -87,7 +87,7 @@ class EventsController extends JO_Action {
         if($events) {
             
             foreach($events AS $event) {
-            	$event['pin_href'] = WM_Router::create( $reques->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
+            	$event['event_href'] = WM_Router::create( $reques->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
             	$event['user_href'] = WM_Router::create($reques->getBaseUrl() . '?controller=users&action=profile&user_id=' . $event['user_id']);
                 $event['likes'] = Model_Events::getCountLike($event['event_id']);
                 $event['follow'] = Model_Events::getCountFollow($event['event_id']);
@@ -202,7 +202,7 @@ class EventsController extends JO_Action {
 		}
 		*/
 		$this->view->event_id = $event_id;
-		$this->view->pin_href = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event_id );
+		$this->view->event_href = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event_id );
 		/*
 		$this->view->boards = Model_Boards::getBoards(array(
 			'filter_user_id' => $event_info['user_id'],

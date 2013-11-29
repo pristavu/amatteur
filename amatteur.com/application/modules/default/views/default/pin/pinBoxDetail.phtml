@@ -123,6 +123,11 @@
 					
 				</ul>
                 <?php $isNotPopup = 1; } ?>
+						<?php if($this->pin['from']) { ?>
+                   					<?php if($this->pin['is_article']) { ?>
+                                                            <p class="time"><strong><center><label style="font-size: 1.4em;font-weight: 300;line-height: 1em;color:#8c7e7e;"><?php echo $this->translate('Haz click en la imagen para ir al artículo');?></label></center></strong></a></p>
+						<?php }} ?>                    
+             
                 <div class="photo">
 					<?php if($isNotPopup != 1) { ?>
                   <!--  <p class="icons">

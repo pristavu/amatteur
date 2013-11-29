@@ -45,7 +45,7 @@
                 weekHeader: 'Sm',
                 firstDay: 1,
 			timeOnlyTitle: 'Elegir hora',
-			timeText: 'Tiempo',
+			timeText: '',
 			hourText: 'Hora',
 			minuteText: 'Minuto',
 			secondText: 'Segundo',

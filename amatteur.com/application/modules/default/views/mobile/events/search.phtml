@@ -9,11 +9,7 @@
     
     
 
-                    <label style="font-size: 2.8em;
-font-weight: 300;
-line-height: 1em;
-color:#0061A5;
-float:none;"> 
+                    <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:none;"> 
             <?php if ($this->all) { ?>                        
                     <image src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
             <?php } else { ?>
@@ -80,8 +76,7 @@ float:none;">
                     <!-- Organiza -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <label for="organiza"><?php echo $this->translate('Organiza'); ?> <br class="hide" /></label>
-                            <span class="field"><input type="text" name="organiza" class="organiza" id="organiza" value="<?php echo $this->organiza; ?>" /></span>
+                            <span class="field"><input type="text" name="organiza" class="organiza" id="organiza" value="<?php echo $this->organiza; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Organiza') ?>" style='width: 250px !important' autocomplete='off'/></span>
                         </div>
                     </li>
 
@@ -89,8 +84,7 @@ float:none;">
                     <!-- Ubicacion -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <label for="location"><?php echo $this->translate('Location activate'); ?> <br class="hide" /></label>
-                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Ubicación') ?>" style='width: 250px !important' autocomplete='off'/></span>
                         </div>
 
                         <div id="map-canvas"></div>
@@ -100,14 +94,12 @@ float:none;">
                     <!-- Fecha -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <label for="date"><?php echo $this->translate('Fecha'); ?> <br class="hide" /></label>
-                            <span class="field"><?php echo $this->translate('Desde'); ?>  <input type="text" name="date_event1" class="date_event1" id="date_event1" value="<?php echo $this->date_event1; ?>" /></span>
+                            <span class="field"> <input type="text" name="date_event1" class="date_event1" id="date_event1" value="<?php echo $this->date_event1; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Fecha Desde') ?>" style='width: 250px !important' autocomplete='off'/></span>
                             </div>
                     </li>
                     <li>    
                         <div class="input" style="padding-top: 0px">
-                            <label for="date">&nbsp; <br class="hide" /></label>
-                            <span class="field"><?php echo $this->translate('Hasta'); ?>  <input type="text" name="date_event2" class="date_event2" id="date_event2" value="<?php echo $this->date_event2; ?>" /></span>
+                            <span class="field"><input type="text" name="date_event2" class="date_event2" id="date_event2" value="<?php echo $this->date_event2; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Fecha Desde') ?>" style='width: 250px !important' autocomplete='off'/></span>
                         </div>
 
                     </li>
@@ -138,8 +130,8 @@ float:none;">
 	</form>
 </div>     
 
-                <div id="mapa" style="width: 1000px; height: 400px;margin-top:10px;margin-left:0px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-500px;margin-left:600px" />
+                <!--div id="mapa" style="width: 1000px; height: 400px;margin-top:10px;margin-left:0px"></div>
+                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-500px;margin-left:600px" /-->
             
             <?php } else { ?>                            
 
@@ -190,19 +182,29 @@ $(document).ready(function(){
 
         $('#date_event1').datetimepicker({
             dateFormat: 'dd/mm/yy',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            showTimepicker: false,
             controlType: 'select'
         });
 
         $('#date_event2').datetimepicker({
             dateFormat: 'dd/mm/yy',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            alwaysSetTime: false,
+            showTimepicker: false,
+            hour: 23,
+            minute: 59,
             controlType: 'select'
         });
-
 });        
 </script>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
-      type="text/javascript"></script>
+<!--script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
+      type="text/javascript"></script-->
 
     <script type="text/javascript">
    
@@ -324,6 +326,7 @@ function GLoad()
         while (new Date() < ms){}
     } 
 
+
     function colocar()
     {
 
@@ -344,48 +347,9 @@ function GLoad()
 
         var map = new google.maps.Map(document.getElementById('mapa'), mapOptions);
 
-      var gm = google.maps;
-      var iw = new gm.InfoWindow();
-	  
-      var oms = new OverlappingMarkerSpiderfier(map,
-        {markersWontMove: true, markersWontHide: true});
-      
-	  
-      var usualColor = 'F75850';
-      var spiderfiedColor = 'ffee22';
-      var iconWithColor = function(color) {
-        return 'http://chart.googleapis.com/chart?chst=d_map_xpin_letter&chld=pin|+|' +
-          color + '|000000|ffff00';
-      }
-	  
-      var shadow = new gm.MarkerImage(
-        'https://www.google.com/intl/es_ALL/mapfiles/shadow50.png',
-        new gm.Size(37, 34), // size - for sprite clipping
-        new gm.Point(0, 0), // origin - ditto
-        new gm.Point(10, 34) // anchor - where to meet map location
-      );
-      
-      oms.addListener('click', function(marker) {
-        iw.setContent(marker.desc);
-        iw.open(map, marker);
-      });
-      oms.addListener('spiderfy', function(markers) {
-        for(var i = 0; i < markers.length; i ++) {
-          markers[i].setIcon(iconWithColor(spiderfiedColor));
-          markers[i].setShadow(null);
-        }
-        iw.close();
-      });
-      oms.addListener('unspiderfy', function(markers) {
-        for(var i = 0; i < markers.length; i ++) {
-          markers[i].setIcon(iconWithColor(usualColor));
-          markers[i].setShadow(shadow);
-        }
-      });
-      
-      var bounds = new gm.LatLngBounds();
-      for (var i = 0; i < locations.length; i ++) {
-          
+        for (i = 0; i < lat.length; i++) 
+        {             
+
             var locationString = locations[i];
             var fullnameString = fullname[i];
             var avatarString = avatar[i];
@@ -410,30 +374,52 @@ function GLoad()
                 '</div>'+
                 '</div>';
           
-          
-        var loc = new gm.LatLng(lat[i],lng[i]);
-        bounds.extend(loc);
-        var marker = new gm.Marker({
-          position: loc,
-          title: fullnameString + ", " + locationString,
-          map: map,
-          icon: iconWithColor(usualColor),
-          shadow: shadow
-        });
-        marker.desc = contentString;
-        oms.addMarker(marker);
-      }
-      map.fitBounds(bounds)
+
+            var infowindow = new google.maps.InfoWindow({
+                content: contentString
+            });
+
+            var myLatlng = new google.maps.LatLng(lat[i],lng[i]);
+
+            var marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: fullnameString + ", " + locationString
+            });
+  
+  // mete todos los click en el mismo sitio
+/*
+            google.maps.event.addListener(marker, 'click', function() {
+                infowindow.setOptions({
+                    content: contentString
+                });
+                infowindow.open(map,marker);
+            });
+*/
+
+ 
+
+                google.maps.event.addListener(marker, 'click', (function(marker, contentString, infowindow) {
+                  return function() {
+                    infowindow.setContent(contentString);
+                    infowindow.setOptions({
+                        content: contentString
+                    });
+                    infowindow.open(map, marker);
+                  }
+                })(marker, contentString, infowindow));
+
+        }
+
 
     }
     
-
-<?php } ?> 
+    <?php } ?>
 
 }
 
 </script>        
-        
+
 <script type="text/javascript">
 
 $(document).ready(function(){

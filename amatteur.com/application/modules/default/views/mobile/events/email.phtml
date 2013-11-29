@@ -32,9 +32,11 @@
 <script type="text/javascript">
 $('#emailpin form').submit(function(){
 	$('.error-message').html('');
+        $(".submit").css("background-color", "#f2f0f0");
 	jQuery.post('<?php echo $this->url_form;?>', jQuery('#emailpin form').serialize(), function(result){
 		jQuery('#emailpin').replaceWith( result );
 	});
+        $(".submit").css("background-color", "#0070bf");
 	return false;
 });
 <?php if($this->pin_oppener) { ?> 

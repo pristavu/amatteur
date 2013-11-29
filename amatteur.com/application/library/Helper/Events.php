@@ -98,7 +98,8 @@ class Helper_Events {
 		$event['description'] = self::descriptionFix($event['description']);
 		$event['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id'] );
 	
-
+                //$event['date_event'] = Model_Events::cambiafyh_espanol($event['date_event']);
+                        
                 $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
 
                 $page = (int) $request->getRequest('page');
@@ -369,7 +370,7 @@ class Helper_Events {
 			}
 		}
 		*/
-		$view->pin_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
+		$view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
 		
 		$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
                 

@@ -101,7 +101,7 @@
                 <li style="border:0px">
                     <label for="category_id-select<?php echo ($this->is_edit?'-edit':'');?>"><?php echo $this->translate('My Sports');?></label>
                     <div class="Right" id='catList'>
-                        <a id="moresports" onclick="deportes()"  class="Button RedButton moresports " style="margin-top:0px;" ><?php echo $this->translate('Seleccionar ...');?></a>
+                        <a id="moresports" onclick="deportes()"  class="Button RedButton moresports " style="margin-top:0px;text-shadow: 0 0px rgba(255, 255, 255, 0.898);" ><?php echo $this->translate('Seleccionar ...');?></a>
                         <br/><br/>
                         <div id="divSports" name="divSports" >
                         	<?php foreach($this->user_sports as $user_sport) {  ?>
@@ -254,7 +254,7 @@
                 <!-- More Location -->
                 <p class="input">
                     <input type='hidden' id="locationcounter" name="locationcounter"  class="locationcounter" value="<?php echo $this->locationcounter; ?>"/>
-                    <label><?php echo $this->translate('Añadir ubicación');?>&nbsp;<a id="morelocations" href="" class="Button RedButton morelocations" style="margin-top:0px;" ><?php echo $this->translate('Añadir');?></a></label>
+                    <label><?php echo $this->translate('Añadir ubicación');?>&nbsp;<a id="morelocations" href="" class="Button RedButton morelocations" style="margin-top:0px;text-shadow: 0 0px rgba(255, 255, 255, 0.898);" ><?php echo $this->translate('Añadir');?></a></label>
                     
                     <span class="field"><input type="text" id="searchTextField2" value="" name="locationAux" class="locationAux"></span>
                     <span class="addtext" style="float:left"><?php echo $this->translate('Pulsa añadir después de buscar la ubicación');?></span>  

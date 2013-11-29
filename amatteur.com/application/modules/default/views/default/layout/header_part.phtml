@@ -588,7 +588,7 @@ if (!$this->is_loged)
                         
                     <div class="menubienvenido" >                                                 
                 <!--div class="menumenus"-->
-                    <ul class="links" style="right:0px;top:2px;width: 710px">
+                    <ul class="links" style="right:0px;top:2px;width: 750px">
                         <!--
     <?php if ($this->is_loged)
     { ?>
@@ -617,7 +617,7 @@ if (!$this->is_loged)
         <?php if ($this->categories)
         { ?>
                             <li class="last" style="float:left;">
-                                <a class="arrow" href="<?php echo $this->all_url; ?>"><img width="20px" height="18px" src="data/images/ico_todo.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Everything'); ?><?php if ($this->category_active)
+                                <a class="arrow" href="<?php echo $this->all_url; ?>"><?php echo $this->translate('Deporte:'); ?>&nbsp;<?php echo $this->translate('Everything'); ?><?php if ($this->category_active)
         { ?>: <?php echo $this->category_active; ?><?php } ?></a>
                                 <div class="dropdown columns-2 categoriesMenu">
         <?php $total = count($this->categories); ?>

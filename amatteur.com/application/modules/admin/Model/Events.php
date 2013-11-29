@@ -1,7 +1,7 @@
 <?php
 
 class Model_Events {
-	
+/*	
 	private function common() {
 		
 		static $data = null;
@@ -28,7 +28,7 @@ class Model_Events {
 		), array('pin_id = ?' => (string)$event_id));
 		
 	}
-	
+*/	
 	public static $searchWordLenght = 3;
 	
 	private static $thumb_sizes = array(
@@ -71,7 +71,11 @@ class Model_Events {
 		if(isset($data['filter_event_id']) && $data['filter_event_id']) {
 			$query->where('p.event_id = ?', (string)$data['filter_event_id']);
 		}
-		
+
+		if(isset($data['filter_eventname']) && $data['filter_eventname']) {
+			$query->where('p.eventname LIKE ?', '%'.$data['filter_eventname'].'%');
+		}
+                
 		if(isset($data['filter_user_id']) && $data['filter_user_id']) {
 			$query->where('p.user_id = ?', (string)$data['filter_user_id']);
 		}
@@ -79,40 +83,14 @@ class Model_Events {
 		if(isset($data['filter_fullname']) && $data['filter_fullname']) {
 			$query->where('u.firstname LIKE ? OR u.lastname LIKE ?', '%'.$data['filter_fullname'].'%');
 		}
-		
+                
 		if(isset($data['filter_username']) && $data['filter_username']) {
 			$query->where('u.username LIKE ?', '%'.$data['filter_username'].'%');
 		}
 		
 		
 		if(isset($data['filter_description']) && $data['filter_description']) {
-			$words = JO_Utf8::str_word_split( mb_strtolower($data['filter_description'], 'utf-8') , self::$searchWordLenght);
-			
-			if( count($words) > 0 ) {
-				
-				$sub = "SELECT `dic_id`, `dic_id` FROM `pins_dictionary` `d` WHERE ( ";
-				foreach($words AS $key => $word) {
-					if($key) {
-						$sub .= ' OR ';
-					}
-					$sub .= "`d`.`word` = " . $db->quote($word) . " OR MATCH(`d`.`word`) AGAINST (" . $db->quote($word) . ")";
-				}
-				$sub .= ')';
-				
-				$dicts = $db->fetchPairs($sub);
-				
-				$tmp_dic_ids = array();
-				if(COUNT($dicts) > 0) { 
-					$query->joinLeft('pins_invert', 'p.pin_id = pins_invert.pin_id', 'dic_id')
-					->where('pins_invert.`dic_id` IN (' . implode(',', $dicts) . ')')
-					->group('p.pin_id');
-				} else {
-					$query->where('p.pin_id = 0');
-				}
-				
-			} else {
-				$query->where('p.pin_id = 0');
-			}
+			$query->where('p.description LIKE ?', '%'.$data['filter_description'].'%');
 		}
 		
 		return $query;
@@ -162,9 +140,10 @@ class Model_Events {
 		}
 		
 		////////////filter
-                error_log($query);
-		
+	
 		$query = self::FilterBuilder($query, $data);
+                
+//                error_log($query);                
 		
 		return $db->fetchAll($query);
 	}
@@ -424,7 +403,7 @@ class Model_Events {
 		}
 		
 	}
-	
+/*	
 	public static function deleteCache($pin) {
 		@unlink(BASE_PATH . '/cache/data/pins/' . WM_Date::format($pin['date_added'], 'yy/mm/dd/') . $pin['pin_id'] . '.cache');
 		@unlink(BASE_PATH . '/cache/data/pins/' . WM_Date::format($pin['date_added'], 'yy/mm/dd/') . 'author/' . $pin['pin_id'] . '.cache');
@@ -545,7 +524,7 @@ class Model_Events {
 					->order('sort_order ASC');
 		return $db->fetchAll($query);
 	}
-
+*/
 
 }
 

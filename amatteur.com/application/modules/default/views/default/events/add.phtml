@@ -2,12 +2,12 @@
 
 <div id="detail" class="editprofile"> <!-- style="background-color:white;padding-left: 20px;padding-right: 20px"-->
 	<div id="view-profile">
-                <label style="font-size: 2.8em;
-font-weight: 300;
-line-height: 1em;
-color:#0061A5;
-float:left;"> 
-                    <image src="data/images/anadir_editar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
+                <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:left;"> 
+                <?php if ($this->edited) { ?>
+                    <image src="data/images/editar_eventto.png"  height="53px" width="235px" >&nbsp; </strong></label>
+                <?php } else { ?>
+                    <image src="data/images/anadir_eventto.png"  height="53px" width="235px" >&nbsp; </strong></label>
+                <?php } ?>
             <div>
             <?php if ($this->cancel == '1') { ?>
             <div style="width:auto;padding-top: 70px">
@@ -240,6 +240,7 @@ $(document).ready(function(){
 
         $('#date_event').datetimepicker({
             dateFormat: 'dd/mm/yy',
+            timeText: '',
             controlType: 'select'
         });
 
@@ -284,6 +285,7 @@ alert("height" + $("#detail").height());
                 val = $("#id_eventname").val();
 		$.post('<?php echo $this->search_json;?>', {eventname: val}, function(data){
                     $("#contenedor").html(data.events);
+                    $("#contenedor").css("padding-top", "990px");
                     $(".Submit").css("padding-top", "24px");
 		},'json');
 	}

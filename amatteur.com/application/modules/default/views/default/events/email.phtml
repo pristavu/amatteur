@@ -23,7 +23,7 @@
 			<textarea name="message" id="message" rows="5" cols="30"><?php echo $this->Recipient_message;?></textarea>
 		</p>
 		<div class=" clear"></div>
-		<p class="submit mtop10"><input type="submit" value="<?php echo $this->translate('Send Email')?>" name="emailpin" /></p>
+		<p class="submit mtop10"><input id="summit" type="submit" value="<?php echo $this->translate('Send Email')?>" name="emailpin" /></p>
 		<div class=" clear"></div>
 	</form>
 </div>
@@ -32,11 +32,19 @@
 <script type="text/javascript">
 $('#emailpin form').submit(function(){
 	$('.error-message').html('');
+        var valSubmit = '<?php echo $this->translate('Send Email')?>';
+        $('.submit.mtop10').html('<input id="summit" style="background-color:#f2f0f0!important" type="submit" value="' + valSubmit + '" name="emailpin" />');
+        //$('#summit').val(valSubmit);
+        //alert($('#summit').val());
+        //$('#summit').css("background-color", "#f2f0f0 !important");        
 	jQuery.post('<?php echo $this->url_form;?>', jQuery('#emailpin form').serialize(), function(result){
 		jQuery('#emailpin').replaceWith( result );
 	});
+        //$("#emailpin form .submit input").css("background-color", "#0070bf !important");
 	return false;
 });
+
+
 <?php if($this->pin_oppener) { ?> 
 $('input[name=pin_oppener]').val('<?php echo $this->pin_oppener;?>');
 <?php } else { ?>

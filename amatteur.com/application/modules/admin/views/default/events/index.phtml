@@ -42,7 +42,7 @@
 	<strong><?php echo $this->translate('Note: If you delete an entry, information will be lost.');?></strong>
 </p>
 
-<form action="<?php echo $module;?>/pins/" method="get" id="testtt">
+<form action="<?php echo $module;?>/events/" method="get" id="testtt">
 <table cellspacing="0" cellpadding="0" class="display">
 	<thead>
 		<tr class="nodrop nodrag">
@@ -101,7 +101,7 @@
             
 			<th colspan="2">
 				<input type="submit" value="<?php echo $this->translate('Filter');?>" class="button">
-				&nbsp; <a href="<?php echo $module;?>/pins/"><img src="cms/<?php echo $module;?>/images/reload.png" class="tooltip"  alt="" title="<?php echo $this->translate('Reset');?>" /></a>
+				&nbsp; <a href="<?php echo $module;?>/events/"><img src="cms/<?php echo $module;?>/images/reload.png" class="tooltip"  alt="" title="<?php echo $this->translate('Reset');?>" /></a>
 			</th>
 		</tr>
 	</thead>
@@ -144,7 +144,7 @@
                                 <?php echo $event['follow'];?>
 			</td>
 			<td>
-				<?php echo Helper_Pin::descriptionFix($event['description']);?>
+				<?php echo Helper_Events::descriptionFix($event['description']);?>
 			</td>
 			<td>
 			</td>

@@ -9,11 +9,7 @@
     
     
 
-                    <label style="font-size: 2.8em;
-font-weight: 300;
-line-height: 1em;
-color:#0061A5;
-float:none;"> 
+                    <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:none;"> 
             <?php if ($this->all) { ?>                        
                     <image src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
             <?php } else { ?>
@@ -89,7 +85,7 @@ float:none;">
                     <!-- Ubicacion -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <label for="location"><?php echo $this->translate('Location activate'); ?> <br class="hide" /></label>
+                            <label for="location"><?php echo $this->translate('Ubicación'); ?> <br class="hide" /></label>
                             <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
                         </div>
 
@@ -138,8 +134,8 @@ float:none;">
 	</form>
 </div>     
 
-                <div id="mapa" style="width: 1000px; height: 400px;margin-top:210px;margin-left:40px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                <!--div id="mapa" style="width: 1000px; height: 400px;margin-top:210px;margin-left:40px"></div>
+                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" /-->
             
             <?php } else { ?>                            
 
@@ -190,11 +186,22 @@ $(document).ready(function(){
 
         $('#date_event1').datetimepicker({
             dateFormat: 'dd/mm/yy',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            showTimepicker: false,
             controlType: 'select'
         });
 
         $('#date_event2').datetimepicker({
             dateFormat: 'dd/mm/yy',
+            showTime: false,
+            showHour: false,
+            showMinute: false,
+            alwaysSetTime: false,
+            showTimepicker: false,
+            hour: 23,
+            minute: 59,
             controlType: 'select'
         });
 

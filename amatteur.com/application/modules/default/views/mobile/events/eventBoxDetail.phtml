@@ -330,7 +330,7 @@ $(document).ready(function(){
 		}
 	}).autoResize().clearOnFocus();
 
-	$('.fb-like-button').html('<iframe src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode($this->pin_url);?>&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>');
+	$('.fb-like-button').html('<iframe src="//www.facebook.com/plugins/like.php?href=<?php echo urlencode($this->event_url);?>&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>');
 		
 	
 });
@@ -342,7 +342,7 @@ $('#share-fb').click(function(e){
     FB.ui({
         method: 'feed',
         name: 'This is the content of the "name" field.',
-        link: ' <?php echo $this->pin_url;?>',
+        link: ' <?php echo $this->event_url;?>',
         picture: '<?php echo $this->pin['thumb'];?>',
         caption: 'This is the content of the "caption" field.',
         description: $('.info .view .desc').html(),
