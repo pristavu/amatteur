@@ -6,13 +6,11 @@
           
             <form class="Form StaticForm" action="<?php echo $this->activatePopup; ?>" method="post" id="profileEdit">
                 
-                <h3><b><?php echo $this->translate('Apúntate a Volunttarios ');?></b></h3>
-                <div style="margin-left: 0px">
+                <h3 style="border-bottom:0px;padding-bottom:0px"><b><?php echo $this->translate('Apúntate a Volunttarios ');?></b></h3>
                 <strong><?php echo $this->translate('"El deporte tiene el poder de cambiar el mundo; tiene el poder de inspirar; tiene el poder de unir a las personas de una manera que pocas cosas pueden lograr" Nelson Mandela.');?></strong>
                 <?php echo $this->translate('En cada una de nuestras ciudades y pueblos hay personas, sobre todo niños y jóvenes, que con un poco de ayuda e inspiración se sumarían a la práctica del deporte, y con este, a sus valores de superación, compañerismo, entusiasmo, juego limpio,..., y con ello, a una vida mejor. '); ?>
                 <?php echo $this->translate('Con ese objetivo, amatteur quiere ayudar a ayudar, dando la herramienta a su comunidad, para que quien quiera y pueda se sume al programa "volunttarios", que ya se encuentra en programación y estará online en las próximas semanas. '); ?>
                 <?php echo $this->translate('Te podrás ofrecer voluntario para muchos tipos de acciones, y luego, en función de la solicitudes de ayuda y conversaciones que tengas con los solicitantes, tu elijes coo enfocar tus acciones, con quién, dónde..., algunas de las acciones que proponemos son'); ?>
-                </div>
                 <h3></h3>
             
                 <div class="hide">
@@ -104,9 +102,9 @@
                     </li>  
                     <!-- Ubicacion -->
                     <li>
+                        <label for="id_zona"><?php echo $this->translate('Zona geográfica'); ?></label>
                         <p class="input">
-                            <label for="location"><?php echo $this->translate('Zona geográfica'); ?> <br class="hide" /></label>
-                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" id="registration_box" placeholder="<?php echo $this->translate('Zona geográfica') ?>" style='min-width: 270px !important' autocomplete='off'/></span>
                             <span class="help_text"><?php echo $this->translate('e.g. Palo Alto, CA'); ?></span>  
                             <span style="color:red">*</span>
                             <input type="hidden" name="lat" class="lat" id="lat" value="<?php echo $this->lat;?>" />
@@ -119,13 +117,13 @@
                         <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Deporte'); ?></label>
                         <div class="Right" id='catList'>
 
-                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='min-width: 250px !important;width: 250px; display: inline-block;'>
                                 <?php if (!$this->cat_title)
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->translate('Please choose sport'); ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 250px;"><?php echo $this->translate('Please choose sport'); ?></span>
                                 <?php } else
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->cat_title; ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 250px;"><?php echo $this->cat_title; ?></span>
                                 <?php } ?>
                                 <span class="selectBox-arrow" style=""></span>
                             </a>
@@ -160,19 +158,19 @@
                         <div class="left w335px">
                             <p>
                                 <label for="message"><?php echo $this->translate('Comment'); ?>:<br></label>
-                                <textarea name="comment" id="comment" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
+                                <textarea style="min-width: 250px !important;width: 250px !important;" name="comment" id="comment" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
                             </p>
                             <p class="text_counter"></p>
                         </div>
-                <!-- Grabar -->
-                                    <li>
+                    <!-- Grabar -->
+                    <li>
                         <div class="left w335px">
                             <p class="submit">
                                 
-                                    <label for="required"><span style="color:red">*</span><?php echo $this->translate('Fields required'); ?><br></label>
+                            <label for="required"><span style="color:red">*</span><?php echo $this->translate('Fields required'); ?><br></label>
                             <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Salir'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Salir'); ?>">
                             </p>
                         </div>
                     </li>				

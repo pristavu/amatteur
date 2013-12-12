@@ -1,28 +1,29 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="width:460px;height: 368px">
-    <a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
+<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="padding-bottom: 48px;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 5px;margin-top: 10px" >
+    <img style="padding-top: 10px;" src="<?php echo $this->user['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->user['fullname'] ?>">
+    <!--a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
 					<img style="height:110px;width:110px;" data-original="<?php echo $this->user['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->user['fullname'];?>" />
 				</a>
 			</p-->
-
+                        
 		<div class="PersonInfo">
                         <div style="display:table">
                             <div style="display:table-row">
                                 <div style="display:table-cell">
                                     <h2><?php echo $this->user['fullname'];?></h2>
                                 </div><div style="display:table-cell">
-                                    <div class="follow">
+                                    <div class="follow" style="margin-left:10px">
 <!--------------------------------------------------------------->
     <?php if (!$this->loged) { ?>
-                        <a href="users/register" style="width:95px !important;height:28px !important"><?php echo $this->translate('Regístrate para contactar'); ?></a>
+                        <a class="red mbtn" href="users/register" style="width:95px !important;height:48px !important"><?php echo $this->translate('Regístrate para contactar'); ?></a>
     <?php } ?>
 
 
     <?php if ($this->loged) { ?>
     <?php 
 			echo '<div id="divMailsHeader" style="border-bottom:0px">';
-                        echo '<a id="newMail" href="'.$this->addMail.'?user_voluntario_name='.$this->user['fullname'].'" class="silverbox" title="'.$this->translate('Enviar mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
+                        echo '<a class="red mbtn" id="newMail" href="'.$this->addMail.'?user_voluntario_name='.$this->user['fullname'].'" class="silverbox" title="'.$this->translate('Enviar mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
 			echo '</div>';
     } ?>
 

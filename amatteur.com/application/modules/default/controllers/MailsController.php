@@ -45,9 +45,11 @@ class MailsController extends JO_Action {
                 }
             }
         }   
-        error_log(" user_id " . JO_Session::get('user[user_id]'));
+        //error_log(" user_id " . JO_Session::get('user[user_id]'));
                 
                 $this->view->user_activate = $request->getRequest('user_fullname');
+                
+                $this->view->user_voluntario = $request->getRequest('user_voluntario_name');
                 
                 $this->view->user_id = $request->getRequest('user_id');
                 

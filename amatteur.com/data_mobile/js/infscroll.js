@@ -22,6 +22,11 @@ $(document).ready(function(){
                                 var query = urlSearch.split('?');
                                 url=window.location+((urlSearch).indexOf('?')>-1?"&":"?")+"page="+i+"&RSP=ajax&" + query[1];
                             }
+                            else
+                            {
+                                url=window.location+((window.location.href).indexOf('?')>-1?"&":"?")+"page="+i+"&RSP=ajax";
+                            }
+                            
                         }
                         else
                         {
@@ -43,7 +48,7 @@ $(document).ready(function(){
 
                                     $.each($(d),function(c,e){
 
-                                            if($(e).hasClass('pin')){
+                                            if($(e).hasClass('pin') || $(e).hasClass('person')  || $(e).hasClass('tappable')){
                                                     setTimeout(function(){
                                                             $("#container").append($(e));
 

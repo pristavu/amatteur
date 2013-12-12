@@ -1,10 +1,4 @@
-<div class="box<?php echo $this->history_action;?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: auto;border-width: 0px;border-color: #cccaca; border-style: solid;background-color: white">
-    <!--a style="background-image: url(<?php echo $this->event['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->event['href'];?>"></a-->
-			<!--p class="thumb">
-				<a class="PersonImage" href="<?php echo $this->event['href'];?>">
-					<img style="height:110px;width:110px;" data-original="<?php echo $this->event['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->event['fullname'];?>" />
-				</a>
-			</p-->
+<!--div class="box<?php echo $this->history_action;?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: auto;border-width: 0px;border-color: #cccaca; border-style: solid;background-color: white">
             <div class="PersonInfo">
                 <div style="display:table">
                     <div style="display:table-cell;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 2px;width:390px">                            
@@ -67,4 +61,14 @@
                 
         </div>                    
     </div>
-</div>
+</div-->
+	<div class='pin'>
+	
+		<a href='/events/indexeventBoxDetail?event_id=<?php echo $this->event['event_id']; ?>'>
+			<img alt='' src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-original='<?php echo $this->event['avatar'];?>' width='93' height='<?php echo round( 93 / ( $this->event['width']/$this->event['height'] ) );?>'/>
+		
+		</a>
+	
+
+	</div>
+

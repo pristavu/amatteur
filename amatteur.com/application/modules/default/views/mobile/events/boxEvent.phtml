@@ -1,4 +1,4 @@
-<div class="  <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->event['event_id'];?>" style="width:460px;height: auto;min-height: 150px;border-width: 0px;border-color: #cccaca; border-style: solid;">
+<div class="  <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->event['event_id'];?>" style="border-width: 0px;border-color: #cccaca; border-style: solid;margin-top: 10px">
     <!--a style="background-image: url(<?php echo $this->event['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->event['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->event['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->event['href'];?>">
@@ -8,7 +8,7 @@
 
             <div class="PersonInfo">
                 <div style="display:table">
-                    <div style="display:table-cell;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 2px;width:390px">                            
+                    <div style="display:table-cell;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 2px;">
                         <div style="display:table-row">
                                 <div style="display:table-cell">
                                     <h2><?php echo $this->event['eventname'];?></h2>
@@ -23,9 +23,9 @@
                                     <?php } ?>
                                 </div>
                         </div>
-                        <div style="display:table" >
+                        <div style="display:table">
                             <div style="display:table-row">
-                                <div style="display:table-cell">
+                                <div style="display:table-cell;width: 10%">
                                     <p class="location colorless"><?php echo $this->translate('Organiza:');?> </div>
                                 <div style="display:table-cell">
                                     <?php echo $this->event['organiza'];?></p>
@@ -52,6 +52,8 @@
                                      <?php echo $this->event['website'];?></p> 
                                 </div>
                             </div>
+                        </div>    
+                        <div style="display:table">
                             <div style="display:table-row">
                                 <div style="display:table-cell">
                                     <p class="location colorless"><?php echo $this->translate('Publicado por: ');?> </div>
@@ -60,22 +62,15 @@
                                 </div>
                             </div>
                         </div>
-			
-		</div>
-                <div style="display:table-cell">&nbsp;</div>
-                <div style="display:table-cell">
-                    <p>
-                        <img style="height:110px;width:110px;" src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['eventname'];?>" />
-                    </p>
-                </div> 
-                <div style="display:table-cell">&nbsp;</div>
-                <div style="display:table-cell;top:10px">
-                    <div style="display:table-row">
-                        <a class="red mbtn" href="<?php echo $this->boxeventdetail;?>" <?php if ($this->search_add) { ?> target="_blank" <?php } ?> ><?php echo $this->translate('Ver');?></a>
-                    </div>
-                    <div style="display:table-row">
-                        <a class="red mbtn" href="<?php echo $this->boxeventdetail;?>&comment=1" <?php if ($this->search_add) { ?> target="_blank" <?php } ?> ><?php echo $this->translate('Comentar');?></a>
-                    </div>
+                        <div style="display:table">
+                        <div style="display:table-row">
+                            <img  src="<?php echo $this->event['avatar'];?>" alt="<?php echo $this->event['eventname'];?>" />
+                        </div>			                        
+                        <div style="display:table-cell">
+                            <a class="red mbtn" href="<?php echo $this->boxeventdetail;?>" <?php if ($this->search_add) { ?> target="_blank" <?php } ?> ><?php echo $this->translate('Ver');?></a>
+                            <a class="red mbtn" href="<?php echo $this->boxeventdetail;?>&comment=1" <?php if ($this->search_add) { ?> target="_blank" <?php } ?> ><?php echo $this->translate('Comentar');?></a>
+                        </div>
+                        </div>                        
                 </div> 
                 
         </div>                    

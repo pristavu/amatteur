@@ -244,7 +244,7 @@ class LayoutController extends JO_Action {
 		$this->view->events_url = WM_Router::create( $request->getBaseUrl() . '?controller=events' );
 
 		//////////// Volunttarios ////////////
-		$this->view->voluntarios_url = WM_Router::create( $request->getBaseUrl() . '?controller=voluntarios' );
+		$this->view->voluntarios_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=voluntarioMenuPopup&user_id=' . $this->view->is_loged  );
                 
                 
 		////////////////////////////// SEARCH ///////////////////////////

@@ -6,36 +6,20 @@
 	<div id="container" style="margin-top:10px;margin-left: 0px;" >
     <?php } ?>
 
-	            	<span class="greyselected" style="font-size: 1.8em;
-font-weight: 300;
-line-height: 1em;
-color:#0061A5;
-float:left;"> 
+	            	<span class="greyselected" style="font-size: 1.6em;font-weight: 300;line-height: 1em;color:#0061A5;float:left;"> 
                             <label>
                                 <div style="width:70px;float:left">
                                     <image src="data/images/eventtos_deportivos.png" height="53px" width="235px" >&nbsp;<strong>
                                 </div>    
-                                <div style="width:560px;margin-left: 0px;padding-bottom: 30px;padding-top: 40px">
-                                    <br/> 
+                                <div style="width:330px;margin-left: 0px;padding-bottom: 30px;padding-top: 40px">
+                                    <br/><br/> 
                                     <span class="hilight"><?php echo $this->translate('Busca, comparte, promociona ');?></span></strong><br/><br/>
                                     <span style="font-size: 0.8em;"><?php echo $this->translate('cualquier tipo de evento deportivo; cualquier deporte, en cualquier lugar, lo podrás encontrar aquí. Una base de datos creada y moderada por la comunidad amatteur');?></span>
                                 </div>
                             </label>
                         </span>
 
-		<div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;
-height: 35px;
-padding: 10px 10px 12px 170px;
-text-shadow: 0 1px rgba(255,255,255,0.9);
-margin-top:110px;
-margin-left: 0px;
-clear: both;
-min-width: 340px;
-white-space: nowrap;
-box-shadow: 0;
-font-size: 1.8em;
-font-weight: 300;
-line-height: 1em;">
+		<div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 10px 12px 0px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-top:110px;margin-left: 0px;clear: both;min-width: 340px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;">
 			<div class="box2">
                                 <span class="selected"><a id="search" href="<?php echo $this->search_url ?>" class="red mbtn search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar');?></a></span>
                                 <?php if ($this->user_data) { ?>                    
@@ -43,27 +27,14 @@ line-height: 1em;">
                                 <?php } else { ?> 
                                 <span><a id="addEvent" onclick="addEvent()"  class="red mbtn addEvent " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Añadir');?></a></span>
                                 <?php } ?>                    
-        	</div>
+                        </div>
                     
-        </div>
-            <div class="" style="min-width: 300px;width:100px;min-height: 24px;
-height: 25px;
-padding: 10px 0 12px;
-text-shadow: 0 1px rgba(255,255,255,0.9);
-margin-top:10px;
-clear: both;
-margin-left: 0px;
-white-space: nowrap;
-box-shadow: 0;"
+                </div>
+                <div class="" style="width:330px;height: 25px;padding: 10px 0 12px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-top:10px;clear: both;margin-left: 0px;white-space: nowrap;box-shadow: 0;">
                                 <?php  if (!$this->user_data) { ?>                    
-
-		<p class="input">                            
-                                <span class="addtext" style="font-size: 1.3em;
-font-weight: 300;
-line-height: 1em;"><?php echo $this->translate('Para añadir un evento tienes que estar registrado. ');?><a id="register" href="<?php echo $this->register_url ?>" class="red mbtn register " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Regístrate Aquí');?></a></span>
-        </p>            	
+                                    <span class="addtext" style="width:330px;font-size: 1.3em;font-weight: 300;line-height: 1em;"><?php echo $this->translate('Para añadir un evento tienes ');?><br/><?php echo $this->translate('que estar registrado. ');?><br/><a id="register" href="<?php echo $this->register_url ?>" class="red mbtn register " style="margin-top:20px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Regístrate Aquí');?></a></span>
                                 <?php } ?>
-            </div>
+                </div>
 
 		<?php echo $this->pins;?>
 		

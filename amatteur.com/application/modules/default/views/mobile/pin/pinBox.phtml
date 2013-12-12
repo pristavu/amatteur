@@ -169,11 +169,12 @@
 <!-- if the controller is catgegory and action is index -->
 
 <?php if( $this->getRequest()->getController() == 'category' || 
-	      $this->getRequest()->getController() == 'popular'  ||
-		  $this->getRequest()->getController() == 'gifts' 	 ||
-		  $this->getRequest()->getController() == 'all' 	 ||
-		  $this->getRequest()->getController() == 'search' 	 ||        
-		  $this->getRequest()->getController() == 'boards'  
+          $this->getRequest()->getController() == 'popular'  ||
+	  $this->getRequest()->getController() == 'gifts'    ||
+	  $this->getRequest()->getController() == 'all'      ||
+	  $this->getRequest()->getController() == 'search'   ||        
+          //$this->getRequest()->getAction()     == 'pins'     ||                
+	  $this->getRequest()->getController() == 'boards'  
 		 
 		  ) : ?>
 

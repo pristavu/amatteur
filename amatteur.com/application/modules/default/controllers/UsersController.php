@@ -520,6 +520,99 @@ class UsersController extends JO_Action
             );
         }
     }
+    
+    public function voluntarioMenuAction()
+    {
+
+        $request = $this->getRequest();
+
+        //para las APP's
+        if (isset($_POST['token']) && $_POST['token'] == md5($_POST['userid']))
+        {
+            $_SESSION['token'] = $_POST['token'];
+            JO_Session::set('token', $_POST['token']);
+
+            $result = Model_Users::checkLoginAPP($_POST['userid']);
+            if ($result)
+            {
+                if ($result['status'])
+                {
+                    @setcookie('csrftoken_', md5($result['user_id'] . $request->getDomain() . $result['date_added']), (time() + ((86400 * 366) * 5)), '/', '.' . $request->getDomain());
+                    JO_Session::set(array('user' => $result));
+                }
+            }
+        }
+
+        $user_data = $this->profileHelp();
+
+
+        $page = (int) $request->getRequest('page');
+        if ($page < 1)
+        {
+            $page = 1;
+        }
+        $agendas = Model_Users::getUserAgenda(array(
+                    'filter_user_id' => $user_data['user_id']
+                ));
+
+
+
+        $this->view->popup_voluntario = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarioMenuPopup&user_id=' . $user_data['user_id']);
+        
+
+        if ($request->isXmlHttpRequest())
+        {
+            echo $this->view->boards;
+            $this->noViewRenderer(true);
+        } else
+        {
+            $this->view->children = array(
+                'header_part' => 'layout/header_part',
+                'footer_part' => 'layout/footer_part'
+            );
+        }
+    }
+
+    public function voluntarioMenuPopupAction()
+    {
+
+        $request = $this->getRequest();
+
+        $this->view->user_id = $request->getRequest('user_id');
+
+        $this->view->from_url = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarioMenuPopup&user_id=' . $request->getRequest('user_id'));
+
+        if (JO_Registry::get('isMobile'))
+        {
+            $this->view->urlagenda = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarioMenu&user_id=' . $request->getRequest('user_id'));
+        }
+
+        $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=voluntarios');
+        $this->view->apuntate_loged_url = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarios');
+        $this->view->apuntate_nologed_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=register' );
+       
+
+        $this->view->popup_main_box = $this->view->render('voluntarioMenuPopup', 'users');
+        
+
+
+        if ($request->isXmlHttpRequest())
+        {
+            $this->noViewRenderer(true);
+            echo $this->view->popup_main_box;
+            $this->view->is_popup = true;
+        } else
+        {
+            $this->view->is_popup = false;
+            $this->view->children = array(
+                'header_part' => 'layout/header_part',
+                'footer_part' => 'layout/footer_part',
+                'left_part' => 'layout/left_part'
+            );
+        }
+    }
+
+    
 
     public function agendaAction()
     {
@@ -1322,6 +1415,30 @@ class UsersController extends JO_Action
             $this->view->location = '';
         }
 
+        //lat
+        if ($request->issetPost('lat'))
+        {
+            $this->view->lat = $request->getPost('lat');
+        } elseif (isset($user_data['lat']))
+        {
+            $this->view->lat = $user_data['lat'];
+        } else
+        {
+            $this->view->lat = '';
+        }
+        
+        //len
+        if ($request->issetPost('len'))
+        {
+            $this->view->len = $request->getPost('len');
+        } elseif (isset($user_data['len']))
+        {
+            $this->view->len = $user_data['len'];
+        } else
+        {
+            $this->view->len = '';
+        }        
+        
         //sport category
         if ($request->issetPost('sport_category'))
         {
@@ -1567,9 +1684,11 @@ class UsersController extends JO_Action
         {
             $this->view->option18 = '';
         }
-        $this->view->from_url = WM_Router::create($request->getBaseUrl() . '?controller=users&action=activate');
+        $this->view->from_url = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarios');
 
-        $this->view->popup_main_box = $this->view->render('activate', 'users');
+        $this->view->popup_main_box = $this->view->render('voluntarios', 'users');
+        
+        $this->view->home_url = WM_Router::create($request->getBaseUrl());
 
         if ($request->isPost())
         {
@@ -1577,8 +1696,8 @@ class UsersController extends JO_Action
             $validate = new Helper_Validate();
             $validate->_set_rules($request->getPost('location'), $this->translate('Zona geográfica'), 'not_empty;min_length[3];max_length[100]');
             //$validate->_set_rules($request->getPost('sport_category'), $this->translate('Category_id1'), 'not_empty;min_length[3];max_length[100]');
-            $validate->_set_rules($request->getPost('estado'), $this->translate('Estado'), 'not_empty;min_length[1];max_length[100]');
-            $validate->_set_rules($request->getPost('disponible'), $this->translate('Disponibilidad'), 'not_empty;min_length[1];max_length[100]');
+            $validate->_set_rules($request->getPost('estado'), $this->translate('Estado'), 'min_length[1];max_length[100]');
+            $validate->_set_rules($request->getPost('disponible'), $this->translate('Disponibilidad'), 'min_length[1];max_length[100]');
             if (!$request->issetPost('option1') && !$request->issetPost('option2') 
                     && !$request->issetPost('option3') && !$request->issetPost('option4') 
                     && !$request->issetPost('option5') && !$request->issetPost('option6') 
@@ -1743,6 +1862,30 @@ class UsersController extends JO_Action
             $this->view->location = '';
         }
 
+        //lat
+        if ($request->issetPost('lat'))
+        {
+            $this->view->lat = $request->getPost('lat');
+        } elseif (isset($user_data['lat']))
+        {
+            $this->view->lat = $user_data['lat'];
+        } else
+        {
+            $this->view->lat = '';
+        }
+        
+        //len
+        if ($request->issetPost('len'))
+        {
+            $this->view->len = $request->getPost('len');
+        } elseif (isset($user_data['len']))
+        {
+            $this->view->len = $user_data['len'];
+        } else
+        {
+            $this->view->len = '';
+        }        
+        
         //sport category
         if ($request->issetPost('sport_category'))
         {
@@ -3990,6 +4133,9 @@ class UsersController extends JO_Action
 
                         $avatar = Helper_Uploadimages::avatar($event, '_B');
                         $event['avatar'] = $avatar['image'];
+			$event['original'] = $avatar['original'];
+			$event['width'] = $avatar['width'];
+			$event['height'] = $avatar['height'];
 
                         $event["sport_category"] = Model_Boards::getCategoryTitle($event["sport_category"]);
                         
@@ -4713,7 +4859,8 @@ class UsersController extends JO_Action
                         'start' => 0,
                         'limit' => 100,
                         'filter_username' => $request->getPost('term'),
-                        'filter_activate' => $request->getPost('act')
+                        'filter_activate' => $request->getPost('act'),
+                        'filter_voluntarios' => $request->getPost('vol')
                     ));
 
 

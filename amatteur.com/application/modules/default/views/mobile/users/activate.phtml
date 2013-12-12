@@ -28,13 +28,13 @@
                     <li>
                         <label for="type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Age'); ?></label>
                         <div class="Right" id='catList'>
-                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Age' style='width: 352px; display: inline-block;'>
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Age' style='min-width: 250px !important;width: 250px; display: inline-block;'>
                                 <?php if (!$this->age_title)
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Age' style="width: 345px;"><?php echo $this->translate('Please choose age'); ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Age' style="width: 250px;"><?php echo $this->translate('Please choose age'); ?></span>
                                 <?php } else
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Age' style="width: 345px;"><?php echo $this->age_title; ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Age' style="width: 250px;"><?php echo $this->age_title; ?></span>
                                 <?php } ?>
                                 <span class="selectBox-arrow" style=""></span>
                             </a>
@@ -59,11 +59,11 @@
                             <p>
                             <label for="location"><?php echo $this->translate('Location'); ?> <br class="hide" /></label>
                             </p>
-                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" id="registration_box" placeholder="<?php echo $this->translate('Location') ?>" style='min-width: 270px !important' autocomplete='off'/></span>
                             <span class="help_text"><?php echo $this->translate('e.g. Palo Alto, CA'); ?></span>  
                             <span style="color:red">*</span>
-                            <input type="hidden" name="lat" class="lat" id="lat" />
-                            <input type="hidden" name="len" class="len" id="len" />
+                            <input type="hidden" name="lat" class="lat" id="lat" value="<?php echo $this->lat;?>" />
+                            <input type="hidden" name="len" class="len" id="len" value="<?php echo $this->len;?>" />
                         </p>
                         <div id="map-canvas" style="display:none !important"></div>
                     </li>
@@ -72,13 +72,13 @@
                         <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Sport'); ?></label>
                         <div class="Right" id='catList'>
 
-                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='min-width: 250px !important;width: 250px; display: inline-block;'>
                                 <?php if (!$this->cat_title)
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->translate('Please choose sport'); ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 250px;"><?php echo $this->translate('Please choose sport'); ?></span>
                                 <?php } else
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->cat_title; ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 250px;"><?php echo $this->cat_title; ?></span>
                                 <?php } ?>
                                 <span class="selectBox-arrow" style=""></span>
                             </a>
@@ -114,13 +114,13 @@
                         <label for="type_user-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Level'); ?></label>
                         <div class="Right" id='catList'>
 
-                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Level' style='width: 352px; display: inline-block;'>
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Level' style='min-width: 250px !important;width: 250px; display: inline-block;'>
                             <?php if (!$this->level_title)
                             { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Level' style="width: 345px;"><?php echo $this->translate('Please choose level'); ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Level' style="width: 250px;"><?php echo $this->translate('Please choose level'); ?></span>
                             <?php } else
                             { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Level' style="width: 345px;"><?php echo $this->level_title; ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Level' style="width: 250px;"><?php echo $this->level_title; ?></span>
                                 <?php } ?>
                                 <span class="selectBox-arrow" style=""></span>
                             </a>
@@ -154,28 +154,26 @@
                             <div style="display:table-cell">
                                 <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option1 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option1' class='option1' value="1" ><?php echo " ". sprintf($this->translate('Practice sports together')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option2 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option2' name='option2' class='option2' value="1"><?php echo " ". sprintf($this->translate('Organize match / tournament')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Team look for sportman')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option4 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option4' name='option4' class='option4' value="1"><?php echo " ". sprintf($this->translate('Sportman look for team')); ?> </span>
                                 </div>
-                            </div>
-                            <div style="display:table-cell">
-                                <div style="display:table-row">
-                                    &nbsp;&nbsp;&nbsp;
-                                </div>
-                            </div>
-
-                            <div style="display:table-cell">
                                 <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Look for sponsor')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Volunteer helps paraolimpics')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('Trainee look for tutor')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option8 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span>
                                 </div>
                             </div>
@@ -186,7 +184,7 @@
                         <div class="left w335px">
                             <p>
                                 <label for="message"><?php echo $this->translate('Comment'); ?>:<br></label>
-                                <textarea name="comment" id="comment" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
+                                <textarea style="min-width: 250px !important;width: 250px !important;" name="comment" id="comment" rows="5" cols="30"><?php echo $this->comment; ?></textarea>
                             </p>
                             <p class="text_counter"></p>
                         </div>
@@ -197,8 +195,8 @@
                                 
                                     <label for="required"><span style="color:red">*</span><?php echo $this->translate('Fields required'); ?><br></label>
                             <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
                             </p>
                         </div>
                     </li>				

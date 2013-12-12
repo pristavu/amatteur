@@ -60,8 +60,8 @@
                             <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
                             <span class="help_text"><?php echo $this->translate('e.g. Palo Alto, CA'); ?></span>  
                             <span style="color:red">*</span>
-                            <input type="hidden" name="lat" class="lat" id="lat" />
-                            <input type="hidden" name="len" class="len" id="len" />
+                            <input type="hidden" name="lat" class="lat" id="lat" value="<?php echo $this->lat;?>" />
+                            <input type="hidden" name="len" class="len" id="len" value="<?php echo $this->len;?>" />
                         </p>
                         <div id="map-canvas" style="display:none !important"></div>
                     </li>

@@ -1,5 +1,5 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="padding-bottom: 48px">
-    <img src="<?php echo $this->user['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->user['fullname'] ?>">
+<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="padding-bottom: 48px;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 5px;margin-top: 10px">
+    <img style="padding-top: 10px;" src="<?php echo $this->user['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->user['fullname'] ?>">
     <!--a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
@@ -20,7 +20,7 @@
     <?php if ($this->loged) { ?>
     <?php 
 			echo '<div id="divMailsHeader" style="border-bottom:0px">';
-				echo '<a id="newMail" href="'.$this->addMail.'?user_fullname='.$this->user['fullname'].'" class="silverbox" title="'.$this->translate('Enviar mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
+				echo '<a class="red mbtn" id="newMail" href="'.$this->addMail.'?user_fullname='.$this->user['fullname'].'" class="silverbox" title="'.$this->translate('Enviar mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
 			echo '</div>';
 	}
 	?>

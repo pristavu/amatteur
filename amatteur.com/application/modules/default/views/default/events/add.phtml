@@ -11,7 +11,7 @@
             <div>
             <?php if ($this->cancel == '1') { ?>
             <div style="width:auto;padding-top: 70px">
-                <label for="evento_cancelado" style="color:red;font-size: 1.8em"><?php echo $this->translate('Este evento ha sido cancelado por: ');?></label>&nbsp;<label for="evento_cancelado" style="color:silver;font-size: 1.8em"><?php echo $this->cancelReason;?></label>
+                <label for="evento_cancelado" style="color:red;font-size: 1.6em"><?php echo $this->translate('Este evento ha sido cancelado por: ');?></label>&nbsp;<label for="evento_cancelado" style="color:silver;font-size: 1.6em"><?php echo $this->cancelReason;?></label>
             </div>    
             <?php } ?>
                 
@@ -97,8 +97,8 @@
                         <span style="color:red">*</span>
                         <span class="help_text"><?php echo $this->translate('Campo obligatorio para usuario profesional (Otros)');?></span>
                     </div>
-                            <input type="hidden" name="lat" class="lat" id="lat" value="0" />
-                            <input type="hidden" name="len" class="len" id="len" value="0" />
+                            <input type="hidden" name="lat" class="lat" id="lat" value="<?php echo $this->lat;?>" />
+                            <input type="hidden" name="len" class="len" id="len" value="<?php echo $this->len;?>" />
                     
                 </li>
     <div id="map-canvas" style="display:none !important"></div>

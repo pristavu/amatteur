@@ -388,6 +388,102 @@ class SearchController extends JO_Action
             $this->view->option10 = '';
         }
 
+        //option11		
+        if ($request->issetPost('option11'))
+        {
+            $this->view->option11 = $request->getPost('option11');
+        } elseif (isset($user_data['option11']))
+        {
+            $this->view->option11 = $user_data['option11'];
+        } else
+        {
+            $this->view->option11 = '';
+        }
+
+        //option12		
+        if ($request->issetPost('option12'))
+        {
+            $this->view->option12 = $request->getPost('option12');
+        } elseif (isset($user_data['option12']))
+        {
+            $this->view->option12 = $user_data['option12'];
+        } else
+        {
+            $this->view->option12 = '';
+        }
+
+        //option13
+        if ($request->issetPost('option13'))
+        {
+            $this->view->option13 = $request->getPost('option13');
+        } elseif (isset($user_data['option13']))
+        {
+            $this->view->option13 = $user_data['option13'];
+        } else
+        {
+            $this->view->option13 = '';
+        }
+
+        //option14		
+        if ($request->issetPost('option14'))
+        {
+            $this->view->option14 = $request->getPost('option14');
+        } elseif (isset($user_data['option14']))
+        {
+            $this->view->option14 = $user_data['option14'];
+        } else
+        {
+            $this->view->option14 = '';
+        }
+
+        //option15		
+        if ($request->issetPost('option15'))
+        {
+            $this->view->option15 = $request->getPost('option15');
+        } elseif (isset($user_data['option15']))
+        {
+            $this->view->option15 = $user_data['option15'];
+        } else
+        {
+            $this->view->option15 = '';
+        }
+
+        //option16		
+        if ($request->issetPost('option16'))
+        {
+            $this->view->option16 = $request->getPost('option16');
+        } elseif (isset($user_data['option16']))
+        {
+            $this->view->option16 = $user_data['option16'];
+        } else
+        {
+            $this->view->option16 = '';
+        }
+
+        //option17		
+        if ($request->issetPost('option17'))
+        {
+            $this->view->option17 = $request->getPost('option17');
+        } elseif (isset($user_data['option17']))
+        {
+            $this->view->option17 = $user_data['option17'];
+        } else
+        {
+            $this->view->option17 = '';
+        }
+
+        //option18		
+        if ($request->issetPost('option18'))
+        {
+            $this->view->option18 = $request->getPost('option18');
+        } elseif (isset($user_data['option18']))
+        {
+            $this->view->option18 = $user_data['option18'];
+        } else
+        {
+            $this->view->option18 = '';
+        }        
+        
         $this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
         //controlador
         $id = $request->getRequest('id');
@@ -409,8 +505,15 @@ class SearchController extends JO_Action
             $this->view->advancedActive = "services";
             $with_action = $request->getAction();
             $this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
+        } else if ($id == "voluntarios")
+        {
+            //$this->view->advanced_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=voluntarios');                    
+            $this->view->advancedActive = "voluntarios";
+            $with_action = $request->getAction();
+            $this->view->search_action = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced');
         }
 
+        
         if ($request->isPost())
         {
             $this->view->isPost = "true";
@@ -760,6 +863,7 @@ class SearchController extends JO_Action
 
                     if ($activate)
                     {
+                        $usersTot = array();
                         foreach ($activate as $user_id)
                         {
 
@@ -929,6 +1033,113 @@ class SearchController extends JO_Action
                             $i++;
                         }
                         $this->view->users = $users;                        
+                    }
+                }
+                else if ($id == "voluntarios")
+                {
+                    $dataVoluntarios = array(
+                        'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                        'limit' => JO_Registry::get('config_front_limit'),
+                        'filter_location' => $request->getRequest('location'),
+                        'filter_sport_category' => $request->getRequest('sport_category'),
+                        'filter_option1' => $request->getRequest('option1'),
+                        'filter_option2' => $request->getRequest('option2'),
+                        'filter_option3' => $request->getRequest('option3'),
+                        'filter_option4' => $request->getRequest('option4'),
+                        'filter_option5' => $request->getRequest('option5'),
+                        'filter_option6' => $request->getRequest('option6'),
+                        'filter_option7' => $request->getRequest('option7'),
+                        'filter_option8' => $request->getRequest('option8'),
+                        'filter_option9' => $request->getRequest('option9'),
+                        'filter_option10' => $request->getRequest('option10'),                        
+                        'filter_option11' => $request->getRequest('option11'),
+                        'filter_option12' => $request->getRequest('option12'),
+                        'filter_option13' => $request->getRequest('option13'),
+                        'filter_option14' => $request->getRequest('option14'),
+                        'filter_option15' => $request->getRequest('option15'),
+                        'filter_option16' => $request->getRequest('option16'),
+                        'filter_option17' => $request->getRequest('option17'),
+                        'filter_option18' => $request->getRequest('option18')
+                        
+                    );
+
+                    $voluntario = Model_Users::getUsersVoluntarios($dataVoluntarios);
+
+                    if ($voluntario)
+                    {
+                        $usersTot = array();
+                        foreach ($voluntario as $voluntario_user_id)
+                        {
+
+                            $data = array(
+                                'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
+                                'limit' => JO_Registry::get('config_front_limit'),
+                                'filter_user_id' => $voluntario_user_id["user_id"]
+                            );
+
+                            $users = Model_Users::getUsers($data);
+                            if ($users)
+                            {
+                                $href = "";
+                                $this->view->follow_user = true;
+                                $view = JO_View::getInstance();
+                                $view->loged = JO_Session::get('user[user_id]');
+                                $model_images = new Helper_Images();
+                                foreach ($users AS $key => $user)
+                                {
+                                    $avatar = Helper_Uploadimages::avatar($user, '_B');
+                                    $user['avatar'] = $avatar['image'];
+
+                                    if ($view->loged)
+                                    {
+                                        $user['userIsFollow'] = Model_Users::isFollowUser($user['user_id']);
+                                        $user['userFollowIgnore'] = $user['user_id'] == JO_Session::get('user[user_id]');
+                                    } else
+                                    {
+                                        $user['userFollowIgnore'] = true;
+                                    }
+
+                                    $user['href'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
+                                    $href = WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . $user['user_id']);
+                                    $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
+
+                                    $view->key = $key % 2 == 0;
+                                    $user["location"] = $voluntario_user_id["location"];
+                                    $user["sport_category"] = Model_Boards::getCategoryTitle($voluntario_user_id["sport_category"]);
+                                    $user["option1"] = $voluntario_user_id["option1"];
+                                    $user["option2"] = $voluntario_user_id["option2"];
+                                    $user["option3"] = $voluntario_user_id["option3"];
+                                    $user["option4"] = $voluntario_user_id["option4"];
+                                    $user["option5"] = $voluntario_user_id["option5"];
+                                    $user["option6"] = $voluntario_user_id["option6"];
+                                    $user["option7"] = $voluntario_user_id["option7"];
+                                    $user["option8"] = $voluntario_user_id["option8"];
+                                    $user["option9"] = $voluntario_user_id["option9"];                                    
+                                    $user["option10"] = $voluntario_user_id["option10"];
+                                    $user["option11"] = $voluntario_user_id["option11"];
+                                    $user["option12"] = $voluntario_user_id["option12"];
+                                    $user["option13"] = $voluntario_user_id["option13"];
+                                    $user["option14"] = $voluntario_user_id["option14"];
+                                    $user["option15"] = $voluntario_user_id["option15"];
+                                    $user["option16"] = $voluntario_user_id["option16"];
+                                    $user["option17"] = $voluntario_user_id["option17"];
+                                    $user["option18"] = $voluntario_user_id["option18"];
+                                    $user["comment"] = $voluntario_user_id["comment"];
+                                    $view->user = $user;
+                                    $this->view->addMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=create');                                                                                        
+                                    $this->view->stateMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=state');
+                                    $this->view->viewMail = WM_Router::create($request->getBaseUrl() . '?controller=mails&action=view');
+                                    $this->view->pins .= $view->render('boxVoluntarios', 'users');
+                                }
+                                $users[0]["location"] = $voluntario_user_id["location"];
+                                $users[0]["lat"] = $voluntario_user_id["lat"];
+                                $users[0]["len"] = $voluntario_user_id["len"];
+                                $users[0]["href"] = $href;
+                                $usersTot[] = $users[0];
+                            }
+                        }
+                        $this->view->users = $usersTot;
+                        $this->view->class_contaner = 'persons';
                     }
                 }
             }

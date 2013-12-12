@@ -44,6 +44,11 @@
                                 <?php } else { ?>      
                                 <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="Button RedButton morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
                                 <?php } ?>
+                                <?php if ($this->advancedActive == "voluntarios") { ?>                    
+                                <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=voluntarios" class="Button RedButton morelocations " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Volunttarios');?></a></span>
+                                <?php } else { ?> 
+                                <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=voluntarios" class="Button RedButton morelocations " style="background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Volunttarios');?></a></span>
+                                <?php } ?>                    
 	        	</p>
         	</div>
 
@@ -462,6 +467,148 @@
             
             
             
+                        <!----------------------- VOLUNTARIOS ------------------------------->
+            <?php } else if ($this->advancedActive == "voluntarios") { ?>
+            <div id="panel" style="padding-top: 5px !important">
+	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="post" class="edit search StaticForm">
+                <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Voluntarios')); ?> <br class="hide" /></label>            
+	<input type="hidden" name="words" id="words" value="ok" />
+                <ul>
+                    <!-- Opciones -->
+                    <li>
+                        <label for="tc"><?php echo sprintf($this->translate('Opciones')); ?> <br class="hide" /></label>
+                        <span class="field">
+                        <div style="display:table">
+                            <div style="display:table-cell">
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option1 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option1' name='option1' class='option1' value="1" ><?php echo " ". sprintf($this->translate('Deportista, individual o club, da charlas a grupos, colegios...')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option2 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option2' name='option2' class='option2' value="1"><?php echo " ". sprintf($this->translate('Comparto mi experiencia de superación, charlas para grupos, colegios...')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Apoyo a rehabilitación')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option4 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option4' name='option4' class='option4' value="1"><?php echo " ". sprintf($this->translate('Ayuda o entrenamiento a paralímpicos')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Entrenamiento a deportista o equipo')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Agrupación con otros volunttarios')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('Colaboración con ONG como volunttario')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option8 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Participación o colaboración en eventos deportivos solidarios')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option9 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option9' name='option9' class='option9' value="1"><?php echo " ". sprintf($this->translate('Donación material usado o nuevo')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option10 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option10' name='option10' class='option10' value="1" ><?php echo " ". sprintf($this->translate('Coaching, motivación, apoyo psicológico')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option11 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option11' name='option11' class='option11' value="1" ><?php echo " ". sprintf($this->translate('Asesoría sobre salud, lesiones y nutrición en el deporte')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option12 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option12' name='option12' class='option12' value="1"><?php echo " ". sprintf($this->translate('Presto instalaciones deportivas')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option13 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option13' name='option13' class='option13' value="1"><?php echo " ". sprintf($this->translate('Patrocinio o copatrocinio equipo o deportista')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option14 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option14' name='option14' class='option14' value="1"><?php echo " ". sprintf($this->translate('Entradas o abonos para eventos deportivos')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option15 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option15' name='option15' class='option15' value="1"><?php echo " ". sprintf($this->translate('ONG ayuda a superar problemas para tomar la salida')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option16 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option16' name='option16' class='option16' value="1"><?php echo " ". sprintf($this->translate('Árbitros o jueces deportivos')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option17 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option17' name='option17' class='option17' value="1"><?php echo " ". sprintf($this->translate('Ayudo a personas mayores a hacer ejercicio')); ?> </span>
+                                </div>
+                                <div style="display:table-row">
+                                    <span class="" style='text-align:left'><input <?php echo ($this->option18 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option18' name='option18' class='option18' value="1"><?php echo " ". sprintf($this->translate('Otros (descripción en los comentarios)')); ?> </span>
+                                </div>
+                            </div>
+                        </div>
+                        </span>
+                    </li>
+                    
+                    <!-- Ubicacion -->
+                    <li>
+                        <div class="input" style="padding-top: 0px">
+                            <label for="location"><?php echo $this->translate('Location activate'); ?> <br class="hide" /></label>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>" /></span>
+                        </div>
+
+                        <div id="map-canvas"></div>
+                        
+                    </li>
+                    <!-- Deporte -->
+                    <li>
+                        <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Deporte'); ?></label>
+                        <div class="Right" id='catList'>
+
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
+                                <?php if (!$this->cat_title)
+                                { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->translate('Please choose sport'); ?></span>
+                                <?php } else
+                                { ?>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->cat_title; ?></span>
+                                <?php } ?>
+                                <span class="selectBox-arrow" style=""></span>
+                            </a>
+
+                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 370px;'>
+
+                                        <?php foreach ($this->categories as $category)
+                                        { ?>
+                                    <li  class = 'master' style='border:none !important' >
+                                        <a data-id='<?php echo $category['category_id']; ?>' href="" class='' style='color:#AAA;' ><?php echo $category['title'] ?></a>
+                                            <?php if ($category['subcategories'])
+                                            { ?>
+                                            <ul class='subcats hidden'>
+                                        <?php foreach ($category['subcategories'] as $subcat)
+                                        { ?>
+                                                    <li style='border:none !important;padding-left:0px'>
+                                                        <a data-id='<?php echo $subcat['category_id']; ?>' class='' href=""><?php echo $subcat['title'] ?></a>
+                                                    </li>
+                                        <?php } ?>
+                                            </ul>
+                                    <?php } ?>
+                                    </li>
+                                <?php } ?>
+                            </ul>
+
+                            <input type='hidden' id='catId' name='sport_category' class='sport_category' value = '<?php echo $this->sport_category; ?>'/>
+                        </div>
+                    </li>
+
+                <!-- Grabar -->
+                    <li>
+                        <div class="left w335px">
+                            <div class="submit" style="padding-top: 0px">
+                                
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<!--input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
+                            </div>
+                        </div>
+                    </li>				
+                </ul>
+
+		<!--p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p-->
+	</form>
+</div>     
+            
+                        
+            
+            
             <!----------------------------------------------- SERVICIOS Y NEGOCIOS ----------------------------------------------------------------->            
             <?php } else if ($this->advancedActive == "services") { ?>
             <div id="panel" style="padding-top: 5px !important">
@@ -616,7 +763,7 @@
                 <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                 <?php } ?>
 <?php } ?>                                                
-<?php if ($this->advancedActive == "activate") { ?>    
+<?php if ($this->advancedActive == "activate" || $this->advancedActive == "voluntarios") { ?>    
                 <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">                                    
                     <?php echo $this->pins;?>
                 </div>
@@ -848,7 +995,7 @@ function GLoad() {
         */
         <?php foreach($this->users as $user) { ?>
             
-            <?php if ($this->advancedActive != "activate") { ?> 
+            <?php if ($this->advancedActive != "activate" && $this->advancedActive != "voluntarios") { ?> 
                 <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
                     foreach ($users_location as $user_location)
                     {
@@ -1163,109 +1310,111 @@ console.log("i " + i + " usuario " + fullname[i] + " location " + locations[i] +
 <script type="text/javascript">
 
 $(document).ready(function(){
-$(".option1").change(function() {
-    if(this.checked) 
-    {
-        $(".option2").attr("disabled", true);        
-        $(".option3").attr("disabled", true);
-        $(".option4").attr("disabled", true);        
-        $(".option5").attr("disabled", true);
-        $(".option6").attr("disabled", true);        
-    }
-    else
-    {
-        $(".option2").removeAttr("disabled");        
-        $(".option3").removeAttr("disabled");
-        $(".option4").removeAttr("disabled");  
-        $(".option5").removeAttr("disabled");
-        $(".option6").removeAttr("disabled");        
-    }
-            
-});
-$(".option2").change(function() {
-    if(this.checked) 
-    {
-        $(".option1").attr("disabled", true);
-        $(".option3").attr("disabled", true);
-        $(".option4").attr("disabled", true);        
-        $(".option5").attr("disabled", true);
-        $(".option6").attr("disabled", true);        
-    }
-    else
-    {
-        $(".option1").removeAttr("disabled");
-        $(".option3").removeAttr("disabled");
-        $(".option4").removeAttr("disabled");  
-        $(".option5").removeAttr("disabled");
-        $(".option6").removeAttr("disabled");        
-    }
-            
-});
-$(".option3").change(function() {
-    if(this.checked) 
-    {
-        $(".option1").attr("disabled", true);
-        $(".option2").attr("disabled", true);        
-    }
-    else
-    {
-        if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
-        {
-            $(".option1").removeAttr("disabled");
-            $(".option2").removeAttr("disabled");  
-        }
-    }
-        
-});
-$(".option4").change(function() {
-    if(this.checked) 
-    {
-        $(".option1").attr("disabled", true);
-        $(".option2").attr("disabled", true);        
-    }
-    else
-    {
-        if (!$(".option3").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
-        {
-            $(".option1").removeAttr("disabled");
-            $(".option2").removeAttr("disabled");  
-        }
-    }
-        
-});
-$(".option5").change(function() {
-    if(this.checked) 
-    {
-        $(".option1").attr("disabled", true);
-        $(".option2").attr("disabled", true);        
-    }
-    else
-    {
-        if (!$(".option4").is(":checked") && !$(".option3").is(":checked") && !$(".option6").is(":checked"))
-        {
-            $(".option1").removeAttr("disabled");
-            $(".option2").removeAttr("disabled");  
-        }
-    }
-        
-});
-$(".option6").change(function() {
-    if(this.checked) 
-    {
-        $(".option1").attr("disabled", true);
-        $(".option2").attr("disabled", true);        
-    }
-    else
-    {
-        if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option3").is(":checked"))
-        {
-            $(".option1").removeAttr("disabled");
-            $(".option2").removeAttr("disabled");  
-        }
-    }
-        
-});
+    
+    <?php if ($this->advancedActive == "amatteur") { ?>
+        $(".option1").change(function() {
+            if(this.checked) 
+            {
+                $(".option2").attr("disabled", true);        
+                $(".option3").attr("disabled", true);
+                $(".option4").attr("disabled", true);        
+                $(".option5").attr("disabled", true);
+                $(".option6").attr("disabled", true);        
+            }
+            else
+            {
+                $(".option2").removeAttr("disabled");        
+                $(".option3").removeAttr("disabled");
+                $(".option4").removeAttr("disabled");  
+                $(".option5").removeAttr("disabled");
+                $(".option6").removeAttr("disabled");        
+            }
 
+        });
+        $(".option2").change(function() {
+            if(this.checked) 
+            {
+                $(".option1").attr("disabled", true);
+                $(".option3").attr("disabled", true);
+                $(".option4").attr("disabled", true);        
+                $(".option5").attr("disabled", true);
+                $(".option6").attr("disabled", true);        
+            }
+            else
+            {
+                $(".option1").removeAttr("disabled");
+                $(".option3").removeAttr("disabled");
+                $(".option4").removeAttr("disabled");  
+                $(".option5").removeAttr("disabled");
+                $(".option6").removeAttr("disabled");        
+            }
+
+        });
+        $(".option3").change(function() {
+            if(this.checked) 
+            {
+                $(".option1").attr("disabled", true);
+                $(".option2").attr("disabled", true);        
+            }
+            else
+            {
+                if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
+                {
+                    $(".option1").removeAttr("disabled");
+                    $(".option2").removeAttr("disabled");  
+                }
+            }
+
+        });
+        $(".option4").change(function() {
+            if(this.checked) 
+            {
+                $(".option1").attr("disabled", true);
+                $(".option2").attr("disabled", true);        
+            }
+            else
+            {
+                if (!$(".option3").is(":checked") && !$(".option5").is(":checked") && !$(".option6").is(":checked"))
+                {
+                    $(".option1").removeAttr("disabled");
+                    $(".option2").removeAttr("disabled");  
+                }
+            }
+
+        });
+        $(".option5").change(function() {
+            if(this.checked) 
+            {
+                $(".option1").attr("disabled", true);
+                $(".option2").attr("disabled", true);        
+            }
+            else
+            {
+                if (!$(".option4").is(":checked") && !$(".option3").is(":checked") && !$(".option6").is(":checked"))
+                {
+                    $(".option1").removeAttr("disabled");
+                    $(".option2").removeAttr("disabled");  
+                }
+            }
+
+        });
+        $(".option6").change(function() {
+            if(this.checked) 
+            {
+                $(".option1").attr("disabled", true);
+                $(".option2").attr("disabled", true);        
+            }
+            else
+            {
+                if (!$(".option4").is(":checked") && !$(".option5").is(":checked") && !$(".option3").is(":checked"))
+                {
+                    $(".option1").removeAttr("disabled");
+                    $(".option2").removeAttr("disabled");  
+                }
+            }
+
+        });
+    <?php } ?>
 
 	<?php if($this->successfu_edite) { ?>
 	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');

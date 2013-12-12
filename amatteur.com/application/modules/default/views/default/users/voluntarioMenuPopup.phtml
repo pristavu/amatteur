@@ -1,0 +1,64 @@
+<div id="create_new_pin">
+	<div id="content-holder">
+		<div id="emailpin" style="padding-top: 0px">
+			<form action="<?php echo $this->agendaPopup;?>" method="post">
+				<div class="hide">
+                                    <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id;?>">
+				</div>
+				
+				<div class="left w335px" style="font-weight: bold;font-size: 1.2em;">
+					<p>
+                                            <div id="conocenos" style="width: 335px"><center><label for="message"><?php echo $this->translate('Bienvenido a volunttarios, ¿qué deseas hacer?');?></label></center></div><br/>
+                                            <div id="conocenos" style="width: 335px;padding-bottom: 10px"><center><a id='videoTrigger' class="" href=''><?php echo $this->translate('Ver vídeo de introducción');?></a></center></div><br>
+					</p>
+                                        <br/>
+                                        <div class="box2">
+                                                <?php if (!$this->user_id) { ?>                    
+                                                    <div id="conocenos" style="float: left;width: 180px;padding-bottom: 60px"></div><div id="conocenos" style="float: right;width: 155px"><center><label for="message"><?php echo $this->translate('Para apuntarte como voluntario, necesitas registrarte en amatteur, únete, es gratis');?></label></center></div><br/>
+                                                <?php } ?>                    
+                                            
+                                                <span class="selected"><a id="search" href="<?php echo $this->search_url ?>" class="Button RedButton search " style="font-weight: bold;font-size: 1.2em;width: 140px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar Voluntarios');?></a></span>
+                                                <?php if ($this->user_id) { ?>                    
+                                                <span class="selected"><a id="apuntate" href="<?php echo $this->apuntate_loged_url ?>" class="Button RedButton apuntate " style="float:right; font-weight: bold;font-size: 1.2em;width: 140px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Apúntate');?></a></span>
+                                                <?php } else { ?>
+                                                <span class="selected"><a id="apuntate" href="<?php echo $this->apuntate_nologed_url ?>"  class="Button RedButton apuntate " style="float:right; font-weight: bold;font-size: 1.2em;width: 140px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Registrate');?></a></span>
+                                                <?php } ?>                    
+                                        </div>
+					<div class="clear"></div>
+				</div>
+				<div class="clear"></div>
+			</form>
+		</div>
+	</div>
+</div>
+
+<script type='text/javascript'>
+    getVideoImage();
+</script>
+
+
+<?php $key = str_replace('.','',microtime(true));?>
+<script type="text/javascript">
+$(document).ready(function(){
+
+/*
+	$('#emailpin form').unbind('submit').submit(function(){
+		$('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');
+		$('#emailpin form .submit input').attr('disabled', true).addClass('disabled');
+                var user_id = $('#user_id').val();
+                var texto = $('#texto').val();
+                  
+		$.post('<?php echo $this->from_url;?>', {user_id:user_id, texto:texto}, function(data,status){
+			
+			$('#loading_button').remove();
+                        $.fancybox.close();                        
+			
+			
+                });
+		return false;
+	});
+*/		
+});
+
+
+</script>

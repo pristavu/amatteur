@@ -375,9 +375,9 @@ var outerWrapperInterval = setInterval(function(){
 		
 	$("#touch_arrow").live("tap",function(){
 
-		$(".dropdown").css('max-height','600px');
-		$("#search_dropdown").css('max-height','600px');
-		$("#search_dropdown").css('height','600px');
+		$(".dropdown").css('max-height','1600px');
+		$("#search_dropdown").css('max-height','1600px');
+		$("#search_dropdown").css('height','1600px');
 		
 			event.preventDefault();
 			$("#categories").animate({

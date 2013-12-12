@@ -37,18 +37,18 @@
                         <label for="category_id-select<?php echo ($this->is_edit ? '-edit' : ''); ?>"><?php echo $this->translate('Deporte'); ?></label>
                         <div class="Right" id='catList'>
 
-                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='width: 352px; display: inline-block;'>
+                            <a href="" class='selectBox selectBox-dropdown' id='selectBox-Category' style='min-width: 232px !important;width: 232px; display: inline-block;'>
                                 <?php if (!$this->cat_title)
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->translate('Please choose sport'); ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 232px;"><?php echo $this->translate('Please choose sport'); ?></span>
                                 <?php } else
                                 { ?>
-                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 352px;"><?php echo $this->cat_title; ?></span>
+                                    <span class='selectBox-label' id='selectBox-label-Category' style="width: 232px;"><?php echo $this->cat_title; ?></span>
                                 <?php } ?>
                                 <span class="selectBox-arrow" style=""></span>
                             </a>
 
-                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 370px;'>
+                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 252px;'>
 
                                         <?php foreach ($this->categories as $category)
                                         { ?>
@@ -76,7 +76,7 @@
                     <!-- Organiza -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <span class="field"><input type="text" name="organiza" class="organiza" id="organiza" value="<?php echo $this->organiza; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Organiza') ?>" style='width: 250px !important' autocomplete='off'/></span>
+                            <span class="field"><input type="text" name="organiza" class="organiza" id="organiza" value="<?php echo $this->organiza; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Organiza') ?>" style='min-width: 250px !important' autocomplete='off'/></span>
                         </div>
                     </li>
 
@@ -84,7 +84,7 @@
                     <!-- Ubicacion -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Ubicación') ?>" style='width: 250px !important' autocomplete='off'/></span>
+                            <span class="field"><input type="text" name="location" class="location" id="searchTextField" value="<?php echo $this->location; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Ubicación') ?>" style='min-width: 250px !important' autocomplete='off'/></span>
                         </div>
 
                         <div id="map-canvas"></div>
@@ -94,12 +94,12 @@
                     <!-- Fecha -->
                     <li>
                         <div class="input" style="padding-top: 0px">
-                            <span class="field"> <input type="text" name="date_event1" class="date_event1" id="date_event1" value="<?php echo $this->date_event1; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Fecha Desde') ?>" style='width: 250px !important' autocomplete='off'/></span>
+                            <span class="field"> <input type="text" name="date_event1" class="date_event1" id="date_event1" value="<?php echo $this->date_event1; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Fecha Desde') ?>" style='min-width: 250px !important' autocomplete='off'/></span>
                             </div>
                     </li>
                     <li>    
                         <div class="input" style="padding-top: 0px">
-                            <span class="field"><input type="text" name="date_event2" class="date_event2" id="date_event2" value="<?php echo $this->date_event2; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Fecha Desde') ?>" style='width: 250px !important' autocomplete='off'/></span>
+                            <span class="field"><input type="text" name="date_event2" class="date_event2" id="date_event2" value="<?php echo $this->date_event2; ?>"  id="registration_box" placeholder="<?php echo $this->translate('Fecha Desde') ?>" style='min-width: 250px !important' autocomplete='off'/></span>
                         </div>
 
                     </li>
@@ -110,6 +110,7 @@
                         <label for="id_publicado_0"><?php echo $this->translate('Publicado por:'); ?></label>
                         <div id="genderOptions" class="Right">
                                 <label for="id_publicado_0"><input <?php echo ($this->gender == 'followers' ? 'checked="checked"' : ''); ?> type="radio" name="compartir" class="compartir" value="followers" id="compartir"> <?php echo $this->translate('Sólo Gente que sigo'); ?></label>
+                                <br/>
                                 <label for="id_publicado_1"><input <?php echo ($this->gender == 'amatteur' ? 'checked="checked"' : ''); ?> type="radio" name="compartir" class="compartir" value="amatteur" id="compartir"> <?php echo $this->translate('Comunidad Amatteur'); ?></label>
                         </div>
                     </li>
@@ -136,10 +137,10 @@
             <?php } else { ?>                            
 
                 <?php if ($this->eventos) { ?>
-                    <div id="mapa" style="width: 1000px; height: 400px;margin-top:20px;margin-left:0px"></div>
-                    <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                    <div id="mapa" style=" height: 400px;margin-top:20px;margin-left:0px"></div>
+                    <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:200px" />
                     <br/>
-                    <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:50px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
+                    <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:0px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                     <div id="container" style="margin-left:0px">
                         <?php echo $this->eventsBox;?>
                     </div>
@@ -178,7 +179,7 @@
 <script type="text/javascript">
 $(document).ready(function(){
     
-    
+/*    
 
         $('#date_event1').datetimepicker({
             dateFormat: 'dd/mm/yy',
@@ -200,6 +201,7 @@ $(document).ready(function(){
             minute: 59,
             controlType: 'select'
         });
+*/        
 });        
 </script>
 

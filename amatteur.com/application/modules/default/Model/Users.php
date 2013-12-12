@@ -1293,6 +1293,12 @@ class Model_Users extends JO_Model {
 					->joinLeft('users_activate', 'users.user_id = users_activate.user_id')
 					->where('users_activate.activate= 1');
                 }
+                else if(isset($data['filter_voluntarios']) && $data['filter_voluntarios']) {                
+                    $query = $db->select()
+					->from('users', array('users.*', 'fullname' => "CONCAT(firstname,' ',lastname)"))
+					->joinLeft('users_voluntarios', 'users.user_id = users_voluntarios.user_id')
+					->where('users_voluntarios.estado= 1');
+                }
                 else
                 {
                     $query = $db->select()
@@ -1333,7 +1339,7 @@ class Model_Users extends JO_Model {
 		}
 		$query->group('users.user_id');
                 
-	    //error_log("query " .$query);
+//	    error_log("query " .$query);
 //	    exit;
 		return $db->fetchAll($query);
 	}
@@ -2147,8 +2153,8 @@ class Model_Users extends JO_Model {
 		}
 */		
 
-                if(isset($data['filter_disponibilidad']) && $data['filter_disponibilidad']) {
-			$query->where('users_voluntarios.disponibilidad = ?', (string)$data['filter_disponibilidad']);
+                if(isset($data['filter_disponible']) && $data['filter_disponible']) {
+			$query->where('users_voluntarios.disponible = ?', (string)$data['filter_disponible']);
 		}
 		
 		if(isset($data['filter_location']) && $data['filter_location']) {

@@ -221,6 +221,29 @@ class EventsController extends JO_Action {
                         $this->view->location  = $event_data['location'];
                     }
             }
+            $this->view->lat = '';
+            if($request->issetPost('lat')) {
+                    $this->view->lat = $request->getPost('lat');
+            }
+            else if ($event_data)
+            {
+                    if ($event_data['lat'] != "") 
+                    {
+                        $this->view->lat  = $event_data['lat'];
+                    }
+            }
+            $this->view->len = '';
+            if($request->issetPost('len')) {
+                    $this->view->len = $request->getPost('len');
+            }
+            else if ($event_data)
+            {
+                    if ($event_data['len'] != "") 
+                    {
+                        $this->view->len  = $event_data['len'];
+                    }
+            }
+            
             
             $this->view->cat_title = '';
             $this->view->sport_category = '';
