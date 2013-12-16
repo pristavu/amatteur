@@ -190,7 +190,7 @@
 <script type="text/javascript">
     $(document).ready(function(){
        
-        $('.Button.RedButton.message.close').click(function(){
+        $('.red.mbtn.message.close').click(function(){
 		//history.go(-1);
                 //var origen = '<?php echo $_SESSION["activate_url"]; ?>';
                 var origen = '<?php echo $this->home_url; ?>';
@@ -206,7 +206,7 @@
         $('#id_gender_female').click(function(){
             alert($( ".gender:checked" ).val());
         });
-*/            
+            
         
 	<?php if($this->successfu_edite) { ?>
 	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');
@@ -214,27 +214,7 @@
 	<?php if($this->error) { ?>
 	Pins.error('<?php echo $this->error;?>');
 	<?php } ?>
-        
-
-        regExPrice.addExpresionLine($('#comment').html(), true);
-	
-        $('#comment').jqEasyCounter({
-            holder: 'p.text_counter',
-            maxChars: 255,
-            maxCharsWarning: 225,
-            template: '{count}'
-        }).bind("keydown keyup keypress focus paste",function() {
-            regExPrice.addExpresionLine(this.value);
-            if($.trim($('#comment').val())) {
-                $('#emailpin .submit input').removeClass('disabled').attr('disabled', false);
-            } 
-            else 
-            {
-                $('#emailpin .submit input').addClass('disabled').attr('disabled', true);
-            }
-            regExPrice.addExpresionLine(this.value, false);
-        });
-
+*/        
 
         $('#emailpin form').unbind('submit').submit(function(){
             $('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');

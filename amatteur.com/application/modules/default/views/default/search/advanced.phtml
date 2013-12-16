@@ -290,7 +290,7 @@
             <!----------------------- ACTIVATE ------------------------------->
             <?php } else if ($this->advancedActive == "activate") { ?>
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=activate" method="post" class="edit search StaticForm">
+	<form action="<?php echo $this->search_action; ?>?id=activate" method="post" class="Form edit search StaticForm">
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Deportistas Activados')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -470,7 +470,7 @@
                         <!----------------------- VOLUNTARIOS ------------------------------->
             <?php } else if ($this->advancedActive == "voluntarios") { ?>
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="post" class="edit search StaticForm">
+	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="post" class="Form edit search StaticForm">
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Voluntarios')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -745,7 +745,7 @@
     
 		<div class="hr"></div>
                 <input type="hidden" size="1" name="zoom" value=15 />
-		<p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
+		<p class="submit" ><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
 
 	</form>
 </div>                

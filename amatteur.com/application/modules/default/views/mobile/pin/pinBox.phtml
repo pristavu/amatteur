@@ -318,7 +318,7 @@
 	
 	<div class='pin'>
 	
-		<a href='/pin/<?php echo $this->pin['pin_id']; ?>'>
+		<a href='<?php echo $this->pin['href'] ?>'>
 			<img alt='' src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-original='<?php echo $this->pin['thumb'];?>' width='93' height='<?php echo round( 93 / ( $this->pin['thumb_width']/$this->pin['thumb_height'] ) );?>'/>
 		
 		</a>

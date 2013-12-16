@@ -40,15 +40,17 @@
 
                     <a href="http://handsomenclassy.tumblr.com/page/7">
                         <div class="image">
-                            		<?php if($this->pin['is_video']) { ?>
-					<img src="data/images/VideoIndicator.png" alt="Video" class="video" />
-					<?php } ?>
-
+                            <?php if($this->pin['is_video']) { ?>
+                                <img src="data/images/VideoIndicator.png" alt="Video" class="video" />
+                            <?php } ?>
+                            <?php if($this->pin['is_article']){ ?>
+                                <img src="data/images/ico_arti.png"  class="article" alt="Articulo" style="display:block;float:right;"  />
+                            <?php } ?>
                             <a href='<?php echo $this->pin['from'] ?>' target='_blank' >
-								<!--img  class='notLoadedImg' alt='' data-src='../data/images/white_dim.png' src='<?php //echo 'uploads'.$this->pin['image'];?>' /-->
-                                                                <img  class='notLoadedImg' alt='' data-src='../data/images/white_dim.png' src='<?php echo $this->pin['image'];?>' />
+                                <!--img  class='notLoadedImg' alt='' data-src='../data/images/white_dim.png' src='<?php //echo 'uploads'.$this->pin['image'];?>' /-->
+                                <img  class='notLoadedImg' alt='' src='../data_mobile/images/white_dim.png' data-src='<?php echo $this->pin['popup'];?>' style='width:100%' />
 								
-							</a>
+                            </a>
                         </div>
                     </a>
 

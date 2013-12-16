@@ -8,12 +8,12 @@
 			</p-->
                         
 		<div class="PersonInfo">
-                        <div style="display:table">
+                        <div style="display:table;width: 100%">
                             <div style="display:table-row">
                                 <div style="display:table-cell">
                                     <h2><?php echo $this->user['fullname'];?></h2>
                                 </div><div style="display:table-cell">
-                                    <div class="follow" style="margin-left:10px">
+                                    <div class="follow" style="margin-left:10px;float: right">
 <!--------------------------------------------------------------->
     <?php if (!$this->loged) { ?>
                         <a class="red mbtn" href="users/register" style="width:95px !important;height:48px !important"><?php echo $this->translate('Regístrate para contactar'); ?></a>
