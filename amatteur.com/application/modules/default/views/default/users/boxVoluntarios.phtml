@@ -1,4 +1,4 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="width:460px;height: 368px">
+<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="width:460px;height: 468px">
     <a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
@@ -100,49 +100,51 @@
                         <div style="display:table">
                             <div style="display:table-row">                                
                                 <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Opciones:');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Opciones:');?></p>
+                                </div>
                                 <div style="display:table-cell">
-                                    <?php echo ($this->user['option1'] == '1' ? sprintf($this->translate("Deportista, individual o club, da charlas a grupos, colegios...")) : ''); ?>
-                                    <?php echo ($this->user['option2'] == '1' ? sprintf($this->translate("Comparto mi experiencia de superación, charlas para grupos, colegios...")) : ''); ?> 
-                                    <?php echo ($this->user['option3'] == '1' ? sprintf($this->translate("Apoyo a rehabilitación")) : ''); ?> 
-                                    <?php echo ($this->user['option4'] == '1' ? sprintf($this->translate("Ayuda o entrenamiento a paralímpicos")) : ''); ?> 
-                                    <?php echo ($this->user['option5'] == '1' ? sprintf($this->translate("Entrenamiento a deportista o equipo")) : ''); ?> 
-                                    <?php echo ($this->user['option6'] == '1' ? sprintf($this->translate("Agrupación con otros volunttarios")) : ''); ?> 
-                                    <?php echo ($this->user['option7'] == '1' ? sprintf($this->translate("Colaboración con ONG como volunttario")) : ''); ?> 
-                                    <?php echo ($this->user['option8'] == '1' ? sprintf($this->translate("Participación o colaboración en eventos deportivos solidarios"))  : ''); ?> 
-                                    <?php echo ($this->user['option9'] == '1' ? sprintf($this->translate("Donación material usado o nuevo"))  : ''); ?>                                     
-                                    <?php echo ($this->user['option10'] == '1' ? sprintf($this->translate("Coaching, motivación, apoyo psicológico")) : ''); ?>
-                                    <?php echo ($this->user['option11'] == '1' ? sprintf($this->translate("Asesoría sobre salud, lesiones y nutrición en el deporte")) : ''); ?>
-                                    <?php echo ($this->user['option12'] == '1' ? sprintf($this->translate("Presto instalaciones deportivas")) : ''); ?> 
-                                    <?php echo ($this->user['option13'] == '1' ? sprintf($this->translate("Patrocinio o copatrocinio equipo o deportista")) : ''); ?> 
-                                    <?php echo ($this->user['option14'] == '1' ? sprintf($this->translate("Entradas o abonos para eventos deportivos")) : ''); ?> 
-                                    <?php echo ($this->user['option15'] == '1' ? sprintf($this->translate("ONG ayuda a superar problemas para tomar la salida")) : ''); ?> 
-                                    <?php echo ($this->user['option16'] == '1' ? sprintf($this->translate("Árbitros o jueces deportivos")) : ''); ?> 
-                                    <?php echo ($this->user['option17'] == '1' ? sprintf($this->translate("Ayudo a personas mayores a hacer ejercicio")) : ''); ?> 
-                                    <?php echo ($this->user['option18'] == '1' ? sprintf($this->translate("Otros (descripción en los comentarios)"))  : ''); ?> 
-                                    
-                                    </p>
+                                    <?php echo ($this->user['option1'] == '1' ? "&bull; ". sprintf($this->translate("Deportista, individual o club, da charlas a grupos, colegios...")) . "<br/>" : ''); ?>
+                                    <?php echo ($this->user['option2'] == '1' ? "&bull; ". sprintf($this->translate("Comparto mi experiencia de superación, charlas para grupos, colegios...")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option3'] == '1' ? "&bull; ". sprintf($this->translate("Apoyo a rehabilitación")) . "<br/>"  : ''); ?> 
+                                    <?php echo ($this->user['option4'] == '1' ? "&bull; ". sprintf($this->translate("Ayuda o entrenamiento a paralímpicos"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option5'] == '1' ? "&bull; ". sprintf($this->translate("Entrenamiento a deportista o equipo"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option6'] == '1' ? "&bull; ". sprintf($this->translate("Agrupación con otros volunttarios")) . "<br/>"  : ''); ?> 
+                                    <?php echo ($this->user['option7'] == '1' ? "&bull; ". sprintf($this->translate("Colaboración con ONG como volunttario"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option8'] == '1' ? "&bull; ". sprintf($this->translate("Participación o colaboración en eventos deportivos solidarios"))  . "<br/>"  : ''); ?> 
+                                    <?php echo ($this->user['option9'] == '1' ? "&bull; ". sprintf($this->translate("Donación material usado o nuevo"))  . "<br/>"  : ''); ?>                                     
+                                    <?php echo ($this->user['option10'] == '1' ? "&bull; ". sprintf($this->translate("Coaching, motivación, apoyo psicológico"))  . "<br/>" : ''); ?>
+                                    <?php echo ($this->user['option11'] == '1' ? "&bull; ". sprintf($this->translate("Asesoría sobre salud, lesiones y nutrición en el deporte"))  . "<br/>" : ''); ?>
+                                    <?php echo ($this->user['option12'] == '1' ? "&bull; ". sprintf($this->translate("Presto instalaciones deportivas"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option13'] == '1' ? "&bull; ". sprintf($this->translate("Patrocinio o copatrocinio equipo o deportista")) . "<br/>"  : ''); ?> 
+                                    <?php echo ($this->user['option14'] == '1' ? "&bull; ". sprintf($this->translate("Entradas o abonos para eventos deportivos"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option15'] == '1' ? "&bull; ". sprintf($this->translate("ONG ayuda a superar problemas para tomar la salida"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option16'] == '1' ? "&bull; ". sprintf($this->translate("Árbitros o jueces deportivos"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option17'] == '1' ? "&bull; ". sprintf($this->translate("Ayudo a personas mayores a hacer ejercicio"))  . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option18'] == '1' ? "&bull; ". sprintf($this->translate("Otros (descripción en los comentarios)"))   . "<br/>" : ''); ?> 
                                 </div>
                             </div>                            
                             <div style="display:table-row">
                                 <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Zona geográfica:');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Zona geográfica:');?>&nbsp;</p>
+                                </div>
                                 <div style="display:table-cell;vertical-align: bottom">
-                                    <?php echo $this->user['location'];?></p>
+                                    <?php echo $this->user['location'];?>
                                 </div>
                             </div>
                             <div style="display:table-row">
                                 <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?></p>
+                                </div>
                                 <div style="display:table-cell">
-                                    <?php echo $this->user['sport_category'];?></p>
+                                    <?php echo $this->user['sport_category'];?>
                                 </div>
                             </div>
                             <div style="display:table-row">
                                 <div style="display:table-cell;height:98px">
-                                    <p class="location colorless"><?php echo $this->translate('Comentarios:');?> </div>
+                                    <p class="location colorless"><?php echo $this->translate('Comentarios:');?></p>
+                                </div>
                                 <div style="display:table-cell" id="divComentarios">
-                                    <?php echo $this->user['comment'];?></p>
+                                    <?php echo $this->user['comment'];?>
                                 </div>
                             </div>
                         </div>

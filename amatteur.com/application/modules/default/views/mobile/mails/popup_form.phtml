@@ -56,6 +56,7 @@
         </form>
 
     <input type="hidden" value='<?php echo $this->user_activate;?>' id="fullname" class="fullname" />
+    <input type="hidden" value='<?php echo $this->user_voluntario;?>' id="voluntario" class="voluntario" />
     </div>
     
     <div class="clear"></div>
@@ -80,6 +81,16 @@ $(document).ready(function(){
             }, 'json');
         }
 
+        if ($("#voluntario").val() != "")
+        {
+            var val = $("#voluntario").val();
+            var vol = 1;
+            $.post('<?php echo $this->friends_href;?>', {term: val, vol: vol}, function(data){
+                    cache[val] = data.users;
+                    autocompleteResults(data.users);
+                    $('.option_friends').trigger("click");
+            }, 'json');
+        }
 
 	
 

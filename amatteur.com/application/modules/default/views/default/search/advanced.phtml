@@ -910,7 +910,7 @@ function GLoad() {
          
         <?php /*foreach($this->users as $user) { ?>
             
-                <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
+                <?php  $users_location = Model_Users::getUserLocation($user["user_id"], 1);
                     foreach ($users_location as $user_location)
                     {
                        ?> 
@@ -996,7 +996,7 @@ function GLoad() {
         <?php foreach($this->users as $user) { ?>
             
             <?php if ($this->advancedActive != "activate" && $this->advancedActive != "voluntarios") { ?> 
-                <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
+                <?php  $users_location = Model_Users::getUserLocation($user["user_id"], 1);
                     foreach ($users_location as $user_location)
                     {
                        ?> 

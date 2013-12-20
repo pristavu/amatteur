@@ -6,12 +6,12 @@
           
             <form class="Form StaticForm" action="<?php echo $this->activatePopup; ?>" method="post" id="profileEdit">
                 
-                <h3 style="border-bottom:0px;padding-bottom:0px"><b><?php echo $this->translate('Apúntate a Volunttarios ');?></b></h3>
-                <strong><?php echo $this->translate('"El deporte tiene el poder de cambiar el mundo; tiene el poder de inspirar; tiene el poder de unir a las personas de una manera que pocas cosas pueden lograr" Nelson Mandela.');?></strong>
+                <h3 style="border-bottom:0px;padding-bottom:5px"><b><?php echo $this->translate('Apúntate a Volunttarios ');?></b></h3>
+                <div style="border-bottom:0px;padding-bottom:5px"><strong><?php echo $this->translate('"El deporte tiene el poder de cambiar el mundo; tiene el poder de inspirar; tiene el poder de unir a las personas de una manera que pocas cosas pueden lograr" Nelson Mandela.');?></strong><div/>
                 <?php echo $this->translate('En cada una de nuestras ciudades y pueblos hay personas, sobre todo niños y jóvenes, que con un poco de ayuda e inspiración se sumarían a la práctica del deporte, y con este, a sus valores de superación, compañerismo, entusiasmo, juego limpio,..., y con ello, a una vida mejor. '); ?>
                 <?php echo $this->translate('Con ese objetivo, amatteur quiere ayudar a ayudar, dando la herramienta a su comunidad, para que quien quiera y pueda se sume al programa "volunttarios", que ya se encuentra en programación y estará online en las próximas semanas. '); ?>
                 <?php echo $this->translate('Te podrás ofrecer voluntario para muchos tipos de acciones, y luego, en función de la solicitudes de ayuda y conversaciones que tengas con los solicitantes, tu elijes coo enfocar tus acciones, con quién, dónde..., algunas de las acciones que proponemos son'); ?>
-                <h3></h3>
+                <h3 style="border-bottom:0px;padding-bottom:5px"></h3>
             
                 <div class="hide">
                     <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id; ?>">
@@ -128,7 +128,7 @@
                                 <span class="selectBox-arrow" style=""></span>
                             </a>
 
-                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 370px;'>
+                            <ul class='selectBox-dropdown-menu selectBox-options' id='selectBox-dropdown-menu-Category' style='display:none;overflow-x: hidden;width: 270px;'>
 
                                         <?php foreach ($this->categories as $category)
                                         { ?>
@@ -169,7 +169,7 @@
                                 
                             <label for="required"><span style="color:red">*</span><?php echo $this->translate('Fields required'); ?><br></label>
                             <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
-                            &nbsp;&nbsp;<input class="red mbtn message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn message" style="font-size:18px; width: 106px; height: 40px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
                             &nbsp;&nbsp;<input class="red mbtn message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Salir'); ?>">
                             </p>
                         </div>
@@ -187,6 +187,8 @@
 
 
 <?php $key = str_replace('.', '', microtime(true)); ?>
+
+<script type='text/javascript' src='data/js/jquery.redirect.min.js'></script>
 <script type="text/javascript">
     $(document).ready(function(){
        
@@ -215,6 +217,45 @@
 	Pins.error('<?php echo $this->error;?>');
 	<?php } ?>
 */        
+	<?php if($this->successfu_edite) { ?>
+        setTimeout(function () {
+            var href = '<?php echo $this->search_voluntarios;?>';
+            //document.location.href=href;
+            var location = $('#searchTextField').val();
+            var sport_category = $('.sport_category').val();
+            var disponible = $('.disponible:checked').val();
+            var option1 = $('.option1:checked').val();
+            var option2 = $('.option2:checked').val();
+            var option3 = $('.option3:checked').val();
+            var option4 = $('.option4:checked').val();
+            var option5 = $('.option5:checked').val();
+            var option6 = $('.option6:checked').val();
+            var option7 = $('.option7:checked').val();
+            var option8 = $('.option8:checked').val();
+            var option9 = $('.option9:checked').val();            
+            var option10 = $('.option10:checked').val();
+            var option11 = $('.option11:checked').val();
+            var option12 = $('.option12:checked').val();
+            var option13 = $('.option13:checked').val();
+            var option14 = $('.option14:checked').val();
+            var option15 = $('.option15:checked').val();
+            var option16 = $('.option16:checked').val();
+            var option17 = $('.option17:checked').val();
+            var option18 = $('.option18:checked').val();
+            var estado = $('.estado:checked').val();
+            
+            if (estado == 0)
+            {
+                $().redirect(href, {});
+            }
+            else
+            {
+                $().redirect(href, {location : location, sport_category : sport_category, disponible : disponible, option1 : option1, option2 : option2, option3 : option3, option4 : option4, option5 : option5, option6 : option6, option7 : option7, option8 : option8, option9 : option9, option10 : option10, option11 : option11, option12 : option12, option13 : option13, option14 : option14, option15 : option15, option16 : option16, option17 : option17, option18 : option18});
+
+            }
+            
+        }, 2000);  
+	<?php } ?>        
 
         $('#emailpin form').unbind('submit').submit(function(){
             $('#emailpin form .submit input').after('<img src="data/images/loading_2.gif" id="loading_button" />');

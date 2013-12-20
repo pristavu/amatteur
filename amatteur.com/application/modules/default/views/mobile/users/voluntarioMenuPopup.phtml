@@ -8,35 +8,40 @@
 				</div>
 				
 				<div class="left w335px" style="font-weight: bold;font-size: 1.2em;">
+                                        <img style="width: 335px; float: left; padding-top: 10px" src="data/images/volunttarios_h.png"  />                                    
 					<p>
-                                            <div id="conocenos" style="width: 335px"><center><label for="message"><?php echo $this->translate('Bienvenido a volunttarios, ¿qué deseas hacer?');?></label></center></div><br/>
-                                            <div id="conocenos" style="width: 335px;padding-bottom: 10px"><center><a id='videoTrigger' class="" onclick="getVideoImage();" href='#'><?php echo $this->translate('Ver vídeo de introducción');?></a></center></div><br>
+                                            <?php if (!$this->user_id) { ?>                    
+                                                <div id="conocenos" style="width: 335px"><center><label for="message"><?php echo $this->translate('Para apuntarte como voluntario, necesitas registrarte en amatteur, únete, es gratis');?></label></center></div><br/>
+                                            <?php } else { ?>                                                                
+                                                <div id="conocenos" style="width: 335px"><center><label for="message"><?php echo $this->translate('Bienvenido a volunttarios, ¿qué deseas hacer?');?></label></center></div><br/>
+                                            <?php } ?>                                                                
+
+                                            <div id="conocenos" style="width: 335px"><center><a id='videoTrigger' class="" onclick="getVideoImage();" href='#'><?php echo $this->translate('Ver vídeo de introducción');?></a></center></div><br>
+                                            <div class='ol'>
+                                                <div id='iframeHolder' style="margin-left: 0px !important; margin-top: 10px !important">
+
+                                                </div>
+                                            </div>
+                                            
 					</p>
                                         <br/>
-                                        <div class="box2">
-                                           
-                                                <span class="selected"><a id="search" href="<?php echo $this->search_url ?>" class="red mbtn search " style="font-weight: bold;font-size: 1.2em;width: 130px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar');?></a></span>
+                                        <div class="box2" style="padding-left: 10%;padding-bottom: 10px">
+                                            <p>
+                                                <span class="selected"><a id="search" href="<?php echo $this->search_url ?>" class="red mbtn search " style="font-weight: bold;font-size: 1.2em;width: 260px;height: 20px;padding-top: 12px; margin-top:0px; margin-bottom:5px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar');?></a></span>
+                                           </p>
+                                           <p>
                                                 <?php if ($this->user_id) { ?>                    
-                                                <span class="selected"><a id="apuntate" href="<?php echo $this->apuntate_loged_url ?>" class="red mbtn apuntate " style="float:right; font-weight: bold;font-size: 1.2em;width: 140px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Apúntate');?></a></span>
+                                                <span class="selected"><a id="apuntate" href="<?php echo $this->apuntate_loged_url ?>" class="red mbtn apuntate " style="font-weight: bold;font-size: 1.2em;width: 260px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php  if($this->estado) {echo $this->translate('Edita tu disponibilidad');} else {echo $this->translate('Apúntate');}?></a></span>
                                                 <?php } else { ?>
-                                                <span class="selected"><a id="apuntate" href="<?php echo $this->apuntate_nologed_url ?>"  class="red mbtn apuntate " style="float:right; font-weight: bold;font-size: 1.2em;width: 140px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Registrate');?></a></span>
+                                                <span class="selected"><a id="apuntate" href="<?php echo $this->apuntate_nologed_url ?>"  class="red mbtn apuntate " style="font-weight: bold;font-size: 1.2em;width: 260px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Registrate');?></a></span>
                                                 <?php } ?> 
-                                                <?php if (!$this->user_id) { ?>                    
-                                                    <div id="conocenos" style="float: left;width: 20px;padding-bottom: 60px"></div>
-                                                    <div id="conocenos" style="float: right;width: 155px;padding-bottom: 60px"><center><label for="message"><?php echo $this->translate('Para apuntarte como voluntario, necesitas registrarte en amatteur, únete, es gratis');?></label></center></div><br/>
-                                                <?php } ?>                    
-                                                
+                                           </p>
                                         </div>
 					<div class="clear"></div>
 				</div>
 				<div class="clear"></div>
 		</div>
 	</div>
-</div>
-<div class='ol'>
-    <div id='iframeHolder' style="margin-left: 0px !important; margin-top: 10px !important">
-
-    </div>
 </div>
 <script type="text/javascript" src='data_mobile/js/slide.min.mobile.js'></script>
 <script>

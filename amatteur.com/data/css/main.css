@@ -4121,7 +4121,7 @@ input::-moz-focus-inner { border: 0; }*/
 	margin-right: 3px;
 	font-weight: bold;
 	text-shadow: 1px 1px #ffffff;
-	font-family: tahoma, arial;
+	font-family: "helvetica neue",arial,sans-serif;
 	float: right;
 }
 

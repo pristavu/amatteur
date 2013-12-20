@@ -760,7 +760,7 @@ class Model_Users extends JO_Model {
 			
 		}
                 
-                //error_log("query" . $query);
+                error_log("query" . $query);
 		$results = $db->fetchAll($query);
 
 		$result[$key] = array();
@@ -2361,16 +2361,32 @@ class Model_Users extends JO_Model {
 	}
 
         
-        public function getUserLocation($user_id){
+        public function getUserLocation($user_id, $negocio = 0){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('users_location',array('*'))->where('user_id = ?',$user_id);
+                if ($negocio == 1)
+                {
+                    $query =  'select * from users_location , users where users_location.user_id = users.user_id and users.type_user in (2, 3, 4, 6, 7, 8, 9, 10, 11) and users_location.user_id = '.$user_id;    
+                }
+                else
+                {
+                    $query =  $db->select()->from('users_location',array('*'))->where('user_id = ?',$user_id);    
+                }
+                error_log($query);
 		$result= $db->fetchAll($query);
 		return $result; 
 	}
 
-        public function getLocationUsers($location){
+        public function getLocationUsers($location, $negocio = 0){
 		$db  = JO_Db::getDefaultAdapter();
-		$query =  $db->select()->from('users_location',array('*'))->where('location LIKE ?',"%".str_replace(",", "%", $location)."%");
+                if ($negocio == 1)
+                {
+                    $query =  "select * from users_location , users where users_location.user_id = users.user_id and users.type_user in (2, 3, 4, 6, 7, 8, 9, 10, 11) and users_location.location LIKE '%".str_replace(",", "%", $location)."%'";    
+                }
+                else
+                {
+                    $query =  $db->select()->from('users_location',array('*'))->where('location LIKE ?',"%".str_replace(",", "%", $location)."%");
+                }
+                error_log($query);
 		$result= $db->fetchAll($query);
 		return $result; 
 	}

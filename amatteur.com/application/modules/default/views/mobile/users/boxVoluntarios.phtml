@@ -1,5 +1,5 @@
 <div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="padding-bottom: 48px;border-color: #cccaca;border-width: 1px;border-style: solid; padding: 5px;margin-top: 10px" >
-    <img style="padding-top: 10px;" src="<?php echo $this->user['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->user['fullname'] ?>">
+    <img style="padding-top: 10px;width: 100%" src="<?php echo $this->user['avatar'] ?>" class="profile user_image" alt="Profile picture of <?php echo $this->user['fullname'] ?>">
     <!--a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
@@ -101,7 +101,8 @@
                         <div style="display:table">
                             <div style="display:table-row">                                
                                 <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Opciones:');?> </div>
+                                    <p class="location colorless"<?php echo $this->translate('Opciones:');?></p>
+                                </div>
                                 <div style="display:table-cell">
                                     <?php echo ($this->user['option1'] == '1' ? sprintf($this->translate("Deportista, individual o club, da charlas a grupos, colegios...")) : ''); ?>
                                     <?php echo ($this->user['option2'] == '1' ? sprintf($this->translate("Comparto mi experiencia de superación, charlas para grupos, colegios...")) : ''); ?> 
@@ -121,29 +122,30 @@
                                     <?php echo ($this->user['option16'] == '1' ? sprintf($this->translate("Árbitros o jueces deportivos")) : ''); ?> 
                                     <?php echo ($this->user['option17'] == '1' ? sprintf($this->translate("Ayudo a personas mayores a hacer ejercicio")) : ''); ?> 
                                     <?php echo ($this->user['option18'] == '1' ? sprintf($this->translate("Otros (descripción en los comentarios)"))  : ''); ?> 
-                                    
-                                    </p>
                                 </div>
                             </div>                            
                             <div style="display:table-row">
                                 <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Zona geográfica:');?> </div>
+                                    <p class="location colorless"<?php echo $this->translate('Zona geográfica:');?></p>
+                                </div>
                                 <div style="display:table-cell;vertical-align: bottom">
-                                    <?php echo $this->user['location'];?></p>
+                                    <?php echo $this->user['location'];?>
                                 </div>
                             </div>
                             <div style="display:table-row">
                                 <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> </div>
+                                    <p class="location colorless"<?php echo $this->translate('Deporte:');?></p>
+                                </div>
                                 <div style="display:table-cell">
-                                    <?php echo $this->user['sport_category'];?></p>
+                                    <?php echo $this->user['sport_category'];?>
                                 </div>
                             </div>
                             <div style="display:table-row">
                                 <div style="display:table-cell;height:98px">
-                                    <p class="location colorless"><?php echo $this->translate('Comentarios:');?> </div>
+                                    <p class="location colorless"<?php echo $this->translate('Comentarios:');?></p>
+                                </div>
                                 <div style="display:table-cell" id="divComentarios">
-                                    <?php echo $this->user['comment'];?></p>
+                                    <?php echo $this->user['comment'];?>
                                 </div>
                             </div>
                         </div>

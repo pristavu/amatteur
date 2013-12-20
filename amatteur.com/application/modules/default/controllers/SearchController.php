@@ -110,15 +110,6 @@ class SearchController extends JO_Action
             $this->view->words = '';
         }
 
-
-        $this->view->location = '';
-        if ($request->issetPost('location'))
-        {
-            $this->view->location = $request->getPost('location');
-        } else
-        {
-            $this->view->location = '';
-        }
         $this->view->cat_title1 = '';
         $this->view->sport_category_1 = '';
         if ($request->issetPost('sport_category_1'))
@@ -961,7 +952,7 @@ class SearchController extends JO_Action
                     {
                         if ($request->getRequest('location') != "")
                         {
-                            $users_id = Model_Users::getLocationUsers($request->getRequest('location'));
+                            $users_id = Model_Users::getLocationUsers($request->getRequest('location'), 1);
                             foreach ($users_id as $user_id)
                             {
                                 $dataUser = array(

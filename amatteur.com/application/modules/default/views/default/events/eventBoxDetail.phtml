@@ -193,7 +193,13 @@
 </div>
 <?php } ?>
 
-</body>        
+</body>   
+
+<script type="text/javascript">
+    $(document).ready(function(){            
+            $('.fb-like-button').html('<iframe src="https://www.facebook.com/plugins/like.php?href=<?php echo urlencode($this->event_url);?>&amp;send=false&amp;layout=button_count&amp;width=120&amp;show_faces=false&amp;action=like&amp;colorscheme=light&amp;font&amp;height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe>');
+    });
+</script>            
         
 <script type="text/javascript">
 

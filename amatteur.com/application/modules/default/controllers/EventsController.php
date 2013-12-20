@@ -1043,7 +1043,8 @@ class EventsController extends JO_Action {
 		$this->view->url_email = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=email&event_id=' . $event_id );
 		$this->view->url_comment = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event_id );
 
-                $view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event_id );
+                //$view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event_id );
+                $view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail?event_id=' . $event_id );
 		
 		//$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
                 

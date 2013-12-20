@@ -294,7 +294,7 @@ class Helper_Events {
 			$event['url_repin'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=repin&event_id=' . $event['event_id'] );
 			$event['url_comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event['event_id'] );
                         $event['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=comment&event_id=' . $event['event_id'] );
-			$event['edit'] = JO_Session::get('user[user_id]') == $event['user_id'] ? WM_Router::create( $request->getBaseUrl() . '?controller=pin&action=events&event_id=' . $event['event_id'] ) : false;
+			$event['edit'] = JO_Session::get('user[user_id]') == $event['user_id'] ? WM_Router::create( $request->getBaseUrl() . '?controller=events&action=events&event_id=' . $event['event_id'] ) : false;
 		} else {
 			$event['url_like'] = $event['url_repin'] = $event['url_comment'] = $event['comment'] = WM_Router::create( $request->getBaseUrl() . '?controller=landing' );
 			$event['edit'] = false;
@@ -370,8 +370,9 @@ class Helper_Events {
 			}
 		}
 		*/
-		$view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
-		
+		$view->event_url = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=indexeventBoxDetail&event_id=' . $event['event_id'] ); 
+                //WM_Router::create( $request->getBaseUrl() . '?controller=events&event_id=' . $event['event_id'] );
+                
 		$view->login_href = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=login&next=' . urlencode($event['href']) );
                 
                 $view->like_event = WM_Router::create( $request->getBaseUrl() . '?controller=events&action=like&event_id=' . $event['event_id'] . '&userio_id=' . $event['user_id'] ); 
@@ -384,21 +385,21 @@ class Helper_Events {
 
 		
 		//Model_Pins::updateViewed($event['event_id']);
-		/*
-		JO_Layout::getInstance()->meta_title = $event['board'] . ' - ' . strip_tags( html_entity_decode($event_description) );
-		JO_Layout::getInstance()->placeholder('pin_url', ($view->replin_info ? $view->replin_info['pin_href'] : $view->pin_url ));
+                
+		JO_Layout::getInstance()->meta_title = $event['eventname']. ' - ' . strip_tags( html_entity_decode($event_description) );
+		JO_Layout::getInstance()->placeholder('pin_url', $view->event_url);
 		JO_Layout::getInstance()->placeholder('pin_description', $event_description);
 		
 		$params = array();
-		$params['content'] = html_entity_decode($event['description'] . ' ' . $event['board'], ENT_QUOTES, 'UTF-8'); //page content
+		$params['content'] = html_entity_decode($event_description . ' ' . $event['eventname'], ENT_QUOTES, 'UTF-8'); //page content
 		$keywords = new WM_Keywords($params);
 		$get_keywords = $keywords->get_keywords();
 		if($get_keywords) {
 			JO_Layout::getInstance()->placeholder('keywords', $get_keywords);
 		}
 		JO_Layout::getInstance()->placeholder('pin_image', $event['thumb']);
-		JO_Layout::getInstance()->placeholder('board_title', $event['board']);
-		
+		JO_Layout::getInstance()->placeholder('board_title', $event['eventname']);
+		/*
 		$view->banners = array();
 		if($banners) {
 			foreach($banners AS $banner1) {

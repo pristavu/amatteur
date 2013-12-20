@@ -32,7 +32,7 @@ $masonry = true;
 	<div id="container1" style="width:1173px !important;margin-bottom:50px;padding-top:85px;margin-left:auto;padding-bottom:12px;margin-right:auto;">
 		<div id="ContextBarqSearch">
 			<div class="box2">
-				<p>
+                            <p>
                                 <label> <?php echo sprintf($this->translate('Buscar en:')); ?> </label>
                                 <p>
                                 <?php if ($this->advancedActive == "amatteur") { ?>
@@ -47,7 +47,8 @@ $masonry = true;
                                 <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=services" class="red mbtn morelocations " style="width: 160px; background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Servicios y Negocios');?></a></span>
                                 <?php } ?>
                                 
-                                </p><p>
+                                </p>
+                                <p>
                                 <?php if ($this->advancedActive == "voluntarios") { ?>                    
                                 <span class="selected"><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=voluntarios" class="red mbtn morelocations " style="width: 140px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Volunttarios');?></a></span>
                                 <?php } else { ?> 
@@ -60,7 +61,7 @@ $masonry = true;
                                 <span><a id="morelocations" href="<?php echo $this->advanced_url ?>?id=activate" class="red mbtn morelocations " style="width: 160px; background-color:gray;margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Deportistas Activados');?></a></span>
                                 <?php } ?>
                                 </p>
-	        	</p>
+                            </p>
         	</div>
 
                     
@@ -887,7 +888,7 @@ function GLoad() {
          
         <?php foreach($this->users as $user) { ?>
             
-                <?php  $users_location = Model_Users::getUserLocation($user["user_id"]);
+                <?php  $users_location = Model_Users::getUserLocation($user["user_id"], 1);
                     foreach ($users_location as $user_location)
                     {
                        ?> 

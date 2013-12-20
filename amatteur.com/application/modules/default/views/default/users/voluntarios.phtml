@@ -6,14 +6,18 @@
           
             <form class="Form StaticForm" action="<?php echo $this->activatePopup; ?>" method="post" id="profileEdit">
                 
-                <h3><b><?php echo $this->translate('Apúntate a Volunttarios ');?></b></h3>
+                <h3 style="padding-bottom:5px"><b><?php echo $this->translate('Apúntate a Volunttarios ');?></b></h3>
                 <div style="margin-left: 0px">
-                <strong><?php echo $this->translate('"El deporte tiene el poder de cambiar el mundo; tiene el poder de inspirar; tiene el poder de unir a las personas de una manera que pocas cosas pueden lograr" Nelson Mandela.');?></strong>
-                <?php echo $this->translate('En cada una de nuestras ciudades y pueblos hay personas, sobre todo niños y jóvenes, que con un poco de ayuda e inspiración se sumarían a la práctica del deporte, y con este, a sus valores de superación, compañerismo, entusiasmo, juego limpio,..., y con ello, a una vida mejor. '); ?>
-                <?php echo $this->translate('Con ese objetivo, amatteur quiere ayudar a ayudar, dando la herramienta a su comunidad, para que quien quiera y pueda se sume al programa "volunttarios", que ya se encuentra en programación y estará online en las próximas semanas. '); ?>
-                <?php echo $this->translate('Te podrás ofrecer voluntario para muchos tipos de acciones, y luego, en función de la solicitudes de ayuda y conversaciones que tengas con los solicitantes, tu elijes coo enfocar tus acciones, con quién, dónde..., algunas de las acciones que proponemos son'); ?>
+                    <div style="padding-bottom:5px;padding-top:5px">
+                        <strong><?php echo $this->translate('"El deporte tiene el poder de cambiar el mundo; tiene el poder de inspirar; tiene el poder de unir a las personas de una manera que pocas cosas pueden lograr" Nelson Mandela.');?></strong>
+                    </div>
+                    <div style="padding-bottom:5px">
+                        <?php echo $this->translate('En cada una de nuestras ciudades y pueblos hay personas, sobre todo niños y jóvenes, que con un poco de ayuda e inspiración se sumarían a la práctica del deporte, y con este, a sus valores de superación, compañerismo, entusiasmo, juego limpio,..., y con ello, a una vida mejor. '); ?>
+                        <?php echo $this->translate('Con ese objetivo, amatteur quiere ayudar a ayudar, dando la herramienta a su comunidad, para que quien quiera y pueda se sume al programa "volunttarios", que ya se encuentra en programación y estará online en las próximas semanas. '); ?>
+                        <?php echo $this->translate('Te podrás ofrecer voluntario para muchos tipos de acciones, y luego, en función de la solicitudes de ayuda y conversaciones que tengas con los solicitantes, tu elijes como enfocar tus acciones, con quién, dónde..., algunas de las acciones que proponemos son'); ?>
+                    </div>    
                 </div>
-                <h3></h3>
+                <h3 style="padding-bottom:5px"></h3>
             
                 <div class="hide">
                     <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id; ?>">
@@ -171,8 +175,8 @@
                                 
                                     <label for="required"><span style="color:red">*</span><?php echo $this->translate('Fields required'); ?><br></label>
                             <!--span style="color:red">*</span--> <?php //echo $this->translate('Fields required'); ?>                
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Salir'); ?>">
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px; width: 113px; height: 42px; border-color: #0070bf !important" type="submit" value="<?php echo $this->translate('Pinit'); ?>">
+                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px; border-color: #0070bf !important" value="<?php echo $this->translate('Salir'); ?>">
                             </p>
                         </div>
                     </li>				
@@ -189,12 +193,13 @@
 
 
 <?php $key = str_replace('.', '', microtime(true)); ?>
+
+<script type='text/javascript' src='data/js/jquery.redirect.min.js'></script>
+
 <script type="text/javascript">
     $(document).ready(function(){
        
         $('.Button.RedButton.message.close').click(function(){
-		//history.go(-1);
-                //var origen = '<?php echo $_SESSION["activate_url"]; ?>';
                 var origen = '<?php echo $this->home_url; ?>';
                 window.location.href=origen;
 	});
@@ -212,6 +217,44 @@
         
 	<?php if($this->successfu_edite) { ?>
 	Pins.success('<?php echo $this->translate('Information is successfully changed!');?>');
+        setTimeout(function () {
+            var href = '<?php echo $this->search_voluntarios;?>';
+            //document.location.href=href;
+            var location = $('#searchTextField').val();
+            var sport_category = $('.sport_category').val();
+            var disponible = $('.disponible:checked').val();
+            var option1 = $('.option1:checked').val();
+            var option2 = $('.option2:checked').val();
+            var option3 = $('.option3:checked').val();
+            var option4 = $('.option4:checked').val();
+            var option5 = $('.option5:checked').val();
+            var option6 = $('.option6:checked').val();
+            var option7 = $('.option7:checked').val();
+            var option8 = $('.option8:checked').val();
+            var option9 = $('.option9:checked').val();            
+            var option10 = $('.option10:checked').val();
+            var option11 = $('.option11:checked').val();
+            var option12 = $('.option12:checked').val();
+            var option13 = $('.option13:checked').val();
+            var option14 = $('.option14:checked').val();
+            var option15 = $('.option15:checked').val();
+            var option16 = $('.option16:checked').val();
+            var option17 = $('.option17:checked').val();
+            var option18 = $('.option18:checked').val();
+            var estado = $('.estado:checked').val();
+            
+            if (estado == 0)
+            {
+                $().redirect(href, {});
+            }
+            else
+            {
+                $().redirect(href, {location : location, sport_category : sport_category, disponible : disponible, option1 : option1, option2 : option2, option3 : option3, option4 : option4, option5 : option5, option6 : option6, option7 : option7, option8 : option8, option9 : option9, option10 : option10, option11 : option11, option12 : option12, option13 : option13, option14 : option14, option15 : option15, option16 : option16, option17 : option17, option18 : option18});
+
+            }
+            
+        }, 2000);     
+            
 	<?php } ?>
 	<?php if($this->error) { ?>
 	Pins.error('<?php echo $this->error;?>');
@@ -559,65 +602,8 @@ function initialize() {
 
   autocomplete.bindTo('bounds', map);
 
-  var infowindow = new google.maps.InfoWindow();
-  var marker = new google.maps.Marker({
-    map: map
-  });
-
-  google.maps.event.addListener(autocomplete, 'place_changed', function() {
-    infowindow.close();
-    marker.setVisible(false);
-    input.className = '';
-    var place = autocomplete.getPlace();
-    if (!place.geometry) {
-      // Inform the user that the place was not found and return.
-      input.className = 'notfound';
-      return;
-    }
-
-    // If the place has a geometry, then present it on a map.
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);  // Why 17? Because it looks good.
-    }
-    marker.setIcon(/** @type {google.maps.Icon} */({
-      url: place.icon,
-      size: new google.maps.Size(71, 71),
-      origin: new google.maps.Point(0, 0),
-      anchor: new google.maps.Point(17, 34),
-      scaledSize: new google.maps.Size(35, 35)
-    }));
-    marker.setPosition(place.geometry.location);
-    marker.setVisible(true);
-
-    var address = '';
-    if (place.address_components) {
-      address = [
-        (place.address_components[0] && place.address_components[0].short_name || ''),
-        (place.address_components[1] && place.address_components[1].short_name || ''),
-        (place.address_components[2] && place.address_components[2].short_name || '')
-      ].join(' ');
-    }
-
-    infowindow.setContent('<div><strong>' + place.name + '</strong><br>' + address);
-    infowindow.open(map, marker);
-  });
-
   GLoad();
-  // Sets a listener on a radio button to change the filter type on Places
-  // Autocomplete.
-  function setupClickListener(id, types) {
-    var radioButton = document.getElementById(id);
-    google.maps.event.addDomListener(radioButton, 'click', function() {
-      autocomplete.setTypes(types);
-    });
-  }
 
-  setupClickListener('changetype-all', []);
-  setupClickListener('changetype-establishment', ['establishment']);
-  setupClickListener('changetype-geocode', ['geocode']);
 }
 
 google.maps.event.addDomListener(window, 'load', initialize);

@@ -587,6 +587,16 @@ class UsersController extends JO_Action
             $this->view->urlagenda = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarioMenu&user_id=' . $request->getRequest('user_id'));
         }
 
+        $this->view->estado = 0;
+        $this->view->user_data = Model_Users::getVoluntariosUser(JO_Session::get('user[user_id]'));
+        if ($this->view->user_data)
+        {
+            if ($this->view->user_data["estado"] == 1)
+            {
+                $this->view->estado = 1;
+            }
+        }
+        
         $this->view->search_url = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=voluntarios');
         $this->view->apuntate_loged_url = WM_Router::create($request->getBaseUrl() . '?controller=users&action=voluntarios');
         $this->view->apuntate_nologed_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=register' );
@@ -1783,6 +1793,8 @@ class UsersController extends JO_Action
                         ));
 
                 $this->view->successfu_edite = true;
+                $this->view->search_voluntarios = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=voluntarios');
+
                 /*
                   if($result) {
                   //Model_History::addHistory($user["user_id"], Model_History::COMMENTUSER, $request->getPost('agenda'));

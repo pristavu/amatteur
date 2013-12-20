@@ -98,7 +98,9 @@ window.___gcfg = {
                         <div class="g-plusone" data-size="tall" data-annotation="none" ></div>
                     </li-->
                     <li>
-                                <iframe src="http://www.facebook.com/plugins/like.php?href=http://www.amatteur.com&layout=button_count&show_faces=false&width=450&action=like&font&colorscheme=light&height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:20px;" allowTransparency="true"></iframe>
+                        <li class="fb-like-button"></li>
+                        <!--iframe src="https://www.facebook.com/plugins/like.php?href=<?php echo urlencode($this->event_url);?>&send=false&layout=button_count&width=120&show_faces=false&action=like&colorscheme=light&font&height=21" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:21px;" allowTransparency="true"></iframe-->
+                        <!--iframe src="https://www.facebook.com/plugins/like.php?href=http://www.amatteur.com&layout=button_count&show_faces=false&width=450&action=like&font&colorscheme=light&height=20" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:120px; height:20px;" allowTransparency="true"></iframe-->
                     </li>
                     <li>                    
                                 <a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal" hashtags="<?php echo $this->pin_url; ?>" data-via="amatteur" data-lang="es">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script>
@@ -157,5 +159,6 @@ window.___gcfg = {
     </div>
     <div class="clear"></div>	
 </div>
+
 
 <?php echo $this->footer_part; ?>
