@@ -843,7 +843,7 @@ class Model_Pins {
                                 
 		$results_array = array();
 
-                if((isset($data['filter_search']) && $data['filter_search']) || (isset($data['filter_user_id']) && $data['filter_user_id']) ) 
+                if((isset($data['filter_search']) && $data['filter_search']) || (isset($data['filter_user_id']) && $data['filter_user_id'])  || (isset($data['filter_board_id']) && $data['filter_board_id']) ) 
                 {
                     $results_array = array();
                     if($results) {

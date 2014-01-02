@@ -73,6 +73,8 @@ $masonry = true;
             
             <div id="panel" style="padding-top: 5px !important">
 	<form action="<?php echo $this->search_action; ?>?id=amatteur" method="post" class="edit search ">
+            <input type="hidden" name="id" id="id" value="amatteur" />                        
+            
                         <label for="amatteur"><?php echo sprintf($this->translate('¿En qué parte de Amatteur quieres buscar?')); ?> <br class="hide" /></label>	
 		<p class="input">
     <div  class="Form StaticForm" style="padding-left:0px;" >                                            
@@ -290,6 +292,8 @@ $masonry = true;
             <?php } else if ($this->advancedActive == "activate") { ?>
             <div id="panel" style="padding-top: 5px !important">
 	<form action="<?php echo $this->search_action; ?>?id=activate" method="post" class="edit search StaticForm">
+            <input type="hidden" name="id" id="id" value="amatteur" />                        
+            
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Deportistas Activados')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -446,6 +450,7 @@ $masonry = true;
                 <!-- Grabar -->
                     <li>
                         <div class="left w335px">
+                            <input type="hidden" size="1" name="zoom" value=15 />                            
                             <div class="submit" style="padding-top: 0px">
                                 
                             &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
@@ -465,6 +470,8 @@ $masonry = true;
             <?php } else if ($this->advancedActive == "voluntarios") { ?>
             <div id="panel" style="padding-top: 5px !important">
 	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="post" class="edit search StaticForm">
+            <input type="hidden" name="id" id="id" value="amatteur" />            
+            
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Voluntarios')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -586,6 +593,7 @@ $masonry = true;
                 <!-- Grabar -->
                     <li>
                         <div class="left w335px">
+                            <input type="hidden" size="1" name="zoom" value=15 />                            
                             <div class="submit" style="padding-top: 0px">
                                 
                             &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
@@ -602,6 +610,8 @@ $masonry = true;
             
             <!----------------------------------------------- SERVICIOS Y NEGOCIOS ----------------------------------------------------------------->            
             <?php } else if ($this->advancedActive == "services") { ?>
+            <input type="hidden" name="id" id="id" value="amatteur" />            
+            
             <div id="panel" style="padding-top: 5px !important">
 	<form action="<?php echo $this->search_action; ?>?id=services" method="post" class="edit search ">
                 <label for="servicios" style="width:300px"><?php echo sprintf($this->translate('Buscar en Servicios y Negocios')); ?> <br class="hide" /></label>

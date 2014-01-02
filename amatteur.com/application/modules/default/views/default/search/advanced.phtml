@@ -60,7 +60,9 @@
             <?php if ($this->advancedActive == "amatteur") { ?>
             
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=amatteur" method="post" class="edit search ">
+	<form action="<?php echo $this->search_action; ?>?id=amatteur" method="get" class="edit search ">
+            <input type="hidden" name="id" id="id" value="amatteur" />            
+            
                         <label for="amatteur"><?php echo sprintf($this->translate('¿En qué parte de Amatteur quieres buscar?')); ?> <br class="hide" /></label>	
 		<p class="input">
     <div  class="Form StaticForm" style="padding-left:0px;" >                                            
@@ -289,8 +291,11 @@
             
             <!----------------------- ACTIVATE ------------------------------->
             <?php } else if ($this->advancedActive == "activate") { ?>
+            
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=activate" method="post" class="Form edit search StaticForm">
+	<form action="<?php echo $this->search_action; ?>?id=activate" method="get" class="Form edit search StaticForm">
+            <input type="hidden" name="id" id="id" value="activate" />                        
+            
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Deportistas Activados')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -450,6 +455,7 @@
                 <!-- Grabar -->
                     <li>
                         <div class="left w335px">
+                            <input type="hidden" size="1" name="zoom" value=15 />
                             <div class="submit" style="padding-top: 0px">
                                 
                             &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
@@ -469,8 +475,11 @@
             
                         <!----------------------- VOLUNTARIOS ------------------------------->
             <?php } else if ($this->advancedActive == "voluntarios") { ?>
+                        
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="post" class="Form edit search StaticForm">
+	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="get" class="Form edit search StaticForm">
+            <input type="hidden" name="id" id="id" value="voluntarios" />
+
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Voluntarios')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -593,6 +602,7 @@
                 <!-- Grabar -->
                     <li>
                         <div class="left w335px">
+                            <input type="hidden" size="1" name="zoom" value=15 />
                             <div class="submit" style="padding-top: 0px">
                                 
                             &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
@@ -611,8 +621,11 @@
             
             <!----------------------------------------------- SERVICIOS Y NEGOCIOS ----------------------------------------------------------------->            
             <?php } else if ($this->advancedActive == "services") { ?>
+            
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=services" method="post" class="edit search ">
+	<form action="<?php echo $this->search_action; ?>?id=services" method="get" class="edit search ">
+            <input type="hidden" name="id" id="id" value="services" />                        
+            
                 <label for="servicios" style="width:300px"><?php echo sprintf($this->translate('Buscar en Servicios y Negocios')); ?> <br class="hide" /></label>
 
 		<p class="input">
@@ -755,24 +768,23 @@
 		</div>
 
             <?php if ($this->pins) { ?>
-<?php if ($this->advancedActive != "amatteur") { ?>                         
-                <?php if ($this->users) { ?>
-                <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
-                <br/>
-                <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
-                <?php } ?>
-<?php } ?>                                                
-<?php if ($this->advancedActive == "activate" || $this->advancedActive == "voluntarios") { ?>    
-                <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">                                    
-                    <?php echo $this->pins;?>
-                </div>
-                
-<?php } else { ?>
-                <div id="container" style="margin-left:0px">
-                    <?php echo $this->pins;?>
-                </div>
-<?php } ?>                                
+                <?php if ($this->advancedActive != "amatteur") { ?>                         
+                    <?php if ($this->users) { ?>
+                    <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>
+                    <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                    <br/>
+                    <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
+                    <?php } ?>
+                <?php } ?>                                                
+                <?php if ($this->advancedActive == "activate" || $this->advancedActive == "voluntarios") { ?>    
+                    <div <?php if($this->enable_sort) { ?>id="container_sort"<?php } else { ?>id="<?php if($this->class_contaner == 'persons') {?>container-persons<?php } else { ?>container<?php } ?>"<?php } ?> class="ptopfix <?php echo $this->class_contaner;?>">                                    
+                        <?php echo $this->pins;?>
+                    </div>
+                <?php } else { ?>
+                    <div id="container" style="margin-left:0px">
+                        <?php echo $this->pins;?>
+                    </div>
+                <?php } ?>                                
             <?php } ?>                
               
 

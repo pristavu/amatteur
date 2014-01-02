@@ -327,6 +327,7 @@ class LayoutController extends JO_Action {
                                     
                                     $this->view->keywords = $request->issetQuery('location') ? $request->getQuery('location') : $this->translate('Search...');
 
+                                    /*
                                     if ($request->issetPost('firstname'))
                                     {
                                         $parametros .= "&firstname=". $request->getPost('firstname');
@@ -493,6 +494,185 @@ class LayoutController extends JO_Action {
                                     {
                                         $parametros .= "&option18=". $request->getPost('option18');
                                     } 
+                                     * 
+                                     */
+                                    if ($request->issetRequest('zoom'))
+                                    {
+                                        $parametros .= "&zoom=". $request->getRequest('zoom');
+                                    } 
+                                    
+                                    if ($request->issetRequest('id'))
+                                    {
+                                        $parametros .= "&id=". $request->getRequest('id');
+                                    } 
+                                    
+                                    if ($request->issetRequest('firstname'))
+                                    {
+                                        $parametros .= "&firstname=". $request->getRequest('firstname');
+                                    } 
+
+                                    if ($request->issetRequest('words'))
+                                    {
+                                        $parametros .= "&words=". $request->getRequest('words');
+                                    } 
+                                    if ($request->issetRequest('location'))
+                                    {
+                                        $parametros .= "&location=". $request->getRequest('location');
+                                    } 
+                                    if ($request->issetRequest('sport_category_1'))
+                                    {
+                                        $parametros .= "&sport_category_1=". $request->getRequest('sport_category_1');
+                                    }         
+                                    if ($request->issetRequest('sport_category_2'))
+                                    {
+                                        $parametros .= "&sport_category_2=". $request->getRequest('sport_category_2');
+                                    }
+                                    if ($request->issetRequest('sport_category_3'))
+                                    {
+                                        $parametros .= "&sport_category_3=". $request->getRequest('sport_category_3');
+                                    } 
+                                    if ($request->issetRequest('type_user'))
+                                    {
+                                        $parametros .= "&type_user=". $request->getRequest('type_user');
+                                    } 
+                                    //gender
+                                    if ($request->issetRequest('gender'))
+                                    {
+                                        $parametros .= "&gender=". $request->getRequest('gender');
+                                    } 
+
+                                    //location		
+                                    if ($request->issetRequest('location'))
+                                    {
+                                        $parametros .= "&location=". $request->getRequest('location');
+                                    } 
+
+                                    //sport category
+                                    if ($request->issetRequest('sport_category'))
+                                    {
+                                        $parametros .= "&sport_category=". $request->getRequest('sport_category');
+                                    } 
+
+                                    //age
+                                    if ($request->issetRequest('age'))
+                                    {
+                                        $parametros .= "&age=". $request->getRequest('age');
+                                    } 
+
+                                    //level
+                                    if ($request->issetRequest('level'))
+                                    {
+                                        $parametros .= "&level=". $request->getRequest('level');
+                                    } 
+
+                                    //option1		
+                                    if ($request->issetRequest('option1'))
+                                    {
+                                        $parametros .= "&option1=". $request->getRequest('option1');
+                                    } 
+
+                                    //option2		
+                                    if ($request->issetRequest('option2'))
+                                    {
+                                        $parametros .= "&option2=". $request->getRequest('option2');
+                                    } 
+
+                                    //option3
+                                    if ($request->issetRequest('option3'))
+                                    {
+                                        $parametros .= "&option3=". $request->getRequest('option3');
+                                    } 
+
+                                    //option4		
+                                    if ($request->issetRequest('option4'))
+                                    {
+                                        $parametros .= "&option4=". $request->getRequest('option4');
+                                    } 
+
+                                    //option5		
+                                    if ($request->issetRequest('option5'))
+                                    {
+                                        $parametros .= "&option5=". $request->getRequest('option5');
+                                    } 
+
+                                    //option6		
+                                    if ($request->issetRequest('option6'))
+                                    {
+                                        $parametros .= "&option6=". $request->getRequest('option6');
+                                    } 
+
+                                    //option7		
+                                    if ($request->issetRequest('option7'))
+                                    {
+                                        $parametros .= "&option7=". $request->getRequest('option7');
+                                    } 
+
+                                    //option8		
+                                    if ($request->issetRequest('option8'))
+                                    {
+                                        $parametros .= "&option8=". $request->getRequest('option8');
+                                    } 
+
+                                    //option9		
+                                    if ($request->issetRequest('option9'))
+                                    {
+                                        $parametros .= "&option9=". $request->getRequest('option9');
+                                    } 
+
+                                    //option10		
+                                    if ($request->issetRequest('option10'))
+                                    {
+                                        $parametros .= "&option10=". $request->getRequest('option10');
+                                    }
+                                    
+                                    //option11		
+                                    if ($request->issetRequest('option11'))
+                                    {
+                                        $parametros .= "&option11=". $request->getRequest('option11');
+                                    } 
+
+                                    //option12		
+                                    if ($request->issetRequest('option12'))
+                                    {
+                                        $parametros .= "&option12=". $request->getRequest('option12');
+                                    } 
+
+                                    //option13
+                                    if ($request->issetRequest('option13'))
+                                    {
+                                        $parametros .= "&option13=". $request->getRequest('option13');
+                                    } 
+
+                                    //option14		
+                                    if ($request->issetRequest('option14'))
+                                    {
+                                        $parametros .= "&option14=". $request->getRequest('option14');
+                                    } 
+
+                                    //option15		
+                                    if ($request->issetRequest('option15'))
+                                    {
+                                        $parametros .= "&option15=". $request->getRequest('option15');
+                                    } 
+
+                                    //option16		
+                                    if ($request->issetRequest('option16'))
+                                    {
+                                        $parametros .= "&option16=". $request->getRequest('option16');
+                                    } 
+
+                                    //option17		
+                                    if ($request->issetRequest('option17'))
+                                    {
+                                        $parametros .= "&option17=". $request->getRequest('option17');
+                                    } 
+
+                                    //option18		
+                                    if ($request->issetRequest('option18'))
+                                    {
+                                        $parametros .= "&option18=". $request->getRequest('option18');
+                                    } 
+                                    
                                     
                                     $parametros .= "&kk=kk";
 
