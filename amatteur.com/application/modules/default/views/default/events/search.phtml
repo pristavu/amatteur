@@ -11,9 +11,9 @@
 
                     <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:none;"> 
             <?php if ($this->all) { ?>                        
-                    <image src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
+                    <img src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
             <?php } else { ?>
-                    <image src="data/images/Resultados_eventtos.png"  height="53px" width="235px" style="padding-bottom: 0px" >&nbsp; </strong></label>                        
+                    <img src="data/images/Resultados_eventtos.png"  height="53px" width="235px" style="padding-bottom: 0px" >&nbsp; </strong></label>                        
             <?php } ?>                                                
                 </div>
 
@@ -27,7 +27,7 @@
             
             
     <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>" method="post" class="edit search StaticForm">
+	<form action="<?php echo $this->search_action; ?>" method="get" class="edit search StaticForm">
 
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -122,7 +122,7 @@
                     <li>
                         <div class="left w335px">
                             <div class="submit" style="padding-top: 0px">
-                                
+                            <input type="hidden" size="1" name="zoom" value=15 />                                
                             &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
                             &nbsp;&nbsp;<!--input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
                             </div>
@@ -135,13 +135,13 @@
 </div>     
 
                 <!--div id="mapa" style="width: 1000px; height: 400px;margin-top:210px;margin-left:40px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" /-->
+                <img src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" /-->
             
             <?php } else { ?>                            
 
                 <?php if ($this->eventos) { ?>
                     <div id="mapa" style="width: 1000px; height: 400px;margin-top:20px;margin-left:200px"></div>
-                    <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                    <img src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
                     <br/>
                     <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                     <div id="container" style="margin-left:400px">
@@ -208,8 +208,6 @@ $(document).ready(function(){
 });        
 </script>
 
-<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
-      type="text/javascript"></script>
 
     <script type="text/javascript">
    
@@ -219,6 +217,16 @@ $(document).ready(function(){
     ];      
       */
 
+function esEntero(value) {
+    /*
+     var re = /^(-)?[0-9]*$/;
+     if (re.test(valor)) {
+         //alert('El campo '+valor+' es un número entero');
+         return true
+     }
+     */
+    return false
+ }
 
 
 function GLoad() 
@@ -246,9 +254,14 @@ function GLoad()
          var len = <?php echo count($this->eventos); ?>;
          
         <?php foreach($this->eventos as $user) { ?>
+            
+        var latAux = '<?php echo $user["lat"]; ?>';
+        if(!esEntero(latAux))
+        {
+            
             //var location = '<?php echo ($this->location)?>';
             var location = '<?php echo $user["location"];?>';
-            //if (location != "")
+            //if (latAux != "")
             {
                 locations.push(location);
                 fullname.push('<?php echo $user["eventname"]; ?>');
@@ -298,7 +311,7 @@ function GLoad()
                     pausecomp(201);
               });
           }
-          
+        }  
         <?php } ?>          
 
 
@@ -309,7 +322,11 @@ function GLoad()
          var len = <?php echo count($this->eventos); ?>;
         
         <?php foreach($this->eventos as $user) { ?>
-            
+        var latAux = '<?php echo $user["lat"]; ?>';
+        if(!esEntero(latAux))
+        {
+            if (latAux != "")
+            {
 
                 locations.push('<?php echo $user["location"]; ?>');
                 fullname.push('<?php echo $user["eventname"]; ?>');
@@ -319,7 +336,9 @@ function GLoad()
                 lat.push('<?php echo $user["lat"]; ?>');
                 lng.push('<?php echo $user["len"]; ?>');
                 href.push('<?php echo $user["href"]; ?>');
-                date_event.push('<?php echo $user["date_event"]; ?>');                
+                date_event.push('<?php echo $user["date_event"]; ?>'); 
+            }
+        }
         <?php } ?>
             
             colocar();

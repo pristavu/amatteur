@@ -72,7 +72,7 @@ $masonry = true;
             <?php if ($this->advancedActive == "amatteur") { ?>
             
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=amatteur" method="post" class="edit search ">
+	<form action="<?php echo $this->search_action; ?>?id=amatteur" method="get" class="edit search ">
             <input type="hidden" name="id" id="id" value="amatteur" />                        
             
                         <label for="amatteur"><?php echo sprintf($this->translate('¿En qué parte de Amatteur quieres buscar?')); ?> <br class="hide" /></label>	
@@ -281,7 +281,7 @@ $masonry = true;
 		
 		<div class="hr"></div>
                 <input type="hidden" size="1" name="zoom" value=15 />
-		<p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
+		<p class="submit"><input  class="red mbtn" type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
 	</form>
 </div>    
             
@@ -291,8 +291,8 @@ $masonry = true;
             <!----------------------- ACTIVATE ------------------------------->
             <?php } else if ($this->advancedActive == "activate") { ?>
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=activate" method="post" class="edit search StaticForm">
-            <input type="hidden" name="id" id="id" value="amatteur" />                        
+	<form action="<?php echo $this->search_action; ?>?id=activate" method="get" class="edit search StaticForm">
+            <input type="hidden" name="id" id="id" value="activate" />                        
             
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Deportistas Activados')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
@@ -434,9 +434,9 @@ $masonry = true;
                                 <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Look for sponsor')); ?> </span>
                                 </div>
-                                <div style="display:table-row">
+                                <!--div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Volunteer helps paraolimpics')); ?> </span>
-                                </div>
+                                </div-->
                                 <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('Trainee look for tutor')); ?> </span>
                                 </div>
@@ -453,8 +453,8 @@ $masonry = true;
                             <input type="hidden" size="1" name="zoom" value=15 />                            
                             <div class="submit" style="padding-top: 0px">
                                 
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
-                            &nbsp;&nbsp;<!--input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
+                            &nbsp;&nbsp;<input class="red mbtn" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<!--input class="red mbtn close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
                             </div>
                         </div>
                     </li>				
@@ -469,8 +469,8 @@ $masonry = true;
                         <!----------------------- VOLUNTARIOS ------------------------------->
             <?php } else if ($this->advancedActive == "voluntarios") { ?>
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="post" class="edit search StaticForm">
-            <input type="hidden" name="id" id="id" value="amatteur" />            
+	<form action="<?php echo $this->search_action; ?>?id=voluntarios" method="get" class="edit search StaticForm">
+            <input type="hidden" name="id" id="id" value="voluntarios" />            
             
                 <label for="activate"  style="width:300px"><?php echo sprintf($this->translate('Buscar en Voluntarios')); ?> <br class="hide" /></label>            
 	<input type="hidden" name="words" id="words" value="ok" />
@@ -596,8 +596,8 @@ $masonry = true;
                             <input type="hidden" size="1" name="zoom" value=15 />                            
                             <div class="submit" style="padding-top: 0px">
                                 
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
-                            &nbsp;&nbsp;<!--input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
+                            &nbsp;&nbsp;<input class="red mbtn" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<!--input class="red mbtn close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
                             </div>
                         </div>
                     </li>				
@@ -610,10 +610,11 @@ $masonry = true;
             
             <!----------------------------------------------- SERVICIOS Y NEGOCIOS ----------------------------------------------------------------->            
             <?php } else if ($this->advancedActive == "services") { ?>
-            <input type="hidden" name="id" id="id" value="amatteur" />            
+
             
             <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>?id=services" method="post" class="edit search ">
+	<form action="<?php echo $this->search_action; ?>?id=services" method="get" class="edit search ">
+            <input type="hidden" name="id" id="id" value="services" />                        
                 <label for="servicios" style="width:300px"><?php echo sprintf($this->translate('Buscar en Servicios y Negocios')); ?> <br class="hide" /></label>
 
 		<p class="input">
@@ -734,8 +735,8 @@ $masonry = true;
                         <div class="left w335px">
                             <p class="submit">
                                 
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
-                            &nbsp;&nbsp;<input class="Button WhiteButton RedButton Button24 message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn" style="font-size:18px" type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
+                            &nbsp;&nbsp;<input class="red mbtn close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>">
                             </p>
                         </div>
                     </li-->				
@@ -743,7 +744,7 @@ $masonry = true;
     
 		<div class="hr"></div>
                 <input type="hidden" size="1" name="zoom" value=15 />
-		<p class="submit"><input type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
+		<p class="submit"><input  class="red mbtn" type="submit" value="<?php echo $this->translate('Search');?>" name="register" /></p>
 
 	</form>
 </div>                
@@ -766,9 +767,11 @@ $masonry = true;
 <?php if ($this->advancedActive != "amatteur") { ?>                         
                 <?php if ($this->users) { ?>
                 <div id="mapa" style=" height: 400px;margin-top:70px;margin-left:0px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-600px;margin-left:200px" />
+                <div id="mapaloader" class="mapaloader">
+                <img  src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-600px;margin-left:200px" />
+                </div>
                 <br/>
-                <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
+                <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:0px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                 <?php } ?>
 <?php } ?>                                                
 <?php if ($this->advancedActive == "activate" || $this->advancedActive == "voluntarios") { ?>    
@@ -807,13 +810,10 @@ $masonry = true;
 	});
 	</script>
         
-
         
-<!--script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I"
-      type="text/javascript"></script>
-      
-<!--script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script-->      
     <script type="text/javascript">
+        
+      
    
    /*     
     var locations = [
@@ -1092,7 +1092,13 @@ function GLoad() {
                   }
                 })(marker, contentString, infowindow));
 
+
+
+
         }
+        
+        var div = document.getElementById("mapaloader");
+        div.parentNode.removeChild(div);
 
 
     }
@@ -2020,4 +2026,4 @@ google.maps.event.addDomListener(window, 'load', initialize);
     </script>
         
 
-<?php echo $this->footer_part; ?>
+<?php //echo $this->footer_part; ?>

@@ -27,7 +27,8 @@
 		</p>
 		<?php } ?>
 		<?php } ?>
-		<p class="followers"><?php echo sprintf($this->translate('%s followers, %s pins'), '<strong>'.$this->board['followers'].'</strong>', '<strong>'.$this->board['pins'].'</strong>');?></p>
+		<!--p class="followers"><?php echo sprintf($this->translate('%s followers, %s pins'), '<strong>'.$this->board['followers'].'</strong>', '<strong>'.$this->board['pins'].'</strong>');?></p-->
+                <p class="followers"><?php echo sprintf($this->translate(' %s imágenes'),  '<strong>'.$this->board['pins'].'</strong>');?></p>
 		<?php if($this->is_enable_follow) { ?>
 		<p class="follow">
 			<?php if($this->board['isFollow']) { ?>

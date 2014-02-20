@@ -1,25 +1,29 @@
 <?php echo $this->header_part; ?>
 
-    <?php  if (!$this->user_data) { ?>                    
-	<div id="container" style="margin-top:-50px;margin-left: 300px;" >
+    <?php /* if (!$this->user_data) { ?>                    
+	<div id="container" style="margin-top:-50px;margin-left: 0px;" >
     <?php } else { ?>                    
-	<div id="container" style="margin-top:10px;margin-left: 300px;" >
-    <?php } ?>
+	<div id="container" style="margin-top:10px;margin-left: 0px;" >
+    <?php } */ ?>
 
+<div style="margin-left: 0%;float: left;margin-top: 10%; margin-bottom: 10%" >            
+<div id="containedor1" style="margin-bottom:20px;margin-right:5%;margin-left:2%;float: left;width: 20%" >    
+        <img src="data/images/eventtos_1.png"  height="350px" width="300px"  >
+</div>
+<div id="containedor2" style="margin-bottom:20px;margin-right:3%;float: left;width: 38%" >    
 	            	<span class="greyselected eventsLetras" style="float:left;"> 
                             <label>
-                                <div style="width:240px;float:left;margin-left: 140px">
-                                    <image src="data/images/eventtos_deportivos.png" height="53px" width="235px" >&nbsp;<strong>
+                                <div style="width:740px;float:left;margin-left: 20%;margin-bottom: 5%">
+                                    <img src="data/images/eventtos_deportivos.png" height="53px" width="235px" >&nbsp;
                                 </div>    
-                                <div style="width:560px;margin-left: 140px;padding-bottom: 30px">
-                                    <br/><br/>  
-                                    <span class="hilight"><?php echo $this->translate('Busca, comparte, promociona ');?></span></strong><br/><br/>
-                                    <span style="font-size: 0.8em;"><?php echo $this->translate('cualquier tipo de evento deportivo; cualquier deporte, en cualquier lugar, lo podrás encontrar aquí. Una base de datos creada y moderada por la comunidad amatteur');?></span>
+                                <div style="width:560px;margin-left: 10px;padding-bottom: 30px">
+                                    <strong><span style="margin-left: 20%;font-size: 1.4em;"><?php echo $this->translate('Busca, comparte, promociona ');?></span></strong><br/><br/>
+                                    <span style="font-size: 1.1em;"><?php echo $this->translate('cualquier tipo de evento deportivo; cualquier deporte, en cualquier lugar, lo podrás encontrar aquí. Una base de datos creada y moderada por la comunidad amatteur');?></span>
                                 </div>
                             </label>
                         </span>
 
-		<div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 10px 12px 170px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-top:130px;margin-left: 150px;clear: both;min-width: 340px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;font-weight: bold">
+		<div id="" class="box" style="margin-left: 10px;min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 10px 12px 170px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-top:10px;clear: both;min-width: 345px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;font-weight: bold">
 			<div class="box2">
                             <strong>
                                 <span class="selected"><a id="search" href="<?php echo $this->search_url ?>" class="Button RedButton search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar');?></a></span>
@@ -32,7 +36,7 @@
                         </div>
                     
                 </div>
-                <div class="" style="min-width: 300px;width:100px;min-height: 24px;height: 25px;padding: 40px 0 12px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-top:160px;clear: both;margin-left: 220px;white-space: nowrap;box-shadow: 0;"
+    <div class="" style="min-width: 300px;width:100px;min-height: 24px;height: 25px;padding: 40px 0 12px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-top:160px;clear: both;margin-left: 4%;white-space: nowrap;box-shadow: 0;">
                                 <?php  if (!$this->user_data) { ?>                    
 
                     <p class="input">                            
@@ -46,7 +50,12 @@
 		<?php echo $this->pins;?>
 		
 		<div class="clear"></div>
-	</div>
+    </div>        
+
+<div id="containedor3" style="margin-bottom:20px;margin-right:5%;float: left;width: 20%" >                
+            <img src="data/images/eventtos_2.png"  height="330px" width="390px"  >
+</div>            
+
 
 	<?php if($this->follow_user) { ?>
 	<script type="text/javascript">

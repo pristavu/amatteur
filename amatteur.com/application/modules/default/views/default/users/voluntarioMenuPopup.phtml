@@ -7,19 +7,29 @@
 				<div class="hide">
                                     <input type="hidden" name="user_id" id="user_id" value="<?php echo $this->user_id;?>">
 				</div>
-                                <img style="width: 335px; height: 260px; float: left;padding-left: 10px" src="data/images/equipott.png"  />                            
+                                    <div id="conocenos" style="width: 335px;float:left">
+                                        <a id='videoTrigger' class="" href=''>
+                                            <img style="width: 335px; height: 260px; float: left;padding-left: 10px" src="data/images/volunttarios_video.png"  />
+                                            <center>
+                                            <span style="font-weight: bold;font-size: 1.2em;padding-bottom: 7px">
+                                                <?php echo $this->translate('Ver vídeo de introducción');?>
+                                            </span>
+                                            </center>
+                                        </a>
+                                    </div><br>    
+
 				<div class="left w335px" style="font-weight: bold;font-size: 1.2em; padding: 10px; width: 415px">
-                                        <img style="width: 395px; float: left" src="data/images/volunttarios_h.png"  />
+                                        <img style="width: 395px; float: left;padding-bottom: 14px" src="data/images/volunttarios_h.png"  />
 					<p>
                                             <?php if (!$this->user_id) { ?>                    
-                                                <div id="conocenos" style="width: 415px;height: 30px"><center><label for="message"><?php echo $this->translate('Para apuntarte como voluntario, necesitas registrarte en amatteur, únete, es gratis');?></label></center></div><br/>
+                                                <div id="conocenos" style="width: 415px;height: 30px;padding-bottom: 10px"><center><label for="message"><?php echo $this->translate('Para apuntarte como voluntario, necesitas registrarte en amatteur, únete, es gratis');?></label></center></div><br/>
                                             <?php } else { ?>                                                                
-                                                <div id="conocenos" style="width: 415px"><center><label for="message"><?php echo $this->translate('Bienvenido a volunttarios, ¿qué deseas hacer?');?></label></center></div><br/>
+                                                <div id="conocenos" style="width: 415px;padding-bottom: 15px"><center><label for="message"><?php echo $this->translate('Bienvenido a volunttarios, ¿qué deseas hacer?');?></label></center></div><br/>
                                             <?php } ?>                                                                
-                                            <div id="conocenos" style="width: 415px;padding-bottom: 10px"><center><a id='videoTrigger' class="" href=''><?php echo $this->translate('Ver vídeo de introducción');?></a></center></div><br>
+                                            <!--div id="conocenos" style="width: 415px;padding-bottom: 10px"><center><a id='videoTrigger' class="" href=''><?php echo $this->translate('Ver vídeo de introducción');?></a></center></div><br-->
 					</p>
                                         <br/>
-                                        <div class="box2" style="height: 125px">
+                                        <div class="box2" style="height: 125px;padding-top: 14px">
                                             
                                                 <span class="selected"><a id="search" href="<?php echo $this->search_url ?>" class="Button RedButton search " style="font-weight: bold;font-size: 1.2em;width: 160px;height: 20px;padding-top: 12px; margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar Voluntarios');?></a></span>
                                                 <?php if ($this->user_id) { ?>                    
@@ -30,7 +40,7 @@
                                         </div>
 					<div class="clear"></div>
 				</div>
-                                <img style="width: 335px;height: 260px;" src="data/images/manostt.png"  />
+                                <img style="width: 335px;height: 260px;padding-bottom: 15px" src="data/images/manostt.png"  />
 				<div class="clear"></div>
 			</form>
 		</div>

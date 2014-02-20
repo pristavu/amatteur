@@ -833,8 +833,12 @@ class SearchController extends JO_Action
                 else if ($id == "activate")
                 {
                     $dataActivate = array(
+                        /*
                         'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                         'limit' => JO_Registry::get('config_front_limit'),
+                         */
+                        'start' => ( 1000 * $page ) - 1000,
+                        'limit' => 1000,
                         'filter_gender' => $request->getRequest('gender'),
                         'filter_age' => $request->getRequest('age'),
                         'filter_location' => $request->getRequest('location'),
@@ -936,8 +940,12 @@ class SearchController extends JO_Action
                     );
 
                     $data = array(
+                        /*
                         'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                         'limit' => JO_Registry::get('config_front_limit'),
+                         */
+                        'start' => ( 1000 * $page ) - 1000,
+                        'limit' => 1000,
                         'filter_username' => $request->getRequest('words'),
                         'filter_sport_category' => $request->getRequest('sport_category_1'),
                         'filter_firstname' => $request->getRequest('firstname'),
@@ -1018,6 +1026,7 @@ class SearchController extends JO_Action
                             $user['follow'] = WM_Router::create($request->getBaseUrl() . '?controller=users&action=follow&user_id=' . $user['user_id']);
 
                             $view->key = $key % 2 == 0;
+                            $view->services = true;
                             $view->user = $user;
                             $this->view->pins .= $view->render('boxSearch', 'users');
                             $users[$i]["href"] = $href;
@@ -1029,8 +1038,12 @@ class SearchController extends JO_Action
                 else if ($id == "voluntarios")
                 {
                     $dataVoluntarios = array(
+                        /*
                         'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                         'limit' => JO_Registry::get('config_front_limit'),
+                         */
+                        'start' => ( 1000 * $page ) - 1000,
+                        'limit' => 1000,
                         'filter_location' => $request->getRequest('location'),
                         'filter_sport_category' => $request->getRequest('sport_category'),
                         'filter_option1' => $request->getRequest('option1'),

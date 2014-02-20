@@ -16,13 +16,17 @@ class GiftsController extends JO_Action {
 			'filter_price_from' => (int)$request->getRequest('price_from'),
 			'filter_price_to' => (int)$request->getRequest('price_to'),
 			'allow_gifts' => true,
-                        'filter_categoria_id' => $request->getRequest('category_id')
+                        'filter_categoria_id' => $request->getRequest('category_id') != 9999 ? $request->getRequest('category_id') : null
 		);
 		
 //		if((int)JO_Session::get('user[user_id]')) {
 //			$data['following_users_from_user_id'] = JO_Session::get('user[user_id]');
 //		}
                 $category_id = $request->getRequest('category_id');
+                if ($category_id == 9999)
+                {
+                    $category_id = null;
+                }
 		$category_info = Model_Categories::getCategory($category_id);
 		/*
 		if($category_info && !$category_info['parent_id']){

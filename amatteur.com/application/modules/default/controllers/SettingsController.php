@@ -145,10 +145,10 @@ class SettingsController extends JO_Action {
 				
 				$data['new_email'] = $data['email'];
 				unset($data['email']);
-				
+				/*
                                 $lat = $data['lat'];
                                 $len = $data['len'];
-
+                                
                                 while(Model_Users::getUsersLatLen($lat,$len))
                                 {
 
@@ -189,7 +189,7 @@ class SettingsController extends JO_Action {
                                 
                                 $data['lat'] = $lat;
                                 $data['len'] = $len;
-                                
+                                */
 				if(Model_Users::edit( JO_Session::get('user[user_id]'), $data )) {
 					JO_Session::set('successfu_edite', true);
 					$upload->getFileInfo(true);
@@ -521,6 +521,16 @@ class SettingsController extends JO_Action {
                 {
                     $this->view->location = $_SESSION["location"];
                     $_SESSION["location"] = null;
+                }
+                if (isset($_SESSION["lat"]))
+                {
+                    $this->view->lat = $_SESSION["lat"];
+                    $_SESSION["lat"] = null;
+                }
+                if (isset($_SESSION["len"]))
+                {
+                    $this->view->len = $_SESSION["len"];
+                    $_SESSION["len"] = null;
                 }
                 if (isset($_SESSION["type_user"]))
                 {

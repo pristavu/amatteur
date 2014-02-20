@@ -1,0 +1,136 @@
+<?php echo $this->header_part; ?>
+
+<div style="background-color: white;margin-right: 5%;float: left;margin-top: 8%; margin-bottom: 10%" >
+    
+    <?php  if (!$this->user_data) { ?>                    
+	<div id="containedor" style="" >
+    <?php } else { ?>                    
+	<div id="containedor" style="" >
+    <?php } ?>
+
+            <span class="greyselected eventsLetras" style="float:left;"> 
+                <label>
+                    <div style="width:540px;float:left;margin-bottom: 38px;margin-top: 20px">
+                        <img src="data/images/Activate_head.png" width="190px" >&nbsp;
+                    </div>  
+                    <div style="margin-top: 10px;margin-bottom: 20px;">                    
+                        <span class="hilight" style="font-size: 1.1em;color: black;font-weight: 900"><strong><?php echo $this->translate('Como deportista ');?></strong></span>&nbsp;<span style="font-size: 0.8em;color: black"><?php echo $this->translate('individual, club o equipo ');?></span><br/><br/>
+                    </div>                                                                    
+                    <div style="margin-top: 0px;width:30%;float:left;">
+                        <span style="font-size: 0.8em;color: black"><?php echo $this->translate('Para quedar a hacer deporte, organizar partidos o torneos, buscar equipo, buscar sponsor... Para activarte sólo tienes que unirte a amatteur y tendrás la opción disponible en tu perfil, y podrás permanecer activado el tiempo que quieras.');?></span>
+                    </div>
+                    <div style="margin-top: 0px;width:40%;float:left;">
+                        <img src="data/images/activate_1.png" width="205px" height="175px">&nbsp;
+                    </div> 
+                    <div style="float:left;margin-bottom: 20px;margin-top: 10px;width:75%;">
+                        <span style="font-size: 0.8em;color: black"><?php echo $this->translate('Y para que sea más útil, podrás elegir tu deporte, nivel, lugar, etc., donde quieras activarte.');?></span>
+                    </div>                        
+                </label>
+            </span>
+        <?php if ($this->user_data) { ?>              
+            <div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 70px 12px 0px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-bottom:30px;clear: both;min-width: 340px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;font-weight: bold">
+        <?php } else { ?>
+            <div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 70px 12px 0px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-bottom:60px;clear: both;min-width: 340px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;font-weight: bold">                
+        <?php }  ?>                
+                <div class="box2">
+                        <strong>
+                            <span class="selected"><a id="search" href="<?php echo $this->search_activate ?>" class="red mbtn search " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar Deportistas Activados');?></a></span>
+                            <br/>
+                            <?php if ($this->user_data) { ?>
+                            <?php if(!$this->userCanActivate) { ?>                            
+                            <span class="selected"><a id="addEvent" href="<?php echo $this->activate_url ?>" class="red mbtn addEvent " style="margin-top:10px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Activate');?></a></span>
+                            <?php } } else { ?> 
+                            <span class="selected"><a id="addEvent" href="<?php echo $this->register_url ?>" class="red mbtn addEvent " style="margin-top:10px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Registrate');?></a></span>
+                            <?php } ?>
+                        </strong>    
+                    </div>
+            </div>
+            
+            <div class="" >
+                <div style="float:left;margin-bottom: 20px">
+                    <img src="data/images/activate_2.png" height="245px" width="375px"  >&nbsp;
+                </div> 
+            </div>
+
+            <?php //echo $this->pins;?>
+		
+            <div class="clear"></div>
+
+	</div>
+            
+            
+    <?php  if (!$this->user_data) { ?>                    
+	<div id="containedor3" style="" >
+    <?php } else { ?>                    
+	<div id="containedor3" style="" >
+    <?php } ?>
+
+                <span class="greyselected eventsLetras" style="float:left;"> 
+                    <label>
+                        <div style="width:380px;float:left;margin-bottom: 10px;margin-top: 20px">
+                            <img src="data/images/y_si_eres.png" width="375px" >&nbsp;
+                        </div> 
+                        <div style="width:30%;float:left;margin-top: 10px">
+
+                            <span style="font-size: 0.8em;color: black"><?php echo $this->translate('con sólo unirte a amatteur y cumplimentar tu perfil, tendrás visibilidad en el buscador con geolocalizador para que quienes busquen en tu zona de actividad, te encuentren muy fácilmente.');?></span>
+                        </div>
+                        <div style="width:40%;float:left;margin-bottom: 55px">
+                            <img src="data/images/Activate_3.png" width="205px" height="175px">&nbsp;
+                        </div> 
+                    </label>
+                </span>
+
+        <?php if ($this->user_data) { ?>  
+                <div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 10px 12px 0px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-bottom:30px;clear: both;min-width: 340px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;font-weight: bold">                            
+        <?php } else { ?>
+                <div id="" class="box" style="min-width: 300px;width:100px;min-height: 24px;height: 35px;padding: 10px 80px 12px 0px;text-shadow: 0 1px rgba(255,255,255,0.9);margin-bottom:60px;clear: both;min-width: 340px;white-space: nowrap;box-shadow: 0;font-size: 1.6em;font-weight: 300;line-height: 1em;font-weight: bold">		
+        <?php }  ?>                                 
+
+
+			<div class="box2">
+                            <strong>
+                                <span class="selected"><a id="search" href="<?php echo $this->search_services ?>" class="red mbtn search " style="margin-top:0px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Buscar Servicios y Negocios');?></a></span>
+                                <br/>
+                                <?php if ($this->user_data) { ?>                    
+                                <!--span class="selected"><a id="addEvent" href="<?php echo $this->addEvent_url ?>" class="red mbtn addEvent " style="margin-top:0px;  text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Añadir');?></a></span-->
+                                <?php } else { ?> 
+                                <span class="selected"><a id="addEvent" href="<?php echo $this->register_url ?>" class="red mbtn addEvent " style="margin-top:10px; text-decoration:none;color: white;text-shadow: 0px 1px black;" ><?php echo $this->translate('Registrate');?></a></span>
+                                <?php } ?>
+                            </strong>    
+                        </div>
+                </div>
+                <div class="" >
+                        <div style="float:left;">
+                            <img src="data/images/Activate_4.png" height="245px" width="375px" >&nbsp;
+                        </div> 
+                </div>
+
+		<?php //echo $this->pins;?>
+		
+		<div class="clear"></div>
+	</div>
+</div>
+            
+	<?php if($this->follow_user) { ?>
+	<script type="text/javascript">
+	$(document).ready(function(){
+		Pins.initFollow('#containedor .box.user .follow a');
+	});
+	</script>
+	<?php } ?>
+	
+<script type="text/javascript">
+
+    function addEvent(){
+        $(document).ready(function(){
+
+            $("#input").css({'background-color': '#ccc'});
+            $('span.addtext', this).css({'color': 'red'});
+            //$('span.addtext', this).css({'color': 'inherit'}).delay(2800);
+
+        });
+        
+    }
+    
+</script>
+<?php echo $this->footer_part; ?>

@@ -69,10 +69,11 @@ if(!$og_recipe) {
 		<meta property="fb:app_id" content="<?php echo JO_Registry::get('oauth_fb_key');?>"/>
 	    <meta property="og:site_name" content="<?php echo $this->placeholder('site_name');?>"/>
 	    <meta property="og:url" content="<?php echo $this->placeholder('pin_url') ? $this->placeholder('pin_url') : $request->getBaseUrl();?>"/>
+            <meta property="og:pin" content="<?php echo $this->placeholder('pin_url') ? $this->placeholder('pin_url') : $request->getBaseUrl();?>"/>
 	    <meta property="og:title" content="<?php echo $this->placeholder('board_title')?$this->placeholder('board_title'):$this->placeholder('title');?>"/>
 	    <meta property="og:description" content="<?php echo $this->placeholder('pin_description') ? ($this->placeholder('pin_description')=='null'?'':$this->placeholder('pin_description')) : $this->placeholder('description');?>"/>
 	    <meta property="og:image" content="<?php echo $this->placeholder('pin_image') ? $this->placeholder('pin_image') : $this->placeholder('site_logo');?>"/>
-            <meta property="og:type" content="website"/>
+            <meta property="og:type" content="amatteur:imagen"/>
 	    <?php /*if($og_namespace) { ?>
 	    <meta property="og:type" content="<?php echo $og_namespace;?>:<?php echo $og_recipe;?>"/>
 	    <?php } else { ?>

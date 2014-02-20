@@ -1,6 +1,7 @@
 ﻿<?php //var_dump($this->categories);exit; ?>
+<?php if (!$this->is_loged) { ?>
 <script type="text/javascript" src='data/js/slide.min.js'></script>
-
+<?php } ?>
 <script type='text/javascript'>
     $(document).ready(function(){
 	    
@@ -46,7 +47,7 @@
 </script>
 <div class='ol'>
     <div id='iframeHolder'>
-        <a  href='' class='blackCloseIcon'><image src='data/images/black_close_icon.png'/></a>
+        <a  href='' class='blackCloseIcon'><img src='data/images/black_close_icon.png'/></a>
     </div>
 </div>
 <?php ob_start(); ?>
@@ -190,6 +191,13 @@ if (!$this->show_header_line && $this->show_header_invate)
                         <a href="users/register"><img width="16px" height="17px" src="data/images/ico_Reg.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Register'); ?></a>
                     </li>
                 <?php } ?>
+    <?php if ($this->is_loged)
+    { ?>
+                        <li>
+                            <a class="ados" href="<?php echo $this->invites; ?>"><img width="20px" height="18px" src="data/images/ico_masgente2.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends'); ?></a>
+                        </li>
+    <?php } ?>
+                    
                 <?php if ($this->is_loged)
                 { ?>
                     <li class="member">
@@ -301,8 +309,7 @@ if (!$this->is_loged)
                             </div>
                     </div>
             -->	
-            <!--script src="js/jquery-1.5.1.js"></script-->
-            <!--script type="text/javascript" src="http://code.jquery.com/jquery-1.5.1.min.js"></script-->
+
             <script>
                 $(document).ready(function() {
                     $("#headerBienve").hide();
@@ -595,12 +602,6 @@ if (!$this->is_loged)
                             <li><a href="./"><img width="20px" height="18px" src="data/images/ico_gente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Pinners you follow'); ?></a></li>
     <?php } ?>
                         -->
-    <?php if ($this->is_loged)
-    { ?>
-                        <li>
-                            <a class="ados" href="<?php echo $this->invites; ?>"><img width="20px" height="18px" src="data/images/ico_masgente.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Invite Friends'); ?></a>
-                        </li>
-    <?php } ?>
                         
                         <li>
                             <a class="ados" href="<?php echo $this->voluntarios_url; ?>"><img width="20px" height="18px" src="data/images/icono_voluntarios16x16.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Volunttari@s'); ?></a>
@@ -608,7 +609,11 @@ if (!$this->is_loged)
                         
                         <li>
                             <a class="ados" href="<?php echo $this->popular_url; ?>"><img width="20px" height="18px" src="data/images/ico_popularV2.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Popular'); ?></a>
-                        </li>                        
+                        </li>     
+                        
+                        <li>
+                             <a class="ados" href="<?php echo $this->activate_url; ?>"><img width="10px" height="18px" src="data/images/icon_activate.png" alt="" />&nbsp;&nbsp;<?php echo $this->translate('Activate'); ?></a>
+                        </li>
                         <li>
                              <div id="eventtos"><a id='eventoTrigger' class="ados" style="padding-top:0px" href="<?php echo $this->events_url; ?>"><img width="75px" height="30px" src="data/images/eventtoslogo.png" alt="" /></a></div>
                         </li>
@@ -617,13 +622,25 @@ if (!$this->is_loged)
         <?php if ($this->categories)
         { ?>
                             <li class="last" style="float:left;">
-                                <a class="arrow" href="<?php echo $this->all_url; ?>"><?php echo $this->translate('Deporte:'); ?>&nbsp;<?php echo $this->translate('Everything'); ?><?php if ($this->category_active)
-        { ?>: <?php echo $this->category_active; ?><?php } ?></a>
+                                <a class="arrow" href="">
+                                    <?php if ($this->category_active)        
+                                        { ?><?php echo $this->translate('Deporte'); ?>&nbsp;: <?php echo ucwords(strtolower($this->category_active)); ?>
+                                    <?php } else { ?>
+                                        <?php echo $this->translate('Deportes'); ?>&nbsp;
+                                    <?php } ?>
+                                </a>
+                                
+                                <!--a class="arrow" href="<?php echo $this->all_url; ?>"><?php echo $this->translate('Deporte:'); ?>&nbsp;<?php echo $this->translate('Everything'); ?>
+                                    <?php if ($this->category_active)        
+                                        { ?>: <?php echo $this->category_active; ?>
+                                    <?php } ?>
+                                </a-->
                                 <div class="dropdown columns-2 categoriesMenu">
+                                    
         <?php $total = count($this->categories); ?>
             <?php for ($r = $i = 0; $i < 2; $i++)
             { ?>
-                                        <ul>
+            <ul>
                 <?php for ($j = 0; $j < ceil($total / 2); $j++, $r++)
                 { ?>
                     <?php if (isset($this->categories[$r]))
@@ -640,19 +657,23 @@ if (!$this->is_loged)
                     }
                     $class = trim($class);
                     ?>
-                                                    <li<?php if ($class)
-                    { ?> class="<?php echo $class; ?>"<?php } ?>><a href="<?php echo $this->categories[$r]['href']; ?>"><?php echo $this->categories[$r]['title']; ?></a>
-                    <?php //var_dump($this->categories[$r]['subcategories']) ?>
-                                                        <ul class='dropdown columns-1 <?php echo $i == 0 ? "left" : "right"; ?>' style='max-height:500px;overflow:hidden'>
-                    <?php foreach ($this->categories[$r]['subcategories'] as $subcat)
-                    { ?>
-                                                                <li><a href='<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl() . "?controller=category&category_id=" . $subcat['category_id']) ?>'><?php echo $subcat['title'] ?></a></li>	
-                    <?php } ?>
-                                                        </ul>
-                                                    </li>
-                <?php } ?>
+                    
+                <li<?php if ($class)
+                    { ?> class="<?php echo $class; ?>"
+                <?php } ?>>
+                    <a href="<?php echo $this->categories[$r]['href']; ?>"><?php echo $this->categories[$r]['title']; ?></a>
+                    <ul class='dropdown columns-1 <?php echo $i == 0 ? "left" : "right"; ?>' style='max-height:500px;overflow:hidden'>
+                        <?php foreach ($this->categories[$r]['subcategories'] as $subcat)
+                        { ?>
+                            <li>
+                                <a href='<?php echo WM_Router::create(JO_Request::getInstance()->getBaseUrl() . "?controller=category&category_id=" . $subcat['category_id']) ?>'><?php echo $subcat['title'] ?></a>
+                            </li>	
+                        <?php } ?>
+                    </ul>
+                </li>
             <?php } ?>
-                                        </ul>
+        <?php } ?>
+            </ul>
         <?php } ?>
                                     <div class="clear"></div>
                                 </div>

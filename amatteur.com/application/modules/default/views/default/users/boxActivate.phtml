@@ -1,5 +1,5 @@
-<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="width:460px;height: 308px">
-    <a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
+<div class="box person <?php echo ($this->key ? 'odd' : '');?>" id="<?php echo $this->user['user_id'];?>" style="width:460px;height: 408px">
+    <!--a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a-->
 			<!--p class="thumb">
 				<a class="PersonImage" href="<?php echo $this->user['href'];?>">
 					<img style="height:110px;width:110px;" data-original="<?php echo $this->user['avatar'];?>" src="data/images/grey.gif" alt="<?php echo $this->user['fullname'];?>" />
@@ -7,11 +7,15 @@
 			</p-->
 
 		<div class="PersonInfo">
-                        <div style="display:table">
-                            <div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <h2><?php echo $this->user['fullname'];?></h2>
-                                </div><div style="display:table-cell">
+                        <div style="float: left;width: 100%;padding: 0px">
+                            <div >
+                                <div style="float: left;width: 35%;padding: 0px">
+                                    <a style="background-image: url(<?php echo $this->user['avatar'];?>); filter: progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale');-ms-filter: \"progid:DXImageTransform.Microsoft.AlphaImageLoader(src='<?php echo $this->user['avatar'];?>',sizingMethod='scale')\";" class="PersonImage ImgLink" href="<?php echo $this->user['href'];?>"></a>
+                                </div>                                
+                                <div style="float: left;width: 30%;padding: 5px">
+                                    <h2><a href="<?php echo $this->user['href'];?>"><?php echo $this->user['fullname'];?></a></h2>
+                                </div>
+                                <div style="float: left;width: 20%;padding: 0px">
                                     <div class="follow">
 <!--------------------------------------------------------------->
 
@@ -19,7 +23,7 @@
     <?php if ($this->loged) { ?>
     <?php 
 			echo '<div id="divMailsHeader" style="border-bottom:0px">';
-				echo '<a id="newMail" href="'.$this->addMail.'?user_fullname='.$this->user['fullname'].'" class="silverbox" title="'.$this->translate('Enviar mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
+				echo '<a style="width: 100px ! important; padding-top: 9px ! important; font-size: 1.2em;" id="newMail" href="'.$this->addMail.'?user_fullname='.$this->user['fullname'].'" class="silverbox" title="'.$this->translate('Enviar mensaje').'">'.$this->translate('Nuevo mensaje').'</a>';
 			echo '</div>';
 	}
 	?>
@@ -91,49 +95,60 @@
 
 <!--------------------------------------------------------------->
 			</div>
-                        </div>
-                        </div>
-                        </div>
-                        <div style="display:table">
-                            <div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Ubicación activate:');?> </div>
-                                <div style="display:table-cell">
+                    </div>
+                    </div>
+                    </div>
+                    <div >
+                            <div >
+                                <div style="float: left;width: 30%;padding: 5px">
+                                    <p class="location colorless"><?php echo $this->translate('Ubicación activate:');?> 
+                                </div>
+                                <div style="float: left;width: 50%;padding: 5px;font-size: 1.2em;">
                                     <?php echo $this->user['location'];?></p>
                                 </div>
-                            </div><div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> </div>
-                                <div style="display:table-cell">
+                            </div>
+                        <div >
+                                <div style="float: left;width: 30%;padding: 5px">
+                                    <p class="location colorless"><?php echo $this->translate('Deporte:');?> 
+                                </div>
+                                <div style="float: left;width: 50%;padding: 5px;font-size: 1.2em;">
                                     <?php echo $this->user['sport_category_1'];?></p>
                                 </div>
-                            </div><div style="display:table-row">
-                                <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Nivel:');?> </div>
-                                <div style="display:table-cell">
+                            </div>
+                            <div >
+                                <div style="float: left;width: 30%;padding: 5px">
+                                    <p class="location colorless"><?php echo $this->translate('Nivel:');?> 
+                                </div>
+                                <div style="float: left;width: 50%;padding: 5px;font-size: 1.2em;">
                                     <?php echo $this->user['level'];?></p>
                                 </div>
-                            </div><div style="display:table-row">                                
-                                <div style="display:table-cell">
-                                    <p class="location colorless"><?php echo $this->translate('Opciones:');?> </div>
-                                <div style="display:table-cell">
-                                    <?php echo ($this->user['option1'] == '1' ? sprintf($this->translate("Practice sports together")) : ''); ?>
-                                    <?php echo ($this->user['option2'] == '1' ? sprintf($this->translate("Organize match / tournament")) : ''); ?> 
-                                    <?php echo ($this->user['option3'] == '1' ? sprintf($this->translate("Team look for sportman")) : ''); ?> 
-                                    <?php echo ($this->user['option4'] == '1' ? sprintf($this->translate("Sportman look for team")) : ''); ?> 
-                                    <?php echo ($this->user['option5'] == '1' ? sprintf($this->translate("Look for sponsor")) : ''); ?> 
-                                    <?php echo ($this->user['option6'] == '1' ? sprintf($this->translate("Volunteer helps paraolimpics")) : ''); ?> 
-                                    <?php echo ($this->user['option7'] == '1' ? sprintf($this->translate("Trainee look for tutor")) : ''); ?> 
-                                    <?php echo ($this->user['option8'] == '1' ? sprintf($this->translate("Tutor begins trainee"))  : ''); ?> 
+                            </div>
+                            <div > 
+                                <div style="float: left;width: 30%;padding: 5px">
+                                    <p class="location colorless"><?php echo $this->translate('Opciones:');?> 
+                                </div>
+                                <div style="float: left;width: 50%;padding: 5px;font-size: 1.2em;overflow-y: auto;max-height: 200px">
+                                    <?php echo ($this->user['option1'] == '1'  ? "&bull; ". sprintf($this->translate("Practice sports together")) . "<br/>" : ''); ?>
+                                    <?php echo ($this->user['option2'] == '1'  ? "&bull; ". sprintf($this->translate("Organize match / tournament")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option3'] == '1'  ? "&bull; ". sprintf($this->translate("Team look for sportman")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option4'] == '1'  ? "&bull; ". sprintf($this->translate("Sportman look for team")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option5'] == '1'  ? "&bull; ". sprintf($this->translate("Look for sponsor")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option6'] == '1'  ? "&bull; ". sprintf($this->translate("Volunteer helps paraolimpics")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option7'] == '1'  ? "&bull; ". sprintf($this->translate("Trainee look for tutor")) . "<br/>" : ''); ?> 
+                                    <?php echo ($this->user['option8'] == '1'  ? "&bull; ". sprintf($this->translate("Tutor begins trainee"))  . "<br/>" : ''); ?> 
+                                    &nbsp;
                                     </p>
                                 </div>
-                            </div><div style="display:table-row">
-                                <div style="display:table-cell;height:98px">
-                                    <p class="location colorless"><?php echo $this->translate('Comentarios:');?> </div>
-                                <div style="display:table-cell" id="divComentarios">
+                            </div>
+                            <div >
+                                <div style="float: left;width: 30%;padding: 5px;height:98px">
+                                    <p class="location colorless"><?php echo $this->translate('Comentarios:');?> 
+                                </div>
+                                <div style="float: left;width: 50%;padding: 5px;font-size: 1.2em;" id="divComentarios">
                                     <?php echo $this->user['comment'];?></p>
                                 </div>
-                            </div></div>
+                            </div>
+                        </div>
 			
 		</div>
 

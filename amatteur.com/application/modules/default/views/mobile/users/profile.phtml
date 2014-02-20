@@ -85,7 +85,7 @@
 	 	<?php endif; ?>
 	 </ul>
 
-	<div class="profile_header likes">
+	<div class="profile_header likes" style="display: inline-block">
                                         <div style='float:left;'>
                                                 <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGustaAz.png"> en mis imagenes </p>
                                                 <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGustaAz.png"> en mi perfil </p>
@@ -319,7 +319,7 @@
 
                                  <div style='clear:both'>
 
-                                  <div style='float:left;width:100%;'>
+                                  <div style='float:left;width:100%'>
                                     
                                     <?php if($this->userdata['type_user']) { ?>
                                     <span style="padding-bottom:5px;color: #8C7E7E;font-weight: 600;"><?php echo  Model_Users::getUserTypeTitle($this->userdata['type_user']);?></span>
@@ -330,7 +330,7 @@
                                 </div>
                                 <div style='float:left;width:50%'> 
 
-                                                <?php if($this->enable_edit) { ?>
+                                                <?php if($this->enable_edit && !$this->userCanActivate) { ?>
                                                       <?php if (!$this->userIsActivate) { ?>
                                                     <img src="data_mobile/images/activateNo.png">
                                                     <a id="activate" href="<?php echo $this->popup_activate;?>" class="red mbtn " style="margin-top:0px;" ><?php echo $this->translate('Activate');?></a>
@@ -346,7 +346,8 @@
                                     </div>
                                     </div>                                                
         </div>
-	
+        <div>
+                    
 	<ul class='taplist'>
 		<li class="tappable">
 					
@@ -410,6 +411,7 @@
 
         
 	</ul>
+        </div>                    
 	<div class="profile_header bottom"></div>
 	
 	

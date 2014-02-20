@@ -124,11 +124,37 @@ class LayoutController extends JO_Action {
 		
 		//////////// Categories ////////////
 		$this->view->categories = array();
+                $categories1 = array(
+                    "0" => array(
+                    "category_id" => "9999",
+                    "title" => "TODO",
+                    "image" => ""
+                            ));
 		$this->view->category_active = false;
-		$categories = Model_Categories::getCategories(array(
+		$categories2 = Model_Categories::getCategories(array(
 			'filter_status' => 1
 		));
+                $categories = array_merge($categories1, $categories2);
+                $x = 0;
 		foreach($categories AS $category) {
+                    if ($x== 0)
+                    {
+			$category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
+			$category['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=all&category_id=' . $category['category_id'] );
+                        if ($request->getRequest('category_id') == 9999)
+                        {
+                            $category['active'] = TRUE;
+                            $this->view->category_active = $category['title'];
+                        }
+                        else
+                        {
+                            $category['active'] = FALSE;
+                        }   
+                        
+                        $this->view->categories[] = $category;
+                    }
+                    else
+                    {
 			$category['subcategories'] = Model_Categories::getSubcategories($category['category_id']);
 			$category['href'] = WM_Router::create( $request->getBaseUrl() . '?controller=category&category_id=' . $category['category_id'] );
 			$category['active'] = $category['category_id'] == $request->getRequest('category_id');
@@ -146,6 +172,8 @@ class LayoutController extends JO_Action {
 			}
 			
 			$this->view->categories[] = $category;
+                    }
+                    $x = 1;
 		}
 		
 		////////////////////////////// USER MENU ///////////////////////////
@@ -240,6 +268,10 @@ class LayoutController extends JO_Action {
 		//////////// ALL PINS ////////////
 		$this->view->all_url = WM_Router::create( $request->getBaseUrl() . '?controller=all' );
 
+		//////////// activate ////////////
+		$this->view->activate_url = WM_Router::create( $request->getBaseUrl() . '?controller=index&action=indexActivate' );
+                
+                
 		//////////// Eventtos ////////////
 		$this->view->events_url = WM_Router::create( $request->getBaseUrl() . '?controller=events' );
 

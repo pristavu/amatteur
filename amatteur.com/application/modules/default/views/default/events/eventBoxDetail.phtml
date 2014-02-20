@@ -12,7 +12,7 @@
 			<div class="title" style="height:70px">
                             <p>
                                     <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:left;"> 
-                                    <image src="data/images/eventto_deportivo.png" height="53px" width="235px" >&nbsp; </strong></label>
+                                    <img src="data/images/eventto_deportivo.png" height="53px" width="235px" >&nbsp; </strong></label>
                             </p>
 
                             			
@@ -82,47 +82,48 @@
 
                             
                             <div id="panel" style="width: 540px;padding-top: 10px !important">
-                                <div style="display:table;padding: 0px">
+                                <div style="padding: 0px">
 				<span class="desc"><?php //echo Helper_Events::descriptionFix($this->event['description']);?>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><label for="email"><span class="location colorless"><?php echo $this->translate('Descripción del evento: ');?>  <br class="hide" /></label></span></div>
-                                    <div style="display:table-cell;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['eventname'];?></span></div>
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><label for="email"><span class="location colorless"><?php echo $this->translate('Descripción del evento: ');?>  <br class="hide" /></label></span></div>
+                                    <div style="float: left;width: 50%;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['eventname'];?></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Deporte: ');?></span> </div>
-                                    <div style="display:table-cell;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['sport_category'];?></span></div>
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Deporte: ');?></span> </div>
+                                    <div style="float: left;width: 50%;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['sport_category'];?></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Organiza: ');?> </span></div>
-                                    <div style="display:table-cell;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['organiza'];?></span></div>
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Organiza: ');?> </span></div>
+                                    <div style="float: left;width: 50%;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['organiza'];?></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Ubicación: ');?> </span></div>
-                                    <div style="display:table-cell;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['location'];?></span></div>
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Ubicación: ');?> </span></div>
+                                    <div style="float: left;width: 50%;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['location'];?></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Fecha: ');?> </span></div>
-                                    <div style="display:table-cell;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['date_event'];?></span></div>
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Fecha: ');?> </span></div>
+                                    <div style="float: left;width: 50%;padding: 15px"><span class="field eventsLetras" ><?php echo $this->event['date_event'];?></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                     <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Página web del evento: ');?></span></div>
-                                     <div style="display:table-cell;padding: 15px"><span class="field eventsLetras" ><a href="http://<?php echo str_replace('http://', '', $this->event['website']);?>" target="_blank"><?php echo $this->event['website'];?></a></span></div>
+                                <div style="padding: 0px">
+                                     <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Página web del evento: ');?></span></div>
+                                     <div style="float: left;width: 50%;padding: 15px"><span class="field eventsLetras" ><a href="http://<?php echo str_replace('http://', '', $this->event['website']);?>" target="_blank"><?php echo $this->event['website'];?></a></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Detalles: ');?></span> </div>
-                                    <div style="display:table-cell;padding: 15px" id="divComentarios"><span class="field eventsLetras" ><?php echo $this->event['description'];?></span></div>
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Detalles: ');?></span> </div>
+                                    <div style="float: left;width: 50%;padding: 15px" id="divComentarios"><span class="field eventsLetras" ><?php echo $this->event['description'];?></span>&nbsp;</div>
                                 </div>
-                                <div style="display:table-row;padding: 0px">
-                                    <div style="display:table-cell;padding: 15px"><span class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> </span> </div>
-                                    <div style="display:table-cell;padding: 15px">
+                                <div style="padding: 0px">
+                                    <div style="float: left;width: 30%;padding: 15px"><span class="location colorless"><?php echo $this->translate('Evento publicado por: ');?> </span> </div>
+                                    <div style="float: left;width: 50%;padding: 15px">
                                         <a href="<?php echo $this->event['userHref'];?>">
                                             <img style="height:110px;width:110px;" src="<?php echo $this->event['avataruser'];?>" alt="<?php echo $this->event['fullname'];?>"/>
-                                            <div style="display:table-cell;padding: 0px">
+                                            <div style="padding: 0px">
                                             <?php echo $this->event['fullname'];?>
+                                            </div>
                                         </a>    
-                                    </div>
+
                                 </div>
-                                <div style="display:table-row;padding: 0px">
+                                <div style="padding: 0px">
                                 </div>
 			</div>
                                     <div class="commentslist">

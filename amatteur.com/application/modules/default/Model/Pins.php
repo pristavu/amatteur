@@ -323,7 +323,12 @@ class Model_Pins {
 			if( JO_Registry::get('facebookapi')->api('/me') ) {
 				$access_token = JO_Registry::get('facebookapi')->getAccessToken();
 				$pin_url = WM_Router::create( JO_Request::getInstance()->getBaseUrl() . '?controller=pin&pin_id=' . $pin_id );
-				$statusUpdate = JO_Registry::get('facebookapi')->api('/me/feed', 'post', array( 'link' => $pin_url, 'cb' => '' ));
+$host='http://' . JO_Registry::get('bucklet') . '.' . trim(JO_Registry::get('awsDomain'),'.') . '/' . str_replace("_A", "_D", $image['image']);
+                                
+				$statusUpdate = JO_Registry::get('facebookapi')->api('/me/feed', 'post', array( 'link' => $pin_url, 
+                                                                                                                'cb' => '', 
+                                                                                                                'pin' => $pin_url,
+                                                                                                                'imagen' => $host));
 			
 				$og_namespace = trim(JO_Registry::get('og_namespace'));
 				$og_recipe = trim(JO_Registry::get('og_recipe'));
@@ -334,10 +339,20 @@ class Model_Pins {
 				if($og_namespace) {
 
 					$params = array($og_recipe=>$pin_url,'access_token'=>$access_token);
-					$response = JO_Registry::get('facebookapi')->api('/me/'.$og_namespace.':'.$og_recipe,'post',$params);
+					$response = JO_Registry::get('facebookapi')->api('/me/'.$og_namespace.':'.$og_recipe . '?pin=' . $pin_url .'&imagen=' . $pin_url  ,'post',$params);
 
 				}
-				
+
+                                /*
+                                error_log("session ". $session);
+                                error_log("access_token ". $access_token);
+                                error_log("statusUpdate ". var_dump($statusUpdate));                                
+                                error_log("og_namespace ". $og_namespace);                                
+                                error_log("og_recipe ". $og_recipe);                                
+                                error_log("params ". var_dump($params));                                
+                                error_log("response ". var_dump($response));   
+                                //'http://www.facebook.com/sharer.php?u='.$pin_url.'&t=Diseño web Flash and Motion Graphics
+                                 */
 			}
 		} 
 		
@@ -480,7 +495,7 @@ class Model_Pins {
 		}
 
                 if(isset($data['filter_pin_top_10_7']) && !is_null($data['filter_pin_top_10_7'])) {
-			$query->where('pins.likes > 0 AND DATEDIFF(curdate(), date_modified) < ? ', (int)$data['filter_pin_top_10_7']);
+			$query->where('pins.likes > 0 AND DATEDIFF(curdate(), date_likes) < ? ', (int)$data['filter_pin_top_10_7']);
 			$ignore_in = true;
 		}
 
@@ -837,7 +852,7 @@ class Model_Pins {
                 
 		$start = microtime(true);
 		
-//                error_log("Query". $query);
+                //error_log("Query". $query);
 
 		$results = $db->fetchAll($query);
                                 
@@ -1287,10 +1302,12 @@ class Model_Pins {
 		));
 		
 		$row = $db->lastInsertId();
+                $date_added = WM_Date::format(time(), 'yy-mm-dd H:i:s');
 		
 		if($row) { 
 			$db->update('pins', array(
-				'likes' => new JO_Db_Expr("(SELECT COUNT(like_id) FROM pins_likes WHERE pin_id = '".$pin_id."')")
+				'likes' => new JO_Db_Expr("(SELECT COUNT(like_id) FROM pins_likes WHERE pin_id = '".$pin_id."')"),
+                                'date_likes' => $date_added
 			), array('pin_id = ?' => (string)$pin_id));
 			
 			$db->update('users', array(

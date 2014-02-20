@@ -11,9 +11,9 @@
 
                     <label style="font-size: 2.8em;font-weight: 300;line-height: 1em;color:#0061A5;float:none;"> 
             <?php if ($this->all) { ?>                        
-                    <image src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
+                    <img src="data/images/buscar_eventtos.png"  height="53px" width="235px" >&nbsp; </strong></label>
             <?php } else { ?>
-                    <image src="data/images/Resultados_eventtos.png"  height="53px" width="235px" style="padding-bottom: 10px" >&nbsp; </strong></label>                        
+                    <img src="data/images/Resultados_eventtos.png"  height="53px" width="235px" style="padding-bottom: 10px" >&nbsp; </strong></label>                        
             <?php } ?>                                                
                 </div>
 
@@ -27,7 +27,7 @@
             
             
     <div id="panel" style="padding-top: 5px !important">
-	<form action="<?php echo $this->search_action; ?>" method="post" class="edit search StaticForm">
+	<form action="<?php echo $this->search_action; ?>" method="get" class="edit search StaticForm">
 
 	<input type="hidden" name="words" id="words" value="ok" />
                 <ul>
@@ -119,7 +119,7 @@
                     <li>
                         <div class="left w335px">
                             <div class="submit" style="padding-top: 0px">
-                                
+                                <input type="hidden" size="1" name="zoom" value=15 />                                
                             &nbsp;&nbsp;<input class="red mbtn message" style="font-size:18px;background: #00538e !important; " type="submit" name="register" value="<?php echo $this->translate('Search'); ?>">
                             &nbsp;&nbsp;<!--input class="red mbtn message close" style="font-size:18px;width:80px" value="<?php echo $this->translate('Cancel'); ?>"-->
                             </div>
@@ -132,13 +132,13 @@
 </div>     
 
                 <!--div id="mapa" style="width: 1000px; height: 400px;margin-top:10px;margin-left:0px"></div>
-                <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-500px;margin-left:600px" /-->
+                <img src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-500px;margin-left:600px" /-->
             
             <?php } else { ?>                            
 
                 <?php if ($this->eventos) { ?>
                     <div id="mapa" style=" height: 400px;margin-top:20px;margin-left:0px"></div>
-                    <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:200px" />
+                    <img src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:200px" />
                     <br/>
                     <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:0px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                     <div id="container" style="margin-left:0px">

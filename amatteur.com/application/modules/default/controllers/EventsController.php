@@ -343,10 +343,10 @@ class EventsController extends JO_Action {
 					}
 				}
 				
-				
+				/*
                                 $lat = $data['lat'];
                                 $len = $data['len'];
-
+                                
                                 while(Model_Events::getEventsLatLen($lat,$len))
                                 {
 
@@ -387,7 +387,7 @@ class EventsController extends JO_Action {
                                 
                                 $data['lat'] = $lat;
                                 $data['len'] = $len;
-                                
+                                */
 				if(Model_Events::createEvent( JO_Session::get('user[user_id]'), $event_id, $data )) 
                                 {
                                     //JO_Session::set('successfu_edite', true);
@@ -595,24 +595,24 @@ class EventsController extends JO_Action {
             $this->view->categories[] = $category;
         }
 
-        if ($request->issetPost('eventname'))
+        if ($request->issetRequest('eventname'))
         {
-            $this->view->eventname = $request->getPost('eventname');
+            $this->view->eventname = $request->getRequest('eventname');
         } else
         {
             $this->view->eventname = '';
         }
 
-        if ($request->issetPost('organiza'))
+        if ($request->issetRequest('organiza'))
         {
-            $this->view->organiza = $request->getPost('organiza');
+            $this->view->organiza = $request->getRequest('organiza');
         } else
         {
             $this->view->organiza = '';
         }
         
         //date_event
-        if ($request->issetPost('date_event1'))
+        if ($request->issetRequest('date_event1'))
         {
             $this->view->date_event1 = $request->getRequest('date_event1');
         } elseif (isset($user_data['date_event1']))
@@ -624,7 +624,7 @@ class EventsController extends JO_Action {
         }
 
         //date_event
-        if ($request->issetPost('date_event2'))
+        if ($request->issetRequest('date_event2'))
         {
             $this->view->date_event2 = $request->getRequest('date_event2');
         } elseif (isset($user_data['date_event2']))
@@ -636,9 +636,9 @@ class EventsController extends JO_Action {
         }
 
         //location		
-        if ($request->issetPost('location'))
+        if ($request->issetRequest('location'))
         {
-            $this->view->location = $request->getPost('location');
+            $this->view->location = $request->getRequest('location');
         } elseif (isset($user_data['location']))
         {
             $this->view->location = $user_data['location'];
@@ -648,12 +648,12 @@ class EventsController extends JO_Action {
         }
 
         //sport category
-        if ($request->issetPost('sport_category'))
+        if ($request->issetRequest('sport_category'))
         {
-            $this->view->sport_category = $request->getPost('sport_category');
-            if ($request->getPost('sport_category') != "")
+            $this->view->sport_category = $request->getRequest('sport_category');
+            if ($request->getRequest('sport_category') != "")
             {
-                $this->view->cat_title = Model_Boards::getCategoryTitle($request->getPost('sport_category'));
+                $this->view->cat_title = Model_Boards::getCategoryTitle($request->getRequest('sport_category'));
             }
         } elseif (isset($user_data['sport_category']))
         {
@@ -666,9 +666,9 @@ class EventsController extends JO_Action {
         }
 
         //compartir		
-        if ($request->issetPost('compartir'))
+        if ($request->issetRequest('compartir'))
         {
-            $this->view->compartir = $request->getPost('compartir');
+            $this->view->compartir = $request->getRequest('compartir');
         } elseif (isset($user_data['compartir']))
         {
             $this->view->compartir = $user_data['compartir'];
@@ -685,21 +685,34 @@ class EventsController extends JO_Action {
             }
             $this->view->error = "";
             
-            if( $request->isPost() ) {
+        if ($request->issetRequest('zoom'))
+        {
+            $this->view->isPost = "true";
+			
+            //if( $request->isPost() ) {
                 
-                $this->view->all = true;                                    
+                $this->view->all = true; 
+                
+                $soloFechaActual = true;
+                if($this->view->date_event2 != "" || $this->view->date_event1 != "")
+                {
+                    $soloFechaActual = false;
+                }
                 
                 $dataEvents = array(
                     'start' => ( JO_Registry::get('config_front_limit') * $page ) - JO_Registry::get('config_front_limit'),
                     'limit' => JO_Registry::get('config_front_limit'),
-                    'filter_eventname' => $request->getPost('eventname'),
-                    'filter_organiza' => $request->getPost('organiza'),
-                    'filter_location' => $request->getPost('location'),
-                    'filter_sport_category' => $request->getPost('sport_category'),
-                    'filter_event_date1' => $request->getPost('date_event1'),
-                    'filter_event_date2' => $request->getPost('date_event2'),
-                    'filter_compartir' => $request->getPost('compartir'),
-                    'filter_delete_event' => '1'
+                    'filter_eventname' => $request->getRequest('eventname'),
+                    'filter_organiza' => $request->getRequest('organiza'),
+                    'filter_location' => $request->getRequest('location'),
+                    'filter_sport_category' => $request->getRequest('sport_category'),
+                    'filter_event_date1' => $request->getRequest('date_event1'),
+                    'filter_event_date2' => $request->getRequest('date_event2'),
+                    'filter_compartir' => $request->getRequest('compartir'),
+                    'filter_delete_event' => '1',
+                    'filter_actual_date' => $soloFechaActual,
+                    'sort' => 'ASC',
+                    'order' => 'date_event'
                 );
 
                 $events = Model_Events::getEvents($dataEvents);
@@ -844,6 +857,7 @@ class EventsController extends JO_Action {
             
       
         }  
+       
         
         
 	public function indexeventBoxDetailAction() {

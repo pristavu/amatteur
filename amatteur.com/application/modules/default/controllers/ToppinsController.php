@@ -23,7 +23,7 @@ class ToppinsController extends JO_Action {
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
                             'filter_pin_top_10_7' => '7',
-                            'filter_categoria_id' => $request->getRequest('category_id')
+                            'filter_categoria_id' => $request->getRequest('category_id') != 9999 ? $request->getRequest('category_id') : null
                     );
                 }
                 else if ($index_id == 2)
@@ -36,7 +36,7 @@ class ToppinsController extends JO_Action {
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
                             'filter_pin_top_10' => true,
-                            'filter_categoria_id' => $request->getRequest('category_id')
+                            'filter_categoria_id' => $request->getRequest('category_id') != 9999 ? $request->getRequest('category_id') : null
                     );
                 }
                 else if ($index_id == 3)
@@ -49,7 +49,7 @@ class ToppinsController extends JO_Action {
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
                             'filter_profile_top_10_7' => '7',
-                            'filter_categoria_id' => $request->getRequest('category_id')
+                            'filter_categoria_id' => $request->getRequest('category_id') != 9999 ? $request->getRequest('category_id') : null
                     );
                 }
                 else if ($index_id == 4)
@@ -62,7 +62,7 @@ class ToppinsController extends JO_Action {
                             'limit' => 10,
     //			'filter_marker' => $request->getRequest('marker'),
                             'filter_profile_top_10' => true,
-                            'filter_categoria_id' => $request->getRequest('category_id')
+                            'filter_categoria_id' => $request->getRequest('category_id') != 9999 ? $request->getRequest('category_id') : null
                     );
                 }
 
@@ -72,6 +72,10 @@ class ToppinsController extends JO_Action {
 //			$data['following_users_from_user_id'] = JO_Session::get('user[user_id]');
 //		}
                 $category_id = $request->getRequest('category_id');
+                if ($category_id == 9999)
+                {
+                    $category_id = null;
+                }
 		$category_info = Model_Categories::getCategory($category_id);
 		/*
 		if($category_info && !$category_info['parent_id']){

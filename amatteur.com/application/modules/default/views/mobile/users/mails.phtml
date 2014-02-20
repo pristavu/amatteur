@@ -9,14 +9,14 @@
 		//Sacamos el total de mails sin leer del usuario
 		$totalmails=Model_Mails::getTotalMails(array('user_id' => JO_Session::get('user[user_id]')));
 	?>
-<div id="muestraMensajes" style="margin-top: 10px;margin-left: 20px;width: 100px;height: 0px;float: left;right:0px"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="18px" alt="<?php echo $this->translate('Mensajes'); ?>"/>&nbsp;<span style="color:#8C7E7E;font-weight: bold;font-size: 1.6em;""><?php echo $this->translate('Mensajes'); ?></span></a></div>
+<div id="muestraMensajes" style="margin-top: 10px;margin-left: 20px;width: 250px;height: 0px;float: left;right:0px"><a href="#" class="ados" ><img src="data/images/ico_sobre.png" height="28px" alt="<?php echo $this->translate('Mensajes'); ?>"/>&nbsp;<span style="color:#8C7E7E;font-weight: bold;font-size: 2.6em;"><?php echo $this->translate('Mensajes'); ?></span></a></div>
     <?php
 		if ($totalmails>0)
 		{
-			echo '<div id="avisoMensajes" style="right:-24px !important;top:12px;left:-95px;margin-top:0px;">'.$totalmails.'</div>';
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:12px;left:-235px;margin-top:0px;">'.$totalmails.'</div>';
 		}else
 		{
-			echo '<div id="avisoMensajes" style="right:-24px !important;top:12px;left:-95px;margin-top:0px;display:none">0</div>';
+			echo '<div id="avisoMensajes" style="right:-24px !important;top:12px;left:-235px;margin-top:0px;display:none">0</div>';
 		}
 		echo '<div id="divMails" style="display:none;top:95px;left:0px;">';
 			echo '<div id="cabeceraCajaMails"></div>';

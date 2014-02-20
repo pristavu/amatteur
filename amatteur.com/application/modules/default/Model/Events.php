@@ -151,16 +151,18 @@ class Model_Events extends JO_Model {
 		}
 		
 		$allow_sort = array(
-			'events.user_id',
-			'events.eventname',
-			'events.organiza',
-			'events.date_event',
-                        'events.sport_category'
+			'user_id',
+			'eventname',
+			'organiza',
+			'date_event',
+                        'sport_category'
 		);
-		if(isset($data['filter_like_event_id'])) {
-			$allow_sort[] = 'pins_likes.like_id';
+		if(isset($data['filter_sort_date_event'])) {
+			$allow_sort[] = 'events.date_event';
 		}
 		
+                
+                
 		if(isset($data['filter_likes']) && $data['filter_likes'] ) {
 			$query->where('events.event_id IN (SELECT events_likes.event_id FROM events_likes WHERE user_id = ?)', $data['filter_likes']);
 					
@@ -203,6 +205,11 @@ class Model_Events extends JO_Model {
                 if(isset($data['filter_event_date2']) && $data['filter_event_date2']) {
 			$query->where('events.date_event <= ?', self::cambiafyh_a_mysql($data['filter_event_date2'] . " 23:59:59"));
 		}
+
+                if(isset($data['filter_actual_date']) && $data['filter_actual_date']) {
+			$query->where('events.date_event >= CURRENT_DATE()');
+		}
+                
                 /*
 		if(isset($data['filter_compartir']) && $data['filter_compartir']) {
 			$query->where('events.compartir = ?', (string)$data['filter_compartir']);

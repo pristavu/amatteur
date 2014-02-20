@@ -33,7 +33,7 @@
 	<div id="view-profile">
 		<div id="ProfileHeader">
 			<div class="FixedContainer row clearfix">
-				<div class="info">
+				<div class="info" style="padding:10px">
 					<a <?php if($this->userdata['image_href']==$this->userdata['avatar']) { ?>onclick="target='_blank'"<?php } ?> class="ProfileImage" href="<?php echo $this->userdata['image_href'];?>">
 						<img alt="<?php echo sprintf($this->translate('Profile Picture of %s'), $this->userdata['fullname']);?>" src="<?php echo $this->userdata['avatar'];?>">
 					</a>
@@ -53,11 +53,11 @@
                                                 <?php if($this->like_user) { ?>  
                                                       <?php if ($this->userIsLike) { ?>
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
-                                                        Ya no me gusta este perfil <img src="data/images/noMeGusta.png">
+                                                        <?php echo $this->translate('Ya no me gusta este perfil'); ?> <img src="data/images/noMeGusta.png">
                                                 </a>
                                                       <?php } else { ?> 
                                                 <a class="Button13 Button WhiteButton Tab liking follow-red<?php echo ($this->userIsLike?' gray':'');?>" href="<?php echo $this->like_user;?>">
-                                                       Me gusta este perfil <img src="data/images/meGusta.png">
+                                                       <?php echo $this->translate('Me gusta este perfil'); ?> <img src="data/images/meGusta.png">
                                                 </a>
 
                                                       <?php }  ?>   
@@ -258,8 +258,8 @@
 
 <!--------------------------------------------------------------->
                                             <div id="datosLike" style='width:25%;'>
-                                            	 <p class="colorless "><?php echo $this->userdata['likers']?> <img src="data/images/meGusta.jpg"> en mi perfil </p>
-                                                <p class="colorless "><?php echo $this->userdata['imageLikes']?> <img src="data/images/meGusta.jpg"> en mis imagenes </p>
+                                            	<p class="colorless "><div style='width:10%;float: left;text-align: right;'><?php echo $this->userdata['likers']?>&nbsp;</div><div style='width:12%;float: left'> <img src="data/images/meGusta.jpg"> </div><div style='width:71%;float: left'><?php echo $this->translate('en mi perfil'); ?> </div></p>
+                                                <p class="colorless "><div style='width:10%;float: left;text-align: right;'><?php echo $this->userdata['imageLikes']?>&nbsp;</div><div style='width:12%;float: left'> <img src="data/images/meGusta.jpg"> </div><div style='width:71%;float: left'><?php echo $this->translate('en mis imagenes'); ?> </div></p>
                                             </div>                                                                        
                                     </div>
                             </div>
@@ -268,23 +268,23 @@
                                             <div>&nbsp;</div>
                                             <ul class="icons" id="ProfileLinks" style="bottom:30px">
 							<?php if($this->userdata['website']) { ?>
-							<li>
+							<li style="padding-bottom:5px">
 								<a onclick="target='_blank'" class="icon website" href="<?php echo $this->userdata['website'];?>"></a>
                                                                 <a onclick="target='_blank'" href="<?php echo $this->userdata['website'];?>"><?php echo $this->userdata['website'];?></a>
 							</li>
 							<?php } ?>
 							<?php if($this->userdata['twitter_username']) { ?>
-							<li>
+							<li style="padding-bottom:5px">
 								<a onclick="target='_blank'" class="icon twitter" href="http://twitter.com/<?php echo $this->userdata['twitter_username'];?>"></a>
 							</li>
 							<?php } ?>
 							<?php if($this->userdata['facebook_id']) { ?>
-							<li>
+							<li style="padding-bottom:5px">
 								<a onclick="target='_blank'" class="icon facebook" href="http://facebook.com/profile.php?id=<?php echo $this->userdata['facebook_id'];?>"></a>
 							</li>
 							<?php } ?>
 							<?php if($this->userdata['location']) { ?>
-							<li id="ProfileLocation">
+							<li id="ProfileLocation" style="padding-bottom:5px">
 								<span class="icon location"></span><?php echo $this->userdata['location'];?>
 							</li>
 							<?php } ?>
@@ -296,7 +296,7 @@
 
                                  <div style='clear:both'>
 
-                                  <div style='float:left;width:50%;'>
+                                  <div style='float:left;width:24%;'>
                                  <div style='clear:both'>
 
                                   <div style='float:left;width:100%;'>
@@ -335,7 +335,29 @@
                                     </div>                                    
 
                                 </div>
-                                <div style='float:left;width:50%'> 
+                                  <div style='float:left;width:24%;padding-left: 10px'>
+                                 <div style='clear:both'>
+
+                                  <div style='float:left;width:100%;'>
+                                    <span style="padding-bottom:15px;color: #8C7E7E;font-weight: 600;">
+                                        &nbsp;
+                                    </span>                                        
+                                  </div>
+                                </div>                                    
+
+                                 <div style='clear:both'>
+
+                                  <div style='float:left;width:100%;'>
+                                    
+                                      <span style="padding-bottom:5px;color: #8C7E7E;font-weight: 600;">
+                                          &nbsp;
+                                      </span>
+                                    </div>
+                                    </div>                                    
+
+                                </div>
+                                     
+                                <div style='float:left;width:50%;padding-top:20px;padding-bottom:20px;'> 
 
                                                 <?php if($this->enable_edit && !$this->userCanActivate) { ?>
                                                       <?php if (!$this->userIsActivate) { ?>
@@ -365,8 +387,8 @@
 				</div>
 
                 <?php if($this->history_data) { ?>
-                <div class="repins">
-                    <h3><?php echo $this->title_right;?></h3>
+                <div class="repins" style="padding:5px">
+                    <h3><?php echo strtoupper ($this->title_right);?></h3>
                     <ul>
                     	<?php foreach($this->history_data AS $h) { ?>
                         <li>

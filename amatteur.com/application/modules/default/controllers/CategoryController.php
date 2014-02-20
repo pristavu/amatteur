@@ -7,6 +7,10 @@ class CategoryController extends JO_Action {
 		$request = $this->getRequest();
 		
 		$category_id = $request->getRequest('category_id');
+                if ($category_id == 9999)
+                {
+                    $category_id = null;
+                }
 		
                 JO_Session::set('categoria_id', $category_id);
                 

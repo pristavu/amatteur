@@ -153,7 +153,44 @@ class IndexController extends JO_Action {
 		
 	}
 	
-	
+	public function indexActivateAction() {
+		
+		$request = $this->getRequest();
+		
+                
+                
+                
+                $this->view->register_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=register' );
+                $this->view->activate_url = WM_Router::create( $request->getBaseUrl() . '?controller=users&action=activate' );
+                $this->view->search_services = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=services');
+                $this->view->search_activate = WM_Router::create($request->getBaseUrl() . '?controller=search&action=advanced?id=activate');
+                
+		$user_data = Model_Users::getUser( JO_Session::get('user[user_id]') );
+                
+                if ($user_data['type_user'])
+                {
+                    $this->view->userCanActivate = Model_Users::getUserTypeNotOthers($user_data['type_user']);
+                }
+		
+		$upload = new JO_Upload_SessionStore();
+		$upload->setName('upload_avatar');
+		$info = $upload->getFileInfo();
+		
+		if(JO_Session::get('successfu_edite')) {
+                    $this->view->successfu_edite = true;
+                    JO_Session::clear('successfu_edite'); 
+                }
+		
+        
+                $this->view->user_data = $user_data;
+		
+		
+		$this->view->children = array(
+        	'header_part' 	=> 'layout/header_part',
+        	'footer_part' 	=> 'layout/footer_part'
+                );
+	}
+    	
 	public static function udate($format, $utimestamp = null) {
           if (is_null($utimestamp))
             $utimestamp = microtime(true);

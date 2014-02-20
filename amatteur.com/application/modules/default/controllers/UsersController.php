@@ -137,6 +137,8 @@ class UsersController extends JO_Action
         }
 
         $this->view->userdata = $user_data;
+        
+        $this->view->userdata['following'] = Model_Users::sumFollowing($this->view->userdata['user_id']);
 
         $this->getLayout()->meta_title = $user_data['fullname'] . ' (' . $user_data['username'] . ') ' . sprintf($this->translate('on %s'), JO_Registry::get('site_name'));
 
@@ -1162,6 +1164,14 @@ class UsersController extends JO_Action
         {
             $_SESSION["location"] = $request->getQuery('location');
         }
+        if ($request->issetQuery('lat'))
+        {
+            $_SESSION["lat"] = $request->getQuery('lat');
+        }
+        if ($request->issetQuery('len'))
+        {
+            $_SESSION["len"] = $request->getQuery('len');
+        }
         if ($request->issetQuery('usertype_title'))
         {
             $_SESSION["usertype_title"] = $request->getQuery('usertype_title');
@@ -1180,11 +1190,15 @@ class UsersController extends JO_Action
             for ($i = 1; $i <= $_SESSION['locationcounter']; $i++)
             {
                 $location = 'location' . $i;
+                $len = 'len' . $i;
+                $lat = 'lat' . $i;
                 //if (isset($request->getQuery($location)))
                 {
                     //if ($request->getQuery[$location] != "")
                     {
                         $_SESSION[$location] = $request->getQuery($location);
+                        $_SESSION[$lat] = $request->getQuery($lat);
+                        $_SESSION[$len] = $request->getQuery($len);
                     }
                 }
             }
@@ -1727,6 +1741,7 @@ class UsersController extends JO_Action
                 $lat = $request->getPost('lat');
                 $len = $request->getPost('len');
 
+                /*
                 while (Model_Users::getVoluntariosLatLen($lat, $len))
                 {
 
@@ -1762,12 +1777,13 @@ class UsersController extends JO_Action
                     $cantLen .= "1";
                     $len = $len + $cantLen;
                 }
+                */
 
                 $result = Model_Users::createVoluntarios(JO_Session::get('user[user_id]'), array(
                             'user_id' => JO_Session::get('user[user_id]'),
                             'estado' => $request->getPost('estado'),
                             'disponible' => $request->getPost('disponible'),
-                            'location' => $request->getPost('location'),
+                            'location' => $request->getPost('location') != "Introduce una ubicación" ? $request->getPost('location') : "",
                             'sport_category' => $request->getPost('sport_category'),
                             'option1' => $request->getPost('option1'),
                             'option2' => $request->getPost('option2'),
@@ -2093,6 +2109,7 @@ class UsersController extends JO_Action
                 $lat = $request->getPost('lat');
                 $len = $request->getPost('len');
 
+                /*
                 while (Model_Users::getActivateLatLen($lat, $len))
                 {
 
@@ -2128,12 +2145,13 @@ class UsersController extends JO_Action
                     $cantLen .= "1";
                     $len = $len + $cantLen;
                 }
-
+                */
+                
                 $result = Model_Users::createActivate(JO_Session::get('user[user_id]'), array(
                             'user_id' => JO_Session::get('user[user_id]'),
                             'gender' => $request->getPost('gender'),
                             'age' => $request->getPost('age'),
-                            'location' => $request->getPost('location'),
+                            'location' => $request->getPost('location') != "Introduce una ubicación" ? $request->getPost('location') : "",
                             'sport_category' => $request->getPost('sport_category'),
                             'level' => $request->getPost('level'),
                             'activate' => $request->getPost('activate'),
@@ -2322,7 +2340,7 @@ class UsersController extends JO_Action
                             'user_id' => JO_Session::get('user[user_id]'),
                             'gender' => $request->getPost('gender'),
                             'age' => $request->getPost('age'),
-                            'location' => $request->getPost('location'),
+                            'location' => $request->getPost('location') != "Introduce una ubicación" ? $request->getPost('location') : "",
                             'sport_category' => $request->getPost('sport_category'),
                             'level' => $request->getPost('level'),
                             'activate' => $request->getPost('activate'),
@@ -4344,8 +4362,6 @@ class UsersController extends JO_Action
         }
         //$this->view->sportcounter = $i;
 
-
-
         if (JO_Session::get('user[user_id]'))
         {
             $this->redirect(WM_Router::create($request->getBaseUrl() . '?controller=users&action=profile&user_id=' . JO_Session::get('user[user_id]')));
@@ -4435,7 +4451,8 @@ class UsersController extends JO_Action
 
                 $lat = $request->getPost('lat');
                 $len = $request->getPost('len');
-
+                
+                /*
                 while (Model_Users::getUsersLatLen($lat, $len))
                 {
 
@@ -4471,7 +4488,7 @@ class UsersController extends JO_Action
                     $cantLen .= "1";
                     $len = $len + $cantLen;
                 }
-
+                */
 
                 $result = Model_Users::create(array(
                             'username' => $request->getPost('username'),
@@ -4483,7 +4500,7 @@ class UsersController extends JO_Action
                             'delete_code' => isset($shared_content['if_id']) ? $shared_content['if_id'] : '',
                             'following_user' => isset($shared_content['user_id']) ? $shared_content['user_id'] : '',
                             'facebook_id' => isset($shared_content['facebook_id']) ? $shared_content['facebook_id'] : 0,
-                            'location' => $request->getPost('location'),
+                            'location' => $request->getPost('location') != "Introduce una ubicación" ? $request->getPost('location') : "",
                             'sport_category_1' => $request->getPost('sport_category_1'),
                             'sport_category_2' => $request->getPost('sport_category_2'),
                             'sport_category_3' => $request->getPost('sport_category_3'),
@@ -4509,7 +4526,7 @@ class UsersController extends JO_Action
                             {
                                 $lat = $request->getPost($lat);
                                 $len = $request->getPost($len);
-
+                                /*
                                 while (Model_Users::getLocationUsersLatLen($lat, $len))
                                 {
                                     $posLat = strpos($lat, ".");
@@ -4544,6 +4561,7 @@ class UsersController extends JO_Action
                                     $cantLen .= "1";
                                     $len = $len + $cantLen;
                                 }
+                                 */
                                 if (Model_Users::createUsersLocation($result, $request->getPost($location), $lat, $len))
                                 {
 
@@ -4622,6 +4640,26 @@ class UsersController extends JO_Action
         {
             $this->view->location = '';
         }
+        //lat
+        $this->view->lat = '';
+        if ($request->issetPost('lat'))
+        {
+            $this->view->lat = $request->getPost('lat');
+        } else
+        {
+            $this->view->lat = '';
+        }
+        
+        //len
+        $this->view->len = '';        
+        if ($request->issetPost('len'))
+        {
+            $this->view->len = $request->getPost('len');
+        } else
+        {
+            $this->view->len = '';
+        }        
+        
         $this->view->cat_title1 = '';
         $this->view->sport_category_1 = '';
         if ($request->issetPost('sport_category_1'))
@@ -4702,6 +4740,8 @@ class UsersController extends JO_Action
             for ($i = 1; $i <= $request->getPost('locationcounter'); $i++)
             {
                 $location = 'location' . $i;
+                $lat = 'lat' . $i;
+                $len = 'len' . $i;
                 if ($request->issetPost($location))
                 {
                     if ($request->getPost($location) != "")
@@ -4748,6 +4788,16 @@ class UsersController extends JO_Action
             $this->view->location = $_SESSION["location"];
             $_SESSION["location"] = null;
         }
+        if (isset($_SESSION["lat"]))
+        {
+            $this->view->lat = $_SESSION["lat"];
+            $_SESSION["lat"] = null;
+        }
+        if (isset($_SESSION["len"]))
+        {
+            $this->view->len = $_SESSION["len"];
+            $_SESSION["len"] = null;
+        }
         if (isset($_SESSION["type_user"]))
         {
             if ($_SESSION["type_user"] != "")
@@ -4763,6 +4813,8 @@ class UsersController extends JO_Action
             for ($i = 1; $i <= $_SESSION['locationcounter']; $i++)
             {
                 $location = 'location' . $i;
+                $lat = 'lat' . $i;
+                $len = 'len' . $i;
                 if (isset($_SESSION[$location]))
                 {
                     if ($_SESSION[$location] != "")

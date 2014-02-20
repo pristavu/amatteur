@@ -145,6 +145,15 @@ class Model_Users extends JO_Model {
 					}
 				} /* end avatar */ elseif($row == 'password') {
 					$insert[$row] = md5($data[$row]);
+				}  elseif($row == 'location') {
+                                    if ($data[$row] != "Introduce tu ubicación")
+                                    {
+					$insert[$row] = $data[$row];
+                                    }
+				}  elseif($row == 'firstname') {
+                                        $insert[$row] = self::quotesFix($data[$row]);
+				}  elseif($row == 'description') {
+                                        $insert[$row] = self::quotesFix($data[$row]);
 				} else {
 					$insert[$row] = $data[$row];
 				}
@@ -205,10 +214,6 @@ class Model_Users extends JO_Model {
 		));
 		
                 
-                //******************************************************************************************
-                //******************************************************************************************
-                // hay que anular esto y crear una nueva pantalla para elegir la nueva carpeta de inicio
-                // salva
 		$total_boards = 0;
 		if( is_array(JO_Registry::forceGet('default_boards')) ) {
 			foreach(JO_Registry::get('default_boards') AS $def) {
@@ -227,8 +232,6 @@ class Model_Users extends JO_Model {
 			), array('user_id = ?' => (string)$user_id));
 			
 		}
-		//******************************************************************************************
-                //******************************************************************************************
                 
 		if( isset($data['delete_email']) && $data['delete_email'] ) {
 			$db->delete('shared_content', array('email = ?' => $data['delete_email']));
@@ -303,6 +306,15 @@ class Model_Users extends JO_Model {
 					}
 				} /* end avatar */ elseif($row == 'password' || $row == 'new_password') {
 					$update[$row] = md5($data[$row]);
+				}  elseif($row == 'location') {
+                                    if ($data[$row] != "Introduce tu ubicación")
+                                    {
+					$insert[$row] = $data[$row];
+                                    }
+				}  elseif($row == 'description') {
+                                        $update[$row] = self::quotesFix($data[$row]);
+				}  elseif($row == 'firstname') {
+                                        $update[$row] = self::quotesFix($data[$row]);
 				} else {
 					$update[$row] = $data[$row];
 				}
@@ -316,6 +328,17 @@ class Model_Users extends JO_Model {
 		$rebuild = $result = $db->update('users', $update, array('user_id = ?' => (string)$user_id));
 	}
 	
+	public static function quotesFix($description) {
+                $description = str_replace("'", "&quot;", $description);
+                //$description = nl2br($description);
+                //$description = str_replace("\r\n", "", $description);
+                //$description = str_replace("\n\r", "", $description);
+                //$description = str_replace("\n", "", $description);
+                //$description = str_replace("\r", "", $description);
+		return $description;
+	}
+        
+        
 	public static function edit($user_id, $data) {
 		$db = JO_Db::getDefaultAdapter();
 		
@@ -339,6 +362,15 @@ class Model_Users extends JO_Model {
 					}
 				} /* end avatar */ elseif($row == 'password' || $row == 'new_password') {
 					$update[$row] = md5($data[$row]);
+				}  elseif($row == 'location') {
+                                    if ($data[$row] != "Introduce tu ubicación")
+                                    {
+					$update[$row] = $data[$row];
+                                    }
+				}  elseif($row == 'firstname') {
+                                        $update[$row] = self::quotesFix($data[$row]);
+				}  elseif($row == 'description') {
+                                        $update[$row] = self::quotesFix($data[$row]);
 				} else {
 					$update[$row] = $data[$row];
 				}
@@ -422,6 +454,26 @@ class Model_Users extends JO_Model {
 		return true;
 	}
 	
+        public static function sumFollowing($user_id)
+        {
+		$db = JO_Db::getDefaultAdapter();
+                
+                $query1 = $db->select()
+                            ->from('users_following_user', new JO_Db_Expr('COUNT(DISTINCT following_id) '))
+                            ->where('user_id = ? AND following_id != ?', $user_id);
+		
+		$total1 =  $db->fetchOne($query1);
+
+                $query2 = $db->select()
+                            ->from('users_following', new JO_Db_Expr('COUNT(DISTINCT users_following_id) '))
+                            ->where('user_id = ? AND following_id != ?', $user_id);
+		
+		$total2 =  $db->fetchOne($query2);
+                
+                return ($total1 + $total2);
+
+        }
+        
 	public static function isExistUsername($username, $old_username=FALSE) {
 	    if($username==$old_username) {
 			return false;
@@ -683,7 +735,7 @@ class Model_Users extends JO_Model {
 		}
 
                 if(isset($data['filter_profile_top_10_7']) && !is_null($data['filter_profile_top_10_7'])) {
-			$query->where('users.likers > 0 AND DATEDIFF(curdate(), last_action_datetime) < ? ', (int)$data['filter_profile_top_10_7']);
+			$query->where('users.likers > 0 AND DATEDIFF(curdate(), date_likers) < ? ', (int)$data['filter_profile_top_10_7']);
 			//$ignore_in = true;
 		}
                 
@@ -760,7 +812,7 @@ class Model_Users extends JO_Model {
 			
 		}
                 
-                error_log("query" . $query);
+                //error_log("query" . $query);
 		$results = $db->fetchAll($query);
 
 		$result[$key] = array();
@@ -1182,13 +1234,15 @@ class Model_Users extends JO_Model {
 		));
 		
 		$like_id = $db->lastInsertId();
-		
+                $date_added = WM_Date::format(time(), 'yy-mm-dd H:i:s');
+                
 		if($like_id) {
 			$db->update('users', array(
 				'liking' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_like_id) FROM users_likes WHERE user_id = users.user_id AND user_like_id != users.user_id)')
 			), array('user_id = ?' => (string)JO_Session::get('user[user_id]')));
 			$db->update('users', array(
-				'likers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_likes WHERE user_like_id = users.user_id AND user_id != users.user_id)')
+				'likers' => new JO_Db_Expr('(SELECT COUNT(DISTINCT user_id) FROM users_likes WHERE user_like_id = users.user_id AND user_id != users.user_id)'),
+                                'date_likers' => $date_added
 			), array('user_id = ?' => (string)$user_id));
 			/*
                         $db->delete('users_following_ignore', array(
@@ -2371,7 +2425,7 @@ class Model_Users extends JO_Model {
                 {
                     $query =  $db->select()->from('users_location',array('*'))->where('user_id = ?',$user_id);    
                 }
-                error_log($query);
+                //error_log($query);
 		$result= $db->fetchAll($query);
 		return $result; 
 	}
@@ -2386,7 +2440,7 @@ class Model_Users extends JO_Model {
                 {
                     $query =  $db->select()->from('users_location',array('*'))->where('location LIKE ?',"%".str_replace(",", "%", $location)."%");
                 }
-                error_log($query);
+                //error_log($query);
 		$result= $db->fetchAll($query);
 		return $result; 
 	}

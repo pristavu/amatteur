@@ -424,11 +424,14 @@
                             <div style="display:table-cell">
                                 <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option1 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option1' name='option1' class='option1' value="1" ><?php echo " ". sprintf($this->translate('Practice sports together')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option2 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option2' name='option2' class='option2' value="1"><?php echo " ". sprintf($this->translate('Organize match / tournament')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option3 == '1' ? 'checked="checked"' : ''); ?> type='checkbox' id='option3' name='option3' class='option3' value="1"><?php echo " ". sprintf($this->translate('Team look for sportman')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option4 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option4' name='option4' class='option4' value="1"><?php echo " ". sprintf($this->translate('Sportman look for team')); ?> </span>
                                 </div>
                             </div>
@@ -441,11 +444,14 @@
                             <div style="display:table-cell">
                                 <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option5 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option5' name='option5' class='option5' value="1"><?php echo " ". sprintf($this->translate('Look for sponsor')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <!--div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option6 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option6' name='option6' class='option6' value="1"><?php echo " ". sprintf($this->translate('Volunteer helps paraolimpics')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div-->
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option7 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option7' name='option7' class='option7' value="1"><?php echo " ". sprintf($this->translate('Trainee look for tutor')); ?> </span>
-                                </div><div style="display:table-row">
+                                </div>
+                                <div style="display:table-row">
                                     <span class="" style='text-align:left'><input <?php echo ($this->option8 == '1' ? 'checked="checked"' : ''); ?>  type='checkbox' id='option8' name='option8' class='option8' value="1"><?php echo " ". sprintf($this->translate('Tutor begins trainee')); ?> </span>
                                 </div>
                             </div>
@@ -771,7 +777,7 @@
                 <?php if ($this->advancedActive != "amatteur") { ?>                         
                     <?php if ($this->users) { ?>
                     <div id="mapa" style="width: 1000px; height: 400px;margin-top:70px;margin-left:200px"></div>
-                    <image src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
+                    <img src="data/images/ajax-loader.gif" style="width: 50px; height: 50px; margin-top:-400px;margin-left:600px" />
                     <br/>
                     <label style="color:#8C7E7E;font-weight: bold;font-size: 1.2em;margin-left:550px "><?php echo sprintf($this->translate('Para detalles de resultados, por favor ver mas abajo. Gracias'));?></label>
                     <?php } ?>
@@ -813,11 +819,6 @@
 	</script>
         
 
-    <!-- AIzaSyD_Dei2f6nMzaMrBwAXFVxjuHnHz-3So4I -->
-<script src="http://maps.google.com/maps?file=api&amp;v=3&amp;key=AIzaSyA60eSDixfIlHokj6GbjmqiRUN0GlBOTAM"
-      type="text/javascript"></script>
-
-<!--script src="http://maps.google.com/maps/api/js?sensor=false" type="text/javascript"></script-->      
     <script type="text/javascript">
    
    /*     
@@ -830,7 +831,29 @@
 var geocoder;
 var map;
 
+function esEnltero(valor){
+    if(!isNaN(valor))
+    {
+        for(var i = 0; i<valor.length;i++){
+            if(valor.charCodeAt(i)<48 || valor.charCodeAt(i)>57)
+                return false;
+        }
+    }
+    else
+    {
+            return false;
+    }
+     
+    return true;
+}
+
+ function esEntero(valor) {
+
+    return false
+ }
+
 function GLoad() {
+    
     
 <?php if ($this->advancedActive != "amatteur") { ?> 
         
@@ -843,6 +866,7 @@ function GLoad() {
         var fullname = [];
         var avatar = [];
         var href = [];
+        var description = [];
 
 
     <?php if ($this->location) { ?>
@@ -852,6 +876,11 @@ function GLoad() {
          var len = <?php echo count($this->users); ?>;
          
         <?php foreach($this->users as $user) { ?>
+            
+        var latAux = '<?php echo $user["lat"]; ?>';
+        if(!esEntero(latAux))
+        {
+            
             //var location = '<?php echo ($this->location)?>';
             var location = '<?php echo $user["location"];?>';
             //if (location != "")
@@ -863,6 +892,7 @@ function GLoad() {
                 lat.push('<?php echo $user["lat"]; ?>');
                 lng.push('<?php echo $user["len"]; ?>');
                 href.push('<?php echo $user["href"]; ?>');
+                description.push('<?php echo str_replace("\r", "", str_replace("\n", "", str_replace("\n\r", "", str_replace("\r\n", "", nl2br($user["description"]))))); ?>');
                 
 
                 var geocoder = new google.maps.Geocoder();
@@ -903,7 +933,7 @@ function GLoad() {
                     pausecomp(201);
               });
           }
-          
+        }
         <?php } ?>          
 
 
@@ -912,99 +942,7 @@ function GLoad() {
  
          var i = 1;
          var len = <?php echo count($this->users); ?>;
-        
-        /*
-        var locationsAux = [];
-        var fullnameAux = [];
-        var avatarAux = [];
-        var userAux = [];
 
-         
-        <?php /*foreach($this->users as $user) { ?>
-            
-                <?php  $users_location = Model_Users::getUserLocation($user["user_id"], 1);
-                    foreach ($users_location as $user_location)
-                    {
-                       ?> 
-                        userAux.push('<?php echo $user["user_id"]; ?>');
-                        locationsAux.push('<?php echo $user_location["location"]; ?>');
-                        fullnameAux.push('<?php echo $user["fullname"]; ?>');
-                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
-                        avatarAux.push('<?php echo $avatar['image']; ?>');
-                               
-                <?php } ?> 
-                        userAux.push('<?php echo $user["user_id"]; ?>');                    
-                        locationsAux.push('<?php echo $user["location"]; ?>');
-                        fullnameAux.push('<?php echo $user["fullname"]; ?>');
-                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
-                        avatarAux.push('<?php echo $avatar['image']; ?>');
-
-        <?php } */ ?> 
-         
-        console.log("user " + userAux.length)
-        for (i = 0; i < userAux.length; i++) 
-        {             
-                  console.log('i: ' + i + " len: " + userAux.length +  " usuario " + fullnameAux[i] + " location " + locationsAux[i]);         
-                var locationStr = locationsAux[i];
-                var fullnameStr = fullnameAux[i];
-                var avatarStr = avatarAux[i];
-                
-                if (locationStr != "")
-                {
-                
-                    var geocoder = new google.maps.Geocoder();
-                    geocoder.geocode({ 'address': locationStr }, function (results, status, locationStr) {
-
-        console.log("DENTRO  i " + i + " usuario " + fullnameStr + " location " + locationStr);
-                    if (status == google.maps.GeocoderStatus.OK) 
-                    {
-                        if (locationStr != "")
-                        {
-                            locations.push(locationStr);
-                            fullname.push(fullnameStr);
-                            avatar.push(avatarStr);
-
-
-
-                            var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
-                            var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
-
-                            var obj =latAux;
-                            lat.push(obj);
-                            var obj2 =lngAux;
-                            lng.push(obj2);
-                        }
-                      }
-                      else
-                      {
-
-                        try
-                        {
-                            console.log('error: ' + status);
-                        }
-                        catch(e)
-                        {
-                            if (window.console // check for window.console not console
-                                && window.console.log)
-                            {
-                                window.log('error: ' + status);
-                            }
-
-                          }
-                      }
-
-
-                        if (i == (userAux.length - 1))
-                        {
-                            colocar();
-                        }
-                        i++;
-                        pausecomp(201);
-                    });
-                }
-                pausecomp(201);
-        }
-        */
         <?php foreach($this->users as $user) { ?>
             
             <?php if ($this->advancedActive != "activate" && $this->advancedActive != "voluntarios") { ?> 
@@ -1012,6 +950,9 @@ function GLoad() {
                     foreach ($users_location as $user_location)
                     {
                        ?> 
+                    var latAuxLoc = '<?php echo $user_location["lat"]; ?>';
+                    if(!esEntero(latAuxLoc))
+                    {
 
                         locations.push('<?php echo $user_location["location"]; ?>');
                         fullname.push('<?php echo $user["fullname"]; ?>');
@@ -1021,123 +962,26 @@ function GLoad() {
                         lat.push('<?php echo $user_location["lat"]; ?>');
                         lng.push('<?php echo $user_location["len"]; ?>');
                         href.push('<?php echo $user["href"]; ?>');
-                
-/*  
-                var otherLocation = '<?php echo $user_location['location']; ?>';
-                var geocoderOther = new google.maps.Geocoder();
-                geocoderOther.geocode({ 'address': otherLocation }, function (results, status, location) {
-
-                if (status == google.maps.GeocoderStatus.OK) 
-                {
-                    if (location != "")
-                    {
-                        locations.push('<?php echo $user_location["location"]; ?>');
-                        fullname.push('<?php echo $user["fullname"]; ?>');
-                        <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
-                        avatar.push('<?php echo $avatar['image']; ?>');
-
-                        var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
-                        var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
-
-                        var obj =latAux;
-                        lat.push(obj);
-                        var obj2 =lngAux;
-                        lng.push(obj2);
-                    }
-                  }
-                  else
-                  {
-                      
-                        try
-                        {
-                            console.log('error: ' + status);
-                        }
-                        catch(e)
-                        {
-                            if (window.console // check for window.console not console
-                                && window.console.log)
-                            {
-                                window.log('error: ' + status);
-                            }
-
-                        }
-                  }
-console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname"]; ?>'+ " Otra location " + locations[locations.length-1]);
-
-                pausecomp(201);
-                });
-*/                  
+                        description.push('<?php echo str_replace("\r", "", str_replace("\n", "", str_replace("\n\r", "", str_replace("\r\n", "", nl2br($user["description"]))))); ?>');
+                    }                    
                 <?php }  ?>                  
             <?php }  ?>                  
             
                 var latAux = '<?php echo $user["lat"]; ?>';
-                if (latAux != "")
+                if(!esEntero(latAux))
                 {
-                    locations.push('<?php echo $user["location"]; ?>');
-                    fullname.push('<?php echo $user["fullname"]; ?>');
-                    <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
-                    avatar.push('<?php echo $avatar['image']; ?>');
-                    lat.push('<?php echo $user["lat"]; ?>');
-                    lng.push('<?php echo $user["len"]; ?>');
-                    href.push('<?php echo $user["href"]; ?>');
-                }
-
-                /*
-                var location = '<?php echo $user["location"]; ?>';
-                var geocoder = new google.maps.Geocoder();
-                geocoder.geocode({ 'address': location }, function (results, status, location) {
-
-                if (status == google.maps.GeocoderStatus.OK) 
-                {
-                    if (location != "")
+                    if (latAux != "")
                     {
                         locations.push('<?php echo $user["location"]; ?>');
                         fullname.push('<?php echo $user["fullname"]; ?>');
                         <?php $avatar = Helper_Uploadimages::avatar($user, '_B'); ?>
                         avatar.push('<?php echo $avatar['image']; ?>');
-
-console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname"]; ?>'+ " la buena location " + locations[locations.length-1]);
-
-                        var latAux = results[0].geometry.location.lat().toString().substr(0, 12);
-                        var lngAux = results[0].geometry.location.lng().toString().substr(0, 12);
-
-                        var obj =latAux;
-                        lat.push(obj);
-                        var obj2 =lngAux;
-                        lng.push(obj2);
+                        lat.push('<?php echo $user["lat"]; ?>');
+                        lng.push('<?php echo $user["len"]; ?>');
+                        href.push('<?php echo $user["href"]; ?>');
+                        description.push('<?php echo str_replace("\r", "", str_replace("\n", "", str_replace("\n\r", "", str_replace("\r\n", "", nl2br($user["description"]))))); ?>');
                     }
-                  }
-                  else
-                  {
-                      
-                        try
-                        {
-                            console.log('error: ' + status);
-                        }
-                        catch(e)
-                        {
-                            if (window.console // check for window.console not console
-                                && window.console.log)
-                            {
-                                window.log('error: ' + status);
-                            }
-
-                        }
-                  }
-                  
-                  console.log('i: ' + i + " len: " + len);
-                    if (i == len)
-                    {
-                        colocar();
-                    }
-                    i++;
-                pausecomp(201);
-                });
-                */
-
-
-
-
+                }
         <?php } ?>
             colocar();
     <?php } ?>
@@ -1213,13 +1057,17 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
             var fullnameString = fullname[i];
             var avatarString = avatar[i];
             var hrefString = href[i];
+            var descriptionString = description[i];
           
+<?php if ($this->advancedActive != "services") { ?>           
             var contentString = '<div id="contenido">'+
                 '<div id="siteNotice">'+
                 '</div>'+
-                '<h2 id="firstHeading" class="firstHeading">' + 
+                '<a href="' + hrefString + '">'+
+                '<h2 id="firstHeading" class="firstHeading">' +                 
                 fullnameString +
                 '</h2>'+
+                '</a> ' +                
                 '<div id="bodyContent">'+ 
                 '<p><b></b>' + 
                 locationString + 
@@ -1230,8 +1078,30 @@ console.log(" i " + locations.length + " usuario " + '<?php echo $user["fullname
                 '</p>'+
                 '</div>'+
                 '</div>';
-          
-          
+<?php } else { ?>       
+            var contentString = '<div id="contenido">'+
+                '<div id="siteNotice">'+
+                '</div>'+
+                '<a href="' + hrefString + '">'+
+                '<h2 id="firstHeading" class="firstHeading">' +                 
+                fullnameString +
+                '</h2>'+
+                '</a> ' +                
+                '<div id="bodyContent">'+ 
+                '<p><b></b>' + 
+                locationString + 
+                '</p>' +
+                '<p><b></b>' + 
+                descriptionString + 
+                '</p>' +
+                '<a href="' + hrefString + '">'+
+                '<p><img src="'+ avatarString + '">' +
+                '</a> ' +
+                '</p>'+
+                '</div>'+
+                '</div>';    
+<?php }  ?>   
+    
         var loc = new gm.LatLng(lat[i],lng[i]);
         bounds.extend(loc);
         var marker = new gm.Marker({
